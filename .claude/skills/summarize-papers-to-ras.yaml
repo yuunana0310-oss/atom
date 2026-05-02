@@ -1,0 +1,25 @@
+name: summarize-papers-to-ras
+description: PT向け論文をサマリー化してRAS_IMPORT_BOXに投入
+
+command: python C:\Users\yuuna\agens\knowledge\papers_to_vault.py
+
+usage: |
+  論文テキストをコピーして以下のように実行：
+
+  1. 論文テキストを標準入力から入力（複数の場合は「---」で区切る）
+  2. /summarize-papers-to-ras を実行
+  3. サマリーが自動的にRAS_IMPORT_BOXに保存される
+  4. python C:\Users\yuuna\agens\knowledge\import_research.py で処理を完了
+
+  例：
+  ```
+  /summarize-papers-to-ras
+  [論文1のテキストを貼り付け]
+  ---
+  [論文2のテキストを貼り付け]
+  ```
+
+requirements:
+  - Python 3.8以上
+  - anthropic ライブラリ（pip install anthropic）
+  - ANTHROPIC_API_KEY 環境変数

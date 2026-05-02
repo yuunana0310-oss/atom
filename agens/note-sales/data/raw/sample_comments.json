@@ -1,0 +1,29 @@
+[
+  {
+    "post_id": "t_001",
+    "type": "comment_summary",
+    "comment_summary": "「自分には無理」「どこから始めればいい？」「エンジニアじゃないと使えないのでは？」という質問が多数。非エンジニアからの不安の声が目立つ",
+    "reaction_type": "question",
+    "count": 15,
+    "tags": ["ClaudeCode", "非エンジニア"],
+    "created_at": "2026-04-01T18:00:00"
+  },
+  {
+    "post_id": "t_002",
+    "type": "comment_summary",
+    "comment_summary": "「同じく悩んでいる」「結局何が一番使えるツールなの？」「お金かけずに始められるAI副業ってある？」という反応が中心。どこから始めるかに迷っている層が多い",
+    "reaction_type": "sympathy",
+    "count": 22,
+    "tags": ["生成AI", "副業", "AI活用"],
+    "created_at": "2026-04-02T20:00:00"
+  },
+  {
+    "post_id": "t_003",
+    "type": "comment_summary",
+    "text": "「自分も全然売れない」「有料設定が怖くて無料にしてしまう」「どんなタイトルが売れるの？」という声。noteの有料設定と集客の両方で詰まっているユーザーが多い",
+    "reaction_type": "sympathy",
+    "count": 18,
+    "tags": ["note", "副業"],
+    "created_at": "2026-04-03T21:00:00"
+  }
+]

@@ -1,0 +1,96 @@
+{
+  "session_id": "a3ae6aaf-a0b7-40cc-9a08-67b70d5e9c83",
+  "created_at": 1776579342.7554061,
+  "updated_at": 1776579353.324119,
+  "mode": "design",
+  "goal": "YouTubeサムネで、初心者向けClaude Code入門っぽく",
+  "platform": "youtube",
+  "size": "youtube_thumbnail",
+  "style": "simple",
+  "tone": "初心者向け",
+  "worldview": "",
+  "genre": "",
+  "title": "Claude Code",
+  "subtitle": "",
+  "body_text": "",
+  "cta": "",
+  "page_count": 1,
+  "color_scheme": "",
+  "primary_color": "",
+  "secondary_color": "",
+  "accent_color": "",
+  "background_color": "",
+  "slides": [
+    {
+      "index": 0,
+      "title": "AI活用の基本",
+      "subtitle": "今日から始める5ステップ",
+      "body_text": "AIを味方につけて\n仕事を効率化しよう",
+      "icon": "🤖",
+      "layout": "center"
+    }
+  ],
+  "panels": [],
+  "creative_suite": [],
+  "character_settings": {
+    "enabled": false,
+    "name": "",
+    "appearance": "",
+    "hair": "",
+    "outfit": "",
+    "colors": [],
+    "personality": "",
+    "expression_style": "",
+    "pose_style": "",
+    "reference_notes": "",
+    "ng_items": [],
+    "worldview_notes": ""
+  },
+  "brand_settings": {
+    "brand_name": "",
+    "brand_colors": [],
+    "font_style": "",
+    "visual_rules": []
+  },
+  "fixed_constraints": [],
+  "change_requests": [],
+  "references": [],
+  "output_format": "svg",
+  "generated_content": [
+    {
+      "type": "svg",
+      "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1280 720\" width=\"1280\" height=\"720\">\n  <defs>\n    <linearGradient id=\"bg_simple_0\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" style=\"stop-color:#FFFFFF;stop-opacity:1\"/>\n      <stop offset=\"100%\" style=\"stop-color:#F0F0F0;stop-opacity:1\"/>\n    </linearGradient>\n  </defs>\n  <rect width=\"1280\" height=\"720\" fill=\"url(#bg_simple_0)\" rx=\"0\"/>\n  <rect x=\"40\" y=\"40\" width=\"1200\" height=\"640\" rx=\"20\" fill=\"white\" stroke=\"#E0E0E0\" stroke-width=\"1\"/>\n  <line x1=\"580\" y1=\"345.59999999999997\" x2=\"700\" y2=\"345.59999999999997\" stroke=\"#0984E3\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n  <text x=\"640\" y=\"129.6\" text-anchor=\"middle\" fill=\"#0984E3\" font-size=\"48\" font-family=\"'Noto Sans JP', sans-serif\" font-weight=\"400\">🤖</text>\n  <text x=\"640\" y=\"230.4\" text-anchor=\"middle\" fill=\"#2D3436\" font-size=\"42\" font-weight=\"bold\" font-family=\"'Noto Sans JP', sans-serif\">AI活用の基本</text>\n  <text x=\"640\" y=\"302.4\" text-anchor=\"middle\" fill=\"#636E72\" font-size=\"24\" font-family=\"'Noto Sans JP', sans-serif\">今日から始める5ステップ</text>\n  <text x=\"640\" y=\"417.59999999999997\" text-anchor=\"middle\" fill=\"#636E72\" font-size=\"28\" font-family='Noto Sans JP', sans-serif\">AIを味方につけて</text>\n<text x=\"640\" y=\"459.59999999999997\" text-anchor=\"middle\" fill=\"#636E72\" font-size=\"28\" font-family='Noto Sans JP', sans-serif\">仕事を効率化しよう</text>\n\n  \n</svg>",
+      "label": "スライド 1: AI活用の基本",
+      "size": {
+        "width": 1280,
+        "height": 720,
+        "label": "YouTubeサムネイル"
+      },
+      "index": 0
+    }
+  ],
+  "version": 1,
+  "messages": [
+    {
+      "role": "user",
+      "content": "YouTubeサムネで、初心者向けClaude Code入門っぽく",
+      "timestamp": 1776579342.7564657
+    },
+    {
+      "role": "assistant",
+      "content": "📐 **デザイン生成**モードですね！\n\n**現在の設定:**\n📌 モード: **デザイン生成**\n📱 プラットフォーム: **youtube**\n🎯 目的: YouTubeサムネで、初心者向けClaude Code入門っぽく\n🎨 スタイル: シンプル\n\nタイトルは何にしますか？\n（例: 「AI活用の基本5ステップ」「Claude Code入門」）",
+      "timestamp": 1776579342.7564917
+    },
+    {
+      "role": "user",
+      "content": "Claude Code",
+      "timestamp": 1776579353.322508
+    },
+    {
+      "role": "assistant",
+      "content": "✨ 準備完了！ **デザイン生成** を生成します。\n\n**現在の設定:**\n📌 モード: **デザイン生成**\n📱 プラットフォーム: **youtube**\n🎯 目的: YouTubeサムネで、初心者向けClaude Code入門っぽく\n📝 タイトル: Claude Code\n🎨 スタイル: シンプル\n\n⏳ 生成中...",
+      "timestamp": 1776579353.3237245
+    }
+  ],
+  "pending_questions": []
+}

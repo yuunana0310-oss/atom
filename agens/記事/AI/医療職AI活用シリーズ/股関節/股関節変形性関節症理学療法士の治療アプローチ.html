@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>股関節OA｜理学療法士の治療アプローチ 臨床実践まとめ</title>
+<style>
+  :root {
+    --black: #111111;
+    --gray-dark: #444444;
+    --gray-mid: #888888;
+    --gray-light: #cccccc;
+    --gray-bg: #f7f7f5;
+    --white: #ffffff;
+    --accent: #2563eb;
+    --accent-light: #eff6ff;
+    --green: #16a34a;
+    --green-light: #f0fdf4;
+    --amber: #d97706;
+    --amber-light: #fffbeb;
+    --red: #dc2626;
+    --red-light: #fef2f2;
+    --purple: #7c3aed;
+    --purple-light: #f5f3ff;
+    --teal: #0d9488;
+    --teal-light: #f0fdfa;
+    --border: #e5e5e5;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+    background: var(--gray-bg);
+    color: var(--black);
+    line-height: 1.7;
+  }
+
+  /* ヘッダー */
+  .site-header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .site-header .logo { font-size: 13px; font-weight: 700; color: var(--black); letter-spacing: 1px; }
+  .site-header .meta { font-size: 12px; color: var(--gray-mid); }
+
+  /* ヒーロー */
+  .hero {
+    background: var(--black);
+    color: var(--white);
+    padding: 48px 40px 40px;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    padding: 4px 14px;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  .hero h1 { font-size: 28px; font-weight: 800; line-height: 1.4; margin-bottom: 14px; }
+  .hero-sub { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.8; max-width: 640px; margin-bottom: 28px; }
+  .hero-kpi {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding-top: 22px;
+  }
+  .kpi-item { text-align: center; }
+  .kpi-num { font-size: 28px; font-weight: 800; color: #60a5fa; }
+  .kpi-label { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+
+  /* メインコンテンツ */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 40px;
+  }
+
+  /* 目次 */
+  .toc {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 40px;
+  }
+  .toc-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray-dark);
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 24px;
+  }
+  .toc-item {
+    font-size: 13px;
+    color: var(--accent);
+    padding: 4px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .toc-num {
+    background: var(--black);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* 免責 */
+  .disclaimer {
+    background: var(--amber-light);
+    border: 1px solid #fde68a;
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 40px;
+    font-size: 13px;
+    color: #78350f;
+  }
+  .disclaimer strong { display: block; margin-bottom: 4px; }
+
+  /* セクション */
+  .section { margin-bottom: 48px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--black);
+  }
+  .section-num {
+    background: var(--black);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 800;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-title { font-size: 20px; font-weight: 800; color: var(--black); }
+  .section-sub { font-size: 13px; color: var(--gray-mid); margin-top: 2px; }
+
+  /* カード */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .card-header {
+    background: var(--gray-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .card-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .card-title { font-size: 16px; font-weight: 700; color: var(--black); }
+  .card-badge {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .badge-green { background: var(--green); color: white; }
+  .badge-blue { background: var(--accent); color: white; }
+  .badge-amber { background: var(--amber); color: white; }
+  .badge-purple { background: var(--purple); color: white; }
+  .card-body { padding: 18px 20px; }
+
+  /* 治療テーブル */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0; }
+  thead th {
+    background: var(--black);
+    color: var(--white);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+  tbody td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:nth-child(even) td { background: var(--gray-bg); }
+
+  /* エビデンスバッジ */
+  .ev {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+  .ev-a { background: #16a34a; color: white; }
+  .ev-b { background: #2563eb; color: white; }
+  .ev-c { background: #d97706; color: white; }
+
+  /* ポイントボックス */
+  .point-box {
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+  }
+  .point-box.green { background: var(--green-light); border: 1px solid #bbf7d0; }
+  .point-box.blue  { background: var(--accent-light); border: 1px solid #bfdbfe; }
+  .point-box.red   { background: var(--red-light);   border: 1px solid #fecaca; }
+  .point-box.amber { background: var(--amber-light); border: 1px solid #fde68a; }
+  .point-box.purple{ background: var(--purple-light); border: 1px solid #ddd6fe; }
+  .point-box.teal  { background: var(--teal-light);  border: 1px solid #99f6e4; }
+  .point-box .pb-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+  .point-box.green .pb-title { color: #15803d; }
+  .point-box.blue  .pb-title { color: #1d4ed8; }
+  .point-box.red   .pb-title { color: #b91c1c; }
+  .point-box.amber .pb-title { color: #92400e; }
+  .point-box.purple .pb-title { color: #6d28d9; }
+  .point-box.teal  .pb-title { color: #0f766e; }
+  .point-box ul { padding-left: 18px; }
+  .point-box li { font-size: 13px; padding: 3px 0; }
+
+  /* 強調ボックス（黒背景） */
+  .summary-box {
+    background: var(--black);
+    color: var(--white);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin: 20px 0;
+  }
+  .summary-box .sb-title { font-size: 14px; font-weight: 700; color: #60a5fa; margin-bottom: 14px; letter-spacing: 0.5px; }
+  .summary-box ul { padding-left: 20px; }
+  .summary-box li { font-size: 13px; color: rgba(255,255,255,0.85); padding: 4px 0; line-height: 1.6; }
+
+  /* 運動処方グリッド */
+  .ex-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+    margin: 14px 0;
+  }
+  .ex-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .ex-card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ex-card dl { font-size: 13px; }
+  .ex-card dt { color: var(--gray-mid); font-size: 11px; margin-top: 8px; font-weight: 600; letter-spacing: 0.5px; }
+  .ex-card dd { color: var(--black); }
+
+  /* フローチャート */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 14px 0;
+  }
+  .flow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .flow-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .flow-circle {
+    background: var(--black);
+    color: var(--white);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .flow-line {
+    width: 2px;
+    flex: 1;
+    background: var(--border);
+    min-height: 24px;
+    margin: 4px 0;
+  }
+  .flow-content {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 8px;
+    flex: 1;
+    font-size: 13px;
+  }
+  .flow-content strong { font-size: 14px; color: var(--black); display: block; margin-bottom: 4px; }
+  .flow-content p { color: var(--gray-dark); line-height: 1.6; }
+
+  /* 参考 */
+  .ref-box {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-top: 40px;
+    font-size: 12px;
+    color: var(--gray-dark);
+  }
+  .ref-box strong { display: block; font-size: 13px; color: var(--black); margin-bottom: 12px; }
+  .ref-box li { padding: 3px 0; line-height: 1.6; }
+
+  /* フッター */
+  footer {
+    background: var(--black);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 20px;
+    font-size: 11px;
+    line-height: 2;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 640px) {
+    .site-header { padding: 12px 16px; }
+    .hero { padding: 28px 20px; }
+    .hero h1 { font-size: 22px; }
+    .main { padding: 28px 16px; }
+    .toc-grid { grid-template-columns: 1fr; }
+    .hero-kpi { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- サイトヘッダー -->
+<div class="site-header">
+  <div class="logo">PT CLINICAL REFERENCE</div>
+  <div class="meta">股関節OA 治療アプローチ｜PT自己学習用｜2026年4月</div>
+</div>
+
+<!-- ヒーロー -->
+<div class="hero">
+  <div class="hero-tag">CLINICAL PRACTICE GUIDE</div>
+  <h1>股関節変形性関節症<br>理学療法士の治療アプローチ<br>臨床実践まとめ</h1>
+  <div class="hero-sub">
+    画像所見と症状の解離エビデンスを踏まえた上で、PT が臨床で行う治療の全体像を整理する。
+    運動療法・徒手療法・疼痛教育・心理社会的アプローチを網羅した自己学習用資料。
+  </div>
+  <div class="hero-kpi">
+    <div class="kpi-item">
+      <div class="kpi-num">1位</div>
+      <div class="kpi-label">保存療法の第1選択<br>（OARSI・NICEガイドライン）</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-num">運動療法</div>
+      <div class="kpi-label">エビデンスレベル最高<br>（Cochrane review確認済）</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-num">多因子</div>
+      <div class="kpi-label">疼痛のメカニズム<br>構造だけでは決まらない</div>
+    </div>
+  </div>
+</div>
+
+<!-- メインコンテンツ -->
+<div class="main">
+
+  <!-- 免責 -->
+  <div class="disclaimer">
+    <strong>⚠️ このドキュメントについて</strong>
+    本資料は PT の自己学習・情報整理を目的としています。治療内容は個々の患者の状態・禁忌・合併症に合わせて必ず個別判断してください。
+    ガイドラインは OARSI 2019・NICE 2022・日本整形外科学会変形性股関節症ガイドライン 2016（改訂版）を主な参考としています。
+  </div>
+
+  <!-- 目次 -->
+  <div class="toc">
+    <div class="toc-title">目次</div>
+    <div class="toc-grid">
+      <div class="toc-item"><div class="toc-num">1</div>治療の全体像と基本方針</div>
+      <div class="toc-item"><div class="toc-num">2</div>運動療法の詳細（筋力・ROM・有酸素）</div>
+      <div class="toc-item"><div class="toc-num">3</div>各筋群別の強化方法と処方例</div>
+      <div class="toc-item"><div class="toc-num">4</div>徒手療法</div>
+      <div class="toc-item"><div class="toc-num">5</div>疼痛神経科学教育（PNE）</div>
+      <div class="toc-item"><div class="toc-num">6</div>心理社会的アプローチ</div>
+      <div class="toc-item"><div class="toc-num">7</div>ADL指導・動作修正</div>
+      <div class="toc-item"><div class="toc-num">8</div>評価指標と治療効果の確認</div>
+      <div class="toc-item"><div class="toc-num">9</div>臨床判断フロー</div>
+      <div class="toc-item"><div class="toc-num">10</div>手術適応・保存療法の限界</div>
+    </div>
+  </div>
+
+  <!-- ========== 1. 全体像 ========== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <div class="section-title">治療の全体像と基本方針</div>
+        <div class="section-sub">保存療法の位置づけとガイドラインの推奨</div>
+      </div>
+    </div>
+
+    <div class="summary-box">
+      <div class="sb-title">▍ 股関節OA保存療法の大原則</div>
+      <ul>
+        <li>「画像が悪い ＝ 安静が必要」ではない。適切な運動が第1選択。</li>
+        <li>疼痛の原因は多因子（構造・炎症・中枢感作・心理社会的因子）。アプローチも多因子でなければならない。</li>
+        <li>PTの役割は「痛みをとる」だけでなく「患者が自分で管理できる状態にする（自己効力感の向上）」こと。</li>
+        <li>手術（THA）は保存療法が奏功しない場合の最終手段。保存療法の期間・内容が不十分なまま手術になるケースも多い。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📋</div>
+        <div class="card-title">主要ガイドラインの推奨整理</div>
+      </div>
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr>
+              <th>治療法</th>
+              <th>OARSI 2019</th>
+              <th>NICE 2022</th>
+              <th>日整会 2016</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>有酸素運動</strong></td>
+              <td>強く推奨 <span class="ev ev-a">A</span></td>
+              <td>推奨 <span class="ev ev-a">A</span></td>
+              <td>推奨 <span class="ev ev-b">B</span></td>
+            </tr>
+            <tr>
+              <td><strong>筋力強化（陸上）</strong></td>
+              <td>強く推奨 <span class="ev ev-a">A</span></td>
+              <td>推奨 <span class="ev ev-a">A</span></td>
+              <td>推奨 <span class="ev ev-a">A</span></td>
+            </tr>
+            <tr>
+              <td><strong>水中運動</strong></td>
+              <td>条件付き推奨 <span class="ev ev-b">B</span></td>
+              <td>推奨 <span class="ev ev-b">B</span></td>
+              <td>推奨 <span class="ev ev-b">B</span></td>
+            </tr>
+            <tr>
+              <td><strong>徒手療法（単独）</strong></td>
+              <td>条件付き推奨 <span class="ev ev-b">B</span></td>
+              <td>運動療法と組み合わせで <span class="ev ev-b">B</span></td>
+              <td>条件付き推奨 <span class="ev ev-b">B</span></td>
+            </tr>
+            <tr>
+              <td><strong>患者教育</strong></td>
+              <td>強く推奨 <span class="ev ev-a">A</span></td>
+              <td>推奨 <span class="ev ev-a">A</span></td>
+              <td>推奨 <span class="ev ev-b">B</span></td>
+            </tr>
+            <tr>
+              <td><strong>体重管理（肥満例）</strong></td>
+              <td>強く推奨 <span class="ev ev-a">A</span></td>
+              <td>推奨 <span class="ev ev-a">A</span></td>
+              <td>推奨 <span class="ev ev-b">B</span></td>
+            </tr>
+            <tr>
+              <td><strong>杖・補助具</strong></td>
+              <td>推奨 <span class="ev ev-b">B</span></td>
+              <td>推奨 <span class="ev ev-b">B</span></td>
+              <td>推奨 <span class="ev ev-b">B</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size:11px; color:#888; margin-top:8px;">A=強いエビデンス（RCT複数・システマティックレビュー）　B=中等度エビデンス　C=専門家コンセンサス</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 2. 運動療法 ========== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <div class="section-title">運動療法の詳細</div>
+        <div class="section-sub">筋力強化・ROM・有酸素・水中運動・神経筋トレーニング</div>
+      </div>
+    </div>
+
+    <div class="point-box green">
+      <div class="pb-title">✅ 運動療法のエビデンス（Cochrane review 2014, Fransen et al.）</div>
+      <ul>
+        <li>陸上運動：痛みの軽減（SMD −0.49）、身体機能改善（SMD −0.52）</li>
+        <li>水中運動：痛みの軽減（SMD −0.31）、QOL改善（SMD −0.25）</li>
+        <li>効果量は「中等度」だが、副作用がなく安全性が高い点で第1選択として位置づけ</li>
+        <li>効果は運動終了後3〜6ヶ月持続するが、継続が最も重要</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🏋️</div>
+        <div class="card-title">運動療法の種類と目的</div>
+        <span class="card-badge badge-green">エビデンスLv.A</span>
+      </div>
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr><th>運動の種類</th><th>主な目的</th><th>特に適した状態</th><th>注意点</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>筋力強化（closed kinetic chain）</strong></td>
+              <td>股関節周囲筋の安定性・保護機能向上</td>
+              <td>機能障害が中心・歩行能力低下</td>
+              <td>疼痛が強い急性期は負荷を下げる</td>
+            </tr>
+            <tr>
+              <td><strong>筋力強化（open kinetic chain）</strong></td>
+              <td>特定筋群の選択的強化</td>
+              <td>特定筋の筋力低下が著明</td>
+              <td>関節への直接負荷が少ない</td>
+            </tr>
+            <tr>
+              <td><strong>関節可動域運動（ROM）</strong></td>
+              <td>硬縮した関節包・筋の柔軟性回復</td>
+              <td>ROM制限が著明・跛行</td>
+              <td>痛みのない範囲で実施。強制しない</td>
+            </tr>
+            <tr>
+              <td><strong>有酸素運動（ウォーキング）</strong></td>
+              <td>全身持久力・体重管理・疼痛閾値向上</td>
+              <td>肥満例・全身体力低下例</td>
+              <td>適切な歩行距離・ペースの設定が必要</td>
+            </tr>
+            <tr>
+              <td><strong>水中運動（アクアセラピー）</strong></td>
+              <td>免荷環境での筋力・ROM改善</td>
+              <td>荷重時痛が強い・肥満例</td>
+              <td>施設依存・感染リスク管理</td>
+            </tr>
+            <tr>
+              <td><strong>バランス・神経筋トレーニング</strong></td>
+              <td>固有受容覚改善・転倒予防・動的安定性</td>
+              <td>高齢者・転倒リスク高・術後</td>
+              <td>段階的に難易度を上げる</td>
+            </tr>
+            <tr>
+              <td><strong>ストレッチング</strong></td>
+              <td>筋・軟部組織の柔軟性維持・疼痛軽減</td>
+              <td>筋短縮・伸張痛がある</td>
+              <td>痛みのない範囲でゆっくり</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 3. 筋群別処方例 ========== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <div class="section-title">各筋群別の強化方法と処方例</div>
+        <div class="section-sub">股関節OAで特に重要な筋群とその運動例</div>
+      </div>
+    </div>
+
+    <div class="point-box amber">
+      <div class="pb-title">⚠️ 股関節OAで最優先強化すべき筋群</div>
+      <ul>
+        <li><strong>股関節外転筋群（中殿筋・小殿筋）</strong>：最重要。歩行時の骨盤側方安定に直結。トレンデレンブルグ徴候の修正に不可欠。</li>
+        <li><strong>股関節伸展筋群（大殿筋・ハムストリングス）</strong>：歩行の推進力・腰椎骨盤の安定に関与。</li>
+        <li><strong>深層外旋六筋</strong>：股関節の動的安定化・求心性を担う。FAISでは特に重要。</li>
+        <li><strong>大腿四頭筋</strong>：膝関節保護・階段動作・立ち上がりに関与。</li>
+      </ul>
+    </div>
+
+    <div class="ex-grid">
+      <!-- 外転筋 -->
+      <div class="ex-card">
+        <div class="ex-card-title">💪 中殿筋・小殿筋（外転筋）</div>
+        <dl>
+          <dt>代表運動</dt>
+          <dd>サイドライイング・ヒップアブダクション</dd>
+          <dt>開始姿位</dt>
+          <dd>側臥位、下側股関節軽度屈曲</dd>
+          <dt>運動方向</dt>
+          <dd>上側下肢を外転（体幹と一直線→やや後方）</dd>
+          <dt>注意</dt>
+          <dd>骨盤の前傾・回旋を防ぐ。股関節内旋しない</dd>
+          <dt>負荷・回数</dt>
+          <dd>3〜5秒保持、10〜15回×3セット</dd>
+          <dt>進展</dt>
+          <dd>アンクルウェイト→クラムシェル→側方ウォーク（バンド）</dd>
+        </dl>
+      </div>
+      <!-- 大殿筋 -->
+      <div class="ex-card">
+        <div class="ex-card-title">💪 大殿筋（股関節伸展）</div>
+        <dl>
+          <dt>代表運動①</dt>
+          <dd>ブリッジ（Hip Bridge）</dd>
+          <dt>姿位</dt>
+          <dd>背臥位・膝屈曲90°・足底接地</dd>
+          <dt>運動</dt>
+          <dd>腰椎中間位を保ちながら骨盤を持ち上げる</dd>
+          <dt>注意</dt>
+          <dd>腰椎の過伸展なし。体幹・膝の安定を確認</dd>
+          <dt>代表運動②</dt>
+          <dd>プローンヒップエクステンション</dd>
+          <dt>負荷・回数</dt>
+          <dd>3〜5秒保持、10〜15回×3セット</dd>
+        </dl>
+      </div>
+      <!-- 深層外旋 -->
+      <div class="ex-card">
+        <div class="ex-card-title">💪 深層外旋六筋（股関節外旋）</div>
+        <dl>
+          <dt>代表運動①</dt>
+          <dd>クラムシェル（Clamshell）</dd>
+          <dt>姿位</dt>
+          <dd>側臥位・股関節45°屈曲・膝90°屈曲</dd>
+          <dt>運動</dt>
+          <dd>足底を合わせたまま上側の膝を開く（貝殻を開くイメージ）</dd>
+          <dt>注意</dt>
+          <dd>骨盤を後傾させない。腰椎は動かさない</dd>
+          <dt>代表運動②</dt>
+          <dd>座位での等尺性外旋（壁・タオルで抵抗）</dd>
+          <dt>負荷・回数</dt>
+          <dd>5〜10回×3セット。レジスタンスバンドで漸増</dd>
+        </dl>
+      </div>
+      <!-- 大腿四頭筋 -->
+      <div class="ex-card">
+        <div class="ex-card-title">💪 大腿四頭筋（膝伸展）</div>
+        <dl>
+          <dt>代表運動①</dt>
+          <dd>SLR（Straight Leg Raise）</dd>
+          <dt>姿位</dt>
+          <dd>背臥位・対側膝屈曲。股関節0°位で膝をまっすぐ保持</dd>
+          <dt>運動</dt>
+          <dd>膝伸展位のまま30〜45°まで挙上、3〜5秒保持</dd>
+          <dt>代表運動②</dt>
+          <dd>ミニスクワット（30〜60°）</dd>
+          <dt>注意</dt>
+          <dd>膝痛がある場合は負荷・角度を調整</dd>
+          <dt>負荷・回数</dt>
+          <dd>10〜15回×3セット</dd>
+        </dl>
+      </div>
+      <!-- 腸腰筋 -->
+      <div class="ex-card">
+        <div class="ex-card-title">💪 腸腰筋（股関節屈曲）</div>
+        <dl>
+          <dt>代表運動</dt>
+          <dd>マーチング（座位 or 立位）</dd>
+          <dt>座位バージョン</dt>
+          <dd>椅子に浅く座り、一側の膝を胸に引き寄せるように挙上。3秒保持。</dd>
+          <dt>立位バージョン</dt>
+          <dd>壁に手をついて立位で片脚を90°まで屈曲保持</dd>
+          <dt>注意</dt>
+          <dd>腰椎後弯・骨盤後傾を防ぐ</dd>
+          <dt>負荷・回数</dt>
+          <dd>10〜15回×3セット</dd>
+        </dl>
+      </div>
+      <!-- 水中運動 -->
+      <div class="ex-card">
+        <div class="ex-card-title">🌊 水中運動（アクア）</div>
+        <dl>
+          <dt>特徴</dt>
+          <dd>浮力で荷重軽減（水深肩まで：体重の10%程度）、疼痛が少ない環境で運動可能</dd>
+          <dt>基本プログラム</dt>
+          <dd>①水中ウォーキング　②水中外転運動　③水中スクワット　④水中バランス</dd>
+          <dt>頻度</dt>
+          <dd>週2〜3回、30〜45分</dd>
+          <dt>適応</dt>
+          <dd>荷重時痛が強い・肥満・心肺機能低下例</dd>
+          <dt>禁忌</dt>
+          <dd>皮膚感染症・創傷・心疾患の不安定期</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <div class="card-header">
+        <div class="card-icon">📐</div>
+        <div class="card-title">関節可動域（ROM）運動の具体例</div>
+        <span class="card-badge badge-blue">柔軟性改善</span>
+      </div>
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr><th>制限ROM</th><th>ストレッチ・ROM運動の例</th><th>注意点</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>内旋制限</strong>（最も多い）</td>
+              <td>座位での内旋自動介助運動、背臥位での knee-to-chest rotation、梨状筋ストレッチ（4の字ストレッチ）</td>
+              <td>強制は禁忌。疼痛のない範囲で。後方関節包短縮を念頭に。</td>
+            </tr>
+            <tr>
+              <td><strong>伸展制限</strong></td>
+              <td>腸腰筋ストレッチ（骨盤中間位を保つランジ姿勢）、背臥位での股関節伸展（Thomas testポジション）</td>
+              <td>腰椎前弯増大に注意。腸腰筋だけでなく大腿直筋への対応も必要。</td>
+            </tr>
+            <tr>
+              <td><strong>外転制限</strong></td>
+              <td>背臥位での外転自動介助、蝶々座り、座位での膝外転（開脚方向）</td>
+              <td>内転筋群の緊張が強い場合は先にストレッチ。</td>
+            </tr>
+            <tr>
+              <td><strong>屈曲制限</strong></td>
+              <td>背臥位での knee-to-chest、座位での前傾、座面を高くして座る工夫</td>
+              <td>130°未満で靴下着脱・爪切りに支障。ADL制限の把握も。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 4. 徒手療法 ========== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div>
+        <div class="section-title">徒手療法</div>
+        <div class="section-sub">モビライゼーション・マニピュレーション・ソフトティッシュ</div>
+      </div>
+    </div>
+
+    <div class="point-box blue">
+      <div class="pb-title">🔵 徒手療法のエビデンス</div>
+      <ul>
+        <li>単独の手術比較ではエビデンスが弱いが、<strong>運動療法と組み合わせることで短期〜中期の疼痛軽減・ROM改善に有効</strong>（NICE 2022推奨）</li>
+        <li>Cochrane review（2014）：短期の痛みと機能改善に有意な効果あり（SMD −0.58）</li>
+        <li>特にモビライゼーション（Grade III–IV）は股関節の後外側方向への牽引が最もエビデンスが高い</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🤲</div>
+        <div class="card-title">主な徒手療法の種類と適応</div>
+        <span class="card-badge badge-blue">エビデンスLv.B</span>
+      </div>
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr><th>技法</th><th>目的・メカニズム</th><th>具体的な方法</th><th>注意・禁忌</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>持続牽引<br>（トラクション）</strong></td>
+              <td>関節内圧の軽減・疼痛抑制・関節包の伸張</td>
+              <td>背臥位で股関節30°屈曲・外転・外旋（休息位/パックドポジション）。大腿遠位から長軸方向に持続牽引。グレードI〜III。</td>
+              <td>骨折・脱臼・不安定性では禁忌</td>
+            </tr>
+            <tr>
+              <td><strong>後外側へのモビライゼーション</strong></td>
+              <td>関節包の後外側短縮を改善・内旋ROM改善</td>
+              <td>背臥位・股関節90°屈曲位。大腿を後外側方向に押し込む（グレードIII–IV）。Maitlandのグレード分類に従う。</td>
+              <td>疼痛増悪があればGradeを下げる</td>
+            </tr>
+            <tr>
+              <td><strong>腸腰筋・大腿直筋ストレッチ（徒手）</strong></td>
+              <td>屈曲・伸展ROM改善・歩行改善</td>
+              <td>Thomas test変法ポジションで骨盤を固定しつつ遠位で抵抗・ストレッチ。PIR（Post-Isometric Relaxation）技法も有効。</td>
+              <td>急性炎症期は避ける</td>
+            </tr>
+            <tr>
+              <td><strong>梨状筋・深層外旋筋のSoft Tissue Mobilization</strong></td>
+              <td>外旋筋群の過緊張軽減・内旋ROM改善・疼痛軽減</td>
+              <td>腹臥位もしくは側臥位。梨状筋走行に対し指圧・横断摩擦・ストレッチ。スフィンクス姿勢での自己ストレッチ指導も合わせて行う。</td>
+              <td>坐骨神経への圧迫に注意</td>
+            </tr>
+            <tr>
+              <td><strong>腸骨筋・腸腰筋の腹部アプローチ</strong></td>
+              <td>腸腰筋の短縮・過緊張軽減</td>
+              <td>背臥位で腹壁を越えて腸骨筋にアクセス。ゆっくりとした圧迫解放。腹腔内への慎重な接触が必要。</td>
+              <td>腹部疾患・術後癒着・妊娠中は避ける</td>
+            </tr>
+            <tr>
+              <td><strong>ITバンド・TFLのSTM</strong></td>
+              <td>腸脛靭帯・TFLの緊張軽減・外転パターン修正</td>
+              <td>側臥位でITバンドに対し横断摩擦・ローラー法。Obers testで評価してから実施。</td>
+              <td>過剰な圧迫は外側大腿皮神経への影響あり</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 5. PNE ========== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div>
+        <div class="section-title">疼痛神経科学教育（PNE）</div>
+        <div class="section-sub">Pain Neuroscience Education / 「画像解離」を臨床で活かす患者説明</div>
+      </div>
+    </div>
+
+    <div class="summary-box">
+      <div class="sb-title">▍ なぜ PNE が股関節 OA に重要なのか</div>
+      <ul>
+        <li>「レントゲンが悪いから痛い」という信念（Biomedical model）が<strong>運動回避・破局化・慢性化</strong>を引き起こす</li>
+        <li>Framingham研究が示す「画像OAの約80%は無症状」というエビデンスは、患者説明の強力な根拠になる</li>
+        <li>PNEは痛みの多因子モデル（構造・神経・心理・社会）を患者が理解できる言葉で伝えること</li>
+        <li>RCTで疼痛軽減・破局的思考の改善・身体活動向上の効果が確認されている（Moseley 2002, 2004）</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🗣️</div>
+        <div class="card-title">PNE の実践：伝えるべきメッセージと伝え方</div>
+        <span class="card-badge badge-purple">重要</span>
+      </div>
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr><th>患者の誤った信念（よくある言葉）</th><th>PNEでの正しい伝え方</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>「レントゲンですり減ってるって言われた。だから動かせない」</td>
+              <td>「実は同じようなレントゲン所見でも、全く痛みがない人の方が多いんですよ。痛みはレントゲンだけでは決まらないんです」</td>
+            </tr>
+            <tr>
+              <td>「動くたびに削れている気がして怖い」</td>
+              <td>「関節軟骨は動かすことで栄養が届きます。適切な動きが軟骨の健康を保ちます。むしろ動かさない方が関節は固くなっていきます」</td>
+            </tr>
+            <tr>
+              <td>「先生に骨がなくなったら手術と言われた」</td>
+              <td>「画像が変わらなくても、筋肉を鍛えることで痛みが大幅に減ったり、手術が不要になるケースは多くあります。まず運動から始めましょう」</td>
+            </tr>
+            <tr>
+              <td>「痛みが増えているのに画像は変わっていないと言われた。なぜ？」</td>
+              <td>「痛みは脳とからだ全体のシステムで起きています。ストレスや睡眠不足、不安なども痛みを増やす要因になります。画像だけが答えではないんです」</td>
+            </tr>
+            <tr>
+              <td>「安静にしていた方が良くなる気がする」</td>
+              <td>「短期的には楽でも、安静は筋力低下・可動域低下を招きます。適度に動かすことが長期的には一番良い治療です」</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="point-box teal" style="margin-top:16px;">
+          <div class="pb-title">🏆 PNEで使える「Framingham研究」のフレーズ</div>
+          <ul>
+            <li>「大規模な研究では、レントゲンで股関節OAと診断された方の<strong>約80%は痛みがなかった</strong>というデータがあります」</li>
+            <li>「つまり画像で変化があっても、それが自動的に『痛み』になるわけではないんです」</li>
+            <li>「逆に言うと、<strong>あなたの痛みを変えられる要素が画像以外にたくさんある</strong>ということです」</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 6. 心理社会的アプローチ ========== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div>
+        <div class="section-title">心理社会的アプローチ</div>
+        <div class="section-sub">破局的思考・キネシオフォビア・自己効力感への介入</div>
+      </div>
+    </div>
+
+    <div class="point-box red">
+      <div class="pb-title">🚨 見落としやすいが重要：心理社会的因子の影響</div>
+      <ul>
+        <li>疼痛の破局化（Pain Catastrophizing Scale）スコアが高いほど、機能障害・慢性化リスクが高い</li>
+        <li>キネシオフォビア（Tampa Scale of Kinesiophobia）は運動回避・廃用萎縮・依存の悪循環につながる</li>
+        <li>自己効力感（Self-Efficacy）が低い患者は運動療法の効果が出にくい</li>
+        <li><strong>心理社会的因子を評価せずに運動療法だけ処方しても効果が限定的になる場合がある</strong></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🧠</div>
+        <div class="card-title">評価ツールと介入方法</div>
+        <span class="card-badge badge-purple">心理社会的</span>
+      </div>
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr><th>評価ツール</th><th>何を測るか</th><th>カットオフ・解釈</th><th>介入の方向性</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>PCS<br>（Pain Catastrophizing Scale）</strong></td>
+              <td>痛みに対する破局的思考の程度（無力感・拡大解釈・反芻）</td>
+              <td>30点以上：高破局化。13点以上で臨床的に注意</td>
+              <td>PNEで痛みの理解を変える。認知行動療法的アプローチ。目標設定を行動ベースに変える</td>
+            </tr>
+            <tr>
+              <td><strong>TSK<br>（Tampa Scale of Kinesiophobia）</strong></td>
+              <td>動くことへの恐怖感</td>
+              <td>37点以上：高キネシオフォビア</td>
+              <td>段階的な曝露（Graded Exposure）。「動いても悪化しない」体験を積む。痛みがない動作から開始。</td>
+            </tr>
+            <tr>
+              <td><strong>ASES<br>（Arthritis Self-Efficacy Scale）</strong></td>
+              <td>関節炎の管理に対する自己効力感</td>
+              <td>スコアが低いほど依存的・運動継続が困難</td>
+              <td>目標設定（Goal Setting）。小さな成功体験を積む。ホームエクササイズで自己管理を強化。</td>
+            </tr>
+            <tr>
+              <td><strong>HADS<br>（Hospital Anxiety and Depression Scale）</strong></td>
+              <td>不安・抑うつのスクリーニング</td>
+              <td>8点以上：臨床的に注意。11点以上：高確率</td>
+              <td>必要に応じて心療内科・精神科への連携。慢性疼痛と抑うつの共存に注意。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="point-box purple" style="margin-top:14px;">
+          <div class="pb-title">📌 認知行動的アプローチのポイント（PTでできる範囲）</div>
+          <ul>
+            <li><strong>行動目標設定（SMART goals）</strong>：「痛みを0にする」ではなく「3ヶ月後に○○ができる」という機能目標に切り替える</li>
+            <li><strong>Pain diary（疼痛日記）</strong>：活動と痛みの関係を患者自身が記録し、「動いた後でも悪化しない」ことを体験的に確認させる</li>
+            <li><strong>ペーシング</strong>：活動と休息のバランスを取り、疼痛行動（痛みに合わせて動く）から脱却させる</li>
+            <li><strong>肯定的強化</strong>：できたことを積極的にフィードバック。できないことに焦点を当てない</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 7. ADL指導 ========== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <div>
+        <div class="section-title">ADL指導・動作修正・補助具</div>
+        <div class="section-sub">日常生活での股関節負担軽減と機能維持</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🚶</div>
+        <div class="card-title">動作別の指導ポイント</div>
+      </div>
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr><th>動作・場面</th><th>問題になりやすいこと</th><th>指導・修正のポイント</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>歩行</strong></td>
+              <td>トレンデレンブルグ歩行（外転筋弱化）、患側への体幹側屈（Duchenne歩行）、内旋不足による外旋歩行</td>
+              <td>外転筋強化が根本。急性期は杖で荷重軽減。歩幅・ペースの調整。疼痛回避的な歩行パターンの修正。</td>
+            </tr>
+            <tr>
+              <td><strong>立ち上がり・着座</strong></td>
+              <td>屈曲制限による浅い椅子での困難、患側荷重回避</td>
+              <td>座面を高くする（15〜25cm足す）。手すりの活用。前傾姿勢・重心前方移動の練習。</td>
+            </tr>
+            <tr>
+              <td><strong>階段昇降</strong></td>
+              <td>昇段：患側伸展筋力低下→手すり依存。降段：患側単脚支持への恐怖</td>
+              <td>昇るとき健側先行・降りるとき患側先行（健側でコントロール）を基本として教える。手すりを適切に使う。</td>
+            </tr>
+            <tr>
+              <td><strong>靴下・靴の着脱</strong></td>
+              <td>屈曲・内旋制限で届かない</td>
+              <td>ソックスエイド・長柄靴べら・弾性靴下の使用。座位での代償動作の確認。</td>
+            </tr>
+            <tr>
+              <td><strong>入浴（浴槽出入り）</strong></td>
+              <td>股関節屈曲・外転の複合動作が困難、滑り転倒リスク</td>
+              <td>浴槽台・シャワーチェアの使用。入浴動作の順序指導。手すりの設置位置の提案。</td>
+            </tr>
+            <tr>
+              <td><strong>床からの立ち上がり</strong></td>
+              <td>股関節屈曲・伸展の可動域制限で困難、転倒リスク</td>
+              <td>四つ這い→片膝立ち→立位の手順を練習。畳・床での座位生活が多い場合は椅子への変更を勧める。</td>
+            </tr>
+            <tr>
+              <td><strong>長時間の座位・立位</strong></td>
+              <td>坐骨・大転子への圧迫・疼痛増加</td>
+              <td>30〜60分ごとに姿勢変換・短い歩行。座面の硬さ・高さの調整。立位作業台の高さ設定。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <div class="card-header">
+        <div class="card-icon">🦯</div>
+        <div class="card-title">補助具・杖の使用方法</div>
+        <span class="card-badge badge-amber">荷重軽減</span>
+      </div>
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr><th>補助具</th><th>使用の目安</th><th>使い方のポイント</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>T字杖</strong></td>
+              <td>歩行時の股関節痛がある場合。中等度以上のOA。</td>
+              <td><strong>患側と反対の手</strong>に持つ（健側手）。杖をついたとき、患側に荷重する。杖の高さ＝大転子の高さ。</td>
+            </tr>
+            <tr>
+              <td><strong>ロフストランド（肘杖）</strong></td>
+              <td>両側OA・上肢筋力低下・高度の歩行障害</td>
+              <td>体重の20〜30%を免荷できる。両手使用で最大40%。</td>
+            </tr>
+            <tr>
+              <td><strong>歩行器・シルバーカー</strong></td>
+              <td>高度障害・術後早期・バランス不良</td>
+              <td>適切な高さ調整。屋内では交互歩行型歩行器が基本。</td>
+            </tr>
+            <tr>
+              <td><strong>靴のインソール</strong></td>
+              <td>下肢アライメント不良・膝OA合併</td>
+              <td>外側ウェッジは膝OAに有効だが股関節OAへの効果は限定的。個別評価が必要。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 8. 評価指標 ========== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">8</div>
+      <div>
+        <div class="section-title">評価指標と治療効果の確認</div>
+        <div class="section-sub">アウトカム指標・評価タイミング・最小臨床重要差（MCID）</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📊</div>
+        <div class="card-title">主要アウトカム指標</div>
+      </div>
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr><th>指標</th><th>何を測るか</th><th>MCID（最小臨床重要差）</th><th>実施タイミング</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>NRS / VAS</strong></td>
+              <td>疼痛強度（安静時・動作時・最大）</td>
+              <td>NRS：1.5〜2.0点、VAS：15mm</td>
+              <td>毎回〜週1回</td>
+            </tr>
+            <tr>
+              <td><strong>WOMAC</strong>（Western Ontario and McMaster Universities OA Index）</td>
+              <td>疼痛・こわばり・身体機能（5+2+17項目）。股関節・膝OAの標準指標。</td>
+              <td>機能サブスケール：10〜12ポイント（0-100換算）</td>
+              <td>初回・4週・12週</td>
+            </tr>
+            <tr>
+              <td><strong>HOOS</strong>（Hip disability and OA Outcome Score）</td>
+              <td>症状・疼痛・ADL・スポーツ・QOL（5サブスケール）。WOMACに内包される。</td>
+              <td>10ポイント（0-100換算）</td>
+              <td>初回・3ヶ月・6ヶ月</td>
+            </tr>
+            <tr>
+              <td><strong>TUG</strong>（Timed Up and Go Test）</td>
+              <td>移動能力・バランス・機能的歩行</td>
+              <td>1.4秒（高齢者）</td>
+              <td>初回・6週・12週</td>
+            </tr>
+            <tr>
+              <td><strong>6分間歩行テスト</strong></td>
+              <td>有酸素能力・歩行持久力</td>
+              <td>50m</td>
+              <td>初回・12週</td>
+            </tr>
+            <tr>
+              <td><strong>30秒椅子立ち上がりテスト</strong></td>
+              <td>下肢筋力・機能的筋力（高齢者向け）</td>
+              <td>2〜3回</td>
+              <td>初回・6週・12週</td>
+            </tr>
+            <tr>
+              <td><strong>股関節ROM（内旋・屈曲）</strong></td>
+              <td>関節可動域の変化</td>
+              <td>内旋：5〜10°</td>
+              <td>初回・4週ごと</td>
+            </tr>
+            <tr>
+              <td><strong>股関節外転筋筋力（HHD）</strong></td>
+              <td>外転筋筋力（徒手筋力計）</td>
+              <td>10〜15%変化</td>
+              <td>初回・4週ごと</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 9. 臨床判断フロー ========== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">9</div>
+      <div>
+        <div class="section-title">臨床判断フロー</div>
+        <div class="section-sub">初診から治療計画立案・修正までの流れ</div>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-circle">1</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-content">
+          <strong>問診・主訴の整理</strong>
+          <p>疼痛の部位・性質（侵害受容性/神経障害性/中枢性）・発症経緯・増悪・寛解因子・ADL制限の内容。
+          心理社会的赤旗（Red flags：骨折・腫瘍・感染の除外）と黄色旗（Yellow flags：破局化・恐怖回避）の確認。</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-circle">2</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-content">
+          <strong>身体評価</strong>
+          <p>ROM測定（内旋・屈曲を特に）、筋力評価（外転筋・大殿筋・大腿四頭筋）、歩行観察（トレンデレンブルグ・Duchenne）、
+          特殊テスト（FADIR・FABER・Patrick test・Trendelenburg sign）、神経学的確認。</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-circle">3</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-content">
+          <strong>心理社会的スクリーニング</strong>
+          <p>PCS・TSK のスクリーニング実施。高スコアの場合はPNEを先行させる。
+          破局化が強い患者に運動を押し付けても継続しない。まず「痛みの理解」から。</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-circle">4</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-content">
+          <strong>目標設定（患者と協働）</strong>
+          <p>「痛みゼロ」ではなく「○○ができる」という機能目標をSMARTで設定。
+          患者が自分の目標と治療の意味を理解していることが継続の鍵。</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-circle">5</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-content">
+          <strong>治療プログラム立案</strong>
+          <p>①PNE（まず疼痛教育）→②徒手療法でROM改善・疼痛軽減→③段階的な運動療法（筋力・ROM・有酸素）→④ADL指導・ホームエクササイズ指導。
+          全セッションを運動療法中心に。徒手療法は補助的位置づけ。</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-circle">6</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-content">
+          <strong>4〜6週で再評価</strong>
+          <p>WOMACまたはHOOS・NRS・TUGで効果測定。MCIDを満たしているか確認。
+          効果が出ていない場合は心理社会的因子の再評価・アプローチの修正・多職種連携を検討。</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-circle">7</div>
+        </div>
+        <div class="flow-content">
+          <strong>退院・終了時：自己管理移行</strong>
+          <p>ホームエクササイズプログラムの定着確認。再燃時の対応策（どこまで様子を見るか・受診基準）を共有。
+          継続的な身体活動（ウォーキング・水中運動）の習慣化を目指す。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 10. 手術適応 ========== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <div>
+        <div class="section-title">手術適応・保存療法の限界</div>
+        <div class="section-sub">いつ手術を勧めるか・PTが知っておくべきこと</div>
+      </div>
+    </div>
+
+    <div class="point-box red">
+      <div class="pb-title">🔴 手術（THA）を検討すべき状態</div>
+      <ul>
+        <li>保存療法（適切な運動療法・疼痛管理）を3〜6ヶ月以上行っても効果が不十分</li>
+        <li>夜間痛・安静時痛が持続し、日常生活が著しく障害されている</li>
+        <li>K-L grade III〜IV かつ疼痛・機能障害が高度（WOMACスコア高値）</li>
+        <li>関節裂隙の著明な消失・関節破壊が進行している</li>
+        <li>患者本人が手術を強く希望し、リスクを理解している</li>
+      </ul>
+    </div>
+
+    <div class="point-box green">
+      <div class="pb-title">✅ 手術前のPTの役割（術前リハビリ）</div>
+      <ul>
+        <li>術前の筋力強化（特に外転筋・大殿筋）は術後回復を早める（Prehabilitation）</li>
+        <li>術後の注意事項・禁忌肢位（後方アプローチ：屈曲90°超・内旋・内転の禁忌）を術前に説明</li>
+        <li>杖・歩行器の使い方・ADL動作の術前指導で術後の不安を軽減</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🏥</div>
+        <div class="card-title">THA術後リハビリの基本（参考）</div>
+        <span class="card-badge badge-amber">術後管理</span>
+      </div>
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr><th>時期</th><th>主な目標</th><th>実施内容</th><th>注意事項</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>術直後〜術後3日</strong></td>
+              <td>早期離床・血栓予防</td>
+              <td>足関節ポンピング、深呼吸、術後1日目から立位・歩行開始（施設により異なる）</td>
+              <td>禁忌肢位の徹底（アプローチ方向による）</td>
+            </tr>
+            <tr>
+              <td><strong>術後1〜2週（急性期）</strong></td>
+              <td>独立した歩行・基本ADL自立</td>
+              <td>歩行器→杖歩行練習、床上動作練習、禁忌肢位回避の動作指導</td>
+              <td>脱臼リスク。疼痛コントロール優先。</td>
+            </tr>
+            <tr>
+              <td><strong>術後2〜6週</strong></td>
+              <td>筋力回復・歩行改善</td>
+              <td>外転筋・大殿筋の段階的強化、歩行距離延長、階段練習</td>
+              <td>荷重制限の確認（セメントレスは部分荷重期間あり）</td>
+            </tr>
+            <tr>
+              <td><strong>術後6週〜3ヶ月</strong></td>
+              <td>活動レベル向上・社会参加</td>
+              <td>閉鎖運動連鎖での筋力強化、ADL制限解除、復職・趣味活動の確認</td>
+              <td>禁忌肢位は施設・術式によって解除時期が異なる</td>
+            </tr>
+            <tr>
+              <td><strong>術後3ヶ月〜</strong></td>
+              <td>完全回復・スポーツ復帰</td>
+              <td>ランニング・スポーツは術後3〜6ヶ月が目安。筋力が健側の80%以上で復帰検討。</td>
+              <td>インプラントの摩耗・緩みに配慮した活動選択</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 参考文献 -->
+  <div class="ref-box">
+    <strong>📚 主要参考文献・ガイドライン</strong>
+    <ul>
+      <li>OARSI 2019: Bannuru RR, et al. OARSI guidelines for the non-surgical management of knee, hip, and polyarticular osteoarthritis. Osteoarthritis Cartilage. 2019.</li>
+      <li>NICE 2022: Osteoarthritis: diagnosis and management. NICE guideline NG226. 2022.</li>
+      <li>日本整形外科学会：変形性股関節症診療ガイドライン（改訂第2版）. 2016.</li>
+      <li>Fransen M, et al. Exercise for osteoarthritis of the hip. Cochrane Database Syst Rev. 2014.</li>
+      <li>Moseley GL, et al. A randomized controlled trial of intensive neurophysiology education in chronic low back pain. Clin J Pain. 2004.</li>
+      <li>Brosseau L, et al. Ottawa Panel evidence-based clinical practice guidelines for therapeutic exercise in the management of hip osteoarthritis. Clin Rehabil. 2016.</li>
+      <li>Fernandes L, et al. EULAR recommendations for the non-pharmacological core management of hip and knee osteoarthritis. Ann Rheum Dis. 2013.</li>
+      <li>前資料（hip_oa_radiographic_dissociation.html）：Framingham研究（Kim et al., Arthritis Rheumatol 2014, PMID: 25103598）</li>
+    </ul>
+    <p style="font-size:11px; color:#dc2626; margin-top:10px;">
+      ※ 本資料は自己学習目的。臨床での実際の治療判断は個々の患者評価・担当医の方針・最新ガイドラインに従ってください。
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  股関節OA 理学療法士の治療アプローチ 臨床実践まとめ｜PT自己学習資料<br>
+  参考：OARSI 2019・NICE 2022・日本整形外科学会ガイドライン・Cochrane reviews<br>
+  作成：あとむ｜PT22年目 ／ 教育・自己学習目的。個別の臨床判断の根拠としては使用しないでください。
+</footer>
+
+</body>
+</html>

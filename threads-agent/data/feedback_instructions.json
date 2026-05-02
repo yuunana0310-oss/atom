@@ -1,0 +1,150 @@
+{
+  "high_performing_patterns": [
+    "myth_bust",
+    "checklist",
+    "demand_check"
+  ],
+  "avoid_patterns": [
+    "expose_type",
+    "thread_expand",
+    "experience_share",
+    "warning",
+    "list_format",
+    "short_complete",
+    "comparison"
+  ],
+  "high_performing_themes": [
+    "面接攻略",
+    "キャリア設計",
+    "AI業務効率化"
+  ],
+  "avoid_themes": [
+    "活用事例",
+    "AI画像・動画編集",
+    "AIライティング",
+    "プロンプトエンジニアリング",
+    "ChatGPT活用術",
+    "note×AI",
+    "親にAI",
+    "転職マインド",
+    "エージェント活用",
+    "年収交渉",
+    "AIツール比較",
+    "副業メンタル"
+  ],
+  "recommended_first_line_styles": [
+    "bracket_open",
+    "number_lead",
+    "question"
+  ],
+  "pattern_avg_scores": {
+    "myth_bust": 83.6443,
+    "checklist": 62.5,
+    "demand_check": 14.7186,
+    "comment_hook": 4.1667,
+    "story_hook": 5.1724,
+    "question_answer": 2.2065,
+    "story_arc": 1.0117,
+    "tip_share": 0.4618,
+    "number_hook": 1.0853,
+    "timeline": 0.2618,
+    "expose_type": 0.0,
+    "thread_expand": 0.0,
+    "experience_share": 0.0,
+    "warning": 0.0,
+    "list_format": 0.0,
+    "short_complete": 0.0,
+    "comparison": 0.0
+  },
+  "theme_avg_scores": {
+    "面接攻略": 250.0,
+    "キャリア設計": 125.0,
+    "AIトレンド": 10.0777,
+    "AI業務効率化": 14.5966,
+    "転職準備": 3.8275,
+    "リハカルテ開発裏話": 5.1724,
+    "A枠_非エンジニアがアプリを作った（最優先・最拡散）": 2.0785,
+    "AI副業の始め方": 0.3937,
+    "AI×収入アップ": 1.8473,
+    "B枠_専門職×AI×副業（専門職全般に刺さる）": 1.0853,
+    "活用事例": 0.0,
+    "AI画像・動画編集": 0.0,
+    "AIライティング": 0.0,
+    "プロンプトエンジニアリング": 0.0,
+    "ChatGPT活用術": 0.0,
+    "note×AI": 0.0,
+    "親にAI": 0.0,
+    "転職マインド": 0.0,
+    "エージェント活用": 0.0,
+    "年収交渉": 0.0,
+    "AIツール比較": 0.0,
+    "副業メンタル": 0.0
+  },
+  "top_performers": [
+    {
+      "id": "40b7bf7f-9905-418f-98d4-829f96b6510a",
+      "content_preview": "「AI副業で稼ぐには特別なスキルが必要」って思ってませんか？これ、大きな誤解です。\n\n実は、AIツールの使い方を知ってるかどうかが全て。\n\nプログラミングも、デザインスキルも要りません。\n\nChatG",
+      "pattern": "myth_bust",
+      "theme": "面接攻略",
+      "engagement_score": 250.0
+    },
+    {
+      "id": "b44300d5-119c-4599-be41-5ff5cdab81c2",
+      "content_preview": "30代で『市場価値が下がる』と感じ始めたら、もう手遅れかもしれません。\n\nでもちょっと待ってください。今からでも遅くないです。\n\n今のあなたの市場価値、把握していますか？\n\n□ 今の職場でしか通用しな",
+      "pattern": "checklist",
+      "theme": "キャリア設計",
+      "engagement_score": 125.0
+    },
+    {
+      "id": "74b726c6-11f2-40dd-9d92-abdd86a0b7a6",
+      "content_preview": "20年後に残る職業と消える職業、医療職はどっち？\n\nぶっちゃけ、医療職は「消えない」と思うんよ。でもな、今のままじゃダメやで。\n\nPT歴22年で見えたことは、現場の事務作業がクソ多いということ。書類、",
+      "pattern": "demand_check",
+      "theme": "AIトレンド",
+      "engagement_score": 45.4545
+    }
+  ],
+  "bottom_performers": [
+    {
+      "id": "437d3344-c73e-41e7-86a6-f7e5723a67d9",
+      "content_preview": "AIツール選び、現場の医療職が気づいてない落とし穴。\n\n「ChatGPTが最強」は去年の話。\n今は用途で分ける時代。\n\n文書作成ならClaude、リサーチならGemini、業務フローならそれぞれ得意分",
+      "pattern": "myth_bust",
+      "theme": "AIツール比較",
+      "engagement_score": 0.0
+    },
+    {
+      "id": "f6fad5d4-ca82-46b0-9f3d-b4cbc50b8283",
+      "content_preview": "AIで消える職業 vs 残る職業、医療職はどっち？\n\n【消えると言われているもの】\n・定型文書作成\n・データ整理\n・ルーチン業務\n\n【実際は残る、むしろ増える】\n・患者との関係構築\n・複雑な判断が必要",
+      "pattern": "comparison",
+      "theme": "AIトレンド",
+      "engagement_score": 0.0
+    },
+    {
+      "id": "e6027f99-4b46-418e-9460-1ae9a572ca93",
+      "content_preview": "Claudeの使い方、9割の医療職が知らない。\n\n文書作業で残業している同僚たちを見ると、みんなAIに「要約して」「添削して」だけ頼ってる。\n\nでも実際に変わるのはここ。\n\n・業務フローを言語化して渡",
+      "pattern": "tip_share",
+      "theme": "AIライティング",
+      "engagement_score": 0.0
+    }
+  ],
+  "total_posts_analyzed": 43,
+  "analysis_date": "2026-04-12T05:33:29.042976",
+  "structure_guidelines": {
+    "recommended_character_count": "150-250字（短めが勝ち。全体平均241字より32%短い投稿がいいね獲得率2倍以上）",
+    "recommended_line_breaks": "8-10回（1改行あたり15-20字。スマートフォン視認性最優先）",
+    "most_effective_opening_style": "declaration_statement（宣言・解説形式が11%のいいね獲得率を実現。他の形式は5%以下）",
+    "top_performing_pattern": "story_hook（個人体験＋共感型。平均いいね4.0個がトップ）",
+    "secondary_pattern": "number_hook（具体的な数字で訴求。ビュー最高1290）",
+    "avoid_elements": [
+      "リスト形式の過剰使用（ボトム10は50%使用。伸びる投稿は30%）",
+      "疑問形での終わり（読者に判断委ねるより、筆者が結論を言い切る方が効果的）",
+      "平坦な長文（～です。～ます。の繰り返しは視認性と完読率が低下）"
+    ],
+    "content_structure": "導入（宣言フック1行）→ 本論（背景＋具体例 4-6行）→ 終わり（結論 1-2行）",
+    "key_success_factors": [
+      "冒頭1行で世界観確立（「理学療法士の自分が…」など個人視点の前景化）",
+      "簡潔さ（トップ10の文字数168字。描写削除・体言止めで短くまとめる）",
+      "具体的な数字や年数を組み込む（「22年」「3ヶ月」など）",
+      "感情語・毒気を自然に織り込む（共感を生む）"
+    ]
+  }
+}

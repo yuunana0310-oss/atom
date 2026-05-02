@@ -1,0 +1,294 @@
+﻿
+BODY:
+{body_text}
+
+■出力形式（JSONのみ。説明不要）
+{{"hook": "変換後のhook（改行は\\nで）", "body": "変換後のbody（改行は\\nで）"}}"""
+
+        try:
+            client = anthropic.Anthropic(api_key=self.anthropic_api_key)
+            message = client.messages.create(
+                model=self.model,
+                max_tokens=1024,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            response_text = message.content[0].text
+            parsed = self._parse_claude_response(response_text)
+            if not parsed:
+                logger.warning("_humanize_post: Failed to parse response. Using original text.")
+                return hook, body_text, content
+
+            new_hook = parsed.get("hook", hook).replace("\\n", "\n")
+            new_body = parsed.get("body", body_text).replace("\\n", "\n")
+            if not new_hook.strip() or not new_body.strip():
+                logger.warning("_humanize_post: Empty result. Using original text.")
+                return hook, body_text, content
+
+            new_content = (new_hook + "\n\n" + new_body).strip()
+            logger.info("_humanize_post: Humanization applied.")
+            return new_hook, new_body, new_content
+        except Exception as e:
+            logger.error(f"_humanize_post error: {e}. Using original text.")
+            return hook, body_text, content
+
+    def _generate_mock_post(self, research_item, pattern):
+        """
+        Return a mock post (parsed-compatible dict) when Claude API is unavailable.
+        Schema matches Claude branch output so _normalize_and_validate_post can process it.
+        """
+        import random
+        mock = random.choice(MOCK_POSTS)
+        # スコアはすべての個別閾値を満たす値に設定
+        scores = {
+            "hook_strength": 8.5,
+            "usefulness": 8.0,
+            "specificity": 7.5,
+            "tempo": 7.8,
+            "persona_match": 8.0,
+            "originality": 7.5,
+            "readability": 8.0,
+            "emotional_resonance": 7.5,
+            "call_to_action": 7.2,
+            "platform_fit": 7.8,
+            "conversation_potential": 7.5,
+            "original_viewpoint": 7.5,
+            "single_message": 8.0,
+        }
+        return {
+            "hook": mock["hook"],
+            "body": mock["body"],
+            "content": mock["hook"] + "\n\n" + mock["body"],
+            "thread_replies": mock.get("thread_replies", []),
+            "has_affiliate": False,
+            "affiliate_comment": "",
+            "scores": scores,
+        }
+
+    def run(self, batch_size=2, mode=None):
+        """
+        Main run method.
+        Generates batch_size posts and routes them based on mode.
+
+        mode="auto"   -> qualifying posts go directly to queue.json
+        mode="review" -> qualifying posts go to drafts.json (awaiting human approval)
+        mode=None     -> reads from config.OPERATION_MODE
+
+        Generation flow per post:
+          1. Generate (Claude or mock) → parsed dict
+          2. _normalize_and_validate_post  ← LLM出力をコードで正規化・検証
+          3. _check_score_thresholds       ← 個別スコアをコードで強制
+          4. Similarity check (pre-humanize)
+          5. _apply_e_theme_cta (E枠テーマのみ)
+          6. _humanize_post (Claude使用時のみ)
+          7. _normalize_and_validate_post  ← humanize後に再検証
+          8. Similarity check (final content)
+          9. post_entry 組み立て・保存
+        """
+        if mode is None:
+            mode = getattr(self.config, "OPERATION_MODE", "auto")
+
+        logger.info(f"WriterAgent: Starting run (batch_size={batch_size}, mode={mode})")
+
+        profile, patterns_data, ng_words_data = self._load_knowledge()
+        research_cache = self._load_research_cache()
+        feedback = self._load_feedback()
+        queue = self._load_queue()
+        drafts = self._load_drafts()
+
+        patterns_list = patterns_data.get("patterns", [])
+        ng_words_list = ng_words_data.get("ng_words", [])
+
+        if not research_cache:
+            logger.warning("WriterAgent: research_cache is empty. Cannot generate posts.")
+            return []
+
+        using_claude = HAS_ANTHROPIC and bool(self.anthropic_api_key)
+        if not using_claude:
+            logger.warning("WriterAgent: Claude API not available. Using mock posts.")
+
+        recent_texts = self._get_recent_texts(limit=100)
+        added_posts = []
+        attempts = 0
+        max_attempts = batch_size * (self.max_retries + 1) * 2
+
+        # MultiPattern Mode: 固定部分をrun()開始時に1回だけビルド（Prompt Caching効果）
+        fixed_part = self._build_prompt_fixed(profile, feedback)
+        logger.info(f"WriterAgent: Fixed prompt part built ({len(fixed_part)} chars)")
+
+        # E枠優先制御: このバッチの最初の1本はE枠テーマがあれば優先する
+        e_quota_filled = False
+
+        while len(added_posts) < batch_size and attempts < max_attempts:
+            attempts += 1
+
+            force_prefix = "E枠" if not e_quota_filled and len(added_posts) == 0 else None
+            research_item = self._select_theme_and_research(
+                research_cache, feedback, force_theme_prefix=force_prefix
+            )
+            if not research_item:
+                logger.warning("WriterAgent: No suitable research item found.")
+                break
+
+            pattern = self._select_pattern(patterns_list, feedback, avoid_last_n=3)
+            retry_count = 0
+            post_accepted = False
+
+            while retry_count <= self.max_retries and not post_accepted:
+                retry_count += 1
+
+                # ── Step 1: 複数パターン同時生成 ────────────────────────
+                if using_claude:
+                    # MultiPattern Mode: 可変部分をビルド
+                    variable_part = self._build_prompt_variable(research_item, pattern, feedback)
+                    # 5パターンを同時生成
+                    response_text = self._generate_with_claude(fixed_part, variable_part)
+                    if not response_text:
+                        logger.warning(f"WriterAgent: Claude returned empty response (attempt {retry_count})")
+                        continue
+                    # JSON配列をパース
+                    candidates = self._parse_claude_response_array(response_text)
+                    if not candidates:
+                        logger.warning(f"WriterAgent: Failed to parse Claude response array (attempt {retry_count})")
+                        continue
+                    # 5候補から最高スコアを選別
+                    logger.info(f"WriterAgent: Generated {len(candidates)} candidates, selecting best...")
+                    best = self._select_best_candidate(candidates, pattern, ng_words_list, recent_texts)
+                    if not best:
+                        logger.info(f"WriterAgent: All candidates rejected (attempt {retry_count}/{self.max_retries})")
+                        continue
+                    # best は既に正規化・検証済みなので parsed として使用
+                    normalized = best
+                else:
+                    parsed = self._generate_mock_post(research_item, pattern)
+                    # ── Step 2: 正規化・構造検証 ─────────────────────────
+                    normalized = self._normalize_and_validate_post(parsed, pattern, ng_words_list)
+
+                if not normalized:
+                    logger.info(
+                        f"WriterAgent: Normalization/validation failed "
+                        f"(attempt {retry_count}/{self.max_retries})"
+                    )
+                    continue
+
+                hook = normalized["hook"]
+                body_text = normalized["body"]
+                content = normalized["content"]
+                thread_replies = normalized["thread_replies"]
+                scores = normalized["scores"]
+                avg_score = self._calculate_average_score(scores)
+
+                # ── Step 3-4: スコア・類似度チェック（既にMultiPatternモードで実施済み） ────────────────────────
+                # MultiPatternモード: _select_best_candidate() で既に検証済みなのでスキップ
+                # MockモードまたはLegacy用: コード側で再確認
+                if not using_claude:
+                    passed, reason = self._check_score_thresholds(scores, avg_score)
+                    if not passed:
+                        logger.info(
+                            f"WriterAgent: Score check failed [{reason}]. "
+                            f"Retry {retry_count}/{self.max_retries}"
+                        )
+                        continue
+
+                    max_sim = compute_similarity(content, recent_texts)
+                    if max_sim >= self.similarity_threshold:
+                        logger.info(
+                            f"WriterAgent: Similarity {max_sim:.3f} >= {self.similarity_threshold}. "
+                            "Discarding as too similar."
+                        )
+                        continue
+
+                # ── Step 5: E枠 CTA 付与 ──────────────────────────────
+                theme_name = research_item.get("theme", "")
+                if theme_name.startswith("E枠") and "プロフ" not in content:
+                    hook, body_text, content = self._apply_e_theme_cta(hook, body_text)
+                    logger.info("WriterAgent: Auto-appended CTA to E枠 post.")
+
+                # ── Step 6: Humanize（AI臭除去）──────────────────────
+                if using_claude and hook and body_text:
+                    hook, body_text, content = self._humanize_post(hook, body_text, content)
+
+                # ── Step 7: humanize後 再正規化・再検証 ─────────────
+                if using_claude:
+                    post_humanized = {
+                        "hook": hook,
+                        "body": body_text,
+                        "content": content,
+                        "thread_replies": thread_replies,
+                        "scores": scores,
+                    }
+                    renormalized = self._normalize_and_validate_post(
+                        post_humanized, pattern, ng_words_list
+                    )
+                    if not renormalized:
+                        logger.warning(
+                            "WriterAgent: Post failed re-validation after humanization. Discarding."
+                        )
+                        continue
+                    hook = renormalized["hook"]
+                    body_text = renormalized["body"]
+                    content = renormalized["content"]
+                    thread_replies = renormalized["thread_replies"]
+
+                # ── Step 8: 類似度チェック（final content）────────────
+                if using_claude:
+                    max_sim = compute_similarity(content, recent_texts)
+                    if max_sim >= self.similarity_threshold:
+                        logger.info(
+                            f"WriterAgent: Post-humanize similarity {max_sim:.3f} >= threshold. Discarding."
+                        )
+                        continue
+
+                # ── Step 8.5: フックの「、」止め最終確認（保険）────────────────
+                # humanize/renormalize 後も hook の「、」が保持されているか確認
+                _hook_lines = hook.split('\n')
+                _last_hook = _hook_lines[-1].rstrip() if _hook_lines else ''
+                if _last_hook and _last_hook[-1] != '、':
+                    if _last_hook[-1] in ['。', '！', '!', '？', '?']:
+                        _hook_lines[-1] = _last_hook[:-1] + "、"
+                    else:
+                        _hook_lines[-1] = _last_hook + "、"
+                    hook = '\n'.join(_hook_lines)
+                    logger.info("WriterAgent: Forced comma-ending on hook (final check).")
+
+                # ── Step 9: 採用・保存 ────────────────────────────────
+                destination = "draft" if mode == "review" else "queued"
+                post_entry = {
+                    "id": str(uuid.uuid4()),
+                    "hook": hook,
+                    "body": body_text,
+                    "content": (hook + "\n\n" + body_text).strip(),  # 常に再構築
+                    "thread_replies": thread_replies,
+                    "pattern": pattern["id"],
+                    "theme": theme_name or "unknown",
+                    "score": round(avg_score, 2),
+                    "scores_detail": scores,
+                    "has_affiliate": False,       # 常に強制
+                    "affiliate_comment": "",      # 常に強制
+                    "post_type": pattern["id"],
+                    "created_at": datetime.now().isoformat(),
+                    "status": destination,
+                    "research_source_id": research_item.get("id"),
+                }
+
+                if mode == "review":
+                    drafts.append(post_entry)
+                else:
+                    queue.append(post_entry)
+
+                recent_texts.append(post_entry["content"])
+                added_posts.append(post_entry)
+                post_accepted = True
+                if theme_name.startswith("E枠"):
+                    e_quota_filled = True
+                logger.info(
+                    f"WriterAgent: Post accepted → {destination}. "
+                    f"Score={avg_score:.2f}, Pattern={pattern['id']}, Theme={theme_name}"
+                )
+
+        if mode == "review":
+            self._save_drafts(drafts)
+            logger.info(f"WriterAgent: Added {len(added_posts)} posts to drafts (awaiting review).")
+        else:
+            self._save_queue(queue)
+            logger.info(f"WriterAgent: Added {len(added_posts)} posts to queue.")
+        return added_posts

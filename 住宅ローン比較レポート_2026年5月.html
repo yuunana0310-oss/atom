@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>住宅ローン比較レポート 2026年5月｜香川県・3,500万円・35年</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif;
+      background: #f0f4f8;
+      color: #1a202c;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ── ヘッダー ── */
+    header {
+      background: linear-gradient(135deg, #1a365d 0%, #2c5282 60%, #2b6cb0 100%);
+      color: #fff;
+      padding: 48px 24px 40px;
+      text-align: center;
+    }
+    header .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 20px;
+      padding: 4px 16px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+    header h1 {
+      font-size: clamp(22px, 4vw, 34px);
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      margin-bottom: 10px;
+    }
+    header .subtitle {
+      font-size: 15px;
+      opacity: 0.85;
+      margin-bottom: 22px;
+    }
+    .header-stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .header-stats .stat {
+      text-align: center;
+    }
+    .header-stats .stat .num {
+      font-size: 28px;
+      font-weight: 800;
+      display: block;
+    }
+    .header-stats .stat .label {
+      font-size: 12px;
+      opacity: 0.75;
+    }
+
+    /* ── レイアウト ── */
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 16px 64px;
+    }
+
+    /* ── セクション ── */
+    .section {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+    .section-title {
+      font-size: 19px;
+      font-weight: 800;
+      color: #1a365d;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid #bee3f8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title .icon {
+      font-size: 22px;
+    }
+
+    /* ── テーブル ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+    thead tr {
+      background: #2c5282;
+      color: #fff;
+    }
+    thead th {
+      padding: 12px 14px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.03em;
+    }
+    tbody tr {
+      border-bottom: 1px solid #e2e8f0;
+    }
+    tbody tr:hover { background: #ebf8ff; }
+    tbody td {
+      padding: 11px 14px;
+      text-align: center;
+    }
+    tbody td:first-child { text-align: left; }
+    .highlight-row {
+      background: #ebf8ff !important;
+      font-weight: 700;
+    }
+    .highlight-row td { color: #2b6cb0; }
+    .best-row {
+      background: #f0fff4 !important;
+      font-weight: 700;
+    }
+    .best-row td { color: #276749; }
+    .warning-row {
+      background: #fffbeb !important;
+    }
+    .danger-row {
+      background: #fff5f5 !important;
+    }
+    .fixed-row {
+      background: #faf5ff !important;
+      font-weight: 700;
+    }
+    .fixed-row td { color: #553c9a; }
+
+    /* ── カード ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+    .card {
+      border-radius: 12px;
+      padding: 20px 16px;
+      text-align: center;
+      border: 2px solid transparent;
+    }
+    .card .card-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .card .card-value {
+      font-size: 26px;
+      font-weight: 800;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .card .card-sub {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+    .card-blue   { background: #ebf8ff; border-color: #90cdf4; }
+    .card-blue .card-label   { color: #2b6cb0; }
+    .card-blue .card-value   { color: #1a365d; }
+    .card-green  { background: #f0fff4; border-color: #9ae6b4; }
+    .card-green .card-label  { color: #276749; }
+    .card-green .card-value  { color: #22543d; }
+    .card-purple { background: #faf5ff; border-color: #d6bcfa; }
+    .card-purple .card-label { color: #553c9a; }
+    .card-purple .card-value { color: #322659; }
+    .card-orange { background: #fffaf0; border-color: #fbd38d; }
+    .card-orange .card-label { color: #c05621; }
+    .card-orange .card-value { color: #7b341e; }
+    .card-red    { background: #fff5f5; border-color: #feb2b2; }
+    .card-red .card-label    { color: #c53030; }
+    .card-red .card-value    { color: #742a2a; }
+
+    /* ── シナリオボックス ── */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 12px;
+    }
+    .scenario-box {
+      border-radius: 12px;
+      padding: 20px;
+      border-left: 5px solid;
+    }
+    .scenario-box h4 {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .scenario-box.optimistic { background: #f0fff4; border-color: #48bb78; }
+    .scenario-box.optimistic h4 { color: #276749; }
+    .scenario-box.realistic  { background: #ebf8ff; border-color: #4299e1; }
+    .scenario-box.realistic h4  { color: #2b6cb0; }
+    .scenario-box.risk       { background: #fffbeb; border-color: #ed8936; }
+    .scenario-box.risk h4       { color: #c05621; }
+    .scenario-box.worst      { background: #fff5f5; border-color: #fc8181; }
+    .scenario-box.worst h4      { color: #c53030; }
+
+    .scenario-table {
+      width: 100%;
+      font-size: 13px;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+    .scenario-table th {
+      background: rgba(0,0,0,0.07);
+      padding: 6px 8px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .scenario-table td {
+      padding: 6px 8px;
+      text-align: center;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .scenario-result {
+      margin-top: 12px;
+      background: rgba(0,0,0,0.06);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 13px;
+    }
+    .scenario-result strong { font-size: 16px; }
+
+    /* ── 差額インパクト ── */
+    .impact-bar-wrap {
+      margin: 8px 0 6px;
+    }
+    .impact-bar-wrap .bar-label {
+      font-size: 13px;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .impact-bar-bg {
+      background: #e2e8f0;
+      border-radius: 6px;
+      height: 22px;
+      overflow: hidden;
+    }
+    .impact-bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding-left: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      transition: width 0.4s ease;
+    }
+
+    /* ── 判断チャート ── */
+    .decision-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 12px;
+    }
+    @media (max-width: 600px) { .decision-grid { grid-template-columns: 1fr; } }
+    .decision-box {
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .decision-box.variable { background: #ebf8ff; border: 2px solid #63b3ed; }
+    .decision-box.fixed    { background: #faf5ff; border: 2px solid #b794f4; }
+    .decision-box h4 {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid currentColor;
+    }
+    .decision-box.variable h4 { color: #2b6cb0; border-color: #90cdf4; }
+    .decision-box.fixed h4    { color: #553c9a; border-color: #d6bcfa; }
+    .decision-box ul { list-style: none; }
+    .decision-box ul li {
+      padding: 5px 0;
+      padding-left: 20px;
+      position: relative;
+      font-size: 13.5px;
+    }
+    .decision-box ul li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      font-weight: 700;
+    }
+    .decision-box.variable ul li::before { color: #3182ce; }
+    .decision-box.fixed    ul li::before { color: #6b46c1; }
+
+    /* ── 総合判定 ── */
+    .verdict {
+      background: linear-gradient(135deg, #1a365d, #2c5282);
+      color: #fff;
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+      margin-top: 28px;
+    }
+    .verdict h3 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: #bee3f8;
+    }
+    .verdict .big-answer {
+      font-size: clamp(24px, 5vw, 38px);
+      font-weight: 900;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .verdict p { font-size: 14px; opacity: 0.88; line-height: 1.8; }
+    .verdict .ranking {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin: 20px 0 16px;
+      flex-wrap: wrap;
+    }
+    .verdict .rank-item {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .verdict .rank-item:first-child { border-radius: 8px 0 0 8px; }
+    .verdict .rank-item:last-child  { border-radius: 0 8px 8px 0; }
+    .verdict .rank-arrow {
+      background: transparent;
+      border: none;
+      padding: 8px 4px;
+      color: rgba(255,255,255,0.5);
+      font-size: 16px;
+      align-self: center;
+    }
+
+    /* ── 注意書き ── */
+    .note-box {
+      background: #fffbeb;
+      border: 1px solid #f6e05e;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: #744210;
+      margin-top: 16px;
+    }
+    .note-box strong { font-weight: 800; }
+
+    /* ── 出典 ── */
+    .sources {
+      background: #f7fafc;
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-size: 12.5px;
+      color: #4a5568;
+      margin-top: 28px;
+    }
+    .sources h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; color: #2d3748; }
+    .sources a  { color: #2b6cb0; text-decoration: none; }
+    .sources a:hover { text-decoration: underline; }
+    .sources ul { list-style: none; }
+    .sources ul li { padding: 3px 0; }
+    .sources ul li::before { content: "→ "; }
+
+    /* ── タグ ── */
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .tag-best    { background: #c6f6d5; color: #22543d; }
+    .tag-caution { background: #feebc8; color: #7b341e; }
+    .tag-safe    { background: #e9d8fd; color: #44337a; }
+
+    /* ── フッター ── */
+    footer {
+      text-align: center;
+      color: #a0aec0;
+      font-size: 12px;
+      padding: 24px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">2026年5月 最新版</div>
+  <h1>香川県 住宅ローン比較レポート</h1>
+  <p class="subtitle">借入額 3,500万円 ／ 返済期間 35年 ／ 変動金利 vs 全期間固定金利</p>
+  <div class="header-stats">
+    <div class="stat">
+      <span class="num">3,500万円</span>
+      <span class="label">借入額</span>
+    </div>
+    <div class="stat">
+      <span class="num">35年</span>
+      <span class="label">返済期間</span>
+    </div>
+    <div class="stat">
+      <span class="num">0.75%</span>
+      <span class="label">現在の政策金利</span>
+    </div>
+    <div class="stat">
+      <span class="num">▲1,168万円</span>
+      <span class="label">変動 vs フラット35 差額（現状維持の場合）</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ① 金利の歴史 -->
+  <section class="section">
+    <h2 class="section-title"><span class="icon">📈</span>日本の住宅ローン金利 過去の推移</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>時代</th>
+          <th>変動金利（基準）</th>
+          <th>背景・特徴</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="danger-row">
+          <td>1990年（バブル絶頂）</td>
+          <td><strong>8.5%</strong></td>
+          <td>高度経済成長・インフレ。現代では考えにくい水準</td>
+        </tr>
+        <tr>
+          <td>1996年</td>
+          <td>約 3.0%</td>
+          <td>バブル崩壊後の下落途中</td>
+        </tr>
+        <tr>
+          <td>1999年〜2013年</td>
+          <td>約 2.0〜2.475%</td>
+          <td>ゼロ金利政策スタート。優遇後の実質金利は低下</td>
+        </tr>
+        <tr class="best-row">
+          <td>2013年〜2022年（異次元緩和）</td>
+          <td><strong>基準 2.475% / 優遇後 0.5〜0.8%</strong></td>
+          <td>アベノミクス・マイナス金利。過去最低水準が続く</td>
+        </tr>
+        <tr class="warning-row">
+          <td>2024年3月</td>
+          <td>政策転換</td>
+          <td>日銀がゼロ金利・マイナス金利を<strong>解除</strong></td>
+        </tr>
+        <tr class="warning-row">
+          <td>2024〜2025年</td>
+          <td>3回利上げ（計 +0.75%）</td>
+          <td>賃上げ・物価上昇を受けて段階的に引き上げ</td>
+        </tr>
+        <tr class="highlight-row">
+          <td><strong>2026年4月（現在）</strong></td>
+          <td><strong>政策金利 0.75%</strong></td>
+          <td>4月会合は3会合連続据え置き。6月利上げ観測が高まる</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note-box" style="margin-top:16px;">
+      <strong>⚠ 過去10年のデータが参考にならない理由：</strong>
+      2013〜2022年の超低金利は「異例の政策」であり、正常な金利環境ではありません。
+      「ずっと低金利」という過去の感覚でそのまま判断するのは危険です。
+      日銀は正常化路線に転換しており、ゼロ金利時代は終わっています。
+    </div>
+  </section>
+
+  <!-- ② 香川県の現在の金利 -->
+  <section class="section">
+    <h2 class="section-title"><span class="icon">🏦</span>香川県 主要金融機関の現在金利（2026年5月）</h2>
+
+    <h3 style="font-size:15px;font-weight:800;color:#2d3748;margin:0 0 10px;">変動金利</h3>
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align:left;">金融機関</th>
+          <th>変動金利（優遇後目安）</th>
+          <th>特記事項</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>百十四銀行</strong></td>
+          <td>1.075%〜（基準）<br><small>優遇後はさらに低い場合あり</small></td>
+          <td>グッドチョイスサービスで取引内容により引き下げ</td>
+        </tr>
+        <tr>
+          <td><strong>香川銀行</strong></td>
+          <td>0.95%前後〜</td>
+          <td>給与振込・年金振込等で優遇あり</td>
+        </tr>
+        <tr class="best-row">
+          <td><strong>JA香川県</strong></td>
+          <td><strong>0.575%〜0.925%</strong></td>
+          <td>最優遇条件で0.575%〜。取引内容次第</td>
+        </tr>
+        <tr class="warning-row">
+          <td>ネット銀行（参考）</td>
+          <td>0.3〜0.6%程度</td>
+          <td>最安水準だが窓口サポートなし</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:15px;font-weight:800;color:#2d3748;margin:20px 0 10px;">固定金利（全期間・長期）</h3>
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align:left;">金融機関・商品</th>
+          <th>全期間固定金利</th>
+          <th>特記事項</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="fixed-row">
+          <td><strong>JA香川県 全期間固定型</strong> <span class="tag tag-safe">香川県おすすめ固定</span></td>
+          <td><strong>1.37%〜1.72%</strong></td>
+          <td>フラット35より大幅に低い。条件によって異なる</td>
+        </tr>
+        <tr class="warning-row">
+          <td><strong>フラット35（住宅金融支援機構）</strong></td>
+          <td><strong>2.490%</strong>（2026年4月）</td>
+          <td>国の制度ローン。全国一律の審査基準あり</td>
+        </tr>
+        <tr>
+          <td>百十四銀行・香川銀行</td>
+          <td>主に固定期間選択型（3〜10年）</td>
+          <td>純粋な35年固定は少ない。期間終了後に再選択</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note-box">
+      <strong>💡 地方銀行に「35年純固定」はほぼない：</strong>
+      百十四銀行・香川銀行が提供するのは主に「固定金利選択型（3・5・10年で再選択）」です。
+      完全な35年固定を求めるなら <strong>フラット35</strong> か <strong>JA全期間固定型</strong> が選択肢になります。
+    </div>
+  </section>
+
+  <!-- ③ 基本試算 -->
+  <section class="section">
+    <h2 class="section-title"><span class="icon">🧮</span>基本試算：月々返済額・総返済額（3,500万円 / 35年）</h2>
+    <p style="font-size:13px;color:#718096;margin-bottom:12px;">元利均等返済・ボーナス返済なし・頭金別で計算</p>
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align:left;">金利タイプ</th>
+          <th>金利</th>
+          <th>月々返済額</th>
+          <th>総返済額</th>
+          <th>利息総額</th>
+          <th>フラット35比</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="best-row">
+          <td><strong>変動（現在・香川地銀優遇後）</strong> <span class="tag tag-best">最安</span></td>
+          <td>0.9%</td>
+          <td><strong>97,200円</strong></td>
+          <td><strong>4,082万円</strong></td>
+          <td>582万円</td>
+          <td><strong style="color:#22543d;">▲1,168万円</strong></td>
+        </tr>
+        <tr>
+          <td>変動（小幅上昇後）</td>
+          <td>1.0%</td>
+          <td>98,900円</td>
+          <td>4,154万円</td>
+          <td>654万円</td>
+          <td>▲1,096万円</td>
+        </tr>
+        <tr class="highlight-row">
+          <td><strong>変動（現実的上昇・平均）</strong></td>
+          <td>1.5%平均</td>
+          <td><strong>107,200円</strong></td>
+          <td><strong>4,502万円</strong></td>
+          <td>1,002万円</td>
+          <td><strong>▲748万円</strong></td>
+        </tr>
+        <tr class="warning-row">
+          <td>変動（リスクシナリオ・平均）</td>
+          <td>2.0%平均</td>
+          <td>116,000円</td>
+          <td>4,872万円</td>
+          <td>1,372万円</td>
+          <td>▲378万円</td>
+        </tr>
+        <tr class="danger-row">
+          <td>変動（最悪シナリオ・平均）</td>
+          <td>2.5%平均</td>
+          <td>125,200円</td>
+          <td>5,259万円</td>
+          <td>1,759万円</td>
+          <td>ほぼ同等</td>
+        </tr>
+        <tr class="fixed-row">
+          <td><strong>JA香川県 全期間固定（最優遇）</strong> <span class="tag tag-safe">固定なら第一候補</span></td>
+          <td>1.37%</td>
+          <td><strong>105,000円</strong></td>
+          <td><strong>4,410万円</strong></td>
+          <td>910万円</td>
+          <td>▲840万円</td>
+        </tr>
+        <tr class="fixed-row">
+          <td>JA香川県 全期間固定（標準）</td>
+          <td>1.72%</td>
+          <td>111,000円</td>
+          <td>4,662万円</td>
+          <td>1,162万円</td>
+          <td>▲588万円</td>
+        </tr>
+        <tr style="background:#f3e8ff;font-weight:700;">
+          <td><strong>フラット35</strong> <span class="tag tag-caution">基準</span></td>
+          <td>2.49%</td>
+          <td><strong>125,000円</strong></td>
+          <td><strong>5,250万円</strong></td>
+          <td>1,750万円</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:15px;font-weight:800;color:#2d3748;margin:24px 0 12px;">総返済額の視覚的比較</h3>
+    <div>
+      <div class="impact-bar-wrap">
+        <div class="bar-label"><span>変動 0.9%（現在）</span><span>4,082万円</span></div>
+        <div class="impact-bar-bg"><div class="impact-bar-fill" style="width:77.7%;background:#48bb78;">▲1,168万円</div></div>
+      </div>
+      <div class="impact-bar-wrap">
+        <div class="bar-label"><span>JA全期間固定 1.37%</span><span>4,410万円</span></div>
+        <div class="impact-bar-bg"><div class="impact-bar-fill" style="width:84%;background:#4299e1;">▲840万円</div></div>
+      </div>
+      <div class="impact-bar-wrap">
+        <div class="bar-label"><span>変動 1.5%平均（現実的）</span><span>4,502万円</span></div>
+        <div class="impact-bar-bg"><div class="impact-bar-fill" style="width:85.7%;background:#63b3ed;">▲748万円</div></div>
+      </div>
+      <div class="impact-bar-wrap">
+        <div class="bar-label"><span>JA全期間固定 1.72%</span><span>4,662万円</span></div>
+        <div class="impact-bar-bg"><div class="impact-bar-fill" style="width:88.8%;background:#9f7aea;">▲588万円</div></div>
+      </div>
+      <div class="impact-bar-wrap">
+        <div class="bar-label"><span>変動 2.0%平均（リスク）</span><span>4,872万円</span></div>
+        <div class="impact-bar-bg"><div class="impact-bar-fill" style="width:92.8%;background:#ed8936;">▲378万円</div></div>
+      </div>
+      <div class="impact-bar-wrap">
+        <div class="bar-label"><span>フラット35 2.49%（基準）</span><span>5,250万円</span></div>
+        <div class="impact-bar-bg"><div class="impact-bar-fill" style="width:100%;background:#fc8181;">基準</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ④ 日銀見通しと金利シナリオ -->
+  <section class="section">
+    <h2 class="section-title"><span class="icon">🏛</span>日銀の政策金利 見通しと住宅ローンへの影響</h2>
+
+    <div class="card-grid" style="margin-bottom:24px;">
+      <div class="card card-blue">
+        <div class="card-label">現在の政策金利</div>
+        <span class="card-value">0.75%</span>
+        <div class="card-sub">2026年4月 3会合連続据え置き</div>
+      </div>
+      <div class="card card-orange">
+        <div class="card-label">2026年6月 予想</div>
+        <span class="card-value">1.00%</span>
+        <div class="card-sub">市場メインシナリオ（+0.25%）</div>
+      </div>
+      <div class="card card-green">
+        <div class="card-label">メイン上限予想</div>
+        <span class="card-value">1.5%</span>
+        <div class="card-sub">エコノミスト多数派の最終着地点</div>
+      </div>
+      <div class="card card-red">
+        <div class="card-label">リスクシナリオ</div>
+        <span class="card-value">2.0%超</span>
+        <div class="card-sub">円安・インフレ長期化の場合</div>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px;font-weight:800;color:#2d3748;margin-bottom:12px;">
+      政策金利 0.25%上昇ごとの月々返済額への影響
+    </h3>
+    <table>
+      <thead>
+        <tr>
+          <th>政策金利</th>
+          <th>変動金利（目安）</th>
+          <th>月々返済額</th>
+          <th>現在比（月）</th>
+          <th>現在比（年）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="best-row">
+          <td><strong>0.75%（現在）</strong></td>
+          <td>0.90%</td>
+          <td><strong>97,200円</strong></td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>1.00%（6月予想）</td>
+          <td>1.15%</td>
+          <td>100,100円</td>
+          <td><strong>+2,900円</strong></td>
+          <td>+34,800円</td>
+        </tr>
+        <tr>
+          <td>1.25%</td>
+          <td>1.40%</td>
+          <td>103,100円</td>
+          <td>+5,900円</td>
+          <td>+70,800円</td>
+        </tr>
+        <tr class="warning-row">
+          <td>1.50%（メイン上限）</td>
+          <td>1.65%</td>
+          <td>106,200円</td>
+          <td>+9,000円</td>
+          <td>+108,000円</td>
+        </tr>
+        <tr class="danger-row">
+          <td>2.00%（リスク）</td>
+          <td>2.15%</td>
+          <td>120,100円</td>
+          <td><strong>+22,900円</strong></td>
+          <td>+274,800円</td>
+        </tr>
+        <tr class="danger-row">
+          <td>2.50%（最悪）</td>
+          <td>2.65%</td>
+          <td>128,000円</td>
+          <td>+30,800円</td>
+          <td>+369,600円</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note-box">
+      <strong>✅ 0.25%の利上げ1回で月約3,000円増。</strong>
+      6月に利上げされても月3,000円増。1.5%までなら月+9,000円程度。
+      固定（フラット35）との差額28,000円 → 1.5%でも月19,000円の差がまだある。
+    </div>
+  </section>
+
+  <!-- ⑤ 現実的なシナリオ別シミュレーション -->
+  <section class="section">
+    <h2 class="section-title"><span class="icon">📊</span>段階的利上げ 現実シナリオ別シミュレーション</h2>
+    <p style="font-size:13px;color:#718096;margin-bottom:16px;">「ずっと同じ金利」ではなく、段階的に上昇するケースで試算</p>
+
+    <div class="scenario-grid">
+      <!-- 楽観 -->
+      <div class="scenario-box optimistic">
+        <h4>🟢 シナリオA：緩やかな上昇（楽観）</h4>
+        <table class="scenario-table">
+          <thead><tr><th>期間</th><th>政策金利</th><th>変動金利</th><th>月返済</th></tr></thead>
+          <tbody>
+            <tr><td>2026年〜</td><td>0.75%</td><td>0.90%</td><td>97,200円</td></tr>
+            <tr><td>2027年〜</td><td>1.00%</td><td>1.15%</td><td>100,100円</td></tr>
+            <tr><td>2028〜2030年</td><td>1.25%</td><td>1.40%</td><td>103,100円</td></tr>
+            <tr><td>2031年以降</td><td>1.50%</td><td>1.65%</td><td>106,200円</td></tr>
+          </tbody>
+        </table>
+        <div class="scenario-result">
+          加重平均金利：<strong>約1.5%</strong><br>
+          総返済額：<strong>約4,502万円</strong><br>
+          フラット35比：<strong style="color:#276749;">▲748万円</strong>
+        </div>
+      </div>
+
+      <!-- 現実的 -->
+      <div class="scenario-box realistic">
+        <h4>🔵 シナリオB：標準シナリオ（現実的）</h4>
+        <table class="scenario-table">
+          <thead><tr><th>期間</th><th>政策金利</th><th>変動金利</th><th>月返済</th></tr></thead>
+          <tbody>
+            <tr><td>2026年〜</td><td>0.75%</td><td>0.90%</td><td>97,200円</td></tr>
+            <tr><td>2027年〜</td><td>1.00%</td><td>1.15%</td><td>100,100円</td></tr>
+            <tr><td>2028〜2030年</td><td>1.25%</td><td>1.40%</td><td>103,100円</td></tr>
+            <tr><td>2031〜2033年</td><td>1.50%</td><td>1.65%</td><td>106,200円</td></tr>
+            <tr><td>2034年以降</td><td>1.50%</td><td>1.65%</td><td>106,200円</td></tr>
+          </tbody>
+        </table>
+        <div class="scenario-result">
+          加重平均金利：<strong>約1.5〜1.6%</strong><br>
+          総返済額：<strong>約4,560万円</strong><br>
+          フラット35比：<strong style="color:#2b6cb0;">▲690万円</strong>
+        </div>
+      </div>
+
+      <!-- リスク -->
+      <div class="scenario-box risk">
+        <h4>🟠 シナリオC：急上昇（リスク）</h4>
+        <table class="scenario-table">
+          <thead><tr><th>期間</th><th>政策金利</th><th>変動金利</th><th>月返済</th></tr></thead>
+          <tbody>
+            <tr><td>2026年〜</td><td>0.75%</td><td>0.90%</td><td>97,200円</td></tr>
+            <tr><td>2027年〜</td><td>1.25%</td><td>1.40%</td><td>103,100円</td></tr>
+            <tr><td>2028〜2030年</td><td>1.75%</td><td>1.90%</td><td>112,600円</td></tr>
+            <tr><td>2031年以降</td><td>2.00%</td><td>2.15%</td><td>120,100円</td></tr>
+          </tbody>
+        </table>
+        <div class="scenario-result">
+          加重平均金利：<strong>約2.0%</strong><br>
+          総返済額：<strong>約4,872万円</strong><br>
+          フラット35比：<strong style="color:#c05621;">▲378万円（まだ有利）</strong>
+        </div>
+      </div>
+
+      <!-- 最悪 -->
+      <div class="scenario-box worst">
+        <h4>🔴 シナリオD：最悪シナリオ（円安・インフレ深刻）</h4>
+        <table class="scenario-table">
+          <thead><tr><th>期間</th><th>政策金利</th><th>変動金利</th><th>月返済</th></tr></thead>
+          <tbody>
+            <tr><td>2026〜2027年</td><td>〜1.25%</td><td>1.40%</td><td>103,100円</td></tr>
+            <tr><td>2028〜2031年</td><td>〜2.00%</td><td>2.15%</td><td>120,100円</td></tr>
+            <tr><td>2032年以降</td><td>2.50%超</td><td>2.65%〜</td><td>128,000円〜</td></tr>
+          </tbody>
+        </table>
+        <div class="scenario-result">
+          加重平均金利：<strong>約2.3〜2.5%</strong><br>
+          総返済額：<strong>約5,100〜5,259万円</strong><br>
+          フラット35比：<strong style="color:#c53030;">ほぼ同等〜やや不利</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑥ 差額積立戦略 -->
+  <section class="section">
+    <h2 class="section-title"><span class="icon">💰</span>「変動で借りて差額を積み立てる」戦略</h2>
+    <p style="font-size:13px;color:#718096;margin-bottom:16px;">
+      変動（0.9%）とフラット35（2.49%）の月々差額 <strong>約27,800円</strong> を別口座に積み立てた場合
+    </p>
+    <div class="card-grid">
+      <div class="card card-blue">
+        <div class="card-label">5年後の積立額</div>
+        <span class="card-value">167万円</span>
+        <div class="card-sub">月27,800円 × 60ヶ月</div>
+      </div>
+      <div class="card card-green">
+        <div class="card-label">10年後の積立額</div>
+        <span class="card-value">334万円</span>
+        <div class="card-sub">月27,800円 × 120ヶ月</div>
+      </div>
+      <div class="card card-orange">
+        <div class="card-label">20年後の積立額</div>
+        <span class="card-value">668万円</span>
+        <div class="card-sub">月27,800円 × 240ヶ月</div>
+      </div>
+    </div>
+    <div class="note-box" style="margin-top:16px;">
+      <strong>💡 この差額を繰り上げ返済に充てれば：</strong><br>
+      元本が減り金利上昇の影響を小さくできる。
+      10年後に334万円を一括繰り上げ返済すると、残存期間が短縮され、
+      その後の金利上昇リスクを大幅に軽減できます。
+      「変動 ＋ 差額積立」はセットで考えることが重要です。
+    </div>
+  </section>
+
+  <!-- ⑦ どちらが向いているか -->
+  <section class="section">
+    <h2 class="section-title"><span class="icon">🔍</span>変動 vs 固定：あなたはどちらタイプ？</h2>
+    <div class="decision-grid">
+      <div class="decision-box variable">
+        <h4>変動金利 が向いている人</h4>
+        <ul>
+          <li>繰り上げ返済を積極的に行う予定がある</li>
+          <li>金利上昇時に返済額増加を吸収できる家計余力がある</li>
+          <li>月々の差額（約2.8万円）を別途積み立てられる</li>
+          <li>政策金利は長期的に1〜1.5%程度に留まると考えている</li>
+          <li>収入が安定しており今後も伸びる見込みがある</li>
+          <li>借入額を減らすために頭金を多く用意できる</li>
+        </ul>
+      </div>
+      <div class="decision-box fixed">
+        <h4>全期間固定 が向いている人</h4>
+        <ul>
+          <li>毎月の返済額を絶対に変えたくない（家計管理最優先）</li>
+          <li>金利が上がっても眠れるか不安、精神的安心が必要</li>
+          <li>収入や将来設計に不確定要素が多い</li>
+          <li>借入額が大きく（4,000万円超）、上振れリスクが怖い</li>
+          <li>「金利2%超えが長期続く」リスクシナリオを重く見る</li>
+          <li>差額積立の習慣が自信なく、繰り上げ返済も難しい</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note-box" style="margin-top:16px;">
+      <strong>🏦 固定を選ぶならフラット35よりJA香川県全期間固定が有力：</strong><br>
+      フラット35（2.49%）とJA固定（1.37%〜）の差は最大1.12%。
+      3,500万・35年の試算では総返済額が <strong>840万円</strong> 違います。
+      「安心を買いたい」場合でも、まずJAの全期間固定型の条件を確認することを強くお勧めします。
+    </div>
+  </section>
+
+  <!-- ⑧ 総合判定 -->
+  <div class="verdict">
+    <h3>総合判定</h3>
+    <div class="big-answer">現時点では「変動金利」が有利</div>
+    <div class="ranking">
+      <div class="rank-item">① 変動0.9%<br><small>（最安・要リスク管理）</small></div>
+      <div class="rank-arrow">›</div>
+      <div class="rank-item">② JA固定1.37%<br><small>（固定最有力）</small></div>
+      <div class="rank-arrow">›</div>
+      <div class="rank-item">③ 変動1.5%平均<br><small>（現実シナリオ）</small></div>
+      <div class="rank-arrow">›</div>
+      <div class="rank-item">④ JA固定1.72%</div>
+      <div class="rank-arrow">›</div>
+      <div class="rank-item">⑤ フラット35<br><small>（2.49%・最高コスト）</small></div>
+    </div>
+    <p>
+      変動金利とフラット35の現在の差額は約<strong>1,168万円</strong>。<br>
+      この差を埋めるには、変動金利が平均2.5%以上で35年間推移する必要があり、<br>
+      現在のメインシナリオ（政策金利上限1.5%）では実現しにくい水準です。<br><br>
+      ただし「金利が上がったら怖くて眠れない」という方は、<br>
+      固定の「安心料」として1,000万円程度を払う選択も合理的です。<br>
+      その場合はフラット35より <strong>JA香川県の全期間固定</strong> が大幅に有利です。
+    </p>
+  </div>
+
+  <!-- ⑨ 実務アドバイス -->
+  <section class="section" style="margin-top:28px;">
+    <h2 class="section-title"><span class="icon">📋</span>香川県での実務アドバイス</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align:left;">アクション</th>
+          <th style="text-align:left;">内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>① ネット銀行も比較する</td>
+          <td>変動0.3〜0.5%台の商品あり。地方銀行より0.5〜0.7%低い場合も。審査・手続きはオンラインのみ</td>
+        </tr>
+        <tr>
+          <td>② JAの全期間固定を確認</td>
+          <td>フラット35（2.49%）より大幅に低い可能性。1.37%なら月105,000円・総返済4,410万円</td>
+        </tr>
+        <tr>
+          <td>③ 「最優遇金利」を窓口で確認</td>
+          <td>表示は基準金利。給与振込口座・カード利用などの条件で大幅引き下げになる場合あり</td>
+        </tr>
+        <tr>
+          <td>④ 政策金利1.5%超えで借り換えを検討</td>
+          <td>変動で借りた場合、政策金利が1.5%を超えた時点で固定への借り換えシミュレーションを実施</td>
+        </tr>
+        <tr>
+          <td>⑤ 差額は必ず別口座に積み立て</td>
+          <td>変動 vs 固定の差額（〜月3万円）は使い込まず積立。繰り上げ返済の原資にする</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 出典 -->
+  <div class="sources">
+    <h4>参考・出典</h4>
+    <ul>
+      <li><a href="https://www2.kagawabank.co.jp/rate/pcloan.asp" target="_blank">香川銀行 ローン金利一覧</a></li>
+      <li><a href="https://www.114bank.co.jp/support/rate_fee/loan_interest_rate.html" target="_blank">百十四銀行 住宅ローン金利一覧</a></li>
+      <li><a href="https://www.jabank-kagawa.or.jp/loan/jyutaku_loan/" target="_blank">JAバンク香川 住宅ローン</a></li>
+      <li><a href="https://www.kw-ja.or.jp/service/bank/loan/" target="_blank">JA香川県 ローン金利一覧</a></li>
+      <li><a href="https://mogecheck.jp/articles/show/51rzNy7XEJ5o4mQ6ZkVv" target="_blank">住宅ローン金利2026年5月の最新動向 | モゲチェック</a></li>
+      <li><a href="https://mogecheck.jp/articles/show/pnl6ZzOV4BDR2k5Ra7PY" target="_blank">日銀追加利上げで住宅ローンはいつ上がる？ | モゲチェック</a></li>
+      <li><a href="https://diamond-fudosan.jp/articles/-/1111543" target="_blank">住宅ローンの10年後の変動金利予想 | ダイヤモンド不動産研究所</a></li>
+      <li><a href="https://www.flat35.com/kinri/kinri_suii.html" target="_blank">フラット35 借入金利の推移</a></li>
+      <li><a href="https://diamond-fudosan.jp/articles/-/127188" target="_blank">住宅ローンの金利推移（変動・固定）2026年版</a></li>
+      <li><a href="https://diamond-fudosan.jp/list/housing-loan-simulation/%E9%A6%99%E5%B7%9D%E7%9C%8C" target="_blank">香川県おすすめ住宅ローンランキング 2026年4月</a></li>
+    </ul>
+    <p style="margin-top:10px;color:#a0aec0;">
+      ※本レポートは情報提供を目的としたものであり、投資・融資の勧誘や専門的アドバイスではありません。
+      実際の借り入れ判断は各金融機関および専門家にご相談ください。金利は2026年5月時点の情報に基づきます。
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  <p>住宅ローン比較レポート 2026年5月版 ／ 香川県・3,500万円・35年 シミュレーション</p>
+</footer>
+
+</body>
+</html>

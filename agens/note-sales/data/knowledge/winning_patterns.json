@@ -1,0 +1,97 @@
+{
+  "version": "1.0",
+  "description": "売れるnote記事のパターン集。note_analyzer が更新する。初期値はCLAUDE.mdの知見から手動設定。",
+  "updated_at": "2026-04-07",
+  "title_patterns": [
+    {
+      "pattern_id": "tp_001",
+      "template": "【{audience}が{period}試した】{tool}、正直に書く",
+      "avg_likes": 145,
+      "avg_purchases": 8,
+      "tags": ["AI", "ClaudeCode", "非エンジニア"],
+      "notes": "体験談×本音レポ。煽りなしで共感が高い"
+    },
+    {
+      "pattern_id": "tp_002",
+      "template": "副業で{tool}を使い始めて{period}、{outcome}",
+      "avg_likes": 120,
+      "avg_purchases": 6,
+      "tags": ["副業", "AI活用", "生成AI"],
+      "notes": "副業×AI。具体的な成果数値が入ると購入率が上がる"
+    },
+    {
+      "pattern_id": "tp_003",
+      "template": "【{audience}向け】{tool}で{goal}する全手順",
+      "avg_likes": 90,
+      "avg_purchases": 12,
+      "tags": ["AI活用", "初心者", "ClaudeCode"],
+      "notes": "ハウツー系。有料化しやすい。購入率が高い"
+    },
+    {
+      "pattern_id": "tp_004",
+      "template": "{tool}を使い倒して分かった、{count}つのこと",
+      "avg_likes": 100,
+      "avg_purchases": 5,
+      "tags": ["AI", "ClaudeCode", "プロンプト"],
+      "notes": "まとめ系。いいねは取れるが購入率はやや低い"
+    },
+    {
+      "pattern_id": "tp_005",
+      "template": "note有料記事で{revenue}稼いだ私の{tool}活用法",
+      "avg_likes": 200,
+      "avg_purchases": 15,
+      "tags": ["副業", "note", "AI活用"],
+      "notes": "収益報告×実践法。最も購入率が高いパターン"
+    }
+  ],
+  "angle_patterns": [
+    {
+      "angle": "体験談＋本音レポート",
+      "monetization_boost": 0.0,
+      "threads_fit_boost": 1.5,
+      "best_for": ["非エンジニア", "副業ワーカー"]
+    },
+    {
+      "angle": "ステップバイステップガイド",
+      "monetization_boost": 2.0,
+      "threads_fit_boost": 0.5,
+      "best_for": ["初心者", "非エンジニア"]
+    },
+    {
+      "angle": "失敗談＋解決策",
+      "monetization_boost": 0.5,
+      "threads_fit_boost": 2.0,
+      "best_for": ["非エンジニア", "副業ワーカー", "会社員"]
+    },
+    {
+      "angle": "比較レポート",
+      "monetization_boost": 1.0,
+      "threads_fit_boost": 1.0,
+      "best_for": ["エンジニア", "副業ワーカー"]
+    },
+    {
+      "angle": "収益公開＋実践法",
+      "monetization_boost": 3.0,
+      "threads_fit_boost": 1.5,
+      "best_for": ["副業ワーカー", "会社員"]
+    }
+  ],
+  "price_rules": [
+    {
+      "condition": "angle == '収益公開＋実践法'",
+      "range": "980-1980円"
+    },
+    {
+      "condition": "angle == 'ステップバイステップガイド'",
+      "range": "500-980円"
+    },
+    {
+      "condition": "angle == '体験談＋本音レポート'",
+      "range": "0-300円"
+    },
+    {
+      "condition": "default",
+      "range": "300-980円"
+    }
+  ]
+}

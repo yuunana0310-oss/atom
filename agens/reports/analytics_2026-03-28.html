@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投稿分析レポート — 2026-03-28</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0b18; --card: #13131f; --card2: #1a1a2e;
+    --border: rgba(255,255,255,0.07);
+    --accent: #00d4ff; --green: #10b981; --purple: #a78bfa;
+    --orange: #f59e0b; --red: #f87171; --text: #e2e8f0; --muted: #64748b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Noto Sans JP', sans-serif; padding: 32px 24px; line-height: 1.7; }
+
+  h1 { font-size: 1.7rem; font-weight: 900; color: var(--accent); }
+  .subtitle { color: var(--muted); font-size: 0.88rem; margin-bottom: 32px; margin-top: 4px; }
+
+  .section-title { font-size: 1.05rem; font-weight: 700; padding-left: 12px; border-left: 3px solid var(--accent); color: var(--accent); margin: 36px 0 16px; }
+  .section-title.threads { border-color: var(--purple); color: var(--purple); }
+  .section-title.warn { border-color: var(--orange); color: var(--orange); }
+
+  /* KPIカード */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .kpi { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px 16px; text-align: center; }
+  .kpi .num { font-size: 2.2rem; font-weight: 900; line-height: 1.1; }
+  .kpi .label { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+  .kpi .change { font-size: 0.72rem; margin-top: 4px; }
+  .up { color: var(--green); } .down { color: var(--red); } .neutral { color: var(--muted); }
+
+  /* テーブル */
+  table { width: 100%; border-collapse: collapse; font-size: 0.84rem; margin-bottom: 20px; }
+  th { padding: 10px 12px; text-align: left; background: var(--card2); color: var(--muted); font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* バー */
+  .bar-wrap { width: 100%; background: rgba(255,255,255,0.05); border-radius: 99px; height: 8px; margin-top: 4px; }
+  .bar { height: 8px; border-radius: 99px; }
+
+  /* インサイトカード */
+  .insight { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 14px; }
+  .insight .tag { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .insight p { font-size: 0.88rem; color: var(--text); line-height: 1.8; }
+  .insight .action { background: var(--card2); border-radius: 8px; padding: 10px 14px; margin-top: 12px; font-size: 0.83rem; }
+  .insight .action strong { color: var(--accent); }
+
+  /* アラートボックス */
+  .alert { border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; font-size: 0.86rem; }
+  .alert.warn { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3); color: var(--orange); }
+  .alert.info { background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.2); color: var(--accent); }
+  .alert.ok   { background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.2); color: var(--green); }
+
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 0.73rem; font-weight: 700; }
+  .badge.new { background: rgba(16,185,129,0.15); color: var(--green); }
+  .badge.pending { background: rgba(245,158,11,0.15); color: var(--orange); }
+  .badge.posted { background: rgba(0,212,255,0.15); color: var(--accent); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+  .mini-card { background: var(--card2); border-radius: 10px; padding: 14px; }
+  .mini-card h4 { font-size: 0.8rem; color: var(--muted); margin-bottom: 8px; }
+
+  code { background: rgba(255,255,255,0.08); padding: 1px 6px; border-radius: 4px; font-family: monospace; font-size: 0.8rem; color: #a5f3fc; }
+</style>
+</head>
+<body>
+
+<h1>投稿分析レポート</h1>
+<p class="subtitle">2026-03-28 14:00 時点 ／ note.com ＋ Threads</p>
+
+<!-- ===================== note分析 ===================== -->
+<div class="section-title">note.com 分析</div>
+
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="num" style="color:var(--accent)">2</div>
+    <div class="label">公開済み記事数</div>
+  </div>
+  <div class="kpi">
+    <div class="num" style="color:var(--orange)">0</div>
+    <div class="label">フォロワー数</div>
+    <div class="change neutral">始動から2日</div>
+  </div>
+  <div class="kpi">
+    <div class="num" style="color:var(--green)">1</div>
+    <div class="label">総いいね数</div>
+    <div class="change neutral">「親にAI」記事</div>
+  </div>
+  <div class="kpi">
+    <div class="num" style="color:var(--purple)">8</div>
+    <div class="label">フォロー中</div>
+  </div>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>記事タイトル</th>
+      <th>公開日</th>
+      <th>経過</th>
+      <th>いいね</th>
+      <th>価格</th>
+      <th>状態</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <strong>親にAIを教えた話。思っていたよりずっと素直に使ってもらえた理由</strong>
+        <div style="font-size:0.75rem; color:var(--muted); margin-top:3px;">個人体験×AI ／ 感情共感系</div>
+      </td>
+      <td>2026-03-26</td>
+      <td>2日</td>
+      <td><strong style="color:var(--green)">1</strong></td>
+      <td>無料</td>
+      <td><span class="badge posted">公開中</span></td>
+    </tr>
+    <tr>
+      <td>
+        <strong>理学療法士がAIでカルテを作り始めた話</strong>
+        <div style="font-size:0.75rem; color:var(--muted); margin-top:3px;">リハカルテ開発記 ／ 体験談×専門職</div>
+      </td>
+      <td>2026-03-28</td>
+      <td>本日</td>
+      <td><strong style="color:var(--muted)">0</strong></td>
+      <td>無料</td>
+      <td><span class="badge new">公開中（当日）</span></td>
+    </tr>
+    <tr style="opacity:0.5">
+      <td><strong>AIツールに月2万円課金して残ったもの、やめたもの</strong></td>
+      <td>—</td><td>—</td><td>—</td>
+      <td>無料</td>
+      <td><span class="badge pending">未公開（金曜予定）</span></td>
+    </tr>
+    <tr style="opacity:0.5">
+      <td><strong>【非エンジニアが実証】Claude Codeでアプリを0から作る手順</strong></td>
+      <td>—</td><td>—</td><td>—</td>
+      <td>300円</td>
+      <td><span class="badge pending">未公開（水曜予定）</span></td>
+    </tr>
+    <tr style="opacity:0.5">
+      <td><strong>noteで売れる記事をAIで書く方法【プロンプト全公開】</strong></td>
+      <td>—</td><td>—</td><td>—</td>
+      <td>300円</td>
+      <td><span class="badge pending">未公開（日曜予定）</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="alert info">
+  <strong>📊 現状評価:</strong> 開始2日でフォロワー0・いいね1は「正常」です。noteはGoogleや検索からの流入が主体で、ファン獲得には2〜4週間かかります。Threadsからの誘導が現時点での唯一の流入経路です。
+</div>
+
+<div class="two-col" style="margin-bottom:20px;">
+  <div class="insight">
+    <div class="tag" style="color:var(--green)">✅ うまくいっていること</div>
+    <p>「親にAIを教えた話」は公開2日でいいね1。<br>note市場で最強パターンとされる<strong>個人体験×AI</strong>の記事で早期反応あり。<br>タグ設定（AI・理学療法士・医療従事者・非エンジニア等）が適切に設定されている。</p>
+  </div>
+  <div class="insight">
+    <div class="tag" style="color:var(--orange)">⚠️ 課題</div>
+    <p>Threadsからnoteへの誘導が<strong>URLリンク付き</strong>だったため、アルゴリズムによるリーチ抑制を受けた可能性あり（30〜60%減）。<br>フォロワー0の状態では自然流入がなく、SNS誘導が唯一の入口になっている。</p>
+    <div class="action"><strong>→ 対策済み:</strong> 以降のThreads投稿はURL削除・プロフィール誘導に変更済み</div>
+  </div>
+</div>
+
+
+<!-- ===================== Threads分析 ===================== -->
+<div class="section-title threads">Threads 分析</div>
+
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="num" style="color:var(--purple)">28</div>
+    <div class="label">総投稿数</div>
+    <div class="change neutral">全件 posted</div>
+  </div>
+  <div class="kpi">
+    <div class="num" style="color:var(--accent)">8.28</div>
+    <div class="label">平均品質スコア</div>
+    <div class="change up">↑ 閾値7.0を大きく上回る</div>
+  </div>
+  <div class="kpi">
+    <div class="num" style="color:var(--green)">9.0</div>
+    <div class="label">最高スコア</div>
+    <div class="change neutral">テーマ: 転職準備</div>
+  </div>
+  <div class="kpi">
+    <div class="num" style="color:var(--red)">0</div>
+    <div class="label">エンゲージメント取得</div>
+    <div class="change down">Fetcherが未実行</div>
+  </div>
+  <div class="kpi">
+    <div class="num" style="color:var(--orange)">STOP</div>
+    <div class="label">自動投稿状態</div>
+    <div class="change neutral">KILL_SWITCH有効</div>
+  </div>
+</div>
+
+<div class="alert warn">
+  <strong>⚠️ エンゲージメントデータ（いいね・閲覧数）が0件:</strong> FetcherエージェントがKILL_SWITCH停止中のため、投稿後24時間のメトリクス取得が一度も実行されていません。実際のパフォーマンスが不明な状態です。<br>
+  <strong>対応:</strong> <code>python main.py --agent fetcher</code> を手動で1回実行するとデータが取得できます（KILL_SWITCH中でもfetcherは単独実行可能か確認が必要）。
+</div>
+
+<!-- テーマ別投稿数 -->
+<div style="margin-bottom: 24px;">
+  <h3 style="font-size:0.9rem; color:var(--muted); margin-bottom:12px; text-transform:uppercase; letter-spacing:1px;">テーマ別投稿数</h3>
+  <table>
+    <thead><tr><th>テーマ</th><th>投稿数</th><th>構成比</th><th>戦略との整合</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>転職準備</td><td>5</td>
+        <td><div class="bar-wrap"><div class="bar" style="width:100%; background:var(--purple)"></div></div></td>
+        <td><span style="color:var(--red); font-size:0.78rem;">⚠️ 新戦略と不一致（旧テーマ）</span></td>
+      </tr>
+      <tr>
+        <td>AI副業の始め方</td><td>3</td>
+        <td><div class="bar-wrap"><div class="bar" style="width:60%; background:var(--purple)"></div></div></td>
+        <td><span style="color:var(--orange); font-size:0.78rem;">△ 部分一致</span></td>
+      </tr>
+      <tr>
+        <td>専門知識</td><td>2</td>
+        <td><div class="bar-wrap"><div class="bar" style="width:40%; background:var(--accent)"></div></div></td>
+        <td><span style="color:var(--green); font-size:0.78rem;">✅ 新戦略に近い</span></td>
+      </tr>
+      <tr>
+        <td>AI画像・動画編集</td><td>2</td>
+        <td><div class="bar-wrap"><div class="bar" style="width:40%; background:var(--muted)"></div></div></td>
+        <td><span style="color:var(--red); font-size:0.78rem;">⚠️ 方向性と無関係</span></td>
+      </tr>
+      <tr>
+        <td>AIトレンド</td><td>2</td>
+        <td><div class="bar-wrap"><div class="bar" style="width:40%; background:var(--accent)"></div></div></td>
+        <td><span style="color:var(--green); font-size:0.78rem;">✅ 一致</span></td>
+      </tr>
+      <tr>
+        <td>AI業務効率化</td><td>2</td>
+        <td><div class="bar-wrap"><div class="bar" style="width:40%; background:var(--accent)"></div></div></td>
+        <td><span style="color:var(--green); font-size:0.78rem;">✅ 一致</span></td>
+      </tr>
+      <tr>
+        <td>AIライティング</td><td>1</td>
+        <td><div class="bar-wrap"><div class="bar" style="width:20%; background:var(--accent)"></div></div></td>
+        <td><span style="color:var(--green); font-size:0.78rem;">✅ 一致</span></td>
+      </tr>
+      <tr>
+        <td>リハカルテ開発裏話</td><td>1</td>
+        <td><div class="bar-wrap"><div class="bar" style="width:20%; background:var(--green)"></div></div></td>
+        <td><span style="color:var(--green); font-size:0.78rem;">✅ 新戦略の核心</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- パターン別 -->
+<div style="margin-bottom: 24px;">
+  <h3 style="font-size:0.9rem; color:var(--muted); margin-bottom:12px; text-transform:uppercase; letter-spacing:1px;">投稿パターン別 分布</h3>
+  <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap:10px;">
+    <div class="mini-card"><h4>comment_hook</h4><div style="font-size:1.5rem; font-weight:900; color:var(--purple)">4</div><div style="font-size:0.73rem; color:var(--muted)">コメント誘導型</div></div>
+    <div class="mini-card"><h4>demand_check</h4><div style="font-size:1.5rem; font-weight:900; color:var(--purple)">4</div><div style="font-size:0.73rem; color:var(--muted)">需要確認型</div></div>
+    <div class="mini-card"><h4>expose_type</h4><div style="font-size:1.5rem; font-weight:900; color:var(--purple)">4</div><div style="font-size:0.73rem; color:var(--muted)">暴露・本音型</div></div>
+    <div class="mini-card"><h4>question_answer</h4><div style="font-size:1.5rem; font-weight:900; color:var(--accent)">2</div><div style="font-size:0.73rem; color:var(--muted)">Q&A型</div></div>
+    <div class="mini-card"><h4>timeline</h4><div style="font-size:1.5rem; font-weight:900; color:var(--accent)">2</div><div style="font-size:0.73rem; color:var(--muted)">時系列ストーリー型</div></div>
+    <div class="mini-card"><h4>checklist</h4><div style="font-size:1.5rem; font-weight:900; color:var(--accent)">2</div><div style="font-size:0.73rem; color:var(--muted)">チェックリスト型</div></div>
+    <div class="mini-card"><h4>experience_share</h4><div style="font-size:1.5rem; font-weight:900; color:var(--accent)">2</div><div style="font-size:0.73rem; color:var(--muted)">体験談型</div></div>
+    <div class="mini-card" style="border:1px solid rgba(16,185,129,0.3)"><h4>story_hook（new）</h4><div style="font-size:1.5rem; font-weight:900; color:var(--green)">1</div><div style="font-size:0.73rem; color:var(--muted)">note誘導ストーリー型</div></div>
+  </div>
+</div>
+
+
+<!-- ===================== 総合インサイト ===================== -->
+<div class="section-title warn">総合インサイトと次のアクション</div>
+
+<div class="insight">
+  <div class="tag" style="color:var(--red)">🔴 最重要問題: エンゲージメントデータが取れていない</div>
+  <p>28件投稿済みなのに、いいね・閲覧・リプライ数がすべて不明。これでは何が刺さったか判断できず、コンテンツの改善ができない。</p>
+  <div class="action">
+    <strong>今すぐやること →</strong> Fetcherを手動で1回実行してデータを取得する<br>
+    <code>python main.py --agent fetcher</code>（KILL_SWITCHを一時解除して実行、または別途確認）
+  </div>
+</div>
+
+<div class="insight">
+  <div class="tag" style="color:var(--orange)">🟠 テーマ不一致: 28件中7件（25%）が旧戦略テーマ</div>
+  <p>「転職準備」（5件）と「AI画像・動画編集」（2件）はPT×AI開発者という新アカウント戦略と無関係。これらはフォロワー定着につながらない。<code>theme_tree.json</code>の更新が急務。</p>
+  <div class="action">
+    <strong>対応 →</strong> <code>knowledge/theme_tree.json</code> に「AI×医療」「リハカルテ開発記録」「Claude Code非エンジニア実践」を追加。「転職準備」「AI画像・動画編集」の比重を下げる。
+  </div>
+</div>
+
+<div class="insight">
+  <div class="tag" style="color:var(--green)">🟢 うまくいっていること: Writer品質は高い</div>
+  <p>平均スコア8.28は閾値7.0を大きく上回っており、28件全てが投稿基準を満たしている。パターンも8種類使い分けられており、重複・マンネリ化は起きていない。</p>
+  <div class="action">
+    <strong>維持すること →</strong> スコア閾値7.0は維持。新テーマを追加した後もWriterの品質基準は変えない。
+  </div>
+</div>
+
+<div class="insight">
+  <div class="tag" style="color:var(--accent)">🔵 note: 2日目としては正常スタート</div>
+  <p>フォロワー0・いいね1は「失敗」ではなく「まだ始まっていない」状態。noteは1〜2ヶ月かけて育つメディア。現時点で唯一の流入経路はThreadsからの誘導のみで、URL削除対応済みなので今後の改善が期待できる。</p>
+  <div class="action">
+    <strong>今週のアクション →</strong> 残り3本（02・03・04）を週次スケジュール通りに公開。Threadsで毎回プロフィール誘導の投稿を出す。
+  </div>
+</div>
+
+
+<!-- 今週のアクションリスト -->
+<div style="background: linear-gradient(135deg, rgba(0,212,255,0.04), rgba(124,58,237,0.04)); border:1px solid rgba(0,212,255,0.15); border-radius:14px; padding:22px; margin-top:8px;">
+  <h3 style="color:var(--accent); font-size:0.95rem; margin-bottom:14px;">今週やること（優先順）</h3>
+  <table style="margin:0;">
+    <thead><tr><th>#</th><th>アクション</th><th>担当</th><th>期限</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Fetcherを手動実行して過去28件のエンゲージメントデータを取得</td>
+        <td>SNS部</td>
+        <td style="color:var(--red)">今すぐ</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><code>theme_tree.json</code>更新（AI×医療・リハカルテ追加）</td>
+        <td>SNS部</td>
+        <td style="color:var(--red)">今日</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>note 02「AIツール課金」を金曜公開</td>
+        <td>マーケティング部</td>
+        <td>金</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>note 03「Claude Code 300円」を水曜公開</td>
+        <td>マーケティング部</td>
+        <td>水</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>note 04「note記事AI化 300円」を日曜公開</td>
+        <td>マーケティング部</td>
+        <td>日</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Threads投稿バッチ12本を週次スケジュール通りに手動投稿</td>
+        <td>SNS部</td>
+        <td>毎日</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

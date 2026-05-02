@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特養 機能訓練指導員配置計画 — 院長向け説明資料</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap');
+
+        :root {
+            --blue-dark:   #1e3a8a;
+            --blue:        #2563eb;
+            --blue-light:  #eff6ff;
+            --green-dark:  #14532d;
+            --green:       #16a34a;
+            --green-light: #f0fdf4;
+            --amber-dark:  #78350f;
+            --amber:       #d97706;
+            --amber-light: #fffbeb;
+            --red-dark:    #7f1d1d;
+            --red:         #dc2626;
+            --red-light:   #fef2f2;
+            --gray-900:    #111827;
+            --gray-700:    #374151;
+            --gray-500:    #6b7280;
+            --gray-200:    #e5e7eb;
+            --gray-50:     #f9fafb;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans JP', 'Yu Gothic', sans-serif;
+            background: #e8edf5;
+            color: var(--gray-900);
+            line-height: 1.75;
+        }
+
+        /* ===== LAYOUT ===== */
+        .page {
+            max-width: 1100px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.18);
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 60%, #3b82f6 100%);
+            color: white;
+            padding: 72px 56px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 360px; height: 360px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        .header-label {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.35);
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            margin-bottom: 24px;
+        }
+        .header h1 {
+            font-size: 42px;
+            font-weight: 900;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+            margin-bottom: 18px;
+        }
+        .header .subtitle {
+            font-size: 18px;
+            opacity: 0.88;
+            font-weight: 400;
+        }
+        .header .meta {
+            margin-top: 32px;
+            font-size: 13px;
+            opacity: 0.7;
+            display: flex;
+            gap: 24px;
+        }
+
+        /* ===== CONCLUSION BANNER ===== */
+        .conclusion-banner {
+            background: linear-gradient(135deg, #065f46, #059669);
+            color: white;
+            padding: 36px 56px;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            border-bottom: 4px solid #10b981;
+        }
+        .conclusion-banner .icon {
+            font-size: 52px;
+            flex-shrink: 0;
+        }
+        .conclusion-banner h2 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .conclusion-banner p {
+            font-size: 15px;
+            opacity: 0.92;
+            line-height: 1.7;
+        }
+
+        /* ===== TOC ===== */
+        .toc {
+            background: var(--gray-50);
+            padding: 32px 56px;
+            border-bottom: 2px solid var(--gray-200);
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .toc-item {
+            background: white;
+            border: 1.5px solid var(--gray-200);
+            border-left: 4px solid var(--blue);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--blue-dark);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .toc-item:hover {
+            background: var(--blue-light);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* ===== CONTENT AREA ===== */
+        .content { padding: 64px 56px; }
+
+        /* ===== SECTION ===== */
+        .section { margin-bottom: 72px; }
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--blue-light);
+            color: var(--blue);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--blue-dark);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        .section-desc {
+            font-size: 16px;
+            color: var(--gray-500);
+            margin-bottom: 36px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        /* ===== ALERT BOXES ===== */
+        .alert {
+            padding: 20px 24px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        .alert-blue   { background: var(--blue-light);  border-color: var(--blue);  color: var(--blue-dark); }
+        .alert-green  { background: var(--green-light); border-color: var(--green); color: var(--green-dark); }
+        .alert-amber  { background: var(--amber-light); border-color: var(--amber); color: var(--amber-dark); }
+        .alert-red    { background: var(--red-light);   border-color: var(--red);   color: var(--red-dark); }
+        .alert-title {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            opacity: 0.7;
+            margin-bottom: 6px;
+        }
+        .alert strong { font-weight: 700; }
+
+        /* ===== LEGAL BASIS CARDS ===== */
+        .law-card {
+            background: white;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .law-card-header {
+            background: linear-gradient(90deg, var(--blue), #1d4ed8);
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .law-card-header .icon { font-size: 22px; }
+        .law-card-header .title { font-size: 17px; font-weight: 700; flex: 1; }
+        .law-card-header .source {
+            font-size: 12px;
+            opacity: 0.8;
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+        .law-card-body { padding: 24px; }
+        .law-quote {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid var(--blue);
+            padding: 18px 22px;
+            border-radius: 8px;
+            font-size: 14.5px;
+            line-height: 1.8;
+            color: var(--gray-700);
+            margin-bottom: 18px;
+            font-style: italic;
+        }
+        .law-point {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            font-size: 14.5px;
+        }
+        .law-point .dot {
+            width: 22px;
+            height: 22px;
+            background: var(--blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* ===== SCENARIO CARDS ===== */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            margin-bottom: 36px;
+        }
+        .scenario-card {
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+        .scenario-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.14);
+        }
+        .scenario-card-head {
+            padding: 24px 28px;
+            color: white;
+        }
+        .scenario-card-head.green { background: linear-gradient(135deg, #047857, #10b981); }
+        .scenario-card-head.amber { background: linear-gradient(135deg, #b45309, #f59e0b); }
+        .scenario-card-head .label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            opacity: 0.85;
+            margin-bottom: 6px;
+        }
+        .scenario-card-head h3 { font-size: 20px; font-weight: 800; }
+        .scenario-card-head .verdict {
+            margin-top: 10px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        .scenario-card-body { background: white; padding: 24px 28px; }
+        .check-list { list-style: none; }
+        .check-list li {
+            font-size: 14.5px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            color: var(--gray-700);
+        }
+        .check-list li:last-child { border-bottom: none; }
+        .check-list li .icon { flex-shrink: 0; margin-top: 1px; }
+
+        /* ===== FLOW DIAGRAM ===== */
+        .flow {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            position: relative;
+            margin-bottom: 12px;
+        }
+        .flow::after {
+            content: "";
+            position: absolute;
+            top: 40px;
+            left: 12.5%;
+            width: 75%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--blue), #60a5fa);
+            z-index: 0;
+        }
+        .flow-step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            padding: 0 8px;
+        }
+        .flow-num {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0 auto 14px;
+            border: 3px solid white;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+        }
+        .flow-step h4 { font-size: 14px; font-weight: 700; color: var(--blue-dark); margin-bottom: 5px; }
+        .flow-step p  { font-size: 12px; color: var(--gray-500); }
+
+        /* ===== COMPARISON TABLE ===== */
+        .comp-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            font-size: 14.5px;
+        }
+        .comp-table th {
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+            color: white;
+            padding: 18px 22px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .comp-table th:first-child { border-top-left-radius: 12px; }
+        .comp-table th:last-child  { border-top-right-radius: 12px; }
+        .comp-table td {
+            padding: 16px 22px;
+            border-bottom: 1px solid var(--gray-200);
+            vertical-align: top;
+            line-height: 1.6;
+        }
+        .comp-table tr:nth-child(even) td { background: var(--gray-50); }
+        .comp-table tr:last-child td:first-child { border-bottom-left-radius: 12px; }
+        .comp-table tr:last-child td:last-child  { border-bottom-right-radius: 12px; }
+        .comp-table tr:last-child td { border-bottom: none; }
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .tag-ok  { background: #dcfce7; color: var(--green-dark); }
+        .tag-ng  { background: #fee2e2; color: var(--red-dark); }
+        .tag-tip { background: #fef3c7; color: var(--amber-dark); }
+
+        /* ===== RISK BOX ===== */
+        .risk-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        .risk-box {
+            border-radius: 12px;
+            padding: 24px;
+            border: 2px solid;
+        }
+        .risk-box.safe   { border-color: var(--green); background: var(--green-light); }
+        .risk-box.danger { border-color: var(--amber); background: var(--amber-light); }
+        .risk-box .risk-title {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .risk-box.safe .risk-title   { color: var(--green-dark); }
+        .risk-box.danger .risk-title { color: var(--amber-dark); }
+        .risk-box .risk-percent {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 6px;
+        }
+        .risk-box.safe .risk-percent   { color: var(--green); }
+        .risk-box.danger .risk-percent { color: var(--amber); }
+        .risk-box p { font-size: 13.5px; color: var(--gray-700); }
+
+        /* ===== STEP PLAN ===== */
+        .step-plan { counter-reset: step-counter; }
+        .step-item {
+            display: flex;
+            gap: 20px;
+            padding: 22px;
+            background: var(--gray-50);
+            border-radius: 10px;
+            border-left: 4px solid var(--blue);
+            margin-bottom: 16px;
+            transition: background 0.2s;
+        }
+        .step-item:hover { background: var(--blue-light); }
+        .step-num {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .step-content h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: var(--blue-dark); }
+        .step-content p  { font-size: 14px; color: var(--gray-700); }
+        .step-tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        .step-tag.week1 { background: #dbeafe; color: #1e40af; }
+        .step-tag.week2 { background: #ede9fe; color: #4c1d95; }
+        .step-tag.month2 { background: #dcfce7; color: #14532d; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--gray-900);
+            color: rgba(255,255,255,0.85);
+            padding: 44px 56px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 28px;
+        }
+        .footer h3 { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+        .footer ul { list-style: none; }
+        .footer li { font-size: 13px; padding: 5px 0; opacity: 0.85; padding-left: 14px; position: relative; }
+        .footer li::before { content: "›"; position: absolute; left: 0; color: #60a5fa; }
+        .footer-note {
+            border-top: 1px solid rgba(255,255,255,0.12);
+            padding-top: 20px;
+            font-size: 12px;
+            opacity: 0.6;
+            line-height: 1.8;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .content { padding: 40px 28px; }
+            .header  { padding: 48px 28px 40px; }
+            .header h1 { font-size: 30px; }
+            .scenario-grid, .risk-grid, .footer-grid { grid-template-columns: 1fr; }
+            .flow { grid-template-columns: repeat(2, 1fr); }
+            .flow::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <div class="header-label">🏥 院長向け意思決定資料 — 機密</div>
+        <h1>特養機能訓練指導員<br>パートタイム出向配置<br>実施可否レポート</h1>
+        <p class="subtitle">法的根拠に基づく適法性の整理と、実装に向けた意思決定ガイド</p>
+        <div class="meta">
+            <span>📅 作成日：2026年4月14日</span>
+            <span>📌 対象：法人院長</span>
+            <span>⚖️ 関連：介護保険法・厚労省Q&A</span>
+        </div>
+    </div>
+
+    <!-- ===== CONCLUSION BANNER ===== -->
+    <div class="conclusion-banner">
+        <div class="icon">✅</div>
+        <div>
+            <h2>結論：法的根拠あり・実施可能</h2>
+            <p>
+                2021年4月の介護報酬改定により、<strong style="color:#a7f3d0;">あん摩マッサージ指圧師をパートタイムで機能訓練指導員として配置することは、法令上認められています。</strong><br>
+                ただし「個別機能訓練加算」を算定している場合は、都道府県への事前相談と書面による確認が必須です。以下でその根拠を順にご説明します。
+            </p>
+        </div>
+    </div>
+
+    <!-- ===== TOC ===== -->
+    <div class="toc">
+        <div class="toc-item">§1 法的根拠</div>
+        <div class="toc-item">§2 配置シナリオ</div>
+        <div class="toc-item">§3 リスク評価</div>
+        <div class="toc-item">§4 シナリオ比較</div>
+        <div class="toc-item">§5 実施プラン</div>
+    </div>
+
+    <div class="content">
+
+        <!-- ===== §1 法的根拠 ===== -->
+        <div class="section" id="law">
+            <div class="section-badge">§ 1</div>
+            <h2 class="section-title">法的根拠の整理</h2>
+            <p class="section-desc">今回の配置計画を支える4つの法的根拠をご説明します。いずれも厚生労働省の公式資料・Q&Aに基づきます。</p>
+
+            <!-- 根拠1 -->
+            <div class="law-card">
+                <div class="law-card-header">
+                    <span class="icon">📖</span>
+                    <span class="title">根拠①：あん摩マッサージ指圧師は機能訓練指導員に認定されている</span>
+                    <span class="source">厚労省 令和3年度Q&A</span>
+                </div>
+                <div class="law-card-body">
+                    <div class="law-quote">
+                        「機能訓練指導員は、理学療法士、作業療法士、言語聴覚士、看護職員、<strong>柔道整復師、あん摩マッサージ指圧師</strong>、鍼灸師の資格を有する者でなければならない。」
+                    </div>
+                    <div class="law-point"><div class="dot">✓</div><div>あん摩マッサージ指圧師は法令で明示された<strong>認定資格</strong>です。新たな認定手続きは不要です。</div></div>
+                    <div class="law-point"><div class="dot">✓</div><div>資格証のコピーを施設に提出するだけで、機能訓練指導員として勤務を開始できます。</div></div>
+                </div>
+            </div>
+
+            <!-- 根拠2 -->
+            <div class="law-card">
+                <div class="law-card-header">
+                    <span class="icon">⏱️</span>
+                    <span class="title">根拠②：パートタイムでも「常勤」と認定される</span>
+                    <span class="source">厚労省老健局「人員配置基準等」2021年4月1日</span>
+                </div>
+                <div class="law-card-body">
+                    <div class="law-quote">
+                        「常勤とは、当該事業所において<strong>常勤の従業者が勤務すべき時間数に達している従業者</strong>をいう。ただし、常勤の従業者が勤務すべき時間数が週32時間を下回る場合は、週32時間を基本とする。」
+                    </div>
+                    <div class="law-point"><div class="dot">①</div><div><strong>雇用形態（正社員・パート）は関係ありません。</strong><br>判定基準は「週の勤務時間数」のみです。</div></div>
+                    <div class="law-point"><div class="dot">②</div><div>施設の就業規則が「常勤＝週40時間」と定めているなら、週40時間以上勤務していれば「常勤」です。</div></div>
+                    <div class="law-point"><div class="dot">③</div><div>最低基準は週32時間。これを下回る設定は法律上認められません（自動的に週32時間が適用されます）。</div></div>
+                    <div class="alert alert-blue" style="margin-top:16px;">
+                        <div class="alert-title">今回の想定</div>
+                        あん摩マッサージ指圧師が<strong>週24時間（午前4h × 月〜土）</strong>勤務の場合、これは「常勤基準未満」となるため、後述の「常勤換算」方式で対応します。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 根拠3 -->
+            <div class="law-card">
+                <div class="law-card-header">
+                    <span class="icon">🕐</span>
+                    <span class="title">根拠③：時間帯分離で「専従」と認定できる</span>
+                    <span class="source">厚労省「令和3年度介護報酬改定Q&A Vol.3」</span>
+                </div>
+                <div class="law-card-body">
+                    <div class="law-quote">
+                        「時間帯を分離することにより、各々の職務を<strong>『専従』として認定できる。</strong>例えば、管理者として3時間、機能訓練指導員として5時間勤務する場合、後者の5時間部分は『機能訓練指導員専従』と認定される。」
+                    </div>
+                    <div class="law-point"><div class="dot">✓</div><div>午前はあん摩マッサージ指圧師として機能訓練、午後は看護職員として勤務という形が認められます。</div></div>
+                    <div class="law-point"><div class="dot">✓</div><div>重要なのは<strong>「時間帯を完全に分離すること」</strong>です。同時に両方の業務を兼ねることはできません。</div></div>
+                    <div class="law-point"><div class="dot">✓</div><div>勤務記録・シフト表で時間帯の分離を明確に記録することが必要です。</div></div>
+                </div>
+            </div>
+
+            <!-- 根拠4 -->
+            <div class="law-card">
+                <div class="law-card-header">
+                    <span class="icon">👥</span>
+                    <span class="title">根拠④：複数人を合算する「常勤換算」は制度上明確に認められている</span>
+                    <span class="source">特別養護老人ホームの人員配置基準・加算算定要件</span>
+                </div>
+                <div class="law-card-body">
+                    <div class="law-quote">
+                        「常勤換算方法とは、当該事業所の従業者の<strong>勤務延時間数を、当該事業所において常勤の従業者が勤務すべき時間数で除すること</strong>により、常勤の従業者の員数に換算する方法をいう。」
+                    </div>
+                    <div class="law-point"><div class="dot">①</div><div>週24時間 ÷ 施設常勤基準40時間 = <strong>0.6常勤換算</strong></div></div>
+                    <div class="law-point"><div class="dot">②</div><div>看護職員（週24時間分の機能訓練指導業務）もあわせると <strong>合計1.2常勤換算</strong><br>→ 加算（Ⅰ）ロなどの「常勤換算1名以上」要件を満たせます。</div></div>
+                    <div class="law-point"><div class="dot">③</div><div>複数人の常勤換算合算は、介護保険制度の人員配置基準として広く利用されています。</div></div>
+                </div>
+            </div>
+
+            <div class="alert alert-green">
+                <div class="alert-title">📌 法的根拠のまとめ</div>
+                <strong>①資格OK → ②時間帯分離でそれぞれ専従 → ③常勤換算して合計1名以上を満たす</strong><br>
+                この3ステップがそろえば、加算算定を失わずに出向配置が実現できます。
+            </div>
+        </div>
+
+        <!-- ===== §2 配置シナリオ ===== -->
+        <div class="section" id="scenario">
+            <div class="section-badge">§ 2</div>
+            <h2 class="section-title">配置シナリオ別の対応</h2>
+            <p class="section-desc">対象特養が「個別機能訓練加算」を算定しているかどうかで、対応が異なります。まず特養側に確認してください。</p>
+
+            <div class="scenario-grid">
+                <div class="scenario-card">
+                    <div class="scenario-card-head green">
+                        <div class="label">シナリオ A</div>
+                        <h3>加算を算定していない場合</h3>
+                        <div class="verdict">✅ 即時実施可能・法的制約なし</div>
+                    </div>
+                    <div class="scenario-card-body">
+                        <ul class="check-list">
+                            <li><span class="icon">✅</span><span>法的制約はほとんどない。今すぐ配置できる</span></li>
+                            <li><span class="icon">✅</span><span>「常勤専従」要件を考慮する必要がない</span></li>
+                            <li><span class="icon">✅</span><span>都道府県への事前相談は最小限でよい</span></li>
+                            <li><span class="icon">✅</span><span>採用・契約コストがほぼゼロで実現できる</span></li>
+                            <li><span class="icon">⚠️</span><span>加算収入は発生しない（施設側メリット限定）</span></li>
+                            <li><span class="icon">⚠️</span><span>施設にとっては「機能訓練の質向上」が主目的となる</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="scenario-card">
+                    <div class="scenario-card-head amber">
+                        <div class="label">シナリオ B</div>
+                        <h3>加算を算定している場合</h3>
+                        <div class="verdict">⚠️ 都道府県への事前相談が必須</div>
+                    </div>
+                    <div class="scenario-card-body">
+                        <ul class="check-list">
+                            <li><span class="icon">✅</span><span>法的根拠はある（§1の根拠①〜④参照）</span></li>
+                            <li><span class="icon">✅</span><span>時間帯分離と常勤換算合算で対応可能</span></li>
+                            <li><span class="icon">✅</span><span>加算収入を継続しながら配置できる</span></li>
+                            <li><span class="icon">⚠️</span><span>都道府県への事前相談と<strong>書面回答の取得が必須</strong></span></li>
+                            <li><span class="icon">⚠️</span><span>相談なしで実施した場合、監査指摘リスクが高い（60〜70%）</span></li>
+                            <li><span class="icon">⚠️</span><span>加算区分（Ⅰイ・Ⅰロ・Ⅱ）によって対応策が異なる</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 加算区分詳細 -->
+            <div class="alert alert-amber">
+                <div class="alert-title">⚠️ 加算算定中の場合は以下を確認してください</div>
+                <table style="width:100%;border-collapse:collapse;font-size:14px;margin-top:10px;">
+                    <tr style="border-bottom:1px solid #f59e0b;">
+                        <th style="text-align:left;padding:8px 12px;color:#78350f;">加算区分</th>
+                        <th style="text-align:left;padding:8px 12px;color:#78350f;">常勤要件</th>
+                        <th style="text-align:left;padding:8px 12px;color:#78350f;">今回の対応</th>
+                    </tr>
+                    <tr style="border-bottom:1px dotted #fcd34d;">
+                        <td style="padding:9px 12px;"><strong>（Ⅰ）イ</strong></td>
+                        <td style="padding:9px 12px;">常勤専従1名</td>
+                        <td style="padding:9px 12px;">時間帯分離 + 常勤換算合算で対応</td>
+                    </tr>
+                    <tr style="border-bottom:1px dotted #fcd34d;">
+                        <td style="padding:9px 12px;"><strong>（Ⅰ）ロ</strong></td>
+                        <td style="padding:9px 12px;">常勤専従1名 + 常勤換算（入所者÷100）</td>
+                        <td style="padding:9px 12px;">専従者 + 看護職員の換算合算で対応</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:9px 12px;"><strong>（Ⅱ）</strong></td>
+                        <td style="padding:9px 12px;">常勤換算 1名/入所者30名</td>
+                        <td style="padding:9px 12px;">最も柔軟。常勤換算で対応しやすい</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 配置イメージ -->
+            <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:28px;margin-top:24px;">
+                <h3 style="font-size:17px;color:var(--blue-dark);margin-bottom:20px;font-weight:700;">📌 具体的な配置イメージ（加算算定中・シナリオBの場合）</h3>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+                    <div style="background:white;border:2px solid #10b981;border-radius:10px;padding:18px;">
+                        <div style="font-size:12px;font-weight:700;color:#059669;margin-bottom:8px;">午前 8:00〜12:00（4時間）</div>
+                        <div style="font-size:16px;font-weight:800;color:#065f46;margin-bottom:10px;">あん摩マッサージ指圧師</div>
+                        <div style="font-size:13px;color:#374151;line-height:1.7;">当院からパートタイム出向<br>→ 機能訓練指導員として<strong>専従</strong><br>月〜土 × 4h ＝ 週24h<br>常勤換算：24 ÷ 40 ＝ <strong>0.6</strong></div>
+                    </div>
+                    <div style="background:white;border:2px solid #3b82f6;border-radius:10px;padding:18px;">
+                        <div style="font-size:12px;font-weight:700;color:#2563eb;margin-bottom:8px;">午後 13:00〜17:00（4時間）</div>
+                        <div style="font-size:16px;font-weight:800;color:#1e3a8a;margin-bottom:10px;">看護職員（特養常勤）</div>
+                        <div style="font-size:13px;color:#374151;line-height:1.7;">看護業務終了後に切り替え<br>→ 機能訓練指導員として<strong>兼務</strong><br>月〜土 × 4h ＝ 週24h<br>常勤換算：24 ÷ 40 ＝ <strong>0.6</strong></div>
+                    </div>
+                </div>
+                <div style="background:white;border:2px solid var(--blue);border-radius:10px;padding:18px;margin-top:16px;text-align:center;">
+                    <div style="font-size:14px;color:var(--gray-500);margin-bottom:4px;">合計常勤換算</div>
+                    <div style="font-size:32px;font-weight:900;color:var(--blue-dark);">0.6 + 0.6 = 1.2 常勤換算</div>
+                    <div style="font-size:13px;color:var(--green);font-weight:700;margin-top:4px;">✅ 「常勤換算1名以上」の要件を満たす</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== §3 リスク評価 ===== -->
+        <div class="section" id="risk">
+            <div class="section-badge">§ 3</div>
+            <h2 class="section-title">リスク評価</h2>
+            <p class="section-desc">都道府県への事前相談の有無で、監査指摘リスクが劇的に変わります。</p>
+
+            <div class="risk-grid">
+                <div class="risk-box safe">
+                    <div class="risk-title">✅ 事前相談した場合</div>
+                    <div class="risk-percent">5〜10%</div>
+                    <p><strong>監査指摘のリスク</strong><br>都道府県の書面回答を根拠に「行政と協議の上で実施」と説明でき、指摘されてもリスクがほぼなくなります。</p>
+                </div>
+                <div class="risk-box danger">
+                    <div class="risk-title">⚠️ 事前相談しなかった場合</div>
+                    <div class="risk-percent">60〜70%</div>
+                    <p><strong>監査指摘のリスク</strong><br>加算返金を求められる可能性があります。法的根拠はあっても、行政の確認なしでは「自己解釈」と取られるリスクがあります。</p>
+                </div>
+            </div>
+
+            <div class="alert alert-red">
+                <div class="alert-title">🔴 加算返金リスクについて</div>
+                <strong>監査で指摘された場合、過去の加算分（最大で数年分）の返金を求められる可能性があります。</strong><br>
+                都道府県への事前相談は費用ゼロで行えます。書面回答を取得しておくことで、このリスクをほぼゼロにできます。
+            </div>
+        </div>
+
+        <!-- ===== §4 比較表 ===== -->
+        <div class="section" id="compare">
+            <div class="section-badge">§ 4</div>
+            <h2 class="section-title">シナリオ別・全体比較</h2>
+            <p class="section-desc">院長の意思決定に必要な情報を一覧で整理しました。</p>
+
+            <table class="comp-table">
+                <tr>
+                    <th style="width:28%">比較項目</th>
+                    <th style="width:36%">シナリオ A（加算なし）</th>
+                    <th style="width:36%">シナリオ B（加算あり）</th>
+                </tr>
+                <tr>
+                    <td><strong>法的可否</strong></td>
+                    <td><span class="tag tag-ok">✅ 完全に可能</span></td>
+                    <td><span class="tag tag-ok">✅ 根拠あり（要件あり）</span></td>
+                </tr>
+                <tr>
+                    <td><strong>常勤要件</strong></td>
+                    <td>加算算定なし → 制約なし</td>
+                    <td>「常勤専従」が要件。時間帯分離・常勤換算で対応</td>
+                </tr>
+                <tr>
+                    <td><strong>都道府県相談</strong></td>
+                    <td><span class="tag tag-ok">不要（形式確認のみ）</span></td>
+                    <td><span class="tag tag-tip">⚠️ 必須（書面回答を取得）</span></td>
+                </tr>
+                <tr>
+                    <td><strong>監査指摘リスク</strong></td>
+                    <td><span class="tag tag-ok">5%未満</span></td>
+                    <td><span class="tag tag-tip">事前相談あり：5〜10%<br>事前相談なし：60〜70%</span></td>
+                </tr>
+                <tr>
+                    <td><strong>加算収入への影響</strong></td>
+                    <td>影響なし（そもそも算定なし）</td>
+                    <td>正しく実施すれば維持できる</td>
+                </tr>
+                <tr>
+                    <td><strong>実装までの期間</strong></td>
+                    <td><span class="tag tag-ok">1〜2ヵ月</span></td>
+                    <td><span class="tag tag-tip">3〜4ヵ月（相談期間含む）</span></td>
+                </tr>
+                <tr>
+                    <td><strong>法人コスト</strong></td>
+                    <td>出向契約のみ（採用コストなし）</td>
+                    <td>出向契約 + 行政相談の手間</td>
+                </tr>
+                <tr>
+                    <td><strong>法人メリット</strong></td>
+                    <td>スタッフの就業機会確保、施設との関係強化</td>
+                    <td>上記に加え、加算収益確保のサポートが可能</td>
+                </tr>
+                <tr>
+                    <td><strong>総合推奨度</strong></td>
+                    <td><span class="tag tag-ok">⭐⭐⭐⭐⭐ 即実施推奨</span></td>
+                    <td><span class="tag tag-tip">⭐⭐⭐⭐ 相談後に実施推奨</span></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- ===== §5 実施プラン ===== -->
+        <div class="section" id="plan">
+            <div class="section-badge">§ 5</div>
+            <h2 class="section-title">実施プラン（ロードマップ）</h2>
+            <p class="section-desc">院長の承認が得られた後、以下のステップで進めます。</p>
+
+            <div class="flow" style="margin-bottom:36px;">
+                <div class="flow-step">
+                    <div class="flow-num">1</div>
+                    <h4>特養に確認</h4>
+                    <p>加算の有無と区分を確認</p>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-num">2</div>
+                    <h4>就業規則確認</h4>
+                    <p>常勤時間数の定義を確認</p>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-num">3</div>
+                    <h4>行政相談</h4>
+                    <p>都道府県に電話→書面相談</p>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-num">4</div>
+                    <h4>運用開始</h4>
+                    <p>書面回答取得後に実装</p>
+                </div>
+            </div>
+
+            <div class="step-plan">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <h4>対象特養に「加算算定状況」を確認する <span class="step-tag week1">第1週</span></h4>
+                        <p>「個別機能訓練加算を算定していますか？」「算定している場合、どの区分（Ⅰイ・Ⅰロ・Ⅱ）ですか？」を口頭で確認。シナリオA/Bを決定します。</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <h4>当院の就業規則で「常勤基準」を確認する <span class="step-tag week1">第1週</span></h4>
+                        <p>「常勤職員 = 週○時間」と就業規則に明記されているかを確認します。未定義の場合は規則を整備する必要があります。</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <h4>特養と出向の基本合意を得る <span class="step-tag week2">第2週</span></h4>
+                        <p>出向の基本的な受け入れ意向を確認。勤務時間帯（午前・午後）や担当エリアの調整を行います。</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <h4>（加算ありの場合）都道府県に電話で初期相談 <span class="step-tag week2">第2〜3週</span></h4>
+                        <p>介護保険課に電話し「パートタイム出向職員の機能訓練指導員配置について相談したい」と伝え、担当者につないでもらいます。概要を口頭で説明し、書面相談の許可をもらいます。</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">5</div>
+                    <div class="step-content">
+                        <h4>（加算ありの場合）書面で相談・書面回答を取得する <span class="step-tag month2">第3週〜2ヵ月</span></h4>
+                        <p>相談書類（配置図・法的根拠・質問事項）をメールまたは郵送で提出。書面による回答を受領し、<strong>必ずその文書を保管</strong>します。</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">6</div>
+                    <div class="step-content">
+                        <h4>出向契約・勤務体制を整備して運用開始 <span class="step-tag month2">2〜3ヵ月後</span></h4>
+                        <p>出向契約書を締結し、勤務表・記録様式・個別機能訓練計画書のフォーマットを整備します。開始日以降は月次で記録を管理します。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== FINAL ===== -->
+        <div style="background:linear-gradient(135deg,#1e3a8a,#1d4ed8);border-radius:16px;padding:40px 48px;color:white;text-align:center;">
+            <div style="font-size:13px;opacity:0.8;margin-bottom:10px;letter-spacing:0.1em;">FINAL RECOMMENDATION</div>
+            <h2 style="font-size:28px;font-weight:900;margin-bottom:16px;">今すぐ「特養の加算状況」を確認してください</h2>
+            <p style="font-size:16px;opacity:0.9;max-width:600px;margin:0 auto 24px;line-height:1.8;">
+                法的根拠はあります。あとは特養が加算を算定しているかどうか一点を確認するだけで、実施方針が決まります。加算なし → 即実施。加算あり → 都道府県に相談後に実施。
+            </p>
+            <div style="display:inline-flex;gap:20px;flex-wrap:wrap;justify-content:center;">
+                <div style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:16px 28px;font-size:15px;font-weight:700;">
+                    ✅ 加算なし → 1〜2ヵ月で開始
+                </div>
+                <div style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:16px 28px;font-size:15px;font-weight:700;">
+                    📋 加算あり → 都道府県相談後に開始
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="footer">
+        <div class="footer-grid">
+            <div>
+                <h3>📚 法的根拠一覧</h3>
+                <ul>
+                    <li>厚生労働省老健局「人員配置基準等」（2021年4月1日）— 常勤定義・常勤換算方法</li>
+                    <li>厚生労働省「令和3年度介護報酬改定Q&A」— 機能訓練指導員の認定資格・兼務</li>
+                    <li>厚生労働省「令和3年度介護報酬改定Q&A Vol.3」— 時間帯分離による専従認定</li>
+                    <li>社会保障審議会 介護給付費分科会第223回資料2 — 配置基準の解釈</li>
+                </ul>
+            </div>
+            <div>
+                <h3>⚠️ 重要事項</h3>
+                <ul>
+                    <li>本資料は法的根拠に基づく一般的解釈です</li>
+                    <li>最終判断は必ず都道府県の指導に従ってください</li>
+                    <li>加算算定中の場合は書面回答取得が必須です</li>
+                    <li>都道府県の回答は必ず書面で保管してください</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-note">
+            作成日：2026年4月14日　|　対象：法人院長向け（機密）　|　担当：[担当者名]<br>
+            本資料は介護保険法・厚生労働省Q&Aに基づく一般的な法令解釈です。個別事案については都道府県の指導に従ってください。
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

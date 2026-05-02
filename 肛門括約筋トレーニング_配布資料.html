@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>骨盤底筋トレーニング｜自主練習ガイド</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+
+    :root {
+      --primary: #1a1a1a;
+      --primary-light: #f0f0f0;
+      --primary-mid: #444;
+      --accent: #666;
+      --accent-light: #f7f7f7;
+      --danger: #222;
+      --danger-light: #f4f4f4;
+      --text: #1a1a1a;
+      --text-sub: #555;
+      --border: #ccc;
+      --bg: #e8e8e8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    /* ===== PRINT ===== */
+    @media print {
+      body { background: white; font-size: 12px; }
+      .page { box-shadow: none; margin: 0; max-width: 100%; padding: 20mm 18mm; }
+      .no-print { display: none; }
+      .exercise-card { break-inside: avoid; }
+      .section { break-inside: avoid; }
+    }
+
+    /* ===== LAYOUT ===== */
+    .page {
+      max-width: 794px;
+      margin: 24px auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.15);
+      overflow: hidden;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: var(--primary);
+      color: white;
+      padding: 32px 40px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      right: -40px; top: -40px;
+      width: 220px; height: 220px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      right: 60px; bottom: -60px;
+      width: 160px; height: 160px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 50%;
+    }
+    .header-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 20px;
+      padding: 3px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    .header h1 {
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .header h1 span {
+      font-size: 16px;
+      font-weight: 500;
+      opacity: 0.75;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .header-sub {
+      font-size: 13px;
+      opacity: 0.7;
+      margin-top: 10px;
+    }
+
+    /* ===== CONTENT ===== */
+    .content {
+      padding: 32px 40px 40px;
+    }
+
+    /* ===== PURPOSE BOX ===== */
+    .purpose-box {
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 8px 8px 0;
+      padding: 18px 22px;
+      margin-bottom: 28px;
+    }
+    .purpose-box h2 {
+      color: var(--primary);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .purpose-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .purpose-list li {
+      background: white;
+      border: 1.5px solid #999;
+      color: var(--primary);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* ===== POSTURE FLOW ===== */
+    .posture-flow {
+      background: var(--primary-light);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+    .posture-flow h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+    .posture-steps {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .posture-step {
+      background: white;
+      border: 1.5px solid #aaa;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      min-width: 80px;
+    }
+    .posture-step .step-sub {
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+      color: #666;
+      margin-top: 2px;
+    }
+    .posture-step.current {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    .posture-step.current .step-sub { color: rgba(255,255,255,0.7); }
+    .posture-arrow {
+      font-size: 16px;
+      color: #999;
+      font-weight: 700;
+    }
+
+    /* ===== SECTION TITLE ===== */
+    .section-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--primary);
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 8px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 18px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    /* ===== CAUTION ===== */
+    .caution-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .caution-item {
+      background: var(--accent-light);
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .caution-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: 1px;
+    }
+    .caution-item strong {
+      display: block;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 2px;
+      font-size: 12px;
+    }
+
+    /* ===== EXERCISE CARDS ===== */
+    .exercise-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    .exercise-card {
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .card-header {
+      background: var(--primary);
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .card-header.gray2 { background: #333; }
+    .card-header.gray3 { background: #555; }
+
+    .card-number {
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .card-title-block {}
+    .card-title { font-size: 15px; font-weight: 700; }
+    .card-subtitle { font-size: 11px; opacity: 0.75; margin-top: 1px; }
+
+    .card-body {
+      display: grid;
+      grid-template-columns: 1fr 180px;
+      gap: 0;
+    }
+    .card-text {
+      padding: 18px 20px;
+    }
+    .card-image {
+      border-left: 1px solid var(--border);
+      background: #f7f7f7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 12px;
+      text-align: center;
+    }
+    .img-placeholder {
+      width: 140px;
+      height: 130px;
+      border: 2px dashed #bbb;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      font-size: 11px;
+      background: white;
+      gap: 6px;
+    }
+    .img-placeholder .img-icon { font-size: 28px; }
+    .img-placeholder .img-label { font-size: 10px; color: #bbb; text-align: center; line-height: 1.4; }
+
+    .steps {
+      list-style: none;
+      counter-reset: step;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .steps li {
+      counter-increment: step;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .steps li::before {
+      content: counter(step);
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      width: 20px; height: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .timer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #e8e8e8;
+      color: var(--primary);
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      margin: 10px 0;
+    }
+
+    .tip-box {
+      background: #f5f5f5;
+      border: 1px dashed #aaa;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #444;
+      margin-top: 10px;
+    }
+    .tip-box::before { content: '💡 '; }
+
+    .reps-badge {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      border-radius: 20px;
+      padding: 3px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    /* ===== SCHEDULE ===== */
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .schedule-card {
+      background: var(--primary-light);
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 16px 14px;
+      text-align: center;
+    }
+    .schedule-icon { font-size: 24px; margin-bottom: 6px; }
+    .schedule-time {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .schedule-items {
+      list-style: none;
+      font-size: 12px;
+      color: var(--text);
+      text-align: left;
+    }
+    .schedule-items li {
+      padding: 3px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .schedule-items li:last-child { border-bottom: none; }
+    .schedule-items li::before { content: '✓ '; color: #333; font-weight: 700; }
+    .schedule-total {
+      text-align: center;
+      background: var(--primary);
+      color: white;
+      border-radius: 8px;
+      padding: 10px;
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 28px;
+    }
+
+    /* ===== NG TABLE ===== */
+    .ng-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 28px;
+      font-size: 13px;
+    }
+    .ng-table thead tr {
+      background: var(--primary);
+      color: white;
+    }
+    .ng-table thead th {
+      padding: 10px 16px;
+      text-align: left;
+      font-weight: 700;
+    }
+    .ng-table tbody tr:nth-child(even) { background: #f7f7f7; }
+    .ng-table tbody td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .ng-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #555;
+      font-weight: 700;
+    }
+    .ok-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* ===== TIPS ===== */
+    .tips-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .tip-card {
+      background: var(--primary-light);
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 13px;
+    }
+    .tip-card h4 {
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ===== WARNING BOX ===== */
+    .warning-box {
+      background: #f4f4f4;
+      border: 1.5px solid #999;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      font-size: 13px;
+    }
+    .warning-box h3 {
+      color: var(--primary);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .warning-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .warning-list li::before { content: '▶ '; color: #555; }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--primary);
+      color: white;
+      padding: 20px 40px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      font-size: 12px;
+    }
+    .footer-item label {
+      display: block;
+      font-size: 10px;
+      opacity: 0.6;
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+    .footer-item .footer-value {
+      border-bottom: 1px solid rgba(255,255,255,0.35);
+      padding-bottom: 4px;
+      min-height: 20px;
+    }
+    .footer-date {
+      text-align: right;
+      opacity: 0.5;
+      font-size: 10px;
+      align-self: end;
+    }
+
+    /* ===== PRINT BTN ===== */
+    .print-btn {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s;
+      font-family: inherit;
+    }
+    .print-btn:hover { transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨️ 印刷する</button>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-badge">自主トレーニングガイド</div>
+    <h1>
+      <span>骨盤底筋（肛門括約筋）</span>
+      セルフエクササイズ
+    </h1>
+    <div class="header-sub">理学療法士が指導する、毎日できるトレーニングプログラムです</div>
+  </div>
+
+  <div class="content">
+
+    <!-- 目的 -->
+    <div class="purpose-box">
+      <h2>🎯 このトレーニングで改善できること</h2>
+      <ul class="purpose-list">
+        <li>✔ 便もれ・尿もれの予防</li>
+        <li>✔ 術後の括約筋機能回復</li>
+        <li>✔ 排便コントロール力の向上</li>
+        <li>✔ 産後の骨盤底筋回復</li>
+      </ul>
+    </div>
+
+    <!-- 姿勢の段階 -->
+    <div class="section-title">姿勢のステップアップ</div>
+    <div class="posture-flow" style="margin-bottom:28px;">
+      <h3>慣れてきたら少しずつ姿勢を変えていきましょう</h3>
+      <div class="posture-steps">
+        <div class="posture-step current">
+          仰向け<br>（膝立て位）
+          <span class="step-sub">まずここから</span>
+        </div>
+        <div class="posture-arrow">→</div>
+        <div class="posture-step">
+          座位<br>（椅子）
+          <span class="step-sub">慣れてきたら</span>
+        </div>
+        <div class="posture-arrow">→</div>
+        <div class="posture-step">
+          立位<br>（立った状態）
+          <span class="step-sub">さらに慣れたら</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 注意事項 -->
+    <div class="section-title">はじめる前に確認しましょう</div>
+    <div class="caution-grid">
+      <div class="caution-item">
+        <div class="caution-icon">🛏️</div>
+        <div>
+          <strong>最初は仰向けで行う</strong>
+          膝を立てて寝た状態がもっとも力を入れやすい姿勢です
+        </div>
+      </div>
+      <div class="caution-item">
+        <div class="caution-icon">🌬️</div>
+        <div>
+          <strong>呼吸を止めない</strong>
+          ゆっくり呼吸しながら行いましょう
+        </div>
+      </div>
+      <div class="caution-item">
+        <div class="caution-icon">🎯</div>
+        <div>
+          <strong>意識するのは肛門だけ</strong>
+          お腹・太もも・お尻は脱力したまま
+        </div>
+      </div>
+      <div class="caution-item">
+        <div class="caution-icon">🛑</div>
+        <div>
+          <strong>痛みがあれば中止</strong>
+          担当の理学療法士へご相談ください
+        </div>
+      </div>
+    </div>
+
+    <!-- エクササイズ -->
+    <div class="section-title">エクササイズの内容</div>
+    <div class="exercise-cards">
+
+      <!-- ① ゆっくり締める -->
+      <div class="exercise-card">
+        <div class="card-header">
+          <div class="card-number">1</div>
+          <div class="card-title-block">
+            <div class="card-title">ゆっくり締める（持続収縮）</div>
+            <div class="card-subtitle">遅筋を鍛える ／ 安静時の括約筋持続力を高める</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-text">
+            <ol class="steps">
+              <li><strong>仰向けに寝て、両膝を立てる</strong>（膝立て位）</li>
+              <li>全身の力を抜き、お腹・太もも・お尻をリラックスさせる</li>
+              <li>肛門を「上に引き上げるように」ゆっくり締める</li>
+              <li><span class="timer-badge">⏱ 5〜10秒 キープ</span></li>
+              <li>ゆっくり力を抜いて、同じ時間休む</li>
+            </ol>
+            <div class="tip-box">エレベーターが1階→2階→3階と上がるイメージで段階的に締める</div>
+            <div class="reps-badge">× 10回 ／ 1セット</div>
+          </div>
+          <div class="card-image">
+            <div class="img-placeholder">
+              <div class="img-icon">🖼️</div>
+              <div class="img-label">仰向け膝立て位で<br>ゆっくり締めるイラスト</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ② 素早く締める -->
+      <div class="exercise-card">
+        <div class="card-header gray2">
+          <div class="card-number">2</div>
+          <div class="card-title-block">
+            <div class="card-title">素早く締める（速収縮）</div>
+            <div class="card-subtitle">速筋を鍛える ／ 急な腹圧（咳・くしゃみ）への対応力を高める</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-text">
+            <ol class="steps">
+              <li><strong>仰向けに寝て、両膝を立てる</strong>（①と同じ姿勢）</li>
+              <li>肛門を<strong>パッと素早く締める</strong></li>
+              <li><span class="timer-badge">⏱ 1秒 締める → 1秒 抜く</span></li>
+              <li>リズムよく繰り返す</li>
+            </ol>
+            <div class="tip-box">「スイッチをON・OFFするイメージ」でテンポよく行う</div>
+            <div class="reps-badge">× 10回 ／ 1セット</div>
+          </div>
+          <div class="card-image">
+            <div class="img-placeholder">
+              <div class="img-icon">🖼️</div>
+              <div class="img-label">仰向けで素早く<br>締める動作イラスト</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ③ 段階的収縮 -->
+      <div class="exercise-card">
+        <div class="card-header gray3">
+          <div class="card-number">3</div>
+          <div class="card-title-block">
+            <div class="card-title">段階的収縮（グレーデッドエクササイズ）</div>
+            <div class="card-subtitle">随意的なコントロール能力を高める ／ ①②に慣れてから行う</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-text">
+            <ol class="steps">
+              <li><strong>仰向けに寝て、両膝を立てる</strong></li>
+              <li>20%の力でゆっくり締める</li>
+              <li>50%まで徐々に力を強くする</li>
+              <li>100%まで締めて <span class="timer-badge">⏱ 3秒 キープ</span></li>
+              <li>段階的にゆっくり力を抜いていく</li>
+              <li>完全にリラックスして次へ</li>
+            </ol>
+            <div class="tip-box">力の「強さ」を意識することで随意的な筋コントロールが上達する</div>
+            <div class="reps-badge">× 5回 ／ 1セット</div>
+          </div>
+          <div class="card-image">
+            <div class="img-placeholder">
+              <div class="img-icon">🖼️</div>
+              <div class="img-label">力の段階を示す<br>グラフイラスト</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /exercise-cards -->
+
+    <!-- スケジュール -->
+    <div class="section-title">1日のトレーニングスケジュール</div>
+    <div class="schedule-grid">
+      <div class="schedule-card">
+        <div class="schedule-icon">🌅</div>
+        <div class="schedule-time">朝（起床後）</div>
+        <ul class="schedule-items">
+          <li>①持続収縮 10回</li>
+          <li>②速収縮 10回</li>
+        </ul>
+      </div>
+      <div class="schedule-card">
+        <div class="schedule-icon">☀️</div>
+        <div class="schedule-time">昼（食後など）</div>
+        <ul class="schedule-items">
+          <li>①持続収縮 10回</li>
+        </ul>
+      </div>
+      <div class="schedule-card">
+        <div class="schedule-icon">🌙</div>
+        <div class="schedule-time">夜（就寝前）</div>
+        <ul class="schedule-items">
+          <li>①持続収縮 10回</li>
+          <li>③段階的収縮 5回</li>
+        </ul>
+      </div>
+    </div>
+    <div class="schedule-total">
+      合計目安：1日 3セット ／ 約10〜15分　｜　姿勢はすべて仰向けで行いましょう
+    </div>
+
+    <!-- NG一覧 -->
+    <div class="section-title">よくある間違い（NG例と正しい方法）</div>
+    <table class="ng-table">
+      <thead>
+        <tr>
+          <th>✕ やりがちなNG</th>
+          <th>○ 正しい方法</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="ng-label">✕</span> お腹（腹筋）に力が入る</td>
+          <td><span class="ok-label">○</span> 腹筋はリラックスしたまま</td>
+        </tr>
+        <tr>
+          <td><span class="ng-label">✕</span> 息を止めて行う</td>
+          <td><span class="ok-label">○</span> ゆっくり呼吸しながら続ける</td>
+        </tr>
+        <tr>
+          <td><span class="ng-label">✕</span> 太ももを内側に絞る</td>
+          <td><span class="ok-label">○</span> 太ももは脱力したまま</td>
+        </tr>
+        <tr>
+          <td><span class="ng-label">✕</span> 急いでセット数をこなす</td>
+          <td><span class="ok-label">○</span> 1回1回丁寧に締める・緩める</td>
+        </tr>
+        <tr>
+          <td><span class="ng-label">✕</span> 痛みを我慢して続ける</td>
+          <td><span class="ok-label">○</span> 痛みがあれば即中止・相談する</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 継続のコツ -->
+    <div class="section-title">継続するためのヒント</div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <h4>📺 「ながら運動」でOK</h4>
+        寝たままテレビを見ながら、就寝前の布団の中など日常に組み込みましょう
+      </div>
+      <div class="tip-card">
+        <h4>📅 記録をつける</h4>
+        カレンダーや手帳に✓を入れると継続しやすくなります
+      </div>
+      <div class="tip-card">
+        <h4>⏳ 効果まで4〜8週間</h4>
+        焦らず続けることが大切です。変化が出るまで継続しましょう
+      </div>
+      <div class="tip-card">
+        <h4>⬆️ 慣れたら姿勢を変える</h4>
+        仰向けで楽にできたら、座位・立位へとステップアップしましょう
+      </div>
+    </div>
+
+    <!-- 相談のタイミング -->
+    <div class="warning-box">
+      <h3>▶ このような場合はすぐに担当者へご相談ください</h3>
+      <ul class="warning-list">
+        <li>トレーニング中・後に痛みや違和感が出た</li>
+        <li>症状が悪化したと感じる</li>
+        <li>やり方がわからなくなった</li>
+        <li>1週間以上継続できていない</li>
+      </ul>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-item">
+      <label>施設名</label>
+      <div class="footer-value"></div>
+    </div>
+    <div class="footer-item">
+      <label>担当理学療法士</label>
+      <div class="footer-value"></div>
+    </div>
+    <div class="footer-item">
+      <label>連絡先</label>
+      <div class="footer-value"></div>
+    </div>
+    <div class="footer-date" style="grid-column: 1/-1; text-align:right; margin-top:10px;">
+      作成日：2026年3月
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+</body>
+</html>

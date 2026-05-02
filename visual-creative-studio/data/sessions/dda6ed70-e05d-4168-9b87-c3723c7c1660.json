@@ -1,0 +1,70 @@
+{
+  "session_id": "dda6ed70-e05d-4168-9b87-c3723c7c1660",
+  "created_at": 1776578220.9503393,
+  "updated_at": 1776578220.95162,
+  "mode": "design",
+  "goal": "4",
+  "platform": "",
+  "size": "instagram_portrait",
+  "style": "simple",
+  "tone": "",
+  "worldview": "",
+  "genre": "",
+  "title": "",
+  "subtitle": "",
+  "body_text": "",
+  "cta": "",
+  "page_count": 1,
+  "color_scheme": "",
+  "primary_color": "",
+  "secondary_color": "",
+  "accent_color": "",
+  "background_color": "",
+  "slides": [],
+  "panels": [],
+  "creative_suite": [],
+  "character_settings": {
+    "enabled": false,
+    "name": "",
+    "appearance": "",
+    "hair": "",
+    "outfit": "",
+    "colors": [],
+    "personality": "",
+    "expression_style": "",
+    "pose_style": "",
+    "reference_notes": "",
+    "ng_items": [],
+    "worldview_notes": ""
+  },
+  "brand_settings": {
+    "brand_name": "",
+    "brand_colors": [],
+    "font_style": "",
+    "visual_rules": []
+  },
+  "fixed_constraints": [],
+  "change_requests": [],
+  "references": [],
+  "output_format": "svg",
+  "generated_content": [],
+  "version": 1,
+  "messages": [
+    {
+      "role": "user",
+      "content": "4",
+      "timestamp": 1776578220.9513395
+    },
+    {
+      "role": "assistant",
+      "content": "📐 **デザイン生成**モードですね！\n\n**現在の設定:**\n📌 モード: **デザイン生成**\n🎯 目的: 4\n🎨 スタイル: シンプル\n\nどのプラットフォーム向けですか？\n（Instagram / YouTube / note / Threads / その他）",
+      "timestamp": 1776578220.9513605
+    }
+  ],
+  "pending_questions": [
+    {
+      "field": "platform",
+      "label": "プラットフォーム"
+    }
+  ]
+}

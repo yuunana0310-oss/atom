@@ -1,0 +1,110 @@
+{
+  "high_performing_patterns": [
+    "experience_share",
+    "series_claude_diary",
+    "checklist"
+  ],
+  "avoid_patterns": [
+    "comparison"
+  ],
+  "high_performing_themes": [
+    "F枠_悩み募集型（需要確認・週1-2本）",
+    "E枠_noteガイドのティーザー投稿（週2〜3本・note購買につなげる）",
+    "D枠_AIライティング・プロンプト実例（保存率が高い）"
+  ],
+  "avoid_themes": [
+    "B枠_専門職×AI×副業（専門職全般に刺さる）"
+  ],
+  "recommended_first_line_styles": [
+    "number_lead",
+    "statement",
+    "short_punchy"
+  ],
+  "pattern_avg_scores": {
+    "experience_share": 30.5958,
+    "series_claude_diary": 20.4115,
+    "series_pt22": 4.1041,
+    "checklist": 8.0,
+    "short_complete": 4.3478,
+    "series_qa": 0.7901,
+    "story_arc": 0.5109,
+    "myth_bust": 0.4802,
+    "comparison": 0.0
+  },
+  "theme_avg_scores": {
+    "F枠_悩み募集型（需要確認・週1-2本）": 59.0909,
+    "E枠_noteガイドのティーザー投稿（週2〜3本・note購買につなげる）": 23.4849,
+    "D枠_AIライティング・プロンプト実例（保存率が高い）": 5.2355,
+    "D枠_スマホでもできるAI（ターゲット読者への刺さりが強い）": 4.6348,
+    "B枠_指導が伝わらない問題（専門性・週4本）": 1.1834,
+    "C枠_ベテランセラピスト燃え尽き問題（共感・週3本）": 0.4802,
+    "B枠_専門職×AI×副業（専門職全般に刺さる）": 0.0
+  },
+  "top_performers": [
+    {
+      "id": "24cf8a4b-e0cf-46fb-be28-62ad8d470429",
+      "content_preview": "患者さんが『続けます』って言うのに1週間で止まる。\nなぜか知ってる、\n\n22年やってて気づいたんだけど、『伝わった』と『納得した』って全然別の話なんだよ。\n\n『わかりました』って返事してる患者さんの頭",
+      "pattern": "experience_share",
+      "theme": "F枠_悩み募集型（需要確認・週1-2本）",
+      "engagement_score": 59.0909
+    },
+    {
+      "id": "c52c3bfd-d781-4628-8ec0-b72dc1ac6eaa",
+      "content_preview": "22年現場にいて気づいた。\nAIは仕事を奪わない。時間をくれるんだ。\n\nカルテ作成に週5時間。申し送り書に2時間。研修資料に3時間。\nこれらがAIの下書きで8割減ったら？\n\n患者さんと話す時間が戻って",
+      "pattern": "series_claude_diary",
+      "theme": "E枠_noteガイドのティーザー投稿（週2〜3本・note購買につなげる）",
+      "engagement_score": 44.4444
+    },
+    {
+      "id": "b693355f-af93-4a9b-9ce4-4f8208c9e79c",
+      "content_preview": "正直に言う。\nAIを支配できたときだけ、家での疲弊から逃げられる。\n\n妻には完全服従。子どもの送迎も優先。\n管理職は板挟み、毎日うんざり。\n\nでも、Claude Codeの前に座ると違う。\nAIに完璧",
+      "pattern": "series_claude_diary",
+      "theme": "D枠_AIライティング・プロンプト実例（保存率が高い）",
+      "engagement_score": 16.129
+    }
+  ],
+  "bottom_performers": [
+    {
+      "id": "b7e4a40b-785c-4895-ac12-9123bdaa357e",
+      "content_preview": "Claude Codeで資料作ったんだけど\nこれPTの仕事マジでなくなるんちゃうかって思った\n\n疾患ごとのエビデンスまで入ったリハプログラム、30分で終わった。\n\n普通なら3日ぶっ続けやん。\n\nAIが",
+      "pattern": "story_arc",
+      "theme": "D枠_AIライティング・プロンプト実例（保存率が高い）",
+      "engagement_score": 0.5109
+    },
+    {
+      "id": "020a339e-6d86-442c-9495-e8da1edebf83",
+      "content_preview": "医療現場で『効率化は悪』って言われるけど、それって逆なんですよ。\nPT22年目だから、ぶっちゃけます、\n\nAI導入の話したら『患者さんが置き去りになる』って反発された。でも違う。\n\n手書き記録に30分",
+      "pattern": "myth_bust",
+      "theme": "C枠_ベテランセラピスト燃え尽き問題（共感・週3本）",
+      "engagement_score": 0.4802
+    },
+    {
+      "id": "519b5a10-1a31-404a-ae85-953da3dbf481",
+      "content_preview": "医療職だからAIが一番使いこなせるんだと思う。\n\n22年PTやってて気づいたのが、疾患・治療・予防って頭の中にあるものを常に言葉で説明してきたんよ。それってAIの得意な分野そのまんま。\n\n脳卒中の左半",
+      "pattern": "comparison",
+      "theme": "B枠_専門職×AI×副業（専門職全般に刺さる）",
+      "engagement_score": 0.0
+    }
+  ],
+  "total_posts_analyzed": 16,
+  "analysis_date": "2026-04-19T09:19:03.345389",
+  "structure_guidelines": {
+    "recommended_character_count": "150-250字（短めが勝ち。全体平均241字より32%短い投稿がいいね獲得率2倍以上）",
+    "recommended_line_breaks": "8-10回（1改行あたり15-20字。スマートフォン視認性最優先）",
+    "most_effective_opening_style": "declaration_statement（宣言・解説形式が11%のいいね獲得率を実現。他の形式は5%以下）",
+    "top_performing_pattern": "story_hook（個人体験＋共感型。平均いいね4.0個がトップ）",
+    "secondary_pattern": "number_hook（具体的な数字で訴求。ビュー最高1290）",
+    "avoid_elements": [
+      "リスト形式の過剰使用（ボトム10は50%使用。伸びる投稿は30%）",
+      "疑問形での終わり（読者に判断委ねるより、筆者が結論を言い切る方が効果的）",
+      "平坦な長文（～です。～ます。の繰り返しは視認性と完読率が低下）"
+    ],
+    "content_structure": "導入（宣言フック1行）→ 本論（背景＋具体例 4-6行）→ 終わり（結論 1-2行）",
+    "key_success_factors": [
+      "冒頭1行で世界観確立（「理学療法士の自分が…」など個人視点の前景化）",
+      "簡潔さ（トップ10の文字数168字。描写削除・体言止めで短くまとめる）",
+      "具体的な数字や年数を組み込む（「22年」「3ヶ月」など）",
+      "感情語・毒気を自然に織り込む（共感を生む）"
+    ]
+  }
+}

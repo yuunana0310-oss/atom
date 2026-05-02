@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プレミアム鑑定書 | 霊視師 月詠</title>
+    <style>
+        /* --- デザイン定義（100%ローカル） --- */
+        :root {
+            --bg-color: #f4f1ea; 
+            --card-bg: #ffffff;
+            --gold-primary: #a67c00;
+            --text-color: #1a1108;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            /* システム標準の明朝体を使用（外部通信なし） */
+            font-family: "Shippori Mincho", "Sawarabi Mincho", "MS PMincho", "Hiragino Mincho ProN", serif;
+            line-height: 2.2;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- UI操作パネル --- */
+        .controls {
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 850px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            background: rgba(244, 241, 234, 0.98);
+            padding: 15px;
+            border: 1px solid var(--gold-primary);
+            border-radius: 8px;
+        }
+
+        input {
+            padding: 10px 15px;
+            background: white;
+            border: 1px solid var(--gold-primary);
+            color: var(--text-color);
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: var(--gold-primary);
+            border: none;
+            color: white;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            filter: brightness(1.1);
+        }
+
+        button.secondary {
+            background: transparent;
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-primary);
+        }
+
+        /* --- 鑑定書本体 --- */
+        #appraisal-doc {
+            width: 100%;
+            max-width: 850px;
+            background-color: var(--card-bg);
+            position: relative;
+            padding: 60px 50px;
+            border: 3px double var(--gold-primary);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 100px;
+        }
+
+        .inner-frame {
+            position: absolute;
+            top: 10px; bottom: 10px; left: 10px; right: 10px;
+            border: 1px solid rgba(166, 124, 0, 0.1);
+            pointer-events: none;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 1px solid var(--gold-primary);
+            padding-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            letter-spacing: 0.3em;
+            margin-bottom: 10px;
+        }
+
+        .meta {
+            color: var(--gold-primary);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+        }
+
+        /* --- 簡易Markdownレンダリング用のスタイル --- */
+        .content {
+            font-size: 1.15em;
+            text-align: justify;
+        }
+
+        .content h1, .content h2 {
+            color: #1a1108;
+            margin: 40px 0 20px;
+            border-bottom: 1px solid var(--gold-primary);
+            display: inline-block;
+            padding-right: 30px;
+        }
+
+        .content h1 { font-size: 1.5em; }
+        .content h2 { font-size: 1.3em; }
+
+        .content p { margin-bottom: 30px; text-indent: 1em; }
+        .content strong { color: #8b0000; font-weight: bold; }
+        .content hr { border: none; border-top: 1px solid var(--gold-primary); opacity: 0.3; margin: 40px 0; }
+        .content blockquote { border: 1px solid var(--gold-primary); padding: 20px; margin: 20px 0; background: #fdfcf8; }
+
+        .footer {
+            margin-top: 60px;
+            text-align: right;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            font-style: italic;
+            color: var(--gold-primary);
+        }
+
+        /* --- 印刷/PDF設定 --- */
+        @media print {
+            .controls { display: none; }
+            body { background-color: var(--bg-color) !important; -webkit-print-color-adjust: exact; }
+            #appraisal-doc { background-color: #fff !important; border: 3px double var(--gold-primary) !important; padding: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <input type="text" id="filename-input" placeholder="例: 19820421_12" value="19820421_12">
+        <button onclick="loadLocalAppraisal()">読み込む</button>
+        <div style="border-left: 1px solid #ccc; height: 30px; margin: 0 10px;"></div>
+        <input type="file" id="file-selector" style="display:none;" onchange="loadFile(event)">
+        <button class="secondary" onclick="document.getElementById('file-selector').click()">ファイル選択</button>
+        <button class="secondary" onclick="copyText()">コピー</button>
+        <button onclick="window.print()">PDF保存/印刷</button>
+    </div>
+
+    <div id="appraisal-doc">
+        <div class="inner-frame"></div>
+        <div class="header">
+            <h1>特別鑑定書</h1>
+            <div class="meta">
+                <span>霊視師 月詠 謹書</span>
+                <span>令和 八年 四月 十四日</span>
+            </div>
+        </div>
+        
+        <div id="content-area" class="content">
+            <p style="text-align:center;">鑑定書ファイルを読み込んでください</p>
+        </div>
+
+        <div class="footer">
+            <p>魂の平穏と、輝かしき未来を願って。</p>
+            <p>— 霊視師 月詠</p>
+        </div>
+    </div>
+
+    <script>
+        // 【100%自前】シンプルなMarkdown変換エンジン
+        function simpleMarkdown(md) {
+            // YAMLヘッダー（---で囲まれた部分）を削除
+            md = md.replace(/^---[\s\S]*?---\s*/, '');
+            
+            let html = '';
+            const lines = md.split('\n');
+            let inPara = false;
+
+            for (let line of lines) {
+                line = line.trim();
+                if (!line) { 
+                    if (inPara) html += '</p>'; 
+                    inPara = false; 
+                    continue; 
+                }
+
+                if (line.startsWith('# ')) { html += `<h1>${line.slice(2)}</h1>`; continue; }
+                if (line.startsWith('## ')) { html += `<h2>${line.slice(3)}</h2>`; continue; }
+                if (line.startsWith('### ')) { html += `<h3>${line.slice(4)}</h3>`; continue; }
+                if (line === '---' || line === '***') { html += '<hr>'; continue; }
+
+                // 太字とイタリック
+                line = line.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+                
+                if (!inPara) {
+                    html += '<p>';
+                    inPara = true;
+                } else {
+                    html += '<br>';
+                }
+                html += line;
+            }
+            if (inPara) html += '</p>';
+            return html;
+        }
+
+        async function loadLocalAppraisal() {
+            const suffix = document.getElementById('filename-input').value.trim();
+            const url = `output/meishiki/meishiki_${suffix}.md`;
+            try {
+                const res = await fetch(url);
+                if (!res.ok) throw new Error();
+                const text = await res.text();
+                render(text);
+            } catch (e) {
+                alert('ファイルが見つかりません。直接ファイル選択ボタンから読み込んでください。');
+            }
+        }
+
+        function loadFile(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => render(event.target.result);
+            reader.readAsText(file);
+        }
+
+        function render(text) {
+            document.getElementById('content-area').innerHTML = simpleMarkdown(text);
+        }
+
+        function copyText() {
+            const content = document.getElementById('content-area').innerText;
+            navigator.clipboard.writeText(content).then(() => alert('コピーしました'));
+        }
+
+        window.onload = loadLocalAppraisal;
+    </script>
+</body>
+</html>

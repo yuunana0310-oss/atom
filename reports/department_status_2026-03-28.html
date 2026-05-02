@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>部署別ステータスレポート — 2026-03-28</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0b18;
+    --card: #13131f;
+    --card2: #1a1a2e;
+    --border: rgba(255,255,255,0.07);
+    --accent: #00d4ff;
+    --green: #10b981;
+    --purple: #a78bfa;
+    --orange: #f59e0b;
+    --red: #f87171;
+    --text: #e2e8f0;
+    --muted: #64748b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Noto Sans JP', sans-serif; padding: 32px 24px; line-height: 1.7; }
+
+  .header { text-align: center; margin-bottom: 40px; }
+  .header h1 { font-size: 1.8rem; font-weight: 900; color: var(--accent); margin-bottom: 6px; }
+  .header p { color: var(--muted); font-size: 0.9rem; }
+
+  /* 優先度バッジ */
+  .pri { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; margin-bottom: 10px; }
+  .pri-1 { background: rgba(248,113,113,0.2); color: var(--red); border: 1px solid rgba(248,113,113,0.4); }
+  .pri-2 { background: rgba(245,158,11,0.2); color: var(--orange); border: 1px solid rgba(245,158,11,0.4); }
+  .pri-3 { background: rgba(100,116,139,0.2); color: var(--muted); border: 1px solid rgba(100,116,139,0.3); }
+
+  /* ステータスバー */
+  .status-bar { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+  .s-badge { padding: 3px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; }
+  .s-active  { background: rgba(16,185,129,0.15); color: var(--green); }
+  .s-paused  { background: rgba(245,158,11,0.15); color: var(--orange); }
+  .s-blocked { background: rgba(248,113,113,0.15); color: var(--red); }
+  .s-pending { background: rgba(100,116,139,0.15); color: var(--muted); }
+
+  /* 部署カード */
+  .dept { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 28px; margin-bottom: 28px; }
+  .dept-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+  .dept-icon { font-size: 2rem; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;
+    background: var(--card2); border-radius: 14px; flex-shrink: 0; }
+  .dept-title { flex: 1; }
+  .dept-title h2 { font-size: 1.15rem; font-weight: 900; margin-bottom: 2px; }
+  .dept-title .sub { font-size: 0.8rem; color: var(--muted); }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 900px) { .cols { grid-template-columns: 1fr; } }
+
+  .col-box { background: var(--card2); border-radius: 12px; padding: 16px; }
+  .col-box h3 { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .col-box.next h3  { color: var(--accent); }
+  .col-box.prob h3  { color: var(--red); }
+  .col-box.sol h3   { color: var(--green); }
+
+  .col-box ul { padding-left: 16px; font-size: 0.85rem; color: var(--text); }
+  .col-box ul li { margin-bottom: 7px; line-height: 1.6; }
+  .col-box ul li::marker { color: var(--muted); }
+
+  .highlight { background: rgba(0,212,255,0.08); border-left: 3px solid var(--accent); padding: 8px 12px;
+    border-radius: 0 8px 8px 0; font-size: 0.82rem; margin-top: 10px; }
+
+  .action-chip { display: inline-block; background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.25);
+    color: var(--accent); border-radius: 6px; padding: 2px 8px; font-size: 0.75rem; margin: 2px; }
+  .action-chip.g { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: var(--green); }
+  .action-chip.o { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: var(--orange); }
+  .action-chip.r { background: rgba(248,113,113,0.1); border-color: rgba(248,113,113,0.3); color: var(--red); }
+
+  /* 重要度カラーライン */
+  .dept.p1 { border-left: 4px solid var(--red); }
+  .dept.p2 { border-left: 4px solid var(--orange); }
+  .dept.p3 { border-left: 4px solid var(--muted); }
+
+  /* サマリーグリッド */
+  .summary { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 36px; }
+  .sum-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-align: center; }
+  .sum-card .num { font-size: 2rem; font-weight: 900; }
+  .sum-card .label { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+  code { background: rgba(255,255,255,0.08); padding: 1px 6px; border-radius: 4px; font-family: monospace; font-size: 0.82rem; color: #a5f3fc; }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>部署別ステータスレポート</h1>
+  <p>2026-03-28 現在 ／ 次のアクション・問題点・解決策</p>
+</div>
+
+<!-- サマリー -->
+<div class="summary">
+  <div class="sum-card">
+    <div class="num" style="color:var(--red)">1</div>
+    <div class="label">最優先部署（リハカルテ）</div>
+  </div>
+  <div class="sum-card">
+    <div class="num" style="color:var(--orange)">2</div>
+    <div class="label">要対応部署</div>
+  </div>
+  <div class="sum-card">
+    <div class="num" style="color:var(--muted)">4</div>
+    <div class="label">待機・準備中部署</div>
+  </div>
+  <div class="sum-card">
+    <div class="num" style="color:var(--accent)">4</div>
+    <div class="label">note記事（未公開）</div>
+  </div>
+  <div class="sum-card">
+    <div class="num" style="color:var(--green)">STOP</div>
+    <div class="label">Threads自動投稿（KILL_SWITCH中）</div>
+  </div>
+</div>
+
+
+<!-- ====== 1. リハカルテ製作部 ====== -->
+<div class="dept p1">
+  <div class="dept-header">
+    <div class="dept-icon">🏥</div>
+    <div class="dept-title">
+      <div class="pri pri-1">★ 最優先</div>
+      <h2>リハカルテ製作部</h2>
+      <div class="sub">rehab_pm / rehab_system_engineer / rehab_ux_designer</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <span class="s-badge s-active">患者管理 実装済み</span>
+    <span class="s-badge s-active">訪問スケジュール 実装済み</span>
+    <span class="s-badge s-active">ホワイトボード 実装済み</span>
+    <span class="s-badge s-active">業務日誌 実装済み</span>
+    <span class="s-badge s-active">SOAP生成(オプション) 追加済み</span>
+    <span class="s-badge s-paused">音声入力 UI未統合</span>
+    <span class="s-badge s-blocked">PDF出力 未実装</span>
+    <span class="s-badge s-blocked">ログイン認証 未実装</span>
+  </div>
+
+  <div class="cols">
+    <div class="col-box next">
+      <h3>次にやること</h3>
+      <ul>
+        <li>音声入力（Whisper）をカルテ記入フォームのUIに統合する</li>
+        <li>様式第21号（リハビリ計画書）のPDF出力機能を実装</li>
+        <li>現場での実運用テスト（先輩PTに試してもらう）</li>
+        <li>ログイン認証機能の追加（複数スタッフ利用を想定）</li>
+        <li>データバックアップ機能（SQLiteをzip書き出し）</li>
+      </ul>
+    </div>
+    <div class="col-box prob">
+      <h3>問題点</h3>
+      <ul>
+        <li><strong>音声入力がUIと分離</strong>: <code>audio_recognizer.py</code>は存在するがカルテ画面と繋がっていない</li>
+        <li><strong>公式書類対応ゼロ</strong>: 様式第21号などの法定書類に出力できない → 現場で「使えない」と判断される原因になる</li>
+        <li><strong>認証なし</strong>: 誰でも起動すれば患者データにアクセスできる状態</li>
+        <li><strong>現場テスト未実施</strong>: 実際の業務フローで使えるか未検証</li>
+        <li><strong>.env未作成</strong>: SOAP生成機能が動かない（APIキー未設定）</li>
+      </ul>
+    </div>
+    <div class="col-box sol">
+      <h3>解決策・リサーチ結果</h3>
+      <ul>
+        <li><strong>音声UI統合</strong>: カルテ記入フォームに「録音」ボタン追加。<code>CTkButton</code>でstart/stop→<code>stop_recording_and_transcribe()</code>の結果をTextboxに挿入する形で実装可能</li>
+        <li><strong>PDF出力</strong>: <code>reportlab</code>ライブラリが最有力。様式第21号のレイアウトを<code>b21.pdf</code>を参照して再現できる（<code>pip install reportlab</code>）</li>
+        <li><strong>認証</strong>: 軽量ならPINコード画面（customtkinter）。将来的には<code>bcrypt</code>でパスワードハッシュ管理</li>
+        <li><strong>現場テスト</strong>: まず1名のPTに1週間試用してもらい、詰まった箇所をリスト化する</li>
+        <li><strong>.env作成</strong>: <code>.env.example</code>をコピーしてAPIキーを記入するだけ</li>
+      </ul>
+      <div class="highlight">最優先: PDF出力と現場テストを先に進める。認証は現場テスト後でよい。</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ====== 2. SNS・マーケティング部 ====== -->
+<div class="dept p2">
+  <div class="dept-header">
+    <div class="dept-icon">📣</div>
+    <div class="dept-title">
+      <div class="pri pri-2">優先度 高</div>
+      <h2>SNS・マーケティング部</h2>
+      <div class="sub">rehab_pr_manager / sns_manager / content_creator / marketing_analyst</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <span class="s-badge s-blocked">Threads自動投稿 KILL_SWITCH停止中</span>
+    <span class="s-badge s-active">note記事4本 作成済み</span>
+    <span class="s-badge s-paused">note記事02〜04 未公開</span>
+    <span class="s-badge s-blocked">theme_tree.json 旧テーマのまま</span>
+    <span class="s-badge s-active">account_profile.json 更新済み</span>
+    <span class="s-badge s-active">見出し画像4枚 生成済み</span>
+  </div>
+
+  <div class="cols">
+    <div class="col-box next">
+      <h3>次にやること</h3>
+      <ul>
+        <li><strong>note記事を週次スケジュール通りに公開</strong>（火→水→金→日）</li>
+        <li><code>theme_tree.json</code>に「AI×医療」「リハカルテ開発」テーマを追加</li>
+        <li>Threads投稿バッチ12本を手動で順次投稿</li>
+        <li>note誘導投稿をURLなし（プロフィール誘導）に統一</li>
+        <li>Threads自動投稿の再開タイミングを判断</li>
+      </ul>
+    </div>
+    <div class="col-box prob">
+      <h3>問題点</h3>
+      <ul>
+        <li><strong>theme_tree.jsonが旧戦略</strong>: 「AI副業」テーマのまま。再開した瞬間に古い内容が自動生成・投稿される</li>
+        <li><strong>外部URLリーチ減</strong>: Threadsアルゴリズムで外部リンク投稿は30〜60%リーチ減</li>
+        <li><strong>KILL_SWITCH中の手動管理</strong>: 投稿のたびに指示が必要で手間がかかる</li>
+        <li><strong>note記事02〜04が未公開</strong>: 作ったのに使われていない資産が眠っている</li>
+        <li><strong>医療シリーズ5本の活用未定</strong>: 首こり・腰痛などのシリーズ記事の公開戦略がない</li>
+      </ul>
+    </div>
+    <div class="col-box sol">
+      <h3>解決策・リサーチ結果</h3>
+      <ul>
+        <li><strong>theme_tree.json更新</strong>: 「AI×医療」「リハカルテ開発日記」「Claude Code非エンジニア実践」の3テーマを追加し、旧テーマの比率を下げる</li>
+        <li><strong>URLリーチ対策</strong>: 本文は「プロフィールから」のみ、投稿後に自分でコメントしてURLを貼る運用に切り替える</li>
+        <li><strong>自動投稿再開条件</strong>: theme_tree.json更新 → Writerで試し生成 → 内容確認 → KILL_SWITCH解除の順で再開</li>
+        <li><strong>note公開</strong>: 02（金）→03（水）→04（日）の順で今週中に公開。見出し画像はすでに完成済み</li>
+        <li><strong>医療シリーズ</strong>: AIカテゴリとクロスさせて「PTがAIでストレッチ記事を書いた話」として再フレーミング可能</li>
+      </ul>
+      <div class="highlight">最優先: theme_tree.json更新 → note記事02〜04を今週公開</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ====== 3. プロダクト開発部 ====== -->
+<div class="dept p3">
+  <div class="dept-header">
+    <div class="dept-icon">⚙️</div>
+    <div class="dept-title">
+      <div class="pri pri-3">優先度 中</div>
+      <h2>プロダクト開発部</h2>
+      <div class="sub">lead_engineer / qa_tester</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <span class="s-badge s-pending">QAテスト 未実施</span>
+    <span class="s-badge s-pending">テスト環境 未整備</span>
+  </div>
+
+  <div class="cols">
+    <div class="col-box next">
+      <h3>次にやること</h3>
+      <ul>
+        <li>リハカルテの手動QAテスト実施（正常系・異常系の動作確認）</li>
+        <li>バグレポートの作成と優先度付け</li>
+        <li>Threads自動運用システムのコードレビュー（theme_tree更新後）</li>
+      </ul>
+    </div>
+    <div class="col-box prob">
+      <h3>問題点</h3>
+      <ul>
+        <li><strong>テストが手動のみ</strong>: 自動テスト（pytest等）が存在しない。機能追加のたびにデグレードリスクがある</li>
+        <li><strong>エラーハンドリングの穴</strong>: DB接続エラー、音声デバイス未接続時の挙動が未確認</li>
+        <li><strong>QAチェックリストがない</strong>: テンプレートはあるが埋まっていない</li>
+      </ul>
+    </div>
+    <div class="col-box sol">
+      <h3>解決策・リサーチ結果</h3>
+      <ul>
+        <li><strong>最小限のpytest導入</strong>: modelsレイヤー（patient.py等）のCRUDをテスト化。UIテストは後回しでよい</li>
+        <li><strong>エラーハンドリング</strong>: <code>try/except</code>をDB操作の全箇所に追加し、ユーザーにわかりやすいメッセージを表示する</li>
+        <li><strong>QAは現場テストと兼ねる</strong>: PTに使ってもらって出たバグをそのままQAレポートに記録する方が現実的で速い</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ====== 4. 医療・リハビリ支援部 ====== -->
+<div class="dept p3">
+  <div class="dept-header">
+    <div class="dept-icon">🩺</div>
+    <div class="dept-title">
+      <div class="pri pri-3">優先度 中</div>
+      <h2>医療・リハビリ支援部</h2>
+      <div class="sub">medical_writer / academic_researcher</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <span class="s-badge s-active">医療シリーズ記事 5本あり</span>
+    <span class="s-badge s-paused">note公開戦略 未定</span>
+    <span class="s-badge s-pending">患者向け指導箋テンプレート 未作成</span>
+  </div>
+
+  <div class="cols">
+    <div class="col-box next">
+      <h3>次にやること</h3>
+      <ul>
+        <li>医療シリーズ5本（首こり・腰痛・眼精疲労・手首・メンタル）の公開タイミングを決める</li>
+        <li>リハカルテ連動の患者向け指導箋テンプレートを作成（アプリから印刷できる形に）</li>
+        <li>「PTがAIで記事を書いた」というフレーミングでAIカテゴリに乗せる</li>
+      </ul>
+    </div>
+    <div class="col-box prob">
+      <h3>問題点</h3>
+      <ul>
+        <li><strong>医療シリーズが眠っている</strong>: 5本の記事資産があるが公開・活用されていない</li>
+        <li><strong>AIカテゴリとの接続がない</strong>: 医療記事とAI記事が別々に存在し、ブランド統一感がない</li>
+        <li><strong>指導箋がアプリ外</strong>: カルテシステムと患者指導が連動していない</li>
+      </ul>
+    </div>
+    <div class="col-box sol">
+      <h3>解決策・リサーチ結果</h3>
+      <ul>
+        <li><strong>医療シリーズの再フレーミング</strong>: タイトルに「理学療法士が解説」「PTが教える」を追加してnote医療カテゴリ＋AIカテゴリ両方にタグを付ける</li>
+        <li><strong>指導箋のreportlab連携</strong>: PDF出力機能を実装したら患者別の指導箋も同じ仕組みで出せる</li>
+        <li><strong>公開順序</strong>: AIカテゴリ記事で読者を獲得してから医療シリーズに誘導する流れが自然。4〜6週目以降に公開が最適</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ====== 5. リサーチ・企画部 ====== -->
+<div class="dept p3">
+  <div class="dept-header">
+    <div class="dept-icon">🔍</div>
+    <div class="dept-title">
+      <div class="pri pri-3">優先度 中</div>
+      <h2>リサーチ・企画部</h2>
+      <div class="sub">ai_researcher / business_planner</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <span class="s-badge s-active">note市場調査 完了（健康・AI両カテゴリ）</span>
+    <span class="s-badge s-blocked">リハカルテ事業計画 未作成</span>
+    <span class="s-badge s-blocked">競合調査 未実施</span>
+  </div>
+
+  <div class="cols">
+    <div class="col-box next">
+      <h3>次にやること</h3>
+      <ul>
+        <li>既存のリハカルテ・電子カルテシステムの競合調査</li>
+        <li>リハカルテをB2B SaaSとして展開した場合の価格相場調査</li>
+        <li>医療機器・医療ソフトウェアとしての規制確認（薬機法・プログラム医療機器該当性）</li>
+      </ul>
+    </div>
+    <div class="col-box prob">
+      <h3>問題点</h3>
+      <ul>
+        <li><strong>規制リスクが不明</strong>: 医療記録システムが「プログラム医療機器（SaMD）」に該当すると薬機法の規制対象になる可能性がある</li>
+        <li><strong>競合が強い</strong>: MEDICS、ケアカルテ、リハサク等の既存サービスが存在する。差別化軸が未整理</li>
+        <li><strong>事業計画ゼロ</strong>: 誰に・いくらで・どう売るかが未定</li>
+      </ul>
+    </div>
+    <div class="col-box sol">
+      <h3>解決策・リサーチ結果</h3>
+      <ul>
+        <li><strong>薬機法リスク</strong>: 「診断・治療の判断に直接使用しない」「記録・管理ツールとして位置づける」であれば現時点でSaMD非該当の可能性が高い。厚労省のプログラム医療機器該当性チェックリストで確認推奨</li>
+        <li><strong>差別化軸</strong>: 既存サービスは高価格（月数万円〜）・大規模施設向け。「個人PTや小規模クリニック向け・低価格・オフライン動作」が空白地帯</li>
+        <li><strong>価格相場</strong>: 競合は月1〜5万円。β版は無料提供→フィードバック収集→有料化（月1,980〜4,980円）が現実的なステップ</li>
+      </ul>
+      <div class="highlight">規制確認を最初に。「記録ツール」として設計すればリスクは低い。</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ====== 6. クリエイティブ部 ====== -->
+<div class="dept p3">
+  <div class="dept-header">
+    <div class="dept-icon">🎨</div>
+    <div class="dept-title">
+      <div class="pri pri-3">優先度 低</div>
+      <h2>クリエイティブ部</h2>
+      <div class="sub">designer</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <span class="s-badge s-active">note見出し画像 4枚完成</span>
+    <span class="s-badge s-pending">Threads用画像テンプレート 未作成</span>
+    <span class="s-badge s-pending">リハカルテUI設計書 なし</span>
+  </div>
+
+  <div class="cols">
+    <div class="col-box next">
+      <h3>次にやること</h3>
+      <ul>
+        <li>Threads投稿用の画像テンプレートを作成（1080×1080px）</li>
+        <li>リハカルテのUI改善案をスケッチ（音声入力ボタン・PDF出力ボタンの配置）</li>
+        <li>note見出し画像のフォント・デザインを改善（03・04が小さい）</li>
+      </ul>
+    </div>
+    <div class="col-box prob">
+      <h3>問題点</h3>
+      <ul>
+        <li><strong>画像品質の限界</strong>: Pillowで生成しているがフォント選択肢が少なく、デザインの自由度が低い</li>
+        <li><strong>03・04の文字が小さい</strong>: 見出し画像として視認性が不足している</li>
+        <li><strong>UI設計書がない</strong>: リハカルテの画面追加時に設計の一貫性が保ちにくい</li>
+      </ul>
+    </div>
+    <div class="col-box sol">
+      <h3>解決策・リサーチ結果</h3>
+      <ul>
+        <li><strong>画像品質向上</strong>: Noto Sans JP をGoogle Fontsから<code>.ttf</code>でダウンロードしてPillowに読み込むと文字品質が大幅改善</li>
+        <li><strong>03・04の修正</strong>: <code>generate_headers.py</code>の<code>f_main</code>サイズを60→76に変更して再実行するだけ</li>
+        <li><strong>Threads画像</strong>: 正方形（1080×1080）でシンプルな「Tips番号＋キーワード」テンプレートを1枚作れば流用可能</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ====== 7. 販売戦略部 ====== -->
+<div class="dept p3">
+  <div class="dept-header">
+    <div class="dept-icon">💰</div>
+    <div class="dept-title">
+      <div class="pri pri-3">優先度 低（現時点）</div>
+      <h2>販売戦略部</h2>
+      <div class="sub">sales_manager / customer_success</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <span class="s-badge s-pending">サブスク価格 未定</span>
+    <span class="s-badge s-pending">β版ユーザー募集 未着手</span>
+    <span class="s-badge s-pending">販売チャネル 未整備</span>
+  </div>
+
+  <div class="cols">
+    <div class="col-box next">
+      <h3>次にやること（将来）</h3>
+      <ul>
+        <li>β版テスターを職場・SNS経由で2〜3名募集する</li>
+        <li>価格モデルの仮決め（月額 or 買い切り）</li>
+        <li>医療職コミュニティ（PT協会・SNS）へのアプローチ方法を検討</li>
+      </ul>
+    </div>
+    <div class="col-box prob">
+      <h3>問題点</h3>
+      <ul>
+        <li><strong>プロダクト未完成</strong>: PDF出力・現場テストが終わっていないので販売できる状態ではない</li>
+        <li><strong>医療機関への営業ルートがない</strong>: 通常の法人営業とは異なる購買プロセスが存在する</li>
+        <li><strong>価格感度が不明</strong>: PT個人 vs 病院・施設では支払い能力が大きく異なる</li>
+      </ul>
+    </div>
+    <div class="col-box sol">
+      <h3>解決策・リサーチ結果</h3>
+      <ul>
+        <li><strong>今は動かない</strong>: プロダクト完成・現場テスト・フィードバック収集が先。販売は4ヶ月目以降</li>
+        <li><strong>β版無料提供</strong>: 知人PTに無料で使ってもらい、継続使用してもらえた段階で有料化の打診</li>
+        <li><strong>個人向け価格</strong>: 月980〜1,980円（ランチ1〜2回分）が個人PT向けの心理的ハードル最小。施設・法人は別途</li>
+        <li><strong>SNS誘導</strong>: 開発裏話→フォロワー獲得→β版募集の流れが最もコストゼロで顧客獲得できるルート</li>
+      </ul>
+      <div class="highlight">今は動かさない。SNSでファンを作ることが最良の販売準備。</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 今週のアクションサマリー -->
+<div style="background: linear-gradient(135deg, rgba(0,212,255,0.05), rgba(124,58,237,0.05)); border: 1px solid rgba(0,212,255,0.2); border-radius: 16px; padding: 24px; margin-top: 8px;">
+  <h2 style="color:var(--accent); font-size:1rem; margin-bottom:16px;">今週 優先してやること（全部署統合）</h2>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.85rem;">
+    <div>
+      <div style="color:var(--red); font-weight:700; margin-bottom:8px;">リハカルテ製作部</div>
+      <div style="color:var(--muted); margin-bottom:4px;">□ .env作成 → SOAP生成テスト</div>
+      <div style="color:var(--muted); margin-bottom:4px;">□ reportlabインストール → PDF出力の設計開始</div>
+      <div style="color:var(--muted);">□ 先輩PTに現状のプロトタイプを試してもらう</div>
+    </div>
+    <div>
+      <div style="color:var(--orange); font-weight:700; margin-bottom:8px;">SNS・マーケティング部</div>
+      <div style="color:var(--muted); margin-bottom:4px;">□ note 02（金）・03（水）・04（日）を公開</div>
+      <div style="color:var(--muted); margin-bottom:4px;">□ theme_tree.json にリハカルテテーマを追加</div>
+      <div style="color:var(--muted);">□ Threads投稿バッチ12本を週次スケジュール通りに手動投稿</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

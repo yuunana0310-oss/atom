@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>note デスクワーク・ストレッチカテゴリ 市場調査レポート 2026年4月</title>
+  <style>
+    :root {
+      --black: #111111;
+      --gray-dark: #444444;
+      --gray-mid: #888888;
+      --gray-light: #cccccc;
+      --gray-bg: #f7f7f5;
+      --white: #ffffff;
+      --accent: #2563eb;
+      --border: #e5e5e5;
+      --radius: 12px;
+      /* rank colors */
+      --rank1: #b45309;
+      --rank2: #6b7280;
+      --rank3: #92400e;
+      /* badge colors */
+      --badge-experience-bg: #ffe4e6;
+      --badge-experience-fg: #be123c;
+      --badge-expert-bg: #dbeafe;
+      --badge-expert-fg: #1d4ed8;
+      --badge-season-bg: #fef3c7;
+      --badge-season-fg: #92400e;
+      --badge-series-bg: #f3e8ff;
+      --badge-series-fg: #7c3aed;
+      --badge-data-bg: #d1fae5;
+      --badge-data-fg: #065f46;
+      --badge-tool-bg: #e0f2fe;
+      --badge-tool-fg: #0369a1;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--black);
+      background: var(--white);
+    }
+
+    /* ---- HEADER ---- */
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .site-header .logo {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .site-header .meta {
+      font-size: 12px;
+      color: var(--gray-mid);
+    }
+
+    /* ---- HERO ---- */
+    .hero {
+      background: var(--gray-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 64px 40px 56px;
+      text-align: center;
+    }
+    .hero-pill {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 99px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    .hero-sub {
+      font-size: 15px;
+      color: var(--gray-mid);
+      margin-bottom: 40px;
+    }
+    .kpi-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .kpi-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      min-width: 155px;
+      text-align: center;
+    }
+    .kpi-num {
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--black);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .kpi-label {
+      font-size: 11px;
+      color: var(--gray-mid);
+      margin-top: 6px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ---- LAYOUT ---- */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .section {
+      padding: 56px 0 48px;
+      border-top: 1px solid var(--border);
+    }
+    .section:first-child { border-top: none; }
+
+    .section-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+
+    /* ---- NOTE BOX ---- */
+    .note-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: #78350f;
+      margin-bottom: 28px;
+      line-height: 1.65;
+    }
+
+    /* ---- TABLE ---- */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    thead tr {
+      background: var(--black);
+      color: var(--white);
+    }
+    th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 10px 14px;
+    }
+    td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tbody tr:nth-child(even) { background: var(--gray-bg); }
+    tr:last-child td { border-bottom: none; }
+    .num-right { text-align: right; font-variant-numeric: tabular-nums; }
+
+    code {
+      background: var(--gray-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 12px;
+      color: var(--gray-dark);
+    }
+
+    /* ---- BADGES ---- */
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+    .badge-ok   { background: #d1fae5; color: #065f46; }
+    .badge-warn { background: var(--badge-season-bg); color: var(--badge-season-fg); }
+    .badge-ng   { background: #fee2e2; color: #991b1b; }
+    .badge-exp  { background: var(--badge-experience-bg); color: var(--badge-experience-fg); }
+    .badge-expert { background: var(--badge-expert-bg); color: var(--badge-expert-fg); }
+    .badge-data { background: var(--badge-data-bg); color: var(--badge-data-fg); }
+    .badge-ser  { background: var(--badge-series-bg); color: var(--badge-series-fg); }
+    .badge-sea  { background: var(--badge-season-bg); color: var(--badge-season-fg); }
+
+    /* ---- RANK LIST ---- */
+    .rank-list { list-style: none; padding: 0; }
+    .rank-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .rank-item:last-child { border-bottom: none; }
+    .rank-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--white);
+      min-width: 52px;
+      align-self: stretch;
+      background: var(--gray-light);
+      border-radius: 0;
+    }
+    .rank-badge.r1 { background: var(--rank1); }
+    .rank-badge.r2 { background: var(--rank2); }
+    .rank-badge.r3 { background: var(--rank3); }
+    .rank-body {
+      padding: 18px 20px;
+      flex: 1;
+    }
+    .rank-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 5px;
+    }
+    .rank-desc { font-size: 13px; color: var(--gray-dark); line-height: 1.65; }
+    .rank-score-col {
+      padding: 18px 20px;
+      text-align: right;
+      white-space: nowrap;
+      min-width: 110px;
+    }
+    .rank-num-big {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--black);
+      line-height: 1;
+    }
+    .rank-num-unit { font-size: 12px; color: var(--gray-mid); }
+
+    /* ---- PATTERN GRID ---- */
+    .pattern-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .pattern-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+    }
+    .pattern-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      margin-bottom: 10px;
+    }
+    .pattern-example {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .pattern-why { font-size: 13px; color: var(--gray-dark); line-height: 1.65; }
+
+    /* ---- TITLE PROPOSALS ---- */
+    .title-list { list-style: none; padding: 0; counter-reset: title-c; }
+    .title-item {
+      counter-increment: title-c;
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .title-item:last-child { border-bottom: none; }
+    .title-num {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gray-light);
+      min-width: 44px;
+      padding: 20px 0 20px 4px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .title-body {
+      padding: 18px 0 18px 4px;
+      flex: 1;
+    }
+    .title-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .title-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .title-meta-text { font-size: 12px; color: var(--gray-mid); }
+    .title-why { font-size: 13px; color: var(--gray-dark); line-height: 1.65; margin-top: 8px; }
+
+    /* ---- FORMAT GRID ---- */
+    .format-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .format-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+    }
+    .format-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      margin-bottom: 6px;
+    }
+    .format-value {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--black);
+    }
+    .format-note { font-size: 12px; color: var(--gray-mid); margin-top: 4px; }
+
+    /* ---- VICTORY BOX ---- */
+    .victory-box {
+      background: var(--black);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 40px 44px;
+    }
+    .victory-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 16px;
+    }
+    .formula {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 2;
+      margin-bottom: 28px;
+    }
+    .formula .hl { color: #6ee7b7; }
+    .formula-divider {
+      border-top: 1px solid #333;
+      margin-bottom: 20px;
+    }
+    .formula-note {
+      font-size: 13px;
+      color: #9ca3af;
+      line-height: 1.75;
+    }
+    .formula-note strong { color: #e5e7eb; }
+
+    /* ---- FOOTER ---- */
+    .site-footer {
+      text-align: center;
+      padding: 28px 40px;
+      font-size: 12px;
+      color: var(--gray-light);
+      border-top: 1px solid var(--border);
+      margin-top: 8px;
+    }
+
+    @media (max-width: 680px) {
+      .site-header, .hero { padding-left: 20px; padding-right: 20px; }
+      .container { padding: 0 20px; }
+      .hero h1 { font-size: 26px; }
+      .pattern-grid, .format-grid { grid-template-columns: 1fr; }
+      .victory-box { padding: 28px 24px; }
+      .formula { font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="logo">note Market Research</div>
+  <div class="meta">2026-04-10 &nbsp;|&nbsp; デスクワーク・ストレッチカテゴリ</div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-pill">Health Category</div>
+  <h1>デスクワーク・ストレッチ<br>市場調査レポート</h1>
+  <p class="hero-sub">note.com API + WebSearch による実データ収集 &nbsp;|&nbsp; 2026年4月調査</p>
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-num">38,081</div>
+      <div class="kpi-label">#ストレッチ 記事件数</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num">38,265</div>
+      <div class="kpi-label">#腰痛 記事件数</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num">23,876</div>
+      <div class="kpi-label">#肩こり 記事件数</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num">6,296</div>
+      <div class="kpi-label">#デスクワーク 記事件数</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num">11,996</div>
+      <div class="kpi-label">#身体コンテスト 投稿数</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+  <!-- SECTION 1: スクレイピング概要 -->
+  <section class="section">
+    <p class="section-eyebrow">Data Collection</p>
+    <h2 class="section-title">データ収集概要と制限事項</h2>
+
+    <div class="note-box">
+      <strong>技術的制限の注記</strong><br>
+      <code>/topic/{name}</code> および <code>/hashtag/{tag}</code> のリスト画面は Next.js 動的レンダリングのため、記事カードの詳細データ（いいね数・著者名）を直接取得できない。
+      個別記事ページの「いいね数」もHTML上に明示されないケースが多く、本レポートのいいね数は note 公式 API (<code>/api/v2/creators/{username}/contents</code>) で取得できた値のみ正確数値として記載している。それ以外は推定値または非公開として扱う。
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>取得元</th>
+          <th>取得内容</th>
+          <th>件数・状態</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>api/v2/hashtags/{tag}</code></td>
+          <td>ハッシュタグの記事件数・関連タグ</td>
+          <td>9タグ分取得成功</td>
+        </tr>
+        <tr>
+          <td><code>api/v2/creators/{username}/contents</code></td>
+          <td>クリエイター別記事一覧・いいね数</td>
+          <td>4アカウント分（約24記事）取得成功</td>
+        </tr>
+        <tr>
+          <td><code>api/v1/top_articles</code></td>
+          <td>サイト全体トレンド記事</td>
+          <td>404エラー（エンドポイント無効化）</td>
+        </tr>
+        <tr>
+          <td>個別記事ページ直接取得</td>
+          <td>記事構成・著者属性・有料無料の別</td>
+          <td>約8記事分のコンテンツ分析</td>
+        </tr>
+        <tr>
+          <td>note コンテストページ</td>
+          <td>コンテスト名・投稿数・主催者</td>
+          <td>現在募集中6件を確認</td>
+        </tr>
+        <tr>
+          <td>WebSearch 補完</td>
+          <td>高評価記事タイトル・著者属性・トレンド</td>
+          <td>4クエリ実行</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION 2: ハッシュタグ規模 -->
+  <section class="section">
+    <p class="section-eyebrow">Hashtag Scale</p>
+    <h2 class="section-title">ハッシュタグ規模感</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ハッシュタグ</th>
+          <th class="num-right">記事件数</th>
+          <th>主な関連タグ</th>
+          <th>位置づけ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>#健康</code></td>
+          <td class="num-right">353,909</td>
+          <td>#ダイエット #食事 #運動</td>
+          <td><span class="badge badge-ok">最大規模</span></td>
+        </tr>
+        <tr>
+          <td><code>#ストレッチ</code></td>
+          <td class="num-right">38,081</td>
+          <td>#ダイエット #筋トレ #運動</td>
+          <td><span class="badge badge-ok">中規模・競合多</span></td>
+        </tr>
+        <tr>
+          <td><code>#腰痛</code></td>
+          <td class="num-right">38,265</td>
+          <td>#姿勢 #整体 #肩こり</td>
+          <td><span class="badge badge-ok">中規模・悩み特化</span></td>
+        </tr>
+        <tr>
+          <td><code>#姿勢</code></td>
+          <td class="num-right">40,294</td>
+          <td>#整体 #呼吸 #腰痛</td>
+          <td><span class="badge badge-ok">中規模</span></td>
+        </tr>
+        <tr>
+          <td><code>#肩こり</code></td>
+          <td class="num-right">23,876</td>
+          <td>#整体 #腰痛 #姿勢</td>
+          <td><span class="badge badge-warn">中規模・需要安定</span></td>
+        </tr>
+        <tr>
+          <td><code>#姿勢改善</code></td>
+          <td class="num-right">12,953</td>
+          <td>#整体 #腰痛 #肩こり</td>
+          <td><span class="badge badge-warn">小中規模・改善意欲層</span></td>
+        </tr>
+        <tr>
+          <td><code>#猫背</code></td>
+          <td class="num-right">6,991</td>
+          <td>#姿勢 #整体 #ストレッチ</td>
+          <td><span class="badge badge-warn">小規模・ニッチ</span></td>
+        </tr>
+        <tr>
+          <td><code>#デスクワーク</code></td>
+          <td class="num-right">6,296</td>
+          <td>#仕事 #健康 #腰痛</td>
+          <td><span class="badge badge-warn">小規模・文脈特化</span></td>
+        </tr>
+        <tr>
+          <td><code>#眼精疲労</code></td>
+          <td class="num-right">4,151</td>
+          <td>#自律神経 #整体 #肩こり</td>
+          <td><span class="badge badge-ng">ニッチ・希少</span></td>
+        </tr>
+        <tr>
+          <td><code>#腰痛改善</code></td>
+          <td class="num-right">4,163</td>
+          <td>#整体 #ストレッチ #腰痛</td>
+          <td><span class="badge badge-ng">ニッチ・行動喚起型</span></td>
+        </tr>
+        <tr>
+          <td><code>#巻き肩</code></td>
+          <td class="num-right">1,312</td>
+          <td>#整体 #姿勢 #肩こり</td>
+          <td><span class="badge badge-ng">超ニッチ</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px; color: var(--gray-mid); margin-top:8px;">* 件数は2026年4月10日時点の <code>api/v2/hashtags/{tag}</code> レスポンス値。</p>
+  </section>
+
+  <!-- SECTION 3: エンゲージメント傾向ランキング -->
+  <section class="section">
+    <p class="section-eyebrow">Engagement Ranking</p>
+    <h2 class="section-title">コンテンツ類型別 エンゲージメント傾向</h2>
+
+    <p style="font-size:13px; color: var(--gray-dark); margin-bottom:24px; line-height:1.75;">
+      今回取得できた実数いいねデータ（APIベース）と観測した記事事例を総合したランキング。
+      いいね数の絶対値は取得できていない事例が多いため、記事の構成・著者属性・タイトルパターンから推定エンゲージメントを加味して評価している。
+    </p>
+
+    <ul class="rank-list">
+      <li class="rank-item">
+        <div class="rank-badge r1">1</div>
+        <div class="rank-body">
+          <div class="rank-title">専門家権威型 — 理学療法士・鍼灸師による解説</div>
+          <div class="rank-desc">「延べ5万人を診てきた理学療法士が解説」「15年・1万人以上のデスクワーカーを診てきた」のような権威の明示が読者の信頼を獲得する。肩こり・腰痛は情報過多のカテゴリのため、専門家の肩書きが差別化の最大要因になると考えられる。note上では理学療法士アカウントの自己紹介記事が100いいね超えするケースが複数確認された（super_human: 2,117いいね、pt_care_rhythm: 119いいね）。</div>
+        </div>
+        <div class="rank-score-col">
+          <div class="rank-num-big">高</div>
+          <div class="rank-num-unit">推定エンゲージメント</div>
+        </div>
+      </li>
+      <li class="rank-item">
+        <div class="rank-badge r2">2</div>
+        <div class="rank-body">
+          <div class="rank-title">意外性フック型 — 「肩こりの本当の原因は肩じゃない」</div>
+          <div class="rank-desc">症状の場所と原因の乖離を示すタイトルが高クリック率を生む。「肩こりの本当の原因は"肩"じゃない？〜理学療法士が見抜いた意外な落とし穴〜」「肩甲骨はがしで治らない理由は『関節のズレ』」など、既存の常識を覆す構造が観測された。専門家権威型との組み合わせで効果が高まる。</div>
+        </div>
+        <div class="rank-score-col">
+          <div class="rank-num-big">中高</div>
+          <div class="rank-num-unit">推定エンゲージメント</div>
+        </div>
+      </li>
+      <li class="rank-item">
+        <div class="rank-badge r3">3</div>
+        <div class="rank-body">
+          <div class="rank-title">コンテスト参加型 — 「身体についてのひとりごと」体験談</div>
+          <div class="rank-desc">ロート製薬×note主催「#身体についてのひとりごと」は2026年4月10日時点で約11,996件の投稿を集める。募集テーマが「身体と向き合うきっかけになったエピソード」であり、デスクワークによる腰痛・肩こりの体験談と親和性が高い。コンテスト投稿はnote公式に表示される機会が増えるため、新規読者流入を期待できる。</div>
+        </div>
+        <div class="rank-score-col">
+          <div class="rank-num-big">中</div>
+          <div class="rank-num-unit">推定エンゲージメント</div>
+        </div>
+      </li>
+      <li class="rank-item">
+        <div class="rank-badge" style="background:#9ca3af;">4</div>
+        <div class="rank-body">
+          <div class="rank-title">デスク環境改善型 — 「ぎっくり腰をきっかけに変えたデスク環境」</div>
+          <div class="rank-desc">note公式のおすすめ記事として取り上げられた「腰と肩への負担が少ないデスクが完成しました」（4年間の試行錯誤）のような、購入品紹介と体験を組み合わせたコンテンツ。在宅勤務層との親和性が高く、ガジェット・グッズ系記事として展開可能。一方でストレッチ実践寄りの記事より情報価値が低下しやすい。</div>
+        </div>
+        <div class="rank-score-col">
+          <div class="rank-num-big">中</div>
+          <div class="rank-num-unit">推定エンゲージメント</div>
+        </div>
+      </li>
+      <li class="rank-item">
+        <div class="rank-badge" style="background:#9ca3af;">5</div>
+        <div class="rank-body">
+          <div class="rank-title">メソッド紹介型 — 「〇選」「〇秒ストレッチ」</div>
+          <div class="rank-desc">「自宅でできる腰痛改善ストレッチ5選」「座ったまま1分できる肩こり解消ストレッチ」など。情報が実用的でシェアされやすい半面、類似記事が多いためタイトルの差別化が課題。独自データや専門家監修なしでは埋もれやすいと考えられる。PDF添付・イラスト付きなどビジュアル強化で差別化余地あり。</div>
+        </div>
+        <div class="rank-score-col">
+          <div class="rank-num-big">中低</div>
+          <div class="rank-num-unit">推定エンゲージメント</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- SECTION 4: タイトルパターン -->
+  <section class="section">
+    <p class="section-eyebrow">Title Patterns</p>
+    <h2 class="section-title">売れるタイトルパターン</h2>
+
+    <div class="pattern-grid">
+      <div class="pattern-card">
+        <p class="pattern-eyebrow">Pattern 01 — 専門家権威型</p>
+        <p class="pattern-example">「【現役理学療法士が解説】本当に効く！肩こり対策の決定版」</p>
+        <p class="pattern-why">肩書きを【 】で明示。「本当に」「決定版」が読者の迷いを解消する言葉として機能する。検索ニーズが高い悩みほど効果的。</p>
+      </div>
+      <div class="pattern-card">
+        <p class="pattern-eyebrow">Pattern 02 — 意外性反転型</p>
+        <p class="pattern-example">「肩こりの本当の原因は"肩"じゃない？〜理学療法士が見抜いた意外な落とし穴〜」</p>
+        <p class="pattern-why">読者が「えっ、そうなの？」と感じる認知的不協和を利用。クリック率が上がりやすく、専門家との組み合わせで信頼性も担保できる。</p>
+      </div>
+      <div class="pattern-card">
+        <p class="pattern-eyebrow">Pattern 03 — 常識崩し型</p>
+        <p class="pattern-example">「デスクワーカーの9割が知らない『正しい座り方』」「背筋を伸ばして座るは科学的に間違っている？」</p>
+        <p class="pattern-why">「9割が知らない」は煽り表現になりやすいため注意が必要。「多くの人が見落としている」など表現を調整して使うと効果を保ちつつリスクを下げられる。</p>
+      </div>
+      <div class="pattern-card">
+        <p class="pattern-eyebrow">Pattern 04 — 数字特定型</p>
+        <p class="pattern-example">「腰痛・肩こり・ひざ痛にサヨナラ！30秒ストレッチ」「座ったまま1分でできる肩こり解消法」</p>
+        <p class="pattern-why">所要時間の数字がハードルの低さを伝える。「30秒」「1分」「3分」は特に反応が良いと考えられる。デスクワーカーの「忙しい中でもできる」ニーズに直接応える。</p>
+      </div>
+      <div class="pattern-card">
+        <p class="pattern-eyebrow">Pattern 05 — 症状特定×根本原因型</p>
+        <p class="pattern-example">「肩甲骨はがしで治らない理由は『関節のズレ』：理学療法士が伝える肩こり解消の新常識」</p>
+        <p class="pattern-why">「なぜ効かないか」を先に示す構造。既存の解決策を試して失敗した読者層に響く。「新常識」フレーズはやや多用されているため、「実は〜だった」等のバリエーションも有効。</p>
+      </div>
+      <div class="pattern-card">
+        <p class="pattern-eyebrow">Pattern 06 — 体験告白型</p>
+        <p class="pattern-example">「ぎっくり腰になって気づいた、4年間の試行錯誤で変えたこと」「デスクワーク15年でたどり着いたストレッチ習慣」</p>
+        <p class="pattern-why">個人体験の蓄積が説得力の根拠になる。専門家でない書き手でも有効なパターン。コンテスト（#身体についてのひとりごと）との相性が最も高い。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: タイトル10案 -->
+  <section class="section">
+    <p class="section-eyebrow">Title Proposals</p>
+    <h2 class="section-title">タイトル10案</h2>
+    <p style="font-size:13px; color: var(--gray-dark); margin-bottom:24px; line-height:1.75;">
+      読者設定: デスクワーク中の疲労・肩こり・腰痛に悩む月収10万円前後のスキルワーカー。
+      CLAUDE.mdの「やらないこと」（煽り表現・過度な誇張・読者をあおる比較表現）を適用済み。
+    </p>
+
+    <ul class="title-list">
+
+      <li class="title-item">
+        <div class="title-num">01</div>
+        <div class="title-body">
+          <div class="title-text">肩こりの原因は、肩じゃなかった。理学療法士が見てきた「デスクワーカーに多い姿勢の問題」</div>
+          <div class="title-badges">
+            <span class="badge badge-expert">専門家</span>
+            <span class="badge" style="background:var(--badge-experience-bg); color:var(--badge-experience-fg);">意外性</span>
+          </div>
+          <div class="title-why">Pattern02（意外性反転）× 専門家権威の組み合わせ。「じゃなかった」という体言止めで言い切りの強さを持たせつつ、煽りにならない説明文で補足。デスクワーカー文脈を明示して検索意図とのマッチを高める。</div>
+        </div>
+      </li>
+
+      <li class="title-item">
+        <div class="title-num">02</div>
+        <div class="title-body">
+          <div class="title-text">【理学療法士が解説】デスクワークで腰が痛くなる人と、ならない人の違い</div>
+          <div class="title-badges">
+            <span class="badge badge-expert">専門家</span>
+            <span class="badge badge-data">比較構造</span>
+          </div>
+          <div class="title-why">【 】ブラケット型 × 対比フレーミング。「なる人・ならない人」の構造は読者が自分をどちらに分類するか考えるため高クリック率が期待できる。腰痛ハッシュタグ（38,265件）との相性が良い。</div>
+        </div>
+      </li>
+
+      <li class="title-item">
+        <div class="title-num">03</div>
+        <div class="title-body">
+          <div class="title-text">「背筋を伸ばして座る」をやめてから、腰の調子が変わってきた話</div>
+          <div class="title-badges">
+            <span class="badge" style="background:var(--badge-experience-bg); color:var(--badge-experience-fg);">体験告白</span>
+            <span class="badge" style="background:var(--badge-experience-bg); color:var(--badge-experience-fg);">やめた話</span>
+          </div>
+          <div class="title-why">「〇〇をやめた話」パターン。体験告白型で共感を獲得しやすく、コンテスト（#身体についてのひとりごと）への投稿にも適合する。常識を覆す内容を体験談として語ることで読者の抵抗感を下げる。</div>
+        </div>
+      </li>
+
+      <li class="title-item">
+        <div class="title-num">04</div>
+        <div class="title-body">
+          <div class="title-text">1時間に1回、1分だけ。デスクワーカーが続けやすいストレッチの選び方</div>
+          <div class="title-badges">
+            <span class="badge badge-data">数字特定</span>
+            <span class="badge badge-ser">実践系</span>
+          </div>
+          <div class="title-why">「1時間に1回・1分」という具体的な数字がハードルの低さを示す。「選び方」という形式で情報整理型コンテンツとして位置づけ、ストレッチ記事が氾濫するなかで「選び方を教えてくれる記事」として差別化。</div>
+        </div>
+      </li>
+
+      <li class="title-item">
+        <div class="title-num">05</div>
+        <div class="title-body">
+          <div class="title-text">在宅ワーク3年目で気づいた、肩こりが慢性化する前にやっておけばよかった習慣</div>
+          <div class="title-badges">
+            <span class="badge" style="background:var(--badge-experience-bg); color:var(--badge-experience-fg);">体験告白</span>
+            <span class="badge badge-ser">シリーズ</span>
+          </div>
+          <div class="title-why">年数特定フレーミングで共感の間口を広げる。「〜しておけばよかった」という後悔の文脈が読者の「自分はまだ間に合う」という感情を引き出す。在宅ワーク層（87,033件タグ）との親和性が高い。</div>
+        </div>
+      </li>
+
+      <li class="title-item">
+        <div class="title-num">06</div>
+        <div class="title-body">
+          <div class="title-text">【保存版】デスクで座ったままできる、首・肩・腰の疲れを和らげるストレッチ5選</div>
+          <div class="title-badges">
+            <span class="badge badge-data">数字特定</span>
+            <span class="badge badge-ser">保存推奨</span>
+          </div>
+          <div class="title-why">「保存版」タグは読者が後で見返す動機を与え、フォロー・ブックマークを促す。3部位（首・肩・腰）をまとめた構成は検索流入も広くなる。5選という数字は読み切れる量として最適。</div>
+        </div>
+      </li>
+
+      <li class="title-item">
+        <div class="title-num">07</div>
+        <div class="title-body">
+          <div class="title-text">肩甲骨をほぐしても肩こりが取れなかった理由、わかりました</div>
+          <div class="title-badges">
+            <span class="badge" style="background:var(--badge-experience-bg); color:var(--badge-experience-fg);">体験告白</span>
+            <span class="badge" style="background:var(--badge-experience-bg); color:var(--badge-experience-fg);">意外性</span>
+          </div>
+          <div class="title-why">「治らなかった体験」からスタートする構造は、同じ悩みを持つ読者の共感度が高い。「わかりました」という穏やかな言い切りが、煽りにならずに解決感を伝える。</div>
+        </div>
+      </li>
+
+      <li class="title-item">
+        <div class="title-num">08</div>
+        <div class="title-body">
+          <div class="title-text">「目の疲れ・肩こり・頭痛」が同時に来る日は、こうしています</div>
+          <div class="title-badges">
+            <span class="badge" style="background:var(--badge-experience-bg); color:var(--badge-experience-fg);">体験告白</span>
+            <span class="badge badge-sea">季節・状況</span>
+          </div>
+          <div class="title-why">複数症状の同時出現という状況描写がリアリティを生む。デスクワーカーに多い「三重苦」をタイトルに盛り込むことで検索マッチが広がる。「こうしています」という語り口が説教臭くない。</div>
+        </div>
+      </li>
+
+      <li class="title-item">
+        <div class="title-num">09</div>
+        <div class="title-body">
+          <div class="title-text">【春のデスクワーク疲れに】理学療法士が実際に使っているセルフケア3つ</div>
+          <div class="title-badges">
+            <span class="badge badge-expert">専門家</span>
+            <span class="badge badge-sea">季節フック</span>
+            <span class="badge badge-data">数字特定</span>
+          </div>
+          <div class="title-why">季節フック（春）× 専門家権威 × 数字特定の三要素組み合わせ。「実際に使っている」という言葉が再現性と信頼感を同時に伝える。春は新年度の疲れが蓄積し始める時期で季節需要がある。</div>
+        </div>
+      </li>
+
+      <li class="title-item">
+        <div class="title-num">10</div>
+        <div class="title-body">
+          <div class="title-text">デスクワークで腰を痛めてから、仕事と体の付き合い方が変わった</div>
+          <div class="title-badges">
+            <span class="badge" style="background:var(--badge-experience-bg); color:var(--badge-experience-fg);">体験告白</span>
+            <span class="badge badge-ser">転機型</span>
+          </div>
+          <div class="title-why">「〇〇から、〇〇が変わった」という転機構造。コンテスト「#身体についてのひとりごと」のテーマ「身体と向き合うきっかけ」に直接合致し、投稿して掲載される可能性がある。体験談として書けるため専門資格がなくても書き手になれる。</div>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <!-- SECTION 6: フォーマットガイド -->
+  <section class="section">
+    <p class="section-eyebrow">Format Guide</p>
+    <h2 class="section-title">フォーマット推奨値</h2>
+
+    <div class="format-grid">
+      <div class="format-item">
+        <p class="format-eyebrow">文字数</p>
+        <p class="format-value">1,500〜2,500字</p>
+        <p class="format-note">体験談主体なら1,500字、解説系は2,000〜2,500字が最適と考えられる</p>
+      </div>
+      <div class="format-item">
+        <p class="format-eyebrow">価格設定</p>
+        <p class="format-value">無料 or 300円</p>
+        <p class="format-note">体験談は無料が正解。具体的なストレッチ図解・PDF付きのみ300円</p>
+      </div>
+      <div class="format-item">
+        <p class="format-eyebrow">推奨ハッシュタグ数</p>
+        <p class="format-value">3〜5個</p>
+        <p class="format-note">#肩こり #腰痛 #ストレッチ + テーマ特化1〜2個</p>
+      </div>
+      <div class="format-item">
+        <p class="format-eyebrow">コンテスト投稿</p>
+        <p class="format-value">優先検討</p>
+        <p class="format-note">#身体についてのひとりごと（11,996件・ロート製薬主催）は体験談と親和性が高い</p>
+      </div>
+      <div class="format-item">
+        <p class="format-eyebrow">シリーズ化</p>
+        <p class="format-value">推奨</p>
+        <p class="format-note">「首編」「腰編」「目の疲れ編」など部位別に展開するとフォロワー定着に有効</p>
+      </div>
+      <div class="format-item">
+        <p class="format-eyebrow">著者権威の開示</p>
+        <p class="format-value">必須</p>
+        <p class="format-note">理学療法士の場合は冒頭で明示。経験年数・診た人数も具体的に書くと信頼度が上がる</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <table>
+        <thead>
+          <tr>
+            <th>コンテンツ種類</th>
+            <th>推奨価格</th>
+            <th>有料化の条件</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>体験談・個人の気づき記事</td>
+            <td>無料</td>
+            <td>体験談は無料のほうがエンゲージメントが高くなる傾向がある</td>
+          </tr>
+          <tr>
+            <td>ストレッチ解説（テキストのみ）</td>
+            <td>無料</td>
+            <td>類似記事が多いため無料で読者を集めてから有料へ誘導</td>
+          </tr>
+          <tr>
+            <td>イラスト・PDF付きストレッチガイド</td>
+            <td>300円</td>
+            <td>「保存して使える」実用性が有料の正当化条件になる</td>
+          </tr>
+          <tr>
+            <td>専門家によるパーソナルケアガイド</td>
+            <td>500〜980円</td>
+            <td>著者の権威 + 他では得られない独自メソッドがある場合のみ</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 7: 勝利の方程式 -->
+  <section class="section">
+    <p class="section-eyebrow">Key Insight</p>
+    <h2 class="section-title">勝利の方程式</h2>
+    <div class="victory-box">
+      <p class="victory-eyebrow">Formula for High Engagement</p>
+      <div class="formula">
+        <span class="hl">専門家の権威（理学療法士・鍼灸師）</span><br>
+        ＋ <span class="hl">意外性のある切り口（原因の意外な場所）</span><br>
+        ＋ <span class="hl">体験談・個人の変化（Before → After）</span><br>
+        ＋ <span class="hl">すぐ実践できる具体的な手順</span>
+      </div>
+      <div class="formula-divider"></div>
+      <div class="formula-note">
+        <strong>最優先ターゲットタグ:</strong> #肩こり（23,876件）、#腰痛（38,265件）、#ストレッチ（38,081件）は競合が存在するが読者需要が安定している。<br><br>
+        <strong>注目すべきコンテスト:</strong> ロート製薬「#身体についてのひとりごと」（約11,996件・2026年4月18日まで）は体験談型の記事を書く場合に投稿を検討する価値がある。コンテスト経由でnote公式からの露出機会を得られる。<br><br>
+        <strong>差別化のポイント:</strong> 「肩こり・腰痛」コンテンツは類似記事が多い。理学療法士としての専門知識を前面に出しつつ、診てきた患者の具体的なパターン（症例ベース）に落とし込むことで他の解説記事との差別化が図れる。<br><br>
+        <strong>書き手のアドバンテージ:</strong> 現役PTという肩書きは note 健康カテゴリで最も競争優位になる要素。自己紹介記事で権威を確立してから個別テーマ記事を展開するシリーズ構成が中長期的に有効と考えられる。
+      </div>
+    </div>
+  </section>
+
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  データソース: note.com API (api/v2/hashtags, api/v2/creators), note公式コンテストページ, WebSearch (4クエリ) &nbsp;|&nbsp;
+  調査日: 2026-04-10 &nbsp;|&nbsp;
+  注意: いいね数の絶対値は動的レンダリング制限のため取得不可なケースが多く、ランキングは推定評価を含む
+</footer>
+
+</body>
+</html>

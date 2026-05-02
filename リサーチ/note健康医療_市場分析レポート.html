@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>note.com 健康・医療カテゴリ 市場分析レポート</title>
+  <style>
+    :root {
+      --black: #111111;
+      --gray-dark: #444444;
+      --gray-mid: #888888;
+      --gray-light: #cccccc;
+      --gray-bg: #f7f7f5;
+      --white: #ffffff;
+      --accent: #2563eb;
+      --accent-light: #eff6ff;
+      --accent-pale: #dbeafe;
+      --green: #16a34a;
+      --green-light: #f0fdf4;
+      --amber: #d97706;
+      --amber-light: #fffbeb;
+      --rose: #e11d48;
+      --rose-light: #fff1f2;
+      --border: #e5e5e5;
+      --radius: 12px;
+      --radius-sm: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* ──────────────── HEADER ──────────────── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; color: var(--gray-mid); text-transform: uppercase; }
+    .header-meta { font-size: 12px; color: var(--gray-mid); }
+
+    /* ──────────────── HERO ──────────────── */
+    .hero {
+      padding: 80px 40px 60px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      color: var(--black);
+    }
+    .hero-sub {
+      font-size: 17px;
+      color: var(--gray-dark);
+      max-width: 600px;
+      line-height: 1.75;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+    .hero-stat-item { display: flex; flex-direction: column; gap: 4px; }
+    .stat-num { font-size: 28px; font-weight: 800; color: var(--black); letter-spacing: -0.02em; }
+    .stat-label { font-size: 12px; color: var(--gray-mid); letter-spacing: 0.04em; }
+
+    /* ──────────────── SECTION ──────────────── */
+    .section {
+      padding: 64px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .section + .section { border-top: 1px solid var(--border); }
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 32px;
+    }
+
+    /* ──────────────── SCRAPING BOX ──────────────── */
+    .scrape-summary {
+      background: var(--gray-bg);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 32px;
+      border-left: 4px solid var(--black);
+    }
+    .scrape-summary h3 { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--gray-dark); }
+    .scrape-summary ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .scrape-summary li { font-size: 14px; color: var(--gray-dark); display: flex; align-items: flex-start; gap: 8px; }
+    .scrape-summary li::before { content: "→"; color: var(--gray-mid); flex-shrink: 0; }
+
+    .data-note {
+      background: var(--amber-light);
+      border: 1px solid #fde68a;
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      font-size: 13px;
+      color: #92400e;
+      margin-bottom: 32px;
+    }
+
+    /* ──────────────── TAG VOLUME ──────────────── */
+    .tag-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+    .tag-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .tag-card::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      width: var(--bar);
+      background: var(--black);
+    }
+    .tag-name { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .tag-count { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+    .tag-unit { font-size: 11px; color: var(--gray-mid); margin-left: 2px; }
+
+    /* ──────────────── TREND CARDS ──────────────── */
+    .trend-list { display: flex; flex-direction: column; gap: 20px; }
+    .trend-card {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .trend-rank {
+      background: var(--black);
+      color: var(--white);
+      font-size: 18px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: -0.02em;
+    }
+    .trend-rank.gold { background: #b45309; }
+    .trend-rank.silver { background: #6b7280; }
+    .trend-rank.bronze { background: #92400e; }
+    .trend-body { padding: 18px 22px; }
+    .trend-theme { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+    .trend-desc { font-size: 13px; color: var(--gray-dark); line-height: 1.65; margin-bottom: 10px; }
+    .trend-examples { display: flex; flex-wrap: wrap; gap: 6px; }
+    .example-tag {
+      background: var(--gray-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 12px;
+      color: var(--gray-dark);
+    }
+    .trend-metric {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-top: 10px;
+    }
+
+    /* ──────────────── TITLE TABLE ──────────────── */
+    .title-grid { display: flex; flex-direction: column; gap: 12px; }
+    .title-row {
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      gap: 16px;
+      align-items: start;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.15s;
+    }
+    .title-row:hover { border-color: var(--black); }
+    .title-num {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--gray-light);
+      letter-spacing: -0.02em;
+      line-height: 1.4;
+    }
+    .title-content { display: flex; flex-direction: column; gap: 6px; }
+    .title-text { font-size: 15px; font-weight: 700; line-height: 1.5; }
+    .title-reason { font-size: 12px; color: var(--gray-mid); }
+    .title-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      align-self: flex-start;
+    }
+    .badge-story { background: var(--rose-light); color: var(--rose); }
+    .badge-expert { background: var(--accent-light); color: var(--accent); }
+    .badge-age { background: var(--green-light); color: var(--green); }
+    .badge-season { background: var(--amber-light); color: var(--amber); }
+    .badge-series { background: #f5f3ff; color: #7c3aed; }
+    .badge-data { background: var(--gray-bg); color: var(--gray-dark); }
+
+    /* ──────────────── PATTERN PILLS ──────────────── */
+    .pattern-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 14px;
+    }
+    .pattern-card {
+      background: var(--gray-bg);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+    }
+    .pattern-label { font-size: 11px; font-weight: 700; color: var(--gray-mid); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .pattern-text { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .pattern-example { font-size: 12px; color: var(--gray-dark); font-style: italic; }
+
+    /* ──────────────── FORMAT TABLE ──────────────── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    thead th {
+      background: var(--black);
+      color: var(--white);
+      text-align: left;
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td { padding: 13px 16px; color: var(--gray-dark); vertical-align: top; }
+    tbody td:first-child { font-weight: 700; color: var(--black); }
+    tbody tr:nth-child(even) td { background: var(--gray-bg); }
+
+    /* ──────────────── STRATEGY BOX ──────────────── */
+    .strategy-box {
+      background: var(--black);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 36px 40px;
+      margin-top: 40px;
+    }
+    .strategy-box h3 { font-size: 20px; font-weight: 800; margin-bottom: 20px; }
+    .formula {
+      background: rgba(255,255,255,0.1);
+      border-radius: var(--radius-sm);
+      padding: 18px 22px;
+      font-size: 17px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 24px;
+      letter-spacing: 0.02em;
+    }
+    .formula span { color: #93c5fd; }
+    .strategy-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .strategy-list li { font-size: 14px; color: rgba(255,255,255,0.8); display: flex; gap: 10px; align-items: flex-start; }
+    .strategy-list li::before { content: "✓"; color: #86efac; flex-shrink: 0; font-weight: 700; }
+
+    /* ──────────────── FOOTER ──────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--gray-mid);
+    }
+
+    /* ──────────────── DIVIDER ──────────────── */
+    .full-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Market Research Report</div>
+  <div class="header-meta">note.com 健康・医療カテゴリ &nbsp;|&nbsp; 2026.03.22</div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Analysis Report</div>
+  <h1>note.com 健康・医療<br>人気記事 傾向分析</h1>
+  <p class="hero-sub">
+    健康・医療カテゴリのハッシュタグ・コンテスト・クリエイターデータを収集・分析。
+    売れる記事の傾向と、今すぐ使えるタイトル10案をまとめました。
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat-item">
+      <span class="stat-num">344,600</span>
+      <span class="stat-label">#健康 記事数</span>
+    </div>
+    <div class="hero-stat-item">
+      <span class="stat-num">7,000+</span>
+      <span class="stat-label">健康コンテスト投稿数</span>
+    </div>
+    <div class="hero-stat-item">
+      <span class="stat-num">1,546</span>
+      <span class="stat-label">精神科医 自己紹介いいね数</span>
+    </div>
+    <div class="hero-stat-item">
+      <span class="stat-num">10案</span>
+      <span class="stat-label">分析ベースのタイトル案</span>
+    </div>
+  </div>
+</div>
+
+<hr class="full-divider" />
+
+<!-- SCRAPING METHODOLOGY -->
+<div class="section">
+  <div class="section-label">Data Collection</div>
+  <div class="section-title">スクレイピング概要と取得データ</div>
+
+  <div class="data-note">
+    ⚠️ note.com の <code>/topic/health_medical</code> はNext.jsで動的レンダリングされており、直接のHTML取得は不可。
+    非公式API・コンテスト・クリエイターページから約80〜100記事分のデータを収集しました。
+  </div>
+
+  <div class="scrape-summary">
+    <h3>アクセスしたエンドポイント・ページ</h3>
+    <ul>
+      <li><code>note.com/api/v1/top_articles</code> — サイト全体トレンド記事（リアルタイム）</li>
+      <li><code>note.com/api/v2/hashtags/{tag}</code> — ハッシュタグのメタ情報・記事件数</li>
+      <li><code>note.com/api/v2/creators/{username}/contents</code> — クリエイター別記事一覧</li>
+      <li>健康コンテスト結果ページ（#いい歯のために、#健康を考えることになって）</li>
+      <li>精神科医・内科医・医療業界メディアのクリエイターページ</li>
+    </ul>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ハッシュタグ</th>
+        <th>記事件数</th>
+        <th>競合レベル</th>
+        <th>備考</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>#健康</td>
+        <td>344,600</td>
+        <td>超激戦</td>
+        <td>最大カテゴリ。個人体験記事が多数</td>
+      </tr>
+      <tr>
+        <td>#ダイエット</td>
+        <td>321,488</td>
+        <td>超激戦</td>
+        <td>食事・運動系が中心</td>
+      </tr>
+      <tr>
+        <td>#食事</td>
+        <td>124,137</td>
+        <td>高</td>
+        <td>レシピ・栄養管理系</td>
+      </tr>
+      <tr>
+        <td>#運動</td>
+        <td>97,749</td>
+        <td>高</td>
+        <td>ジム・ストレッチ・ランニング</td>
+      </tr>
+      <tr>
+        <td>#美容</td>
+        <td>97,271</td>
+        <td>高</td>
+        <td>健康と重複する女性向けコンテンツ</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="full-divider" />
+
+<!-- TREND ANALYSIS -->
+<div class="section">
+  <div class="section-label">Trend Analysis</div>
+  <div class="section-title">エンゲージメントが高いコンテンツ類型</div>
+
+  <div class="trend-list">
+    <div class="trend-card">
+      <div class="trend-rank gold">1</div>
+      <div class="trend-body">
+        <div class="trend-theme">個人体験 × 健康の転機</div>
+        <div class="trend-desc">
+          病気・回復・転機の実体験が圧倒的に共感される。コンテスト「#健康を考えることになって」は7,000件超の投稿を集めた。純粋な情報記事より、<strong>「自分ごと感」のある体験記</strong>が伸びる。
+        </div>
+        <div class="trend-examples">
+          <span class="example-tag">歯医者に行って治ったのは歯だけじゃなかった</span>
+          <span class="example-tag">がんを経験してわかったこと</span>
+        </div>
+        <div class="trend-metric">コンテスト投稿数 7,000件超</div>
+      </div>
+    </div>
+
+    <div class="trend-card">
+      <div class="trend-rank silver">2</div>
+      <div class="trend-body">
+        <div class="trend-theme">専門家（精神科医）× ポップカルチャー</div>
+        <div class="trend-desc">
+          精神科医・鹿冶梟介氏の記事が好例。花粉症×うつ病、バレンタイン×精神医学など、<strong>季節・時事トピックと医学知識の掛け合わせ</strong>が100〜190いいねを安定記録。
+        </div>
+        <div class="trend-examples">
+          <span class="example-tag">恋愛と精神医学：外向性男子はモテやすい？ 190♡</span>
+          <span class="example-tag">花粉症と精神医学：うつ病を悪化させる 169♡</span>
+        </div>
+        <div class="trend-metric">自己紹介記事: 1,546いいね</div>
+      </div>
+    </div>
+
+    <div class="trend-card">
+      <div class="trend-rank bronze">3</div>
+      <div class="trend-body">
+        <div class="trend-theme">40代・50代のライフスタイル転換</div>
+        <div class="trend-desc">
+          年齢特定フレーミングが刺さる。「40代が気づいた〜」「50歳になったときにやったこと」系は400いいね超。読者層が厚く、<strong>共感率が高い</strong>。
+        </div>
+        <div class="trend-examples">
+          <span class="example-tag">自分を作っているものに気づいた40代が 436♡</span>
+          <span class="example-tag">40代エイジングケア</span>
+        </div>
+        <div class="trend-metric">平均400〜440いいね</div>
+      </div>
+    </div>
+
+    <div class="trend-card">
+      <div class="trend-rank">4</div>
+      <div class="trend-body">
+        <div class="trend-theme">ランキング・衝撃数字 × 医療業界</div>
+        <div class="trend-desc">
+          「世界病院ランキング2025」「全国赤字ワースト病院ランキング100」などB2B・医療業界向け記事が高ビュー。専門家・業界人にシェアされる。
+        </div>
+        <div class="trend-examples">
+          <span class="example-tag">世界病院ランキング2025</span>
+          <span class="example-tag">5人に1人が慢性腎臓病</span>
+          <span class="example-tag">赤字ワースト病院100</span>
+        </div>
+        <div class="trend-metric">ビュー数ランキング常連</div>
+      </div>
+    </div>
+
+    <div class="trend-card">
+      <div class="trend-rank">5</div>
+      <div class="trend-body">
+        <div class="trend-theme">メンタルヘルス・睡眠・腸活</div>
+        <div class="trend-desc">
+          2025〜2026年の健康トレンド上位。「睡眠改善」「腸活」「ウェルビーイング」は常に高需要。#睡眠との複合タグが有効。
+        </div>
+        <div class="trend-examples">
+          <span class="example-tag">1年間気分を記録してわかったこと 577♡</span>
+          <span class="example-tag">腸活×メンタル</span>
+          <span class="example-tag">睡眠トラッカー</span>
+        </div>
+        <div class="trend-metric">2025-26年トレンド継続中</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="full-divider" />
+
+<!-- TITLE PATTERNS -->
+<div class="section">
+  <div class="section-label">Title Formula</div>
+  <div class="section-title">売れるタイトルのパターン</div>
+
+  <div class="pattern-grid">
+    <div class="pattern-card">
+      <div class="pattern-label">Pattern 01</div>
+      <div class="pattern-text">【 】ブラケット＋説明</div>
+      <div class="pattern-example">「【健診結果、見逃してない？】腎臓を守る新常識」</div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-label">Pattern 02</div>
+      <div class="pattern-text">〇〇と精神医学：意外な関係</div>
+      <div class="pattern-example">「花粉症と精神医学：うつ病を悪化させる」</div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-label">Pattern 03</div>
+      <div class="pattern-text">年齢×転機フレーミング</div>
+      <div class="pattern-example">「40代が気づいた、50歳になったときにやったこと」</div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-label">Pattern 04</div>
+      <div class="pattern-text">〇〇をやめた話・気づいた話</div>
+      <div class="pattern-example">「「今年こそ」と誓うのをやめた話」507♡</div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-label">Pattern 05</div>
+      <div class="pattern-text">数字×ランキング×衝撃</div>
+      <div class="pattern-example">「5人に1人が〇〇」「ワースト100」</div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-label">Pattern 06</div>
+      <div class="pattern-text">専門家権威の明示</div>
+      <div class="pattern-example">「専門医が解説」「精神科医がみた〇〇」</div>
+    </div>
+  </div>
+</div>
+
+<hr class="full-divider" />
+
+<!-- 10 TITLES -->
+<div class="section">
+  <div class="section-label">Title Ideas</div>
+  <div class="section-title">分析ベースのタイトル10案</div>
+
+  <div class="title-grid">
+
+    <div class="title-row">
+      <div class="title-num">01</div>
+      <div class="title-content">
+        <div class="title-text">【40代に多い】首こり・肩こりが治らない本当の理由と、デスクワーカーが今日からできること</div>
+        <div class="title-reason">年齢フレーミング＋【 】ブラケット＋実践的価値の明示</div>
+      </div>
+      <span class="title-badge badge-age">年齢特定</span>
+    </div>
+
+    <div class="title-row">
+      <div class="title-num">02</div>
+      <div class="title-content">
+        <div class="title-text">「肩こりを放置してきた」私が、40代で椎間板ヘルニアになってわかったこと</div>
+        <div class="title-reason">体験談フォーマット＋年齢フレーミング＋転機ナラティブ</div>
+      </div>
+      <span class="title-badge badge-story">体験談</span>
+    </div>
+
+    <div class="title-row">
+      <div class="title-num">03</div>
+      <div class="title-content">
+        <div class="title-text">デスクワークと精神医学：長時間座ることがうつ病リスクを上げるメカニズム</div>
+        <div class="title-reason">「〇〇と精神医学」パターン＋デスクワーカーに直接刺さるトピック</div>
+      </div>
+      <span class="title-badge badge-expert">専門家</span>
+    </div>
+
+    <div class="title-row">
+      <div class="title-num">04</div>
+      <div class="title-content">
+        <div class="title-text">毎日ストレッチをやめた話。3ヶ月続けてわかった「続かない本当の理由」</div>
+        <div class="title-reason">「やめた話」フォーマット＋逆説的フック＋自己告白型</div>
+      </div>
+      <span class="title-badge badge-story">体験談</span>
+    </div>
+
+    <div class="title-row">
+      <div class="title-num">05</div>
+      <div class="title-content">
+        <div class="title-text">【春の肩こり悪化】花粉症と筋肉の硬直には意外な関係があった</div>
+        <div class="title-reason">季節フック（春）＋【 】ブラケット＋意外性の掛け合わせ</div>
+      </div>
+      <span class="title-badge badge-season">季節フック</span>
+    </div>
+
+    <div class="title-row">
+      <div class="title-num">06</div>
+      <div class="title-content">
+        <div class="title-text">「頑張っているのに体が回復しない」と感じたとき、私が変えた1つのこと</div>
+        <div class="title-reason">読者の悩みを直接代弁する共感フック＋転機型の体験ナラティブ</div>
+      </div>
+      <span class="title-badge badge-story">体験談</span>
+    </div>
+
+    <div class="title-row">
+      <div class="title-num">07</div>
+      <div class="title-content">
+        <div class="title-text">ざっくりデスクワーク身体学(1)：「座りすぎ」が引き起こす5つの不調と対策</div>
+        <div class="title-reason">シリーズ化フォーマット＋数字＋専門知識を噛み砕く構成</div>
+      </div>
+      <span class="title-badge badge-series">シリーズ</span>
+    </div>
+
+    <div class="title-row">
+      <div class="title-num">08</div>
+      <div class="title-content">
+        <div class="title-text">月収10万円のフリーランスが「健康への投資」を優先した結果、仕事の質が上がった話</div>
+        <div class="title-reason">読者層の具体的収入設定＋体験談＋仕事パフォーマンスとの接続</div>
+      </div>
+      <span class="title-badge badge-story">体験談</span>
+    </div>
+
+    <div class="title-row">
+      <div class="title-num">09</div>
+      <div class="title-content">
+        <div class="title-text">【保存版】デスクワーカーの腰痛・肩こり対策ランキング：100人に聞いた「続いたケア」TOP5</div>
+        <div class="title-reason">【保存版】ブラケット＋ランキング＋数字の信頼感</div>
+      </div>
+      <span class="title-badge badge-data">データ系</span>
+    </div>
+
+    <div class="title-row">
+      <div class="title-num">10</div>
+      <div class="title-content">
+        <div class="title-text">50代になって初めて「身体と向き合うことにした」私のストレッチ記録</div>
+        <div class="title-reason">年齢特定×体験記×継続記録フォーマット（シリーズ展開しやすい）</div>
+      </div>
+      <span class="title-badge badge-age">年齢特定</span>
+    </div>
+
+  </div>
+</div>
+
+<hr class="full-divider" />
+
+<!-- FORMAT GUIDE -->
+<div class="section">
+  <div class="section-label">Format Guide</div>
+  <div class="section-title">記事フォーマットの傾向</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>要素</th>
+        <th>推奨値・傾向</th>
+        <th>根拠</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>最適文字数</td>
+        <td>1,500〜2,500字</td>
+        <td>note社の公開データ + 高いいね記事の平均</td>
+      </tr>
+      <tr>
+        <td>有料 vs 無料</td>
+        <td>無料が圧倒的主流</td>
+        <td>体験談・個人記事はほぼ100%無料。有料は実用ガイドのみ</td>
+      </tr>
+      <tr>
+        <td>シリーズ化効果</td>
+        <td>毎回100〜145いいね安定</td>
+        <td>精神医学クイズ・ざっくり精神医学シリーズの実績</td>
+      </tr>
+      <tr>
+        <td>季節フック効果</td>
+        <td>+20〜40%いいね増</td>
+        <td>花粉症（春）・バレンタイン（2月）連動記事の比較</td>
+      </tr>
+      <tr>
+        <td>段落の長さ</td>
+        <td>3〜5行以内/段落</td>
+        <td>読みやすさ＋スマホ表示の最適化</td>
+      </tr>
+      <tr>
+        <td>タイトル構造</td>
+        <td>【 】 or 体験告白 or 年齢特定</td>
+        <td>トップいいね記事のタイトル分析結果</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="strategy-box">
+    <h3>売れる記事の方程式</h3>
+    <div class="formula">
+      <span>個人体験</span> ＋ <span>専門知識</span> ＋ <span>季節・時事フック</span> ＋ <span>【 】タイトル</span>
+    </div>
+    <ul class="strategy-list">
+      <li>純粋な情報記事は埋もれる → 「自分ごと感」が不可欠</li>
+      <li>医師・専門家は権威で差別化、一般人は体験の深さで差別化</li>
+      <li>シリーズ化でファン化 → 単発より連載が長期的に強い</li>
+      <li>有料化するなら実用ガイド・まとめ系に絞る（体験談は無料が正解）</li>
+      <li>#健康 × #ダイエット × #40代 などタグの複合使用で発見率UP</li>
+      <li>3月〜4月は「春疲れ」「花粉症×メンタル」「新生活ストレス」が旬</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  <div>note.com 健康・医療カテゴリ 市場分析レポート &nbsp;|&nbsp; 2026.03.22</div>
+  <div>データ取得: note API / コンテストページ / クリエイターページ &nbsp;|&nbsp; 分析記事数: 約80〜100件</div>
+</footer>
+
+</body>
+</html>

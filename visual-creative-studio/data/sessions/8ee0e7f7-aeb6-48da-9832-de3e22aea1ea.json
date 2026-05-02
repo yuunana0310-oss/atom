@@ -1,0 +1,70 @@
+{
+  "session_id": "8ee0e7f7-aeb6-48da-9832-de3e22aea1ea",
+  "created_at": 1776601908.6511939,
+  "updated_at": 1776601908.6600564,
+  "mode": "design",
+  "goal": "カルーセル投稿って何？",
+  "platform": "",
+  "size": "instagram_portrait",
+  "style": "simple",
+  "tone": "",
+  "worldview": "",
+  "genre": "",
+  "title": "",
+  "subtitle": "",
+  "body_text": "",
+  "cta": "",
+  "page_count": 1,
+  "color_scheme": "",
+  "primary_color": "",
+  "secondary_color": "",
+  "accent_color": "",
+  "background_color": "",
+  "slides": [],
+  "panels": [],
+  "creative_suite": [],
+  "character_settings": {
+    "enabled": false,
+    "name": "",
+    "appearance": "",
+    "hair": "",
+    "outfit": "",
+    "colors": [],
+    "personality": "",
+    "expression_style": "",
+    "pose_style": "",
+    "reference_notes": "",
+    "ng_items": [],
+    "worldview_notes": ""
+  },
+  "brand_settings": {
+    "brand_name": "",
+    "brand_colors": [],
+    "font_style": "",
+    "visual_rules": []
+  },
+  "fixed_constraints": [],
+  "change_requests": [],
+  "references": [],
+  "output_format": "svg",
+  "generated_content": [],
+  "version": 1,
+  "messages": [
+    {
+      "role": "user",
+      "content": "カルーセル投稿って何？",
+      "timestamp": 1776601908.6592846
+    },
+    {
+      "role": "assistant",
+      "content": "📐 **デザイン生成**モードですね！\n\n**現在の設定:**\n📌 モード: **デザイン生成**\n🎯 目的: カルーセル投稿って何？\n🎨 スタイル: シンプル\n\nどのプラットフォーム向けですか？\n（Instagram / YouTube / note / Threads / その他）",
+      "timestamp": 1776601908.659392
+    }
+  ],
+  "pending_questions": [
+    {
+      "field": "platform",
+      "label": "プラットフォーム"
+    }
+  ]
+}

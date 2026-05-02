@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>転倒・転落予防マニュアル｜病棟スタッフ向け</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+    background: #f5f7fa;
+    color: #2d3748;
+    line-height: 1.8;
+    padding: 20px;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  /* ヘッダー */
+  .header {
+    background: linear-gradient(135deg, #2b6cb0, #2c5282);
+    color: white;
+    padding: 36px 40px;
+  }
+  .header .label {
+    font-size: 12px;
+    letter-spacing: 2px;
+    opacity: 0.8;
+    margin-bottom: 8px;
+  }
+  .header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+  .header .meta {
+    font-size: 13px;
+    opacity: 0.75;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  /* 重要ボックス */
+  .alert-box {
+    background: #fff5f5;
+    border-left: 4px solid #e53e3e;
+    padding: 16px 20px;
+    margin: 24px 40px;
+    border-radius: 0 8px 8px 0;
+  }
+  .alert-box .alert-title {
+    color: #e53e3e;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .alert-box p { font-size: 14px; }
+
+  /* 目次 */
+  .toc {
+    background: #ebf8ff;
+    border: 1px solid #bee3f8;
+    margin: 0 40px 24px;
+    padding: 20px 24px;
+    border-radius: 8px;
+  }
+  .toc-title {
+    font-weight: 700;
+    color: #2b6cb0;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+  .toc ol { padding-left: 20px; }
+  .toc li { font-size: 14px; padding: 3px 0; color: #2b6cb0; }
+
+  /* セクション */
+  .section {
+    padding: 0 40px 32px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+  .section-num {
+    background: #2b6cb0;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a365d;
+  }
+
+  /* リスク評価表 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  th {
+    background: #2b6cb0;
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #f7fafc; }
+  tr:hover td { background: #ebf8ff; }
+
+  /* リスクレベルバッジ */
+  .risk-high   { background: #fed7d7; color: #c53030; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+  .risk-mid    { background: #feebc8; color: #c05621; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+  .risk-low    { background: #c6f6d5; color: #276749; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+
+  /* チェックリスト */
+  .checklist { list-style: none; margin: 12px 0; }
+  .checklist li {
+    padding: 8px 12px;
+    margin: 4px 0;
+    background: #f7fafc;
+    border-radius: 6px;
+    font-size: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .checklist li::before {
+    content: "□";
+    font-size: 16px;
+    color: #2b6cb0;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* フローチャート */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 16px 0;
+  }
+  .flow-item {
+    background: #ebf8ff;
+    border: 1px solid #bee3f8;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c5282;
+    text-align: center;
+  }
+  .flow-arrow {
+    text-align: center;
+    color: #2b6cb0;
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  /* ポイントボックス */
+  .point-box {
+    background: #f0fff4;
+    border: 1px solid #9ae6b4;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .point-box .point-title {
+    color: #276749;
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .point-box ul { padding-left: 18px; }
+  .point-box li { font-size: 14px; padding: 3px 0; }
+
+  /* 改訂履歴 */
+  .revision {
+    background: #f7fafc;
+    margin: 0 40px 40px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #718096;
+  }
+  .revision table { margin: 8px 0 0; }
+  .revision td { font-size: 13px; color: #718096; padding: 4px 12px; }
+
+  /* フッター */
+  .footer {
+    background: #2d3748;
+    color: #a0aec0;
+    text-align: center;
+    padding: 20px;
+    font-size: 13px;
+  }
+
+  @media (max-width: 600px) {
+    .header { padding: 24px 20px; }
+    .section { padding: 0 20px 24px; }
+    .alert-box { margin: 16px 20px; }
+    .toc { margin: 0 20px 16px; }
+    .revision { margin: 0 20px 24px; }
+    .header h1 { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <div class="header">
+    <div class="label">院内マニュアル｜病棟スタッフ全員対象</div>
+    <h1>転倒・転落予防マニュアル</h1>
+    <div class="meta">
+      <span>📅 制定：2026年4月</span>
+      <span>🏥 対象：病棟勤務スタッフ全員</span>
+      <span>📋 管理部門：看護部・リハビリテーション部</span>
+    </div>
+  </div>
+
+  <!-- 重要事項 -->
+  <div class="alert-box">
+    <div class="alert-title">⚠️ このマニュアルについて</div>
+    <p>転倒・転落はインシデントの中でも発生頻度・重篤度ともに高いアクシデントです。スタッフ全員が本マニュアルの内容を理解し、日常業務に組み込むことが求められます。疑問点は所属長またはリスク管理担当へ相談してください。</p>
+  </div>
+
+  <!-- 目次 -->
+  <div class="toc">
+    <div class="toc-title">📋 目次</div>
+    <ol>
+      <li>転倒・転落が起きる主な原因</li>
+      <li>リスク評価（アセスメント）の実施</li>
+      <li>入院時〜退院までの予防手順</li>
+      <li>環境整備チェックリスト</li>
+      <li>転倒・転落発生時の対応フロー</li>
+      <li>スタッフが押さえるべき予防ポイント</li>
+      <li>よくある質問（Q&A）</li>
+    </ol>
+  </div>
+
+  <!-- 1. 原因 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">転倒・転落が起きる主な原因</div>
+    </div>
+    <table>
+      <tr>
+        <th>要因の種類</th>
+        <th>具体的な内容</th>
+        <th>リスク</th>
+      </tr>
+      <tr>
+        <td><strong>患者側の要因</strong></td>
+        <td>高齢・筋力低下・歩行不安定・認知機能低下・排泄に関する焦り・睡眠薬・降圧薬などの薬剤影響</td>
+        <td><span class="risk-high">高</span></td>
+      </tr>
+      <tr>
+        <td><strong>環境要因</strong></td>
+        <td>ベッド高さの不適切・床の濡れ・段差・照明不足・ナースコールの位置・履物の問題</td>
+        <td><span class="risk-mid">中〜高</span></td>
+      </tr>
+      <tr>
+        <td><strong>ケア提供側の要因</strong></td>
+        <td>リスク評価の未実施・情報共有不足・見守り頻度不足・スタッフ間の認識差</td>
+        <td><span class="risk-mid">中</span></td>
+      </tr>
+      <tr>
+        <td><strong>時間帯</strong></td>
+        <td>夜間・早朝（スタッフ少・患者が1人でトイレに行こうとする）</td>
+        <td><span class="risk-high">高</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 2. リスク評価 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">リスク評価（アセスメント）の実施</div>
+    </div>
+    <p style="font-size:14px; margin-bottom:12px;">入院時・病状変化時・転棟時に必ず実施してください。</p>
+    <table>
+      <tr>
+        <th>評価項目</th>
+        <th>確認内容</th>
+        <th>ハイリスクの目安</th>
+      </tr>
+      <tr>
+        <td>歩行・移動能力</td>
+        <td>独歩・歩行器・車椅子・全介助</td>
+        <td>歩行器以上・ふらつきあり</td>
+      </tr>
+      <tr>
+        <td>認知機能</td>
+        <td>見当識・指示理解・衝動的行動</td>
+        <td>中等度以上の低下</td>
+      </tr>
+      <tr>
+        <td>転倒歴</td>
+        <td>入院前・入院後の転倒経験</td>
+        <td>直近6ヶ月以内に転倒あり</td>
+      </tr>
+      <tr>
+        <td>使用薬剤</td>
+        <td>睡眠薬・利尿剤・降圧薬・抗ヒスタミン薬</td>
+        <td>2種類以上の該当薬</td>
+      </tr>
+      <tr>
+        <td>排泄</td>
+        <td>夜間頻尿・失禁・トイレ動作の自立度</td>
+        <td>夜間2回以上・一部介助</td>
+      </tr>
+      <tr>
+        <td>視力・感覚</td>
+        <td>視力低下・末梢神経障害・めまい</td>
+        <td>矯正後も見えにくい</td>
+      </tr>
+    </table>
+    <div class="point-box">
+      <div class="point-title">✅ リスク判定の目安</div>
+      <ul>
+        <li><span class="risk-high">高リスク</span>：4項目以上該当 → 個別予防計画を立案・ベッドにリスク表示</li>
+        <li><span class="risk-mid">中リスク</span>：2〜3項目該当 → 環境整備＋見守り強化</li>
+        <li><span class="risk-low">低リスク</span>：1項目以下 → 標準的な予防策を継続</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3. 予防手順 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">入院時〜退院までの予防手順</div>
+    </div>
+    <div class="flow">
+      <div class="flow-item">📥 入院時：リスクアセスメント実施 → リスクレベル判定</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item">📋 予防計画立案：ベッド高さ設定・ナースコール位置確認・環境整備</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item">👥 スタッフ間共有：申し送り・カルテへの記載・ベッドへのリスク表示</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item">🔄 定期再評価：病状変化・手術後・薬剤変更時に再アセスメント</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item">📤 退院時：在宅環境の確認・患者・家族への指導・訪問リハへの情報提供</div>
+    </div>
+  </div>
+
+  <!-- 4. 環境整備 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title">環境整備チェックリスト（日勤・夜勤で実施）</div>
+    </div>
+    <p style="font-size:13px; color:#718096; margin-bottom:12px;">ハイリスク患者は1日2回（日勤・夜勤開始時）に確認してください。</p>
+    <ul class="checklist">
+      <li>ベッドの高さが最低位になっている（または患者の足がしっかり床につく高さ）</li>
+      <li>ベッド柵が適切な位置に設置されている</li>
+      <li>ナースコールが患者の手の届く位置にある</li>
+      <li>床に水・濡れ・障害物がない</li>
+      <li>スリッパではなく、かかとが固定できる履物を使用している</li>
+      <li>夜間の足元照明が点灯している（または手が届く位置にある）</li>
+      <li>点滴スタンド・チューブ類が移動の妨げになっていない</li>
+      <li>ポータブルトイレ・尿器が必要な患者に準備されている</li>
+      <li>眼鏡・補聴器が患者の手の届く位置にある</li>
+      <li>離床センサー・マットが正常に作動している（使用患者のみ）</li>
+    </ul>
+  </div>
+
+  <!-- 5. 発生時対応 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title">転倒・転落発生時の対応フロー</div>
+    </div>
+    <div class="flow">
+      <div class="flow-item">🚨 発見・第一報：「転倒発生！〇号室！」と声をかけ応援を呼ぶ</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item">🩺 安全確認：意識・呼吸・出血・骨折の疑い → 動かす前に確認</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item">👨‍⚕️ 医師報告：バイタル測定後すみやかに主治医・当直医へ報告</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item">📝 記録：発生時刻・状況・患者の訴え・観察内容を詳細に記録</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item">📞 家族連絡：状況を説明・過度な不安を与えない落ち着いた説明を心がける</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item">📋 インシデントレポート：当日中に提出・原因分析・再発防止策を記載</div>
+    </div>
+    <div class="alert-box" style="margin: 16px 0;">
+      <div class="alert-title">⚠️ 発生後の絶対NG行動</div>
+      <p>「大丈夫そうだから様子見でいいか」という自己判断は禁止。頭部打撲の場合は数時間後に症状が出ることがあります。必ず医師に報告し、指示を仰いでください。</p>
+    </div>
+  </div>
+
+  <!-- 6. 予防ポイント -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div class="section-title">スタッフが押さえるべき予防ポイント</div>
+    </div>
+    <div class="point-box">
+      <div class="point-title">🌙 夜間・早朝に特に注意すること</div>
+      <ul>
+        <li>就寝前にトイレ誘導を行い、夜間の自己排泄行動を減らす</li>
+        <li>睡眠薬投与後30分は離床に注意（ふらつきが出やすい）</li>
+        <li>ハイリスク患者は巡回頻度を上げる（1〜2時間ごと）</li>
+      </ul>
+    </div>
+    <div class="point-box">
+      <div class="point-title">💊 薬剤変更時に確認すること</div>
+      <ul>
+        <li>睡眠薬・利尿剤・降圧薬が新たに処方された患者は要注意</li>
+        <li>薬剤変更後48時間はリスク評価を再実施する</li>
+        <li>医師・薬剤師と連携し、転倒リスクのある薬剤を把握する</li>
+      </ul>
+    </div>
+    <div class="point-box">
+      <div class="point-title">🗣️ 患者・家族への説明で伝えること</div>
+      <ul>
+        <li>「ひとりで動くときは必ずナースコールを押してください」</li>
+        <li>「履物はかかとが固定できるものを使ってください」</li>
+        <li>「めまい・ふらつきを感じたらすぐに教えてください」</li>
+        <li>家族にも「転倒リスクがあること」を正直に伝え、協力を依頼する</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 7. Q&A -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <div class="section-title">よくある質問（Q&A）</div>
+    </div>
+    <table>
+      <tr>
+        <th>質問</th>
+        <th>回答</th>
+      </tr>
+      <tr>
+        <td>センサーマットはいつ使う？</td>
+        <td>認知機能低下があり、自己でコールできない患者や夜間の無断離床リスクが高い患者に使用。使用は医師・看護師長と相談のうえ決定。</td>
+      </tr>
+      <tr>
+        <td>ベッド柵を全部上げていいの？</td>
+        <td>4点柵は身体拘束に当たる場合があります。使用する場合は家族同意と記録が必要。まず3点柵＋センサーの組み合わせを検討してください。</td>
+      </tr>
+      <tr>
+        <td>転倒直後、患者を起こしていい？</td>
+        <td>骨折・頭部打撲の確認前に動かさないことが原則。意識・出血・疼痛を確認してから医師の指示を仰いでください。</td>
+      </tr>
+      <tr>
+        <td>インシデントレポートは必ず書く？</td>
+        <td>転倒・転落はたとえ受傷がなくても必ず提出。「何もなかったから書かない」は絶対NG。再発防止のための大切な情報です。</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 改訂履歴 -->
+  <div class="revision">
+    <strong>📅 改訂履歴</strong>
+    <table>
+      <tr>
+        <td>2026年4月</td>
+        <td>ver.1.0</td>
+        <td>初版作成</td>
+      </tr>
+    </table>
+    <p style="margin-top:8px;">※ 内容に変更が生じた場合は所属長へ報告し、改訂版を発行してください。</p>
+  </div>
+
+  <div class="footer">
+    転倒・転落予防マニュアル｜病棟スタッフ向け ver.1.0<br>
+    疑問・改善提案は看護部・リハビリテーション部まで
+  </div>
+
+</div>
+</body>
+</html>

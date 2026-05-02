@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>統合臨床エディタ - 様式第21号 真のデジタル・ツイン</title>
+    <style>
+        :root { --line: #000; --bg: #fff; --grey: #f5f5f5; --accent: #0056b3; }
+        body { background: #333; font-family: "Yu Gothic UI", sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        
+        .toolbar { background: #1a1a1a; color: #fff; width: 1700px; padding: 15px; display: flex; gap: 20px; align-items: center; position: sticky; top: 0; z-index: 1000; border-radius: 6px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); margin-bottom: 20px; }
+        .btn { padding: 12px 28px; cursor: pointer; border: none; font-weight: bold; border-radius: 4px; font-size: 11pt; transition: 0.2s; }
+        .btn-save { background: #28a745; color: white; }
+        .btn-save:hover { background: #218838; }
+        .btn-close { background: #444; color: white; }
+        
+        .spread { display: flex; gap: 20px; align-items: flex-start; }
+        .page { background: var(--bg); width: 210mm; height: 297mm; padding: 8mm; box-shadow: 0 0 40px rgba(0,0,0,0.6); box-sizing: border-box; position: relative; overflow: hidden; }
+        
+        .doc-header { text-align: center; font-size: 14pt; font-weight: bold; border-bottom: 2px solid #000; margin-bottom: 3mm; padding-bottom: 1mm; }
+        .section-title { background: #000; color: #fff; font-size: 9pt; padding: 1mm 3mm; margin-top: 3mm; font-weight: bold; }
+        
+        /* Grid System for 1:1 Fidelity */
+        .grid { display: grid; border-top: 1px solid var(--line); border-left: 1px solid var(--line); grid-template-columns: repeat(24, 1fr); margin-bottom: 1mm; }
+        .cell { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 0.8mm; font-size: 8pt; display: flex; align-items: center; min-height: 7mm; box-sizing: border-box; }
+        .label { background: var(--grey); font-weight: bold; justify-content: center; text-align: center; }
+        
+        input, textarea { border: none; width: 100%; background: transparent; font-family: inherit; font-size: inherit; outline: none; padding: 0; margin: 0; }
+        textarea { resize: none; height: 100%; }
+        input:focus, textarea:focus { background: #fffde7; }
+
+        /* Choices */
+        .choices { display: flex; gap: 5pt; width: 100%; justify-content: center; }
+        .choice { cursor: pointer; color: #ccc; }
+        .choice.selected { color: #e00; font-weight: bold; text-decoration: underline; }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .toolbar { display: none; }
+            .spread { display: block; }
+            .page { box-shadow: none; border: none; margin: 0; page-break-after: always; }
+        }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <div style="font-size: 16pt; font-weight: bold; border-right: 2px solid #444; padding-right: 20px;">統合臨床エディタ <span style="font-size: 10pt; font-weight: normal; opacity: 0.7;">ver 2.0 (True Twin)</span></div>
+        <div id="patient-banner" style="font-size: 14pt;">選択中: [読み込み中]</div>
+        <button class="btn btn-save" onclick="saveAll()">すべての項目を保存して同期</button>
+        <button class="btn btn-close" onclick="window.close()">閉じる</button>
+        <div style="flex-grow:1;"></div>
+        <div style="text-align: right; line-height: 1.2; font-size: 8pt; opacity: 0.8;">
+            <span style="color: #28a745;">●</span> データベース直接接続中 (Offline)<br>
+            2026-04-11 19:51:33
+        </div>
+    </div>
+
+    <div class="spread">
+        <!-- Page 1 -->
+        <div class="page" id="p1">
+            <div class="doc-header">（別紙様式２１） リハビリテーション総合実施計画書</div>
+            
+            <div class="grid">
+                <div class="cell label" style="grid-column: span 3;">患者氏名</div>
+                <div class="cell" style="grid-column: span 10;"><input type="text" id="patient_name"></div>
+                <div class="cell label" style="grid-column: span 2;">性別</div>
+                <div class="cell" style="grid-column: span 3;">
+                    <div class="choices" data-key="sex">
+                        <span class="choice" onclick="selectChoice(this, '男')">男</span>
+                        <span class="choice" onclick="selectChoice(this, '女')">女</span>
+                    </div>
+                </div>
+                <div class="cell label" style="grid-column: span 2;">年齢</div>
+                <div class="cell" style="grid-column: span 4;"><input type="text" id="age" style="text-align:right;"> 歳</div>
+
+                <div class="cell label" style="grid-column: span 3;">算定病名</div>
+                <div class="cell" style="grid-column: span 11;"><input type="text" id="disease_name"></div>
+                <div class="cell label" style="grid-column: span 3;">発症日</div>
+                <div class="cell" style="grid-column: span 7;"><input type="date" id="onset_date"></div>
+            </div>
+
+            <div class="section-title">１．心身機能・構造（※該当する項目をすべて記載）</div>
+            <div class="grid" id="impairment-grid">
+                <div class="cell label" style="grid-column: span 4;">意識(JCS/GCS)</div>
+                <div class="cell" style="grid-column: span 8;"><input type="text" id="impairment_consciousness"></div>
+                <div class="cell label" style="grid-column: span 4;">呼吸状態</div>
+                <div class="cell" style="grid-column: span 8;"><input type="text" id="impairment_respiratory"></div>
+
+                <div class="cell label" style="grid-column: span 4;">循環状態</div>
+                <div class="cell" style="grid-column: span 8;"><input type="text" id="impairment_circulate"></div>
+                <div class="cell label" style="grid-column: span 4;">ROM制限</div>
+                <div class="cell" style="grid-column: span 8;"><input type="text" id="impairment_rom"></div>
+
+                <div class="cell label" style="grid-column: span 4;">筋力(MMT)</div>
+                <div class="cell" style="grid-column: span 8;"><input type="text" id="impairment_muscle"></div>
+                <div class="cell label" style="grid-column: span 4;">麻痺(BRS)</div>
+                <div class="cell" style="grid-column: span 8;"><input type="text" id="impairment_paralysis"></div>
+
+                <div class="cell label" style="grid-column: span 4;">感覚障害</div>
+                <div class="cell" style="grid-column: span 8;"><input type="text" id="impairment_sensation"></div>
+                <div class="cell label" style="grid-column: span 4;">高次脳機能</div>
+                <div class="cell" style="grid-column: span 8;"><input type="text" id="impairment_higher_brain"></div>
+            </div>
+
+            <div class="section-title">３．日常生活活動（ADL）</div>
+            <div class="grid" id="adl-matrix">
+                <div class="cell label" style="grid-column: span 4;">評価項目</div>
+                <div class="cell label" style="grid-column: span 5;">初回(Start)</div>
+                <div class="cell label" style="grid-column: span 5;">前回(Prev)</div>
+                <div class="cell label" style="grid-column: span 5;">今回(Now)</div>
+                <div class="cell label" style="grid-column: span 5;">目標(Goal)</div>
+                <!-- Dynamic ADL rows injected here -->
+            </div>
+        </div>
+
+        <!-- Page 2 -->
+        <div class="page" id="p2">
+            <div class="doc-header">（第２面）</div>
+            
+            <div class="section-title">４．目標（総合的な判断に基づく）</div>
+            <div class="grid">
+                <div class="cell label" style="grid-column: span 24; justify-content: flex-start;">本人・家族の希望・リハビリテーションの履歴</div>
+                <div class="cell" style="grid-column: span 24; height: 35mm;"><textarea id="rehab_history"></textarea></div>
+                
+                <div class="cell label" style="grid-column: span 24; justify-content: flex-start;">短期目標（１か月）及び活動・参加に向けた具体的アプローチ</div>
+                <div class="cell" style="grid-column: span 24; height: 35mm;"><textarea id="goal_short"></textarea></div>
+            </div>
+
+            <div class="section-title">リハビリテーション実施内容</div>
+            <div class="grid">
+                <div class="cell label" style="grid-column: span 6;">理学療法(PT)</div>
+                <div class="cell" style="grid-column: span 18; height: 25mm;"><textarea id="plan_pt"></textarea></div>
+                <div class="cell label" style="grid-column: span 6;">作業療法(OT)</div>
+                <div class="cell" style="grid-column: span 18; height: 25mm;"><textarea id="plan_ot"></textarea></div>
+                <div class="cell label" style="grid-column: span 6;">言語聴覚(ST)</div>
+                <div class="cell" style="grid-column: span 18; height: 25mm;"><textarea id="plan_st"></textarea></div>
+            </div>
+
+            <div class="section-title">作成及び説明担当者・署名欄</div>
+            <div class="grid">
+                <div class="cell label" style="grid-column: span 4;">担当医</div>
+                <div class="cell" style="grid-column: span 10;"><input type="text" id="staff_physician"></div>
+                <div class="cell label" style="grid-column: span 4;">署名日</div>
+                <div class="cell" style="grid-column: span 6;"><input type="date" id="sign_date_dr"></div>
+
+                <div class="cell label" style="grid-column: span 4;">PT</div>
+                <div class="cell" style="grid-column: span 10;"><input type="text" id="therapist_pt"></div>
+                <div class="cell label" style="grid-column: span 4;">署名日</div>
+                <div class="cell" style="grid-column: span 6;"><input type="date" id="sign_date_pt"></div>
+
+                <div class="cell label" style="grid-column: span 4;">OT</div>
+                <div class="cell" style="grid-column: span 10;"><input type="text" id="therapist_ot"></div>
+                <div class="cell label" style="grid-column: span 4;">署名日</div>
+                <div class="cell" style="grid-column: span 6;"><input type="date" id="sign_date_ot"></div>
+
+                <div class="cell label" style="grid-column: span 4;">看護師 / MSW</div>
+                <div class="cell" style="grid-column: span 10;"><input type="text" id="staff_ns"></div>
+                <div class="cell label" style="grid-column: span 4;">署名日</div>
+                <div class="cell" style="grid-column: span 6;"><input type="date" id="sign_date_ns"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADL_ITEMS = [
+            "食事", "整容", "清拭・入浴", "更衣(上身)", "更衣(下身)", "トイレ動作", 
+            "排尿管理", "排便管理", "移乗(ﾍﾞｯﾄﾞ等)", "移乗(ﾄイレ)", "移動(歩行等)", "移動(階段)", 
+            "理解", "表出", "社会的交流", "問題解決", "記憶"
+        ];
+        const patientId = new URLSearchParams(window.location.search).get('id');
+
+        // Init Matrix
+        const matrix = document.getElementById('adl-matrix');
+        ADL_ITEMS.forEach(item => {
+            matrix.innerHTML += `
+                <div class="cell label" style="grid-column: span 4; justify-content: flex-start;">${item}</div>
+                <div class="cell" style="grid-column: span 5;"><input type="text" class="adl-v" data-i="${item}" data-c="start"></div>
+                <div class="cell" style="grid-column: span 5;"><input type="text" class="adl-v" data-i="${item}" data-c="prev"></div>
+                <div class="cell" style="grid-column: span 5;"><input type="text" class="adl-v" data-i="${item}" data-c="now"></div>
+                <div class="cell" style="grid-column: span 5;"><input type="text" class="adl-v" data-i="${item}" data-c="goal"></div>
+            `;
+        });
+
+        async function load() {
+            if (!patientId) return;
+            const res = await fetch(`/api/plan?id=${patientId}`);
+            const data = await res.json();
+            
+            document.getElementById('patient-banner').innerText = `選択中: ${data.patient.name} 様 (${data.patient.id})`;
+
+            // Map standard fields
+            const fields = ["patient_name", "age", "disease_name", "onset_date", 
+                          "impairment_consciousness", "impairment_respiratory", "impairment_circulate", "impairment_rom", 
+                          "impairment_muscle", "impairment_paralysis", "impairment_sensation", "impairment_higher_brain",
+                          "rehab_history", "goal_short", "plan_pt", "plan_ot", "plan_st",
+                          "staff_physician", "therapist_pt", "therapist_ot", "staff_ns",
+                          "sign_date_dr", "sign_date_pt", "sign_date_ot", "sign_date_ns"];
+            
+            fields.forEach(f => {
+                const el = document.getElementById(f);
+                if (el) el.value = data.plan[f] || data.patient[f] || "";
+            });
+
+            // Sex Choice
+            const sexVal = data.plan.sex || data.patient.sex || "";
+            document.querySelectorAll('[data-key="sex"] .choice').forEach(c => {
+                if (c.innerText === sexVal) c.classList.add('selected');
+            });
+
+            // ADL JSON
+            if (data.plan.adl_evaluation_json) {
+                const adl = JSON.parse(data.plan.adl_evaluation_json);
+                document.querySelectorAll('.adl-v').forEach(el => {
+                    const {i, c} = el.dataset;
+                    if (adl[i]) el.value = adl[i][c] || "";
+                });
+            }
+        }
+
+        function selectChoice(el, val) {
+            const parent = el.parentElement;
+            parent.querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            parent.dataset.value = val;
+        }
+
+        async function saveAll() {
+            const payload = { patient_id: patientId, plan_date: new Date().toISOString().split('T')[0] };
+            
+            // Collect all mapped inputs
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(el => { if (el.id) payload[el.id] = el.value; });
+            
+            // Sex Choice
+            const sexEl = document.querySelector('[data-key="sex"]');
+            if (sexEl) payload["sex"] = sexEl.dataset.value || "";
+
+            // ADL Matrix
+            const adl = {};
+            document.querySelectorAll('.adl-v').forEach(el => {
+                const {i, c} = el.dataset;
+                if (!adl[i]) adl[i] = {};
+                adl[i][c] = el.value;
+            });
+            payload["adl_evaluation_json"] = JSON.stringify(adl);
+
+            const res = await fetch('/api/save', { method: 'POST', body: JSON.stringify(payload) });
+            if (res.ok) alert("正常に保存されました。すべての項目がデータベースと同期しました。");
+            else alert("保存に失敗しました。");
+        }
+
+        load();
+    </script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+{
+  "main": {
+    "id": "d6cbb7733983a531",
+    "type": "split",
+    "children": [
+      {
+        "id": "e29cfbdd2abcf941",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "18707f62f78fa3b9",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "note/💡慢性腰痛は「腰だけ」の問題ではない？.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "💡慢性腰痛は「腰だけ」の問題ではない？"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "393779a85aa8a835",
+    "type": "split",
+    "children": [
+      {
+        "id": "9d5c52084fda3006",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cdc6c8564c58748f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "ファイルエクスプローラ"
+            }
+          },
+          {
+            "id": "72714489592aea0b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "検索"
+            }
+          },
+          {
+            "id": "ef2057bf8402312c",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "ブックマーク"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "61f177ff25afa9c9",
+    "type": "split",
+    "children": [
+      {
+        "id": "e7f9811fa275c003",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c30dd88949d64561",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "バックリンク"
+            }
+          },
+          {
+            "id": "573e231545a78c54",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "アウトゴーイングリンク"
+            }
+          },
+          {
+            "id": "0c2d052024ef0291",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "タグ"
+            }
+          },
+          {
+            "id": "33b34364d35437be",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "すべてのプロパティ"
+            }
+          },
+          {
+            "id": "4dc5db6d0458a2b7",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "アウトライン"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:クイックスイッチャーを開く": false,
+      "graph:グラフビューを開く": false,
+      "canvas:新規キャンバスを作成": false,
+      "daily-notes:今日のデイリーノートを開く": false,
+      "templates:テンプレートを挿入": false,
+      "command-palette:コマンドパレットを開く": false,
+      "bases:新規ベースを作成": false,
+      "templater-obsidian:Templater": false
+    }
+  },
+  "active": "18707f62f78fa3b9",
+  "lastOpenFiles": [
+    "1c1806b2-32de-11f1-97bb-42004e494300.png",
+    "note/💡慢性腰痛は「腰だけ」の問題ではない？.md",
+    "ai_tech/system_architecture_history.md",
+    "ai_tech/setup_schedule.ps1",
+    "ai_tech/news_zenn_e1efabbc67eddf.md",
+    "ai_tech/news_zenn_claudecode-no-team-manager.md",
+    "ai_tech/news_zenn_n8n-transcription.md",
+    "ai_tech/news_zenn_geo_01_what_is_geo.md",
+    "ai_tech/news_zenn_4a3c4f3e140fca.md",
+    "ai_tech/__pycache__/ai_rag_engine.cpython-313.pyc",
+    "ai_tech/__pycache__",
+    "ai_tech/fetch_ai_news.py",
+    "ai_tech/ai_rag_engine.py",
+    "ai_tech/index.md",
+    "ai_tech",
+    "ideas/rag_automation_strategy.md",
+    "3d2ab914-32dc-11f1-b342-42004e494300.png",
+    "906e8536-32de-11f1-8ff2-42004e494300.png",
+    "f1026744-32db-11f1-97bb-42004e494300.png",
+    "ideas/Claude CodeでAI秘書にできる10のこと.md",
+    "ideas/Claude Codeで医療・介護向けに実現できること10選.md",
+    "rehab/papers/prohip_trial_nejm_2024.md",
+    "rehab/conditions/hip_oa_resistance_training.html",
+    "rehab/conditions/hip_oa_resistance_training.md",
+    "rehab/papers/prohip_trial_nejm_2024.html",
+    "rehab/conditions/hip_oa.md",
+    "claude_talks/20260406_システム戦略.md",
+    "templates/idea_template.md",
+    "rehab/themes",
+    "templates/rehab_template.md",
+    "index.md.md",
+    "rehab/latest_findings"
+  ]
+}

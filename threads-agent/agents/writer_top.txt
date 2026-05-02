@@ -1,0 +1,764 @@
+﻿"""
+Writer Agent
+- Reads research_cache.json, account_profile.json, post_patterns.json
+- Reads feedback_instructions.json from Analyst
+- Generates 5-10 posts per batch using Claude API
+- Scores each post on 10 criteria (0-10 each), average must be >= 7.0
+- Checks similarity with last 100 posts (cosine similarity >= 0.85 = reject)
+- Rotates patterns (avoid last 3 used)
+- Mode "auto"   : adds passing posts directly to queue.json
+- Mode "review" : adds passing posts to drafts.json for human approval
+"""
+import json
+import logging
+import math
+import re
+import uuid
+from collections import Counter
+from datetime import datetime
+from pathlib import Path
+
+logger = logging.getLogger(__name__)
+
+try:
+    import anthropic
+    HAS_ANTHROPIC = True
+except ImportError:
+    HAS_ANTHROPIC = False
+    logger.warning("Writer: anthropic package not installed. Will use mock posts.")
+
+try:
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.metrics.pairwise import cosine_similarity
+    HAS_SKLEARN = True
+except ImportError:
+    HAS_SKLEARN = False
+    logger.warning("Writer: scikit-learn not installed. Using fallback similarity check.")
+
+
+# ---------------------------------------------------------------------------
+# Similarity helpers
+# ---------------------------------------------------------------------------
+
+def _ngram_overlap(text_a, text_b, n=3):
+    """Fallback: character n-gram Jaccard similarity."""
+    def ngrams(text, n):
+        return set(text[i:i+n] for i in range(len(text) - n + 1))
+    a_grams = ngrams(text_a, n)
+    b_grams = ngrams(text_b, n)
+    if not a_grams or not b_grams:
+        return 0.0
+    intersection = len(a_grams & b_grams)
+    union = len(a_grams | b_grams)
+    return intersection / union if union > 0 else 0.0
+
+
+def compute_similarity(new_text, existing_texts):
+    """
+    Returns the maximum similarity between new_text and any item in existing_texts.
+    Uses TF-IDF cosine if sklearn is available, else character n-gram Jaccard.
+    """
+    if not existing_texts:
+        return 0.0
+
+    if HAS_SKLEARN and len(existing_texts) >= 1:
+        try:
+            corpus = existing_texts + [new_text]
+            vectorizer = TfidfVectorizer(analyzer="char", ngram_range=(2, 3), min_df=1)
+            tfidf_matrix = vectorizer.fit_transform(corpus)
+            new_vec = tfidf_matrix[-1]
+            existing_vecs = tfidf_matrix[:-1]
+            sims = cosine_similarity(new_vec, existing_vecs)[0]
+            return float(max(sims))
+        except Exception as e:
+            logger.warning(f"TF-IDF similarity failed: {e}. Using fallback.")
+
+    # Fallback
+    max_sim = max(_ngram_overlap(new_text, t) for t in existing_texts)
+    return max_sim
+
+
+# ---------------------------------------------------------------------------
+# Module-level constants
+# ---------------------------------------------------------------------------
+
+# short pattern IDs: content must be ≤6 non-empty lines, thread_replies must be empty
+SHORT_PATTERNS = {"short_complete", "comment_hook", "demand_check", "expose_type", "myth_bust"}
+
+
+# ---------------------------------------------------------------------------
+# Mock post generation
+# ---------------------------------------------------------------------------
+
+# Mock posts: PT×AI themed, no 転職/投資/affiliate
+MOCK_POSTS = [
+    {
+        "hook": "Claudeで書類が変わった。",
+        "body": "PT22年やってて、記録が一番しんどかった。\nSOAP、退院サマリー、紹介状。\n毎日2時間以上かけてた。\n\nClaudeに指示文を渡したら、10分になった。\n正直、仕事がなくなると思った。\nでもそうじゃなかった。考える時間が増えた。",
+        "thread_replies": [],
+        "pattern": "experience_share",
+        "theme": "AI×医療実務",
+        "has_affiliate": False,
+        "affiliate_comment": "",
+        "post_type": "experience_share",
+    },
+    {
+        "hook": "非エンジニアがアプリ作った。",
+        "body": "コードゼロのPTが、Claude Codeでカルテアプリを作り始めた。\n最初は何もわからなかった。\n\n3ヶ月で動くものができた。\nかかったのはAPIキー代の月3,000円だけ。\n\nエンジニアじゃないから作れない、は言い訳にならない。",
+        "thread_replies": [],
+        "pattern": "expose_type",
+        "theme": "AI活用体験",
+        "has_affiliate": False,
+        "affiliate_comment": "",
+        "post_type": "expose_type",
+    },
+    {
+        "hook": "管理職ってしんどい。正直に言う。",
+        "body": "上からはコスト削減。下からは人員不足。\n板挟みで22年。\n\nAIを使い始めて変わったのは、考える余裕ができたこと。\n書類じゃなくてスタッフを見れるようになった。\n\nツールの話じゃなくて、時間の話だった。",
+        "thread_replies": [],
+        "pattern": "myth_bust",
+        "theme": "管理職×AI",
+        "has_affiliate": False,
+        "affiliate_comment": "",
+        "post_type": "myth_bust",
+    },
+    {
+        "hook": "副業って家族に話してる？",
+        "body": "僕は最初、言えなかった。\n本業があるのにって思われそうで。\n\n今は話してる。Claudeで記事書いて、月3万になったから。\nリハの知識が副業になるとは思ってなかった。\n\n医療職でAI使って副業してる人、どのくらいおるんやろ。",
+        "thread_replies": [],
+        "pattern": "comment_hook",
+        "theme": "副業×家族",
+        "has_affiliate": False,
+        "affiliate_comment": "",
+        "post_type": "comment_hook",
+    },
+    {
+        "hook": "AI使うほど、頭が悪くなってた。",
+        "body": "最初の3ヶ月、Claudeに全部任せてた。\nSOAPも、評価も、計画も。\n\nそしたら自分で考えられなくなってきた。\n患者の前で言葉が出てこない瞬間があった。\n\nAIは道具。使い方が9割やと思ってる。",
+        "thread_replies": [],
+        "pattern": "warning",
+        "theme": "AI×思考力",
+        "has_affiliate": False,
+        "affiliate_comment": "",
+        "post_type": "warning",
+    },
+]
+
+
+# ---------------------------------------------------------------------------
+# Writer Agent
+# ---------------------------------------------------------------------------
+
+class WriterAgent:
+    def __init__(self, config, knowledge_dir, data_dir):
+        self.config = config
+        self.knowledge_dir = Path(knowledge_dir)
+        self.data_dir = Path(data_dir)
+        self.anthropic_api_key = getattr(config, "ANTHROPIC_API_KEY", None)
+        self.model = getattr(config, "ANTHROPIC_MODEL", "claude-haiku-4-5-20251001")
+        self.quality_threshold = getattr(config, "QUALITY_SCORE_THRESHOLD", 7.0)
+        self.similarity_threshold = getattr(config, "SIMILARITY_THRESHOLD", 0.85)
+        self.max_retries = getattr(config, "MAX_RETRIES", 2)
+
+    def _load_json(self, path, default):
+        path = Path(path)
+        if not path.exists():
+            return default
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except json.JSONDecodeError as e:
+            logger.warning(f"_load_json: JSON parse error in {path.name}: {e}. Using default.")
+            return default
+        except OSError as e:
+            logger.warning(f"_load_json: OS error reading {path.name}: {e}. Using default.")
+            return default
+
+    def _save_json(self, path, data):
+        path = Path(path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
+    def _load_knowledge(self):
+        profile = self._load_json(self.knowledge_dir / "account_profile.json", {})
+        patterns = self._load_json(self.knowledge_dir / "post_patterns.json", {"patterns": []})
+        ng_words = self._load_json(self.knowledge_dir / "ng_words.json", {"ng_words": []})
+        return profile, patterns, ng_words
+
+    def _load_research_cache(self):
+        return self._load_json(self.data_dir / "research_cache.json", [])
+
+    def _load_queue(self):
+        return self._load_json(self.data_dir / "queue.json", [])
+
+    def _save_queue(self, queue):
+        self._save_json(self.data_dir / "queue.json", queue)
+
+    def _load_drafts(self):
+        return self._load_json(self.data_dir / "drafts.json", [])
+
+    def _save_drafts(self, drafts):
+        self._save_json(self.data_dir / "drafts.json", drafts)
+
+    def _load_post_history(self):
+        return self._load_json(self.data_dir / "post_history.json", [])
+
+    def _load_feedback(self):
+        return self._load_json(self.data_dir / "feedback_instructions.json", {})
+
+    def _get_recent_texts(self, limit=100):
+        """Get content text from last N posts (history + queue + drafts)."""
+        history = self._load_post_history()
+        queue = self._load_queue()
+        drafts = self._load_drafts()
+        all_posts = history + queue + drafts
+        # Sort by created_at descending
+        all_posts.sort(key=lambda p: p.get("created_at", ""), reverse=True)
+        return [p["content"] for p in all_posts[:limit] if p.get("content")]
+
+    def _get_last_used_patterns(self, n=3):
+        """Get last N used pattern IDs from queue + history."""
+        history = self._load_post_history()
+        queue = self._load_queue()
+        all_posts = history + queue
+        all_posts.sort(key=lambda p: p.get("created_at", ""), reverse=True)
+        patterns = []
+        for p in all_posts:
+            pat = p.get("pattern")
+            if pat and pat not in patterns:
+                patterns.append(pat)
+            if len(patterns) >= n:
+                break
+        return patterns
+
+    def _check_ng_words(self, content, ng_words_list):
+        """Returns list of NG words found in content."""
+        found = []
+        for word in ng_words_list:
+            if word in content:
+                found.append(word)
+        return found
+
+    def _select_pattern(self, patterns_list, feedback, avoid_last_n=3):
+        """
+        Select a pattern to use, avoiding last N used patterns
+        and preferring high-performing patterns.
+        Short patterns (≤6 lines) are weighted at 70%.
+        """
+        import random
+
+        # Short patterns that produce ≤6 line posts
+        SHORT_PATTERN_IDS = {"short_complete", "comment_hook", "demand_check", "expose_type", "myth_bust"}
+
+        last_used = self._get_last_used_patterns(avoid_last_n)
+        high_performing = feedback.get("high_performing_patterns", [])
+        avoid = feedback.get("avoid_patterns", [])
+
+        available = [
+            p for p in patterns_list
+            if p["id"] not in last_used and p["id"] not in avoid
+        ]
+
+        if not available:
+            available = [
+                p for p in patterns_list
+                if p["id"] not in last_used[:1]
+            ]
+
+        if not available:
+            available = patterns_list
+
+        # Prefer high performing
+        preferred = [p for p in available if p["id"] in high_performing]
+        if preferred:
+            return random.choice(preferred)
+
+        # 70% short patterns, 30% long patterns
+        short_available = [p for p in available if p["id"] in SHORT_PATTERN_IDS]
+        long_available  = [p for p in available if p["id"] not in SHORT_PATTERN_IDS]
+
+        if short_available and long_available:
+            pool = short_available * 7 + long_available * 3
+        else:
+            pool = available
+
+        return random.choice(pool)
+
+    def _select_theme_and_research(self, research_cache, feedback, force_theme_prefix=None):
+        """Select a theme + research item to write about."""
+        import random
+        avoid_themes = feedback.get("avoid_themes", [])
+        high_themes = feedback.get("high_performing_themes", [])
+
+        available = [r for r in research_cache if r.get("theme") not in avoid_themes]
+        if not available:
+            available = research_cache
+
+        # Force a specific theme prefix if requested (e.g., "E枠")
+        if force_theme_prefix:
+            forced = [r for r in available if r.get("theme", "").startswith(force_theme_prefix)]
+            if forced:
+                return random.choice(forced)
+
+        preferred = [r for r in available if r.get("theme") in high_themes]
+        pool = preferred if preferred else available
+
+        if pool:
+            return random.choice(pool)
+        return None
+
+    def _build_prompt(self, research_item, pattern, profile, feedback):
+        """Build the Claude prompt for post generation."""
+        theme = research_item.get("theme", "転職")
+        title = research_item.get("title", "")
+        description = research_item.get("description", "")
+        persona = profile.get("target_persona", "")
+        tone = profile.get("tone", "")
+        niche = profile.get("niche", "")
+        ng_words = profile.get("ng_words", [])
+        ng_note = profile.get("ng_note", "")
+        note_url = profile.get("note_url", "")
+        character = profile.get("character", {})
+        char_identity = character.get("role_identity", "")
+        char_quirks = character.get("quirks", "")
+        char_frustrations = character.get("frustrations", [])
+        char_mission = character.get("mission", "")
+
+        high_patterns = feedback.get("high_performing_patterns", [])
+        high_themes = feedback.get("high_performing_themes", [])
+
+        recommended_styles = feedback.get("recommended_first_line_styles", [])
+        style_hint = ""
+        if recommended_styles:
+            style_hint = f"最初の一行のスタイルとして効果的なもの: {', '.join(recommended_styles)}"
+
+        # 【2026-04-12 新規】構造分析ガイドラインをフィードバックから読み込む
+        structure_guidelines = feedback.get("structure_guidelines", {})
+        char_count_guide = structure_guidelines.get("recommended_character_count", "150-250字")
+        line_breaks_guide = structure_guidelines.get("recommended_line_breaks", "8-10回")
+        effective_opening = structure_guidelines.get("most_effective_opening_style", "declaration_statement")
+        top_pattern = structure_guidelines.get("top_performing_pattern", "story_hook")
+        avoid_elements = structure_guidelines.get("avoid_elements", [])
+
+        writer_corrections = feedback.get("writer_corrections", [])
+
+        fixed_series = profile.get("fixed_series", [])
+        hook_patterns_data = profile.get("hook_patterns", {})
+        core_stories = profile.get("core_stories", [])
+
+        series_str = ""
+        if fixed_series:
+            lines = []
+            for s in fixed_series:
+                lines.append(f"  【{s['name']}】{s.get('frequency','')} ／ {s.get('format','')} ／ 例: {s.get('example','')}")
+            series_str = "\n".join(lines)
+
+        hook_str = "\n".join([
+            f"  - 警告型: {hook_patterns_data.get('warning', '')}" if hook_patterns_data.get("warning") else "",
+            f"  - 数字型: {hook_patterns_data.get('number', '')}" if hook_patterns_data.get("number") else "",
+            f"  - 問いかけ型: {hook_patterns_data.get('question', '')}" if hook_patterns_data.get("question") else "",
+        ]).strip()
+
+        stories_str = "\n".join(f"  - {s}" for s in core_stories) if core_stories else ""
+
+        corrections_str = ""
+        if writer_corrections:
+            corrections_str = "\n## 【絶対遵守】過去の失敗から学んだ補正ルール（これを破ると失格）\n"
+            for c in writer_corrections:
+                corrections_str += f"- {c}\n"
+
+        prompt = f"""あなたはThreads（Meta）向けの日本語投稿専門のライターです。
+投稿者「あとむ」として書いてください。あとむの言葉・個性・体験をそのまま出してください。
+{corrections_str}
+## あとむのキャラクター（これが最重要。必ずにじみ出るように書く）
+- 肩書き・立場: {char_identity}
+- **裏の顔（ギャップ）**: 家では妻に絶対服従する平和主義者。しかし、AI（Claude Code）を『支配』して開発する時だけは非情な司令官に変貌する。この落差を自己開示すること。
+- 口癖・個性: {char_quirks}（讃岐弁を8:2の比率で自然に混ぜる。～やで、～やけん、等）
+- 苦悩・失敗談: {'; '.join(char_frustrations)}（病院管理職としての板挟みの苦しみ、家庭での低姿勢など）
+- ミッション: {char_mission}
+
+## 【絶対遵守】プロフェッショナル倫理
+- 職場の機密情報（患者情報・会議内容）を無断でAIに投げてはいけない。
+- 「病院でこっそりAIを使った」というような、倫理的にグレーな自慢話は厳禁。
+- 組織のルールを守りながら、いかに合法的にAIを『支配』して人生を楽にするか、という誠実なハックを説くこと。
+
+## アカウント情報
+- ニッチ: {niche}
+- ターゲット読者: {persona}
+- トーン（口調）: {tone}
+- 使用禁止ワード: {', '.join(ng_words)}
+{f"- 【事実確認ルール】{ng_note}" if ng_note else ""}
+
+## 固定シリーズ（週次ローテーション・必須）
+このバッチの投稿のうち1本は必ずいずれかの固定シリーズフォーマットで生成すること。
+シリーズを守ることで読者の「次も見たい」という期待感が生まれ、リターナーを育成できる：
+{series_str if series_str else "（未設定）"}
+
+## 冒頭フックのパターン（週の配分を守ること）
+警告型・数字型を週30%以上、問いかけ型を週2回以上使う。立ち上げ期はフックの強さが新規流入数を直接左右する：
+{hook_str if hook_str else "（未設定）"}
+
+## あとむのコアストーリー（実体験の引き出し）
+週3本以上は以下の実体験を核にした現場体験談を生成すること。AIが書けない「PT目線のリアル」が最強の差別化要素：
+{stories_str if stories_str else "（未設定）"}
+
+## 扱わないテーマ（絶対NG）
+以下のテーマは内容・例示・言及を含め一切触れない：
+- 投資・株・FX
+- 仮想通貨・暗号資産
+- 転職・就職系
+- 政治・選挙
+- スポーツ
+
+## 参考情報
+- テーマ: {theme}
+- 参考タイトル: {title}
+- 参考内容: {description}
+
+## 投稿パターン
+- パターン名: {pattern['name']}
+- 説明: {pattern['description']}
+- 例文: {pattern.get('example', '')}
+{"- 【このパターンは短文必須】改行を含めて6行以内で書くこと。絶対に超えないこと。" if pattern["id"] in ("short_complete","comment_hook","demand_check","expose_type","myth_bust") else "- 【このパターンは最大15行まで】それ以上はNG。"}
+
+## 過去の実績から学んだこと
+{f"- 高パフォーマンスパターン: {', '.join(high_patterns)}" if high_patterns else ""}
+{f"- 高パフォーマンステーマ: {', '.join(high_themes)}" if high_themes else ""}
+{style_hint}
+
+## 【2026-04-12 新規】構造分析に基づくバズガイドライン
+### 📏 文字数・改行のルール
+- **推奨文字数**: {char_count_guide}（短めが勝ち。全体平均より32%短い投稿がいいね獲得率2倍以上）
+- **推奨改行数**: {line_breaks_guide}（スマートフォン視認性最優先。1改行あたり15-20字の目安）
+- **禁止**: リスト形式の過剰使用（伸びる投稿は30%以下に抑える）
+
+### 🎯 最強のオープニングスタイル
+**【宣言・解説形式が11%のいいね獲得率を実現（他の形式は5%以下）】**
+- ✅ パターン: 「〇〇の自分が△△したとき、毎日思うこと」
+- ✅ パターン: 「〇〇が失敗する理由、1つに絞った。」
+- ✅ パターン: 「〇〇をやってわかったこと」
+- ✅ キャラ感: 個人視点の前景化（「理学療法士の自分が」「管理職22年の経験から」など）
+- ❌ NG: 「〜についての解説」「一般的な〇〇」など無個性な前置き
+
+### ⭐ 投稿パターンの優先順位
+1. **最優先: {top_pattern}** （個人体験＋共感型。平均いいね4.0個がトップ）
+2. **次点: number_hook** （具体的な数字で訴求）
+3. **常用: story_hook** （毎投稿の基本パターン）
+
+### ❌ 避けるべき要素
+{'; '.join([f'- {elem}' for elem in avoid_elements]) if avoid_elements else "- 特になし"}
+
+## 投稿作成ルール
+1. Threads向けの自然な日本語で書く。**「教科書的な正解」は捨て、毒気と偏愛を込めること。**
+2. **【重要】{char_count_guide}（改行を含む）。短く簡潔にまとめることが最重要。分析より短めが勝ちの傾向**
+3. 使用禁止ワードは一切使わない
+4. 【絶対ルール】文章の長さとスレッド分割：
+   - パターンが short_complete / comment_hook / demand_check / expose_type / myth_bust → **content は空行除き6行以内必須**。超えたら失格。thread_replies は空リスト。
+   - 上記以外のパターンで内容が長くなる場合 → **contentは8行以内**に収め、続きを thread_replies に2〜3件に分けて書く。
+   - thread_repliesの各リプライは独立して読めること。「続き①」のような書き方はNG。自然な流れで展開する。
+   - 短文の書き方：1文1行。体言止め・断言を多用。説明を削って余韻で終わる。
+   - 「〜です。〜ます。〜です。〜ます。」と続く平坦な長文は絶対NG。
+5. 【最重要・アルゴリズム対策】1行目は「0.5秒で止まる」インパクトと「続きが気になる」余韻。以下のルールを厳守：
+   - **【禁忌】1行目の末尾を「。」で終わらせない。完結させると離脱される。**
+   - **【必須】1行目の末尾は「、」で終わらせるか、次のポストへの『橋渡し』になるフレーズで切る。**
+   - 期待感を煽る例：「〜には理由があって、」「〜が失敗する共通点は、」「ぶっちゃけ、ここだけの話やけど、」
+   - 数字＋結果（断言）：「残業3時間、AIで消えた、」
+   - 逆説・裏切り：「AIを使うほど、頭が悪くなってた、」
+   - 本音の告白：「PT22年。AIに負けたと思った瞬間がある、」
+   - 問いかけ：「AI、何から始めた？」「副業、家族に言えてる？」
+   - 短い断言：「Claudeだけでいい、」「医療職、AIが一番向いてる、」
+   NG一覧（これを書いたら即失格）：
+   - 末尾が「。」で終わる（完結感が出て離脱される）
+   - 「〜について」「〜とは」「今日は〜を紹介します」
+   - 15文字を超える長い1行目（短く切れ）
+   - 「みなさん」「皆さん」「〜の方へ」
+   【推奨パターン・投稿の半分程度に使う】15文字以内＋数字＋疑問形か断言の組み合わせは観覧数が伸びやすい。ただし毎回同じにするとワンパターンになるため、感情・体験談系は1行目のトーンを自然に優先してよい。
+6. 参考情報（テーマ・タイトル・内容）を活かして具体性を出す
+7. 読者の悩みに共感し、具体的な解決策や知見を提供する
+8. 押しつけがましくなく、自然な流れで読者の行動を促す
+15. 【数字・固有名詞を必ず入れる】抽象表現より具体的な数字・ツール名・年数が信頼を生む：
+    - NG：「AIを使って時間が短縮された」
+    - OK：「Claudeで週3時間 → 45分になった」
+    - NG：「長年の経験で気づいた」
+    - OK：「PT歴22年、3つの病院を経て気づいた」
+    数字がない投稿は具体性が低く読者の記憶に残らない。必ず1つ以上入れること。
+16. 【1投稿1メッセージ】hook〜bodyを通して伝えるメッセージは1つだけ：
+    - 複数の気づきや教訓を1投稿に詰め込まない
+    - 「〇〇と△△と□□がわかった」→ 「〇〇だけ」に絞る
+    - 読み終わったとき「結局何が言いたかった？」と思われたら失格
+9. ハッシュタグは使わない
+10. noteへの誘導・URLの記載は一切しない
+11. 【返信を狙う投稿を1割含める】生成するバッチのうち約1件は「返信特化型」にすること：
+    【返信特化型の条件】
+    - POST1（hook）が「読者の体験・意見を引き出す問いかけ1行」のみ
+      例：「AI副業、家族に話せてる？」「PT・OTで副業してる人、何やってる？」「Claudeとそれ以外、使い分けてる？」
+    - POST2（body）は自分の体験・本音を2〜4行で語る。答えを押しつけず「僕はこうやけど」で終わる
+    - 末尾に「〜って人おる？」「みんなどうしてるんやろ」など讃岐弁で自然に余韻を残す
+    - NG：「コメントお待ちしています」「教えてください」「ぜひ」など直接的な呼びかけ
+    【残り9割の投稿でも仕掛けを入れる】
+    - 自分の体験談を語ることで読者が自然と反応する（特定の組織・施設名は出さない）
+    - 賛否が分かれる視点を提示する（「医療職はAI向き派 vs 向かない派」など）
+    - 読者が「私もこれ！」「全然違う、私は〜」と言いたくなる二択・選択肢
+    NG：「うちの病院」「うちの職場」など特定の組織を示す表現
+12. 【オリジナル視点を必ず入れる】「PT歴22年の現役管理職」にしか言えない視点を1つ以上入れること：
+    - 「一般的なAI情報」ではなく「医療現場で実際にやってみた結果」
+    - 経営者目線と現場目線の両方を持つ管理職ならではの葛藤・気づき
+    - 「〇〇と思われているが実際は違う」という現場からの反論
+    - 22年のキャリアで見えてきた変化・パターン
+    「ChatGPTより〇倍使える」「AIを使うと業務効率化」など誰でも言えることだけで構成された投稿は失格。
+14. 【感情表現のルール】ネガティブな感情語は使わない：
+    - NG：「ショックだった」「怒った」「失望した」「がっかりした」「腹が立った」「悲しかった」
+    - OK：「正直びっくりした」「これは違うと思った」「モヤっとした」「手応えを感じた」「面白かった」
+    - 感情は「軽い驚き・気づき・前向きな本音」の温度感で表現する
+13. 【コンテンツ配分：3層構造で作る】
+    投稿は以下の比率で作ること。PTにしか刺さらない内容は全体の2割以下に抑える。
+
+    ◆ A枠（5割）：誰にでも刺さる普遍テーマ。医療職以外のフォロワーを獲得する入口
+      - 「非エンジニアがアプリを作った」体験談
+      - 「管理職の本音」（上と下に挟まれる葛藤・部下との関係）
+      - 「副業×家族の現実」（妻子ある専門職の葛藤・本音）
+
+    ◆ B枠（3割）：専門職全般・AI興味層に刺さる
+      - 「22年キャリアの気づき」（PT限定にせず「専門職22年」として語る）
+      - AI最新トレンドをリアル体験で語る（Vibe coding、AI Agent等）
+      - 専門職×副業×AI の実践
+
+    ◆ C枠（2割）：医療職20万人+周辺職種に深く刺さる
+      - 医療×AI実務の具体的な話
+      - 感情投稿・体験談
+
+    【PT体験を普遍テーマに翻訳するルール】
+    PTとして経験したことも、できるだけ普遍的な言葉に置き換えて書く：
+    - 「患者さんが回復した」→「諦めかけた人が変わった瞬間を22年見てきた」
+    - 「カルテをAIで効率化した」→「非エンジニアが業務ツールを自作した話」
+    - 「部下の離職を経験した」→「人が辞める職場と辞めない職場、違いは何か」
+    - 「PT22年の知識」→「22年で積み上げた専門知識をAIと組み合わせた話」
+    PTという職種名は出してもいいが、投稿の核心が「PTだけの話」にならないこと。
+
+## 投稿フォーマット（2投稿セット）
+すべての投稿を **POST1（フック）＋ POST2（本文）** の2投稿セットで生成すること。
+
+### POST1（hook）— 0.5秒でスクロールを止め、タップさせることだけが目的
+- **1〜3行のみ**。絶対に超えない。1行が理想。
+- 感情を刺激する言葉だけ。情報・説明・結論は一切書かない。
+- **【重要】末尾は必ず「、」か、続きを期待させる中途半端なフレーズで止める。**（「。」で終わるのは厳禁）
+- 15文字以内の短い断言・問いかけ・本音が最強。
+- 【悩み・不安を先に示す】読んだ瞬間「これ自分だ」と思わせること。見てほしい人の悩みや不安を1行で代弁するか、解消できることを匂わせる：
+  - 「副業、家族に言えてない、」（悩みをそのまま言語化）
+  - 「残業3時間、AIで消えた、」（解消できることを示す）
+  - 「Claudeを使いこなせてない気がする、」（不安を代弁）
+  この型が機能すると「タップしなきゃ」と感じさせられる。
+
+POST1の例（良い）:
+- `残業3時間、AIで消えた、`
+- `Claudeだけでいい、`
+- `副業って家族に話してる？`
+- `PT歴22年。AIに負けたと思った、`
+- `管理職ってしんどい。正直に言うと、`
+
+POST1の例（NG）:
+- 説明が入っている（「AIを使うことで業務効率化が〜」）
+- 15文字を超える（長すぎ）
+- 「〜について」「今日は〜を紹介します」で始まる
+- 「みなさん」「皆さん」で始まる
+
+### POST2（body）— hook に釣られた人への本文
+- 8行以内。体験・数字・具体例を必ず入れる。
+- POST1への「答え合わせ」になっていること。
+- 【経験と当時の感情を必ず入れる】事実や知識だけでなく「そのとき自分がどう感じたか」を1〜2行で入れること：
+  - NG：「Claudeを使うと議事録が5分で作れる」
+  - OK：「Claudeで議事録を作ったとき、正直これは仕事がなくなると思った。22年のキャリアが揺らいだ感覚だった」
+  感情があると読者が「この人の経験」として受け取る。感情のない投稿は情報サイトと同じ。
+- 続きがある場合のみ thread_replies を使う（最大2件）。
+
+## 出力形式
+以下のJSONフォーマットで出力してください：
+
+```json
+{{
+  "hook": "POST1本文（1〜3行。改行は\\nで表現）",
+  "body": "POST2本文（8行以内。改行は\\nで表現）",
+  "content": "hook + \\n\\n + body（後方互換用。hookとbodyを結合した全文）",
+  "thread_replies": ["続きがある場合のみ。なければ空リスト。使う場合は【結論→理由→実例→結論】の順で展開し、具体的な解決手順・ステップ・数字を入れること。hook/bodyで解決策を匂わせ、詳細はここに書く"],
+  "has_affiliate": false,
+  "affiliate_comment": "",
+  "scores": {{
+    "hook_strength": 0-10,
+    "usefulness": 0-10,
+    "specificity": 0-10,
+    "tempo": 0-10,
+    "persona_match": 0-10,
+    "originality": 0-10,
+    "readability": 0-10,
+    "emotional_resonance": 0-10,
+    "call_to_action": 0-10,
+    "platform_fit": 0-10,
+    "conversation_potential": 0-10,
+    "original_viewpoint": 0-10,
+    "single_message": 0-10
+  }}
+
+採点基準（重要）：
+- conversation_potential（会話誘発力）: 読者がコメントしたくなるか。賛否・体験共有・比較が生まれるか。「コメントお待ちしています」なしで自然に反応を引き出せるか。8未満は再生成を推奨。
+- original_viewpoint（オリジナル視点）: 「PT歴22年の管理職」にしか言えない内容か。誰でも言えるAI情報だけなら0点。現場体験・管理職の葛藤・22年のキャリアからの気づきがあれば高得点。8未満は再生成を推奨。
+- single_message（1投稿1メッセージ度）: hook〜bodyを通じて伝えるメッセージが1つに絞られているか。複数の気づきを詰め込んでいたら低点。7未満は再生成を推奨。
+- specificity（具体性）: 数字・固有名詞・ツール名・具体的な状況が入っているか。「AI」「長年の経験」などの抽象語だけなら低点。7未満は再生成を推奨。
+}}
+```
+thread_replies は続きがない場合は必ず空リスト [] にしてください。
+**has_affiliate は常に false にしてください。アフィリエイトは現在停止中です。**
+余計な説明は不要です。JSONのみ出力してください。"""
+
+        return prompt
+
+    def _build_prompt_fixed(self, profile, feedback):
+        """
+        固定部分のプロンプト（キャラクター・ルール・フォーマット定義）
+        Prompt Cachingの対象となる約3,000トークン。
+        """
+        character = profile.get("character", {})
+        char_identity = character.get("role_identity", "")
+        char_quirks = character.get("quirks", "")
+        char_frustrations = character.get("frustrations", [])
+        char_mission = character.get("mission", "")
+
+        persona = profile.get("target_persona", "")
+        tone = profile.get("tone", "")
+        niche = profile.get("niche", "")
+        ng_words = profile.get("ng_words", [])
+        ng_note = profile.get("ng_note", "")
+
+        fixed_series = profile.get("fixed_series", [])
+        hook_patterns_data = profile.get("hook_patterns", {})
+        core_stories = profile.get("core_stories", [])
+
+        series_str = ""
+        if fixed_series:
+            lines = []
+            for s in fixed_series:
+                lines.append(f"  【{s['name']}】{s.get('frequency','')} ／ {s.get('format','')} ／ 例: {s.get('example','')}")
+            series_str = "\n".join(lines)
+
+        hook_str = "\n".join([
+            f"  - 警告型: {hook_patterns_data.get('warning', '')}" if hook_patterns_data.get("warning") else "",
+            f"  - 数字型: {hook_patterns_data.get('number', '')}" if hook_patterns_data.get("number") else "",
+            f"  - 問いかけ型: {hook_patterns_data.get('question', '')}" if hook_patterns_data.get("question") else "",
+        ]).strip()
+
+        stories_str = "\n".join(f"  - {s}" for s in core_stories) if core_stories else ""
+
+        writer_corrections = feedback.get("writer_corrections", [])
+        corrections_str = ""
+        if writer_corrections:
+            corrections_str = "\n## 【絶対遵守】過去の失敗から学んだ補正ルール（これを破ると失格）\n"
+            for c in writer_corrections:
+                corrections_str += f"- {c}\n"
+
+        structure_guidelines = feedback.get("structure_guidelines", {})
+        char_count_guide = structure_guidelines.get("recommended_character_count", "150-250字")
+        line_breaks_guide = structure_guidelines.get("recommended_line_breaks", "8-10回")
+        top_pattern = structure_guidelines.get("top_performing_pattern", "story_hook")
+        avoid_elements = structure_guidelines.get("avoid_elements", [])
+
+        fixed_prompt = f"""あなたはThreads（Meta）向けの日本語投稿専門のライターです。
+投稿者「あとむ」として書いてください。あとむの言葉・個性・体験をそのまま出してください。
+{corrections_str}
+## あとむのキャラクター（これが最重要。必ずにじみ出るように書く）
+- 肩書き・立場: {char_identity}
+- **裏の顔（ギャップ）**: 家では妻に絶対服従する平和主義者。しかし、AI（Claude Code）を『支配』して開発する時だけは非情な司令官に変貌する。この落差を自己開示すること。
+- 口癖・個性: {char_quirks}（讃岐弁を8:2の比率で自然に混ぜる。～やで、～やけん、等）
+- 苦悩・失敗談: {'; '.join(char_frustrations)}（病院管理職としての板挟みの苦しみ、家庭での低姿勢など）
+- ミッション: {char_mission}
+
+## 【絶対遵守】プロフェッショナル倫理
+- 職場の機密情報（患者情報・会議内容）を無断でAIに投げてはいけない。
+- 「病院でこっそりAIを使った」というような、倫理的にグレーな自慢話は厳禁。
+- 組織のルールを守りながら、いかに合法的にAIを『支配』して人生を楽にするか、という誠実なハックを説くこと。
+
+## アカウント情報
+- ニッチ: {niche}
+- ターゲット読者: {persona}
+- トーン（口調）: {tone}
+- 使用禁止ワード: {', '.join(ng_words)}
+{f"- 【事実確認ルール】{ng_note}" if ng_note else ""}
+
+## 固定シリーズ（週次ローテーション・必須）
+このバッチの投稿のうち1本は必ずいずれかの固定シリーズフォーマットで生成すること。
+{series_str if series_str else "（未設定）"}
+
+## 冒頭フックのパターン（週の配分を守ること）
+警告型・数字型を週30%以上、問いかけ型を週2回以上使う：
+{hook_str if hook_str else "（未設定）"}
+
+## あとむのコアストーリー（実体験の引き出し）
+{stories_str if stories_str else "（未設定）"}
+
+## 扱わないテーマ（絶対NG）
+以下のテーマは内容・例示・言及を含め一切触れない：
+- 投資・株・FX / 仮想通貨・暗号資産 / 転職・就職系 / 政治・選挙 / スポーツ
+
+## 【2026-04-12 新規】構造分析に基づくバズガイドライン
+### 📏 文字数・改行のルール
+- **推奨文字数**: {char_count_guide}（短めが勝ち）
+- **推奨改行数**: {line_breaks_guide}（スマートフォン視認性最優先）
+- **禁止**: リスト形式の過剰使用
+
+### 🎯 最強のオープニングスタイル
+**【宣言・解説形式が11%のいいね獲得率を実現（他の形式は5%以下）】**
+- ✅ パターン: 「〇〇の自分が△△したとき、毎日思うこと」
+- ✅ パターン: 「〇〇が失敗する理由、1つに絞った。」
+- ✅ パターン: 「〇〇をやってわかったこと」
+
+### ⭐ 投稿パターンの優先順位
+1. **最優先: {top_pattern}** （個人体験＋共感型）
+2. **次点: number_hook** （具体的な数字で訴求）
+3. **常用: story_hook** （毎投稿の基本パターン）
+
+### ❌ 避けるべき要素
+{'; '.join([f'- {elem}' for elem in avoid_elements]) if avoid_elements else "- 特になし"}
+
+## 投稿作成ルール（共通）
+1. Threads向けの自然な日本語。「教科書的な正解」は捨て、毒気と偏愛を込めること。
+2. {char_count_guide}（改行を含む）。短く簡潔にまとめることが最重要。
+3. 使用禁止ワードは一切使わない
+4. 【絶対ルール】文章の長さとスレッド分割：
+   - short_complete / comment_hook / demand_check / expose_type / myth_bust → **6行以内必須**。thread_replies は空リスト。
+   - 上記以外 → **8行以内**に収め、続きを thread_replies に分ける（最大3件）。
+5. 【最重要】1行目は「0.5秒で止まる」インパクト。数字+結果・逆説・本音・問いかけ・短い断言を使う。
+6. 押しつけがましくなく、自然な流れで読者の行動を促す
+7. 【数字・固有名詞を必ず入れる】抽象表現より具体的な数字・ツール名・年数が信頼を生む
+8. 【1投稿1メッセージ】複数の気づきを詰め込まない
+9. ハッシュタグは使わない
+10. noteへの誘導・URLの記載は一切しない
+11. 【返信を狙う投稿を1割含める】問いかけで読者の体験・意見を引き出す
+12. 【感情表現のルール】ネガティブな感情語を避ける（「ショック」「怒った」など）
+13. 【コンテンツ配分：3層構造で作る】
+    - A枠（5割）：誰にでも刺さる普遍テーマ。医療職以外の読者獲得入口
+    - B枠（3割）：専門職全般・AI興味層に刺さる
+    - C枠（2割）：医療職に深く刺さる
+14. 【オリジナル視点を必ず入れる】「PT歴22年の現役管理職」にしか言えない視点を入れること
+
+## 投稿フォーマット（2投稿セット）
+すべての投稿を **POST1（フック）＋ POST2（本文）** の2投稿セットで生成すること。
+
+### POST1（hook）— 0.5秒でスクロールを止めることだけが目的
+- **1〜3行のみ**。絶対に超えない。1行が理想。
+- 15文字以内の短い断言・問いかけ・本音が最強。
+
+### POST2（body）— hook に釣られた人への本文
+- 8行以内。体験・数字・具体例を必ず入れる。
+- 経験と当時の感情を必ず入れること。
+
+## 【重要】複数パターン生成モード
+**同じテーマ・パターンから5つの異なる投稿パターン**を以下のようにバリエーションを変えて生成してください：
+1. **パターン1**: hook の感情フックを「問いかけ型」で
+2. **パターン2**: hook の感情フックを「数字型」で
+3. **パターン3**: hook の感情フックを「逆説型」で
+4. **パターン4**: hook の感情フックを「本音告白型」で
+5. **パターン5**: hook の感情フックを「宣言型」で
+
+各パターンは独立した有効な投稿として、全てのルール・採点基準を満たすこと。"""
+
+        return fixed_prompt
+

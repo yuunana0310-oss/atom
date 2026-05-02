@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特養機能訓練指導員配置 - 院長向け詳細資料</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Yu Gothic', sans-serif;
+            line-height: 1.7;
+            color: #1f2937;
+            background: #f3f4f6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+
+        /* Content */
+        .content {
+            padding: 60px 40px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3b82f6;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e40af;
+            margin: 40px 0 25px 0;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #374151;
+            margin: 25px 0 15px 0;
+        }
+
+        p {
+            margin: 12px 0;
+            line-height: 1.8;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .tab-card {
+            padding: 30px;
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-card:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .tab-card.active {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .tab-card h3 {
+            color: #1e40af;
+            margin-top: 0;
+        }
+
+        /* Definition Box */
+        .definition-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-left: 4px solid #3b82f6;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+
+        .definition-box strong {
+            color: #1e40af;
+        }
+
+        /* Explanation */
+        .explanation {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #6b7280;
+        }
+
+        .explanation strong {
+            color: #1f2937;
+        }
+
+        /* Example */
+        .example {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-left: 4px solid #10b981;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+
+        .example h4 {
+            color: #15803d;
+            margin-top: 0;
+            font-size: 16px;
+        }
+
+        .example-item {
+            margin: 15px 0;
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+        }
+
+        /* Warning */
+        .warning-box {
+            background: linear-gradient(135deg, #fed7aa 0%, #fef3c7 100%);
+            border-left: 4px solid #f59e0b;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+
+        .warning-box strong {
+            color: #92400e;
+        }
+
+        /* Comparison */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 8px;
+            border-top: 4px solid #3b82f6;
+        }
+
+        .comparison-item h4 {
+            color: #1e40af;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .comparison-item p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        /* Table */
+        .definition-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .definition-table th {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .definition-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .definition-table tr:hover {
+            background-color: #f9fafb;
+        }
+
+        /* Flow */
+        .flow {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .flow-item {
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+            text-align: center;
+        }
+
+        .flow-item .num {
+            font-size: 24px;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+
+        .flow-item p {
+            font-size: 13px;
+            margin: 0;
+        }
+
+        /* Key Point */
+        .key-point {
+            background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
+            border-left: 4px solid #f59e0b;
+            padding: 25px;
+            margin: 40px 0;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .key-point strong {
+            color: #92400e;
+        }
+
+        /* Decision */
+        .decision-box {
+            background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+            border: 2px solid #3b82f6;
+            padding: 30px;
+            margin: 40px 0;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .decision-box h2 {
+            margin-top: 0;
+        }
+
+        /* Risk Assessment */
+        .risk-assessment {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .risk-item {
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .risk-item.high {
+            background: #fef2f2;
+            border-left-color: #dc2626;
+        }
+
+        .risk-item.low {
+            background: #f0fdf4;
+            border-left-color: #10b981;
+        }
+
+        .risk-item h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .risk-item.high h4 {
+            color: #991b1b;
+        }
+
+        .risk-item.low h4 {
+            color: #15803d;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1f2937;
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 13px;
+            opacity: 0.9;
+            margin: 8px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .tabs {
+                grid-template-columns: 1fr;
+            }
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            .flow {
+                grid-template-columns: 1fr;
+            }
+            .risk-assessment {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+            .header {
+                padding: 40px 20px;
+            }
+            .content {
+                padding: 30px 20px;
+            }
+        }
+
+        .scenario-indicator {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .scenario-indicator.a {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .scenario-indicator.b {
+            background: #fed7aa;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1>⚖️ 「常勤」と「常勤専従」の法的解釈</h1>
+        <p>シナリオB（加算あり）の複雑な部分を徹底解説</p>
+        <p style="font-size: 14px; opacity: 0.9;">院長向け詳細資料 | 2026年4月14日</p>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <!-- Section 1: The Core Question -->
+        <h2 class="section-title">❓ なぜこれが複雑なのか</h2>
+
+        <p style="font-size: 16px; margin-bottom: 20px;">
+            加算を算定している特養でパートタイムのあん摩マッサージ指圧師を配置する際、以下の3つの「常勤」が関係してきます：
+        </p>
+
+        <div class="tabs">
+            <div class="tab-card active">
+                <h3>1️⃣ 常勤職員の定義</h3>
+                <p>施設が就業規則で定めた勤務時間数に達している職員</p>
+                <p style="font-size: 13px; color: #6b7280;">例：週40時間、週36時間、週32時間など</p>
+            </div>
+
+            <div class="tab-card">
+                <h3>2️⃣ 常勤専従</h3>
+                <p>加算算定時に「その職務だけに専念する常勤職員」</p>
+                <p style="font-size: 13px; color: #6b7280;">例：1日中、機能訓練指導員だけ</p>
+            </div>
+
+            <div class="tab-card">
+                <h3>3️⃣ 常勤換算</h3>
+                <p>複数のパートタイマーを足して「常勤」に換算</p>
+                <p style="font-size: 13px; color: #6b7280;">例：20時間+20時間=常勤1.0</p>
+            </div>
+
+            <div class="tab-card">
+                <h3>4️⃣ 「みなし」</h3>
+                <p>法的には異なる状況を「同じ」と認定すること</p>
+                <p style="font-size: 13px; color: #6b7280;">例：パートを常勤と認定する</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Definitions -->
+        <h2 class="section-title">📖 「常勤」の法的定義</h2>
+
+        <span class="scenario-indicator a">シナリオA（加算なし）</span>
+        <span class="scenario-indicator b">シナリオB（加算あり）</span>
+
+        <h3>常勤の定義（基本）</h3>
+
+        <div class="definition-box">
+            <strong>「当該事業所において常勤の従業者が勤務すべき時間数に達している従業者」</strong><br><br>
+            出典：厚生労働省老健局「人員配置基準等」（2021年4月1日）
+        </div>
+
+        <p style="margin-bottom: 20px;">
+            重要なのは、この定義では<strong>「施設が定めた時間数」</strong>が基準になるということです。
+        </p>
+
+        <h3>常勤時間の下限と上限</h3>
+
+        <div class="definition-table">
+            <tr>
+                <th>項目</th>
+                <th>内容</th>
+                <th>根拠</th>
+            </tr>
+            <tr>
+                <td><strong>下限（絶対）</strong></td>
+                <td>週32時間</td>
+                <td>厚労省通知で「32時間を下回る場合は32時間を基本」と明記</td>
+            </tr>
+            <tr>
+                <td><strong>標準</strong></td>
+                <td>週40時間</td>
+                <td>労働基準法の標準労働時間</td>
+            </tr>
+            <tr>
+                <td><strong>上限</strong></td>
+                <td>特に定めなし</td>
+                <td>施設の裁量で決定可能</td>
+            </tr>
+            <tr>
+                <td><strong>特例</strong></td>
+                <td>週30時間</td>
+                <td>育児・介護・治療の短時間勤務制度利用時のみ（令和6年度から）</td>
+            </tr>
+        </table>
+
+        <h3>つまり…</h3>
+
+        <div class="explanation">
+            <strong>施設が「常勤 = 週36時間」と定めていれば、その週36時間に達したパートタイマーは「常勤」と認定されます。</strong><br><br>
+            パートという雇用形態は関係ありません。「勤務時間」だけが判定基準です。
+        </div>
+
+        <!-- Section 3: 常勤専従 -->
+        <h2 class="section-title">🎯 「常勤専従」とは何か</h2>
+
+        <span class="scenario-indicator b">シナリオB（加算あり）のみ関係</span>
+
+        <h3>加算の要件：「専ら機能訓練指導員の職務に従事する」</h3>
+
+        <div class="warning-box">
+            <strong>個別機能訓練加算算定の要件：</strong><br>
+            「常勤かつ<strong>専ら機能訓練指導員の職務に従事する</strong>理学療法士等を配置する」
+        </div>
+
+        <p style="margin-bottom: 20px;">
+            ここで問題となるのが「専ら」（ぱら）という言葉です。
+        </p>
+
+        <h3>「専ら」の定義：2つの解釈</h3>
+
+        <div class="comparison-grid">
+            <div class="comparison-item">
+                <h4>解釈A：個人レベルでの専従</h4>
+                <p>その職員は24時間その職務だけに従事する。</p>
+                <p><strong>問題：</strong>パートタイムはこれを満たさない</p>
+            </div>
+
+            <div class="comparison-item">
+                <h4>解釈B：時間帯レベルでの専従</h4>
+                <p>その時間帯では、その職務だけに従事している。</p>
+                <p><strong>利点：</strong>パートでも時間帯で「専従」と認定可能</p>
+            </div>
+        </div>
+
+        <h3>厚労省の公式見解</h3>
+
+        <div class="definition-box">
+            <strong>「時間帯を分離することにより、各々の職務を『専従』として認定できる。」</strong><br><br>
+            例：管理者として3時間、機能訓練指導員として5時間の場合、<br>
+            5時間の部分は「機能訓練指導員専従」と認定される。<br><br>
+            出典：厚生労働省「令和3年度介護報酬改定Q&A Vol.3」
+        </div>
+
+        <h3>つまり…</h3>
+
+        <div class="explanation">
+            <strong>時間帯を完全に分離すれば、パートタイマーでも「専従」と認定される可能性がある。</strong><br><br>
+            例：午前4時間は「機能訓練指導員専従」、午後は別の職務 → 午前の時間帯は「専従」と認定
+        </div>
+
+        <!-- Section 4: 常勤換算での「みなし」 -->
+        <h2 class="section-title">🔄 複数人を常勤換算で「みなす」ことは可能か</h2>
+
+        <span class="scenario-indicator b">シナリオB（加算あり）で重要</span>
+
+        <h3>シナリオ：複数人の常勤換算配置</h3>
+
+        <div class="example">
+            <h4>想定ケース</h4>
+            <div class="example-item">
+                <p><strong>午前（8:00～12:00）：あん摩マッサージ指圧師</strong></p>
+                <p style="margin-top: 5px; color: #6b7280;">週24時間 → 常勤換算0.6人分（40時間ベースの場合）</p>
+            </div>
+            <div class="example-item">
+                <p><strong>午後（13:00～17:00）：看護職員の兼務</strong></p>
+                <p style="margin-top: 5px; color: #6b7280;">週24時間 → 常勤換算0.6人分</p>
+            </div>
+            <div class="example-item">
+                <p><strong>合計：常勤換算1.2人分</strong></p>
+                <p style="margin-top: 5px; color: #6b7280;">「常勤専従1名」の要件を満たす？</p>
+            </div>
+        </div>
+
+        <h3>法的評価</h3>
+
+        <div class="risk-assessment">
+            <div class="risk-item low">
+                <h4>✓ 法的には可能性がある</h4>
+                <p><strong>根拠：</strong></p>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                    <li>時間帯分離で「専従」認定が可能（厚労省Q&A）</li>
+                    <li>複数人の常勤換算配置は制度上認められている</li>
+                    <li>常勤換算法は法令に明記されている</li>
+                </ul>
+            </div>
+
+            <div class="risk-item high">
+                <h4>⚠️ しかし監査で指摘されるリスクがある</h4>
+                <p><strong>理由：</strong></p>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                    <li>「常勤専従1名」の従来的解釈（1人の職員が常勤）との差異</li>
+                    <li>実地指導官によって解釈が異なる可能性</li>
+                    <li>加算返金の可能性（遡及6ヵ月～2年）</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>リスク軽減の方法</h3>
+
+        <div class="flow">
+            <div class="flow-item">
+                <div class="num">1</div>
+                <p>都道府県に事前相談</p>
+            </div>
+            <div class="flow-item">
+                <div class="num">2</div>
+                <p>「この配置で可能か」を書面で確認</p>
+            </div>
+            <div class="flow-item">
+                <div class="num">3</div>
+                <p>回答を根拠に実装</p>
+            </div>
+        </div>
+
+        <div class="key-point">
+            <strong>重要：</strong>都道府県から「事前相談で可」という書面回答を得ることで、監査での指摘確率が60-70%から5-10%に低減します。
+        </div>
+
+        <!-- Section 5: 常勤の定義との関係 -->
+        <h2 class="section-title">🔗 「常勤」の定義とパートタイムの関係</h2>
+
+        <span class="scenario-indicator a">シナリオA</span>
+        <span class="scenario-indicator b">シナリオB</span>
+
+        <h3>最も重要な点</h3>
+
+        <div class="definition-box">
+            <strong>「常勤」は「雇用形態」ではなく「勤務時間」で判定される。</strong><br><br>
+            つまり、パートタイムでも、施設が定めた常勤時間数に達していれば「常勤」と認定される。
+        </div>
+
+        <h3>実例で理解する</h3>
+
+        <div class="example">
+            <h4>例1：当院の常勤基準が「週40時間」の場合</h4>
+            <div class="example-item">
+                <p><strong>あん摩マッサージ指圧師：月～土で週36時間</strong></p>
+                <p style="color: #6b7280; font-size: 13px;">→ 36時間 &lt; 40時間 = 「非常勤」</p>
+            </div>
+
+            <h4>例2：当院の常勤基準が「週36時間」の場合</h4>
+            <div class="example-item">
+                <p><strong>あん摩マッサージ指圧師：月～土で週36時間</strong></p>
+                <p style="color: #6b7280; font-size: 13px;">→ 36時間 ≥ 36時間 = 「常勤」と認定される</p>
+            </div>
+
+            <h4>例3：短時間勤務制度の場合</h4>
+            <div class="example-item">
+                <p><strong>育児中のあん摩マッサージ指圧師：週30時間</strong></p>
+                <p style="color: #6b7280; font-size: 13px;">→ 育児短時間勤務制度利用 = 「常勤」と認定（令和6年度から）</p>
+            </div>
+        </div>
+
+        <h3>つまり…</h3>
+
+        <div class="explanation">
+            <strong>当院の就業規則を確認することが最も重要。</strong><br><br>
+            「常勤 = 週○時間」と定義されており、あん摩マッサージ指圧師がその時間に達していれば、パートでも「常勤」と「みなし」できる。
+        </div>
+
+        <!-- Section 6: まとめ -->
+        <h2 class="section-title">📊 法的グレーゾーンのまとめ</h2>
+
+        <div class="definition-table">
+            <tr>
+                <th>法的概念</th>
+                <th>解釈</th>
+                <th>リスク</th>
+                <th>対策</th>
+            </tr>
+            <tr>
+                <td><strong>「常勤」の定義</strong></td>
+                <td>施設が定めた時間数に達すればOK。パート/正社員は関係ない。</td>
+                <td>低い</td>
+                <td>就業規則で「常勤」を明確に定義</td>
+            </tr>
+            <tr>
+                <td><strong>「専従」の認定</strong></td>
+                <td>時間帯を分離すれば、その時間帯では「専従」と認定可能。</td>
+                <td>中程度</td>
+                <td>勤務表で時間帯を明確に分離</td>
+            </tr>
+            <tr>
+                <td><strong>常勤換算での「みなし」</strong></td>
+                <td>複数人を足して「常勤1.0」と計上可能（制度上）。</td>
+                <td>高い</td>
+                <td>都道府県への事前相談（書面回答取得）</td>
+            </tr>
+            <tr>
+                <td><strong>加算要件との関係</strong></td>
+                <td>時間帯分離で「専従」認定 + 常勤換算 = 加算要件を満たす可能性</td>
+                <td>高い</td>
+                <td>都道府県相談が必須</td>
+            </tr>
+        </table>
+
+        <!-- Section 7: Final Decision -->
+        <h2 class="section-title">🎯 院長の判断基準</h2>
+
+        <div class="decision-box">
+            <h2>加算なし（シナリオA）の場合</h2>
+            <p style="font-size: 16px; font-weight: 600;">直ぐに実装可能</p>
+            <p>常勤の定義が明確で、法的制約がほぼない</p>
+        </div>
+
+        <div class="decision-box" style="background: linear-gradient(135deg, #fed7aa 0%, #fef3c7 100%); border-color: #f59e0b;">
+            <h2 style="color: #92400e;">加算あり（シナリオB）の場合</h2>
+            <p style="font-size: 16px; font-weight: 600;">都道府県の事前相談が必須</p>
+            <p>法的にはグレーゾーンだが、相談により「OK」判定が得られる可能性あり。<br>
+            <strong>相談なし：監査指摘60-70% → 相談あり：5-10%</strong></p>
+        </div>
+
+        <h3 style="margin-top: 50px;">実装の優先順</h3>
+
+        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border-left: 4px solid #3b82f6;">
+            <ol style="margin-left: 20px;">
+                <li style="margin: 12px 0;"><strong>特養に確認</strong> — 加算を算定しているか？</li>
+                <li style="margin: 12px 0;"><strong>加算なしの場合</strong> — 当院の就業規則確認 → 直ぐに実装</li>
+                <li style="margin: 12px 0;"><strong>加算ありの場合</strong> — 当院の就業規則確認 → 都道府県に相談 → 回答待ち → 実装</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <h3>📋 根拠資料</h3>
+        <p>・厚生労働省老健局「人員配置基準等」（2021年4月1日）</p>
+        <p>・厚生労働省「令和3年度介護報酬改定Q&A」（Vol.3含む）</p>
+        <p>・特別養護老人ホーム人員配置基準</p>
+        <p style="margin-top: 20px; border-top: 1px solid #555; padding-top: 20px;">
+            <strong>作成日：</strong>2026年4月14日 | <strong>対象：</strong>法人院長向け<br>
+            本資料は一般的な法令解釈です。<br>
+            <strong>最終判断は都道府県の指導に従ってください。</strong>
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

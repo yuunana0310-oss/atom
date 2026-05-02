@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Generator Studio</title>
+    <meta name="description" content="画像生成AI用プロンプトジェネレーター - Midjourney / Stable Diffusion / DALL-E 対応">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div id="app" class="app-layout">
+        <!-- ============ 左: 設定パネル ============ -->
+        <aside class="settings-panel" id="settingsPanel">
+            <div class="panel-header">
+                <h1 class="app-title">
+                    <span class="app-icon">⚡</span>
+                    Prompt Studio
+                </h1>
+                <span class="version-badge">v2.0</span>
+            </div>
+
+            <div class="settings-scroll">
+                <!-- 用途 -->
+                <div class="setting-group">
+                    <label class="setting-label">📌 用途</label>
+                    <select id="purposeSelect" class="setting-select">
+                        <option value="carousel">カルーセル投稿</option>
+                        <option value="thumbnail">サムネイル</option>
+                        <option value="manga">漫画・コミック</option>
+                        <option value="character_sheet">キャラクターシート</option>
+                        <option value="service_intro">サービス紹介</option>
+                        <option value="story">ストーリー展開</option>
+                        <option value="custom">カスタム</option>
+                    </select>
+                </div>
+
+                <!-- キャンバス比率 -->
+                <div class="setting-group">
+                    <label class="setting-label">📐 キャンバス比率</label>
+                    <select id="aspectSelect" class="setting-select">
+                        <option value="1:1">1:1（正方形）</option>
+                        <option value="4:5" selected>4:5（Insta縦）</option>
+                        <option value="9:16">9:16（ストーリー）</option>
+                        <option value="16:9">16:9（YouTubeサムネ）</option>
+                        <option value="3:4">3:4（ポートレート）</option>
+                        <option value="2:3">2:3（漫画）</option>
+                        <option value="3:2">3:2（ランドスケープ）</option>
+                    </select>
+                </div>
+
+                <!-- 画風 -->
+                <div class="setting-group">
+                    <label class="setting-label">🎨 画風（メインテイスト）</label>
+                    <select id="styleSelect" class="setting-select">
+                        <optgroup label="イラスト・絵画">
+                            <option value="anime">アニメ・イラスト</option>
+                            <option value="watercolor">水彩画風</option>
+                            <option value="flat_design">フラットデザイン</option>
+                            <option value="3d_render">3Dレンダリング</option>
+                            <option value="ukiyoe">浮世絵・和風</option>
+                            <option value="oil_painting">油絵風</option>
+                            <option value="pixel_art">ドット絵</option>
+                            <option value="sketch">スケッチ・線画</option>
+                        </optgroup>
+                        
+                        <optgroup label="レトロ・特別スタイル">
+                            <option value="cyberpunk">サイバーパンク</option>
+                            <option value="taisho_roman">大正ロマン風</option>
+                            <option value="showa_retro">昭和レトロ</option>
+                            <option value="y2k">Y2K風</option>
+                            <option value="city_pop">シティポップ風</option>
+                            <option value="pop_art">ポップアート</option>
+                            <option value="art_nouveau">アール・ヌーヴォー</option>
+                            <option value="sumi_e">墨絵・水墨画風</option>
+                            <option value="minimalism">ミニマリズム</option>
+                        </optgroup>
+                        
+                        <optgroup label="写真・カメラ表現">
+                            <option value="photorealistic">フォトリアル</option>
+                            <option value="realistic_photo">実写風</option>
+                            <option value="film_photography">フィルム写真風</option>
+                            <option value="35mm_film">35mmフィルム</option>
+                            <option value="disposable_camera">使い捨てカメラ風</option>
+                            <option value="polaroid">ポラロイド風</option>
+                            <option value="vhs_look">VHS風</option>
+                            <option value="cinematic">シネマ風</option>
+                            <option value="documentary">ドキュメンタリー風</option>
+                            <option value="bw_photo">モノクロ写真</option>
+                            <option value="sepia">セピア調</option>
+                        </optgroup>
+
+                        <optgroup label="レンズ・ライティング効果">
+                            <option value="shallow_dof">被写界深度浅め</option>
+                            <option value="backlight">逆光</option>
+                            <option value="soft_focus">ソフトフォーカス</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <!-- デザイン方向性 -->
+                <div class="setting-group">
+                    <label class="setting-label">🏗️ デザインの構造</label>
+                    <select id="structureSelect" class="setting-select">
+                        <option value="infographic">インフォグラフィック</option>
+                        <option value="presentation_slide">プレゼン資料・スライド調</option>
+                        <option value="sns_post">SNS投稿・フィード</option>
+                        <option value="note_header">Note/ブログ見出し用</option>
+                        <option value="editorial">エディトリアル</option>
+                        <option value="comic">コミック・漫画</option>
+                        <option value="illustration">イラスト中心</option>
+                        <option value="photo_composite">写真コンポジット</option>
+                        <option value="minimal">ミニマル</option>
+                        <option value="collage">コラージュ</option>
+                    </select>
+                </div>
+
+                <!-- ジャンル・世界観 -->
+                <div class="setting-group">
+                    <label class="setting-label">🌍 ジャンル・世界観</label>
+                    <select id="genreSelect" class="setting-select">
+                        <option value="business">ビジネス・テック</option>
+                        <option value="fantasy">ファンタジー</option>
+                        <option value="scifi">SF・未来</option>
+                        <option value="nature">ナチュラル・オーガニック</option>
+                        <option value="cute">かわいい・ポップ</option>
+                        <option value="dark">ダーク・ゴシック</option>
+                        <option value="retro">レトロ・ヴィンテージ</option>
+                        <option value="elegant">エレガント・高級</option>
+                        <option value="japanese">和風・日本</option>
+                        <option value="street">ストリート・グランジ</option>
+                        <option value="custom">カスタム入力</option>
+                    </select>
+                    <input type="text" id="genreCustom" class="setting-input hidden" placeholder="世界観を自由入力...">
+                </div>
+
+                <hr class="setting-divider">
+
+                <!-- 枚数＋フォーマット -->
+                <div class="setting-group">
+                    <label class="setting-label">📄 出力枚数</label>
+                    <div class="count-row">
+                        <button class="count-btn" id="countDown">−</button>
+                        <input type="number" id="countInput" class="count-input" value="5" min="1" max="10">
+                        <button class="count-btn" id="countUp">＋</button>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <label class="setting-label">📦 出力フォーマット</label>
+                    <div class="format-toggle">
+                        <label class="radio-card active" id="formatIndividual">
+                            <input type="radio" name="outputFormat" value="individual" checked>
+                            <span class="radio-icon">🖼️</span>
+                            <span class="radio-text">個別出力</span>
+                        </label>
+                        <label class="radio-card" id="formatGrid">
+                            <input type="radio" name="outputFormat" value="grid">
+                            <span class="radio-icon">🔲</span>
+                            <span class="radio-text">グリッド分割</span>
+                        </label>
+                    </div>
+                </div>
+
+                <hr class="setting-divider">
+
+                <!-- スライド別入力 -->
+                <div class="setting-group">
+                    <label class="setting-label">📝 スライド別設定</label>
+                    <div id="slidesContainer" class="slides-container">
+                        <!-- JSで動的生成 -->
+                    </div>
+                </div>
+
+                <hr class="setting-divider">
+
+                <!-- キャラクター設定 -->
+                <div class="setting-group">
+                    <label class="setting-label">👤 キャラクター設定</label>
+                    <div class="char-upload-area" id="charUploadArea">
+                        <div id="charPreview" class="char-preview hidden">
+                            <img id="charPreviewImg" src="" alt="character">
+                            <button class="char-remove-btn" id="charRemoveBtn">&times;</button>
+                        </div>
+                        <div id="charUploadPrompt" class="char-upload-prompt">
+                            <span>📷</span>
+                            <span>参照画像をドロップ or クリック</span>
+                        </div>
+                        <input type="file" id="charFileInput" accept="image/*" class="hidden">
+                    </div>
+                    <textarea id="charDescription" class="setting-textarea" placeholder="キャラの外見・服装・特徴を記述...&#10;例: 20代女性、ピンクのツインテール、白い制服、明るい性格" rows="3"></textarea>
+                </div>
+
+                <!-- 生成ボタン -->
+                <button class="generate-btn" id="generateBtn">
+                    <span class="generate-icon">⚡</span>
+                    プロンプト生成
+                </button>
+            </div>
+        </aside>
+
+        <!-- ============ 右: プロンプト出力 ============ -->
+        <section class="output-panel" id="outputPanel">
+            <div class="output-header">
+                <span>📋 プロンプト出力</span>
+                <div class="output-nav">
+                    <button class="nav-btn" id="prevSlideBtn">◀</button>
+                    <span id="slideCounter">-</span>
+                    <button class="nav-btn" id="nextSlideBtn">▶</button>
+                    <button class="export-btn" id="exportAllBtn" title="全プロンプト保存">📥</button>
+                </div>
+            </div>
+
+            <div class="output-content" id="outputContent">
+                <!-- 空状態 -->
+                <div class="output-empty" id="outputEmpty">
+                    <span class="empty-icon">📝</span>
+                    <p>プロンプト出力エリア</p>
+                    <p class="empty-hint">左の設定パネルから生成してください</p>
+                </div>
+
+                <!-- プロンプト表示（JSで制御） -->
+                <div class="prompt-cards hidden" id="promptCards">
+                    <!-- グリッド出力カード -->
+                    <div class="prompt-section hidden" id="gridSection">
+                        <h3 class="section-title">🔲 グリッド出力（1枚にまとめ）</h3>
+                        <div class="prompt-card" id="gridNb2Card">
+                            <div class="card-header">
+                                <span class="card-platform nb2">NANOBANANA2</span>
+                                <button class="copy-btn" data-target="gridNb2PosText">📋 Copy</button>
+                            </div>
+                            <div class="sd-sub-label">Positive:</div>
+                            <pre class="prompt-text" id="gridNb2PosText"></pre>
+                            <div class="sd-sub-label">Negative:</div>
+                            <pre class="prompt-text negative" id="gridNb2NegText"></pre>
+                        </div>
+                        <div class="prompt-card" id="gridMjCard">
+                            <div class="card-header">
+                                <span class="card-platform mj">Midjourney</span>
+                                <button class="copy-btn" data-target="gridMjText">📋 Copy</button>
+                            </div>
+                            <pre class="prompt-text" id="gridMjText"></pre>
+                        </div>
+                        <div class="prompt-card" id="gridSdCard">
+                            <div class="card-header">
+                                <span class="card-platform sd">SD / ComfyUI</span>
+                                <button class="copy-btn" data-target="gridSdPosText">📋 Copy</button>
+                            </div>
+                            <div class="sd-sub-label">Positive:</div>
+                            <pre class="prompt-text" id="gridSdPosText"></pre>
+                            <div class="sd-sub-label">Negative:</div>
+                            <pre class="prompt-text negative" id="gridSdNegText"></pre>
+                        </div>
+                        <div class="prompt-card" id="gridDalleCard">
+                            <div class="card-header">
+                                <span class="card-platform dalle">DALL-E</span>
+                                <button class="copy-btn" data-target="gridDalleText">📋 Copy</button>
+                            </div>
+                            <pre class="prompt-text" id="gridDalleText"></pre>
+                        </div>
+                        <hr class="section-divider">
+                    </div>
+
+                    <!-- 個別スライドカード -->
+                    <div id="slidePromptArea">
+                        <h3 class="section-title" id="slideTitle">📄 スライド 1</h3>
+
+                        <div class="prompt-card">
+                            <div class="card-header">
+                                <span class="card-platform nb2">NANOBANANA2</span>
+                                <button class="copy-btn" data-target="slideNb2PosText">📋 Copy</button>
+                            </div>
+                            <div class="sd-sub-label">Positive:</div>
+                            <pre class="prompt-text" id="slideNb2PosText"></pre>
+                            <div class="sd-sub-label">Negative:</div>
+                            <pre class="prompt-text negative" id="slideNb2NegText"></pre>
+                        </div>
+
+                        <div class="prompt-card">
+                            <div class="card-header">
+                                <span class="card-platform mj">Midjourney</span>
+                                <button class="copy-btn" data-target="slideMjText">📋 Copy</button>
+                            </div>
+                            <pre class="prompt-text" id="slideMjText"></pre>
+                        </div>
+
+                        <div class="prompt-card">
+                            <div class="card-header">
+                                <span class="card-platform sd">SD / ComfyUI</span>
+                                <button class="copy-btn" data-target="slideSdPosText">📋 Copy</button>
+                            </div>
+                            <div class="sd-sub-label">Positive:</div>
+                            <pre class="prompt-text" id="slideSdPosText"></pre>
+                            <div class="sd-sub-label">Negative:</div>
+                            <pre class="prompt-text negative" id="slideSdNegText"></pre>
+                            <div class="sd-settings" id="slideSdSettings"></div>
+                        </div>
+
+                        <div class="prompt-card">
+                            <div class="card-header">
+                                <span class="card-platform dalle">DALL-E</span>
+                                <button class="copy-btn" data-target="slideDalleText">📋 Copy</button>
+                            </div>
+                            <pre class="prompt-text" id="slideDalleText"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

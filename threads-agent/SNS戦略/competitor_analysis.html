@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>競合アカウント分析レポート｜医療系Threads戦略</title>
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --accent: #34a853;
+      --warn: #fbbc04;
+      --danger: #ea4335;
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --text: #202124;
+      --muted: #5f6368;
+      --border: #dadce0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* ヘッダー */
+    header {
+      background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+      color: #fff;
+      padding: 48px 32px 40px;
+      text-align: center;
+    }
+    header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    header p { font-size: 14px; opacity: 0.85; }
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 12px;
+      margin-top: 12px;
+    }
+
+    /* メインコンテンツ */
+    main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* セクション */
+    section { margin-bottom: 56px; }
+    section > h2 {
+      font-size: 22px;
+      font-weight: 700;
+      border-left: 5px solid var(--primary);
+      padding-left: 14px;
+      margin-bottom: 24px;
+    }
+
+    /* カード */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .account-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 700;
+      flex-shrink: 0;
+      color: #fff;
+    }
+    .avatar.blue { background: linear-gradient(135deg, #1a73e8, #0d47a1); }
+    .avatar.green { background: linear-gradient(135deg, #34a853, #1b5e20); }
+
+    .account-meta h3 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .account-meta .handle { color: var(--muted); font-size: 14px; }
+    .follower-badge {
+      display: inline-block;
+      background: #e8f0fe;
+      color: var(--primary);
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    /* 分析グリッド */
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    @media (max-width: 680px) {
+      .analysis-grid { grid-template-columns: 1fr; }
+    }
+
+    .analysis-item {
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 16px 18px;
+    }
+    .analysis-item h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    .analysis-item p, .analysis-item li {
+      font-size: 14px;
+      color: var(--text);
+    }
+    .analysis-item ul { padding-left: 18px; }
+    .analysis-item ul li { margin-bottom: 5px; }
+
+    /* タグ */
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .tag {
+      background: #e8f0fe;
+      color: #1558d6;
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 13px;
+    }
+    .tag.green { background: #e6f4ea; color: #1e8e3e; }
+    .tag.orange { background: #fce8b2; color: #e37400; }
+    .tag.red { background: #fce8e6; color: #c5221f; }
+
+    /* 投稿サンプル */
+    .post-sample {
+      background: #f1f3f4;
+      border-left: 4px solid var(--primary);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 16px;
+      font-size: 14px;
+      margin: 10px 0;
+      white-space: pre-line;
+      line-height: 1.8;
+    }
+    .post-sample.green-border { border-left-color: var(--accent); }
+
+    /* スコア */
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .score-label { font-size: 13px; min-width: 130px; color: var(--text); }
+    .score-bar-wrap {
+      flex: 1;
+      background: #e8eaed;
+      border-radius: 4px;
+      height: 8px;
+      overflow: hidden;
+    }
+    .score-bar {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--primary);
+    }
+    .score-bar.green { background: var(--accent); }
+    .score-val { font-size: 13px; font-weight: 700; color: var(--muted); min-width: 36px; text-align: right; }
+
+    /* 共通パターン */
+    .pattern-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 680px) {
+      .pattern-grid { grid-template-columns: 1fr; }
+    }
+    .pattern-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .pattern-card .icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .pattern-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .pattern-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* 改善提案 */
+    .action-list { counter-reset: action; }
+    .action-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px 24px 24px 72px;
+      margin-bottom: 16px;
+      position: relative;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .action-item::before {
+      counter-increment: action;
+      content: counter(action);
+      position: absolute;
+      left: 20px;
+      top: 22px;
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .action-item h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .action-item p { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+    .action-item .example {
+      background: #e8f0fe;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #1558d6;
+      margin-top: 10px;
+    }
+    .action-item .priority {
+      display: inline-block;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .priority.high { background: #fce8e6; color: #c5221f; }
+    .priority.mid { background: #fce8b2; color: #e37400; }
+    .priority.low { background: #e6f4ea; color: #1e8e3e; }
+
+    /* 比較表 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th {
+      background: #e8f0fe;
+      color: var(--primary);
+      font-weight: 700;
+      text-align: left;
+      padding: 10px 14px;
+    }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--bg); }
+
+    /* フッター */
+    footer {
+      text-align: center;
+      padding: 32px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+    }
+
+    /* ハイライトボックス */
+    .highlight-box {
+      background: #e8f0fe;
+      border: 1px solid #c5d9f8;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+    .highlight-box.green {
+      background: #e6f4ea;
+      border-color: #b7dfbe;
+    }
+    .highlight-box h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .highlight-box p, .highlight-box li { font-size: 14px; }
+    .highlight-box ul { padding-left: 18px; }
+    .highlight-box ul li { margin-bottom: 4px; }
+
+    /* ナビゲーション */
+    .nav-toc {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 40px;
+    }
+    .nav-toc h3 { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+    .nav-toc ol { padding-left: 20px; }
+    .nav-toc li { margin-bottom: 6px; }
+    .nav-toc a { color: var(--primary); text-decoration: none; font-size: 14px; }
+    .nav-toc a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>競合アカウント分析レポート</h1>
+  <p>医療系Threads戦略｜薬剤師インフルエンサー2アカウントの徹底解剖</p>
+  <span class="badge">作成日：2026年4月2日</span>
+</header>
+
+<main>
+
+  <!-- 目次 -->
+  <nav class="nav-toc">
+    <h3>目次</h3>
+    <ol>
+      <li><a href="#account1">アカウント分析①：@sho_molth（薬剤師ナカショウ）</a></li>
+      <li><a href="#account2">アカウント分析②：@103yakulog（ひゃくさん）</a></li>
+      <li><a href="#comparison">2アカウント比較表</a></li>
+      <li><a href="#patterns">共通の成功パターンまとめ</a></li>
+      <li><a href="#improvements">私のアカウントへの改善提案（理学療法士×AI副業）</a></li>
+    </ol>
+  </nav>
+
+  <!-- ============================================================ -->
+  <!-- アカウント1: sho_molth -->
+  <!-- ============================================================ -->
+  <section id="account1">
+    <h2>① @sho_molth｜薬剤師ナカショウ｜福岡</h2>
+
+    <div class="card">
+      <div class="account-header">
+        <div class="avatar blue">ナ</div>
+        <div class="account-meta">
+          <h3>薬剤師ナカショウ｜福岡</h3>
+          <div class="handle">@sho_molth / Molth inc 代表</div>
+          <span class="follower-badge">Threadsフォロワー 5.2万人 / SNS総計100万人超</span>
+        </div>
+      </div>
+
+      <!-- プロフィール設計 -->
+      <h3 style="font-size:16px; margin-bottom:12px;">プロフィール設計</h3>
+      <div class="analysis-grid">
+        <div class="analysis-item">
+          <h4>ポジショニング</h4>
+          <p>「薬剤師×起業家」の二軸。資格の権威性をビジネスオーナーとしての行動力で補強している。単なる専門家でなく「成果を出している人」として認知を獲得。</p>
+        </div>
+        <div class="analysis-item">
+          <h4>プロフィール文のポイント</h4>
+          <ul>
+            <li>「タメになる情報を楽しく」という明確な約束</li>
+            <li>地名（福岡）で親近感・リアリティを付与</li>
+            <li>Molth inc代表という肩書きで差別化</li>
+            <li>他媒体（YouTube 40万、TikTok 20万）への誘導</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 投稿パターン -->
+      <h3 style="font-size:16px; margin:24px 0 12px;">投稿パターン・文体</h3>
+      <div class="analysis-grid">
+        <div class="analysis-item">
+          <h4>文体・トーン</h4>
+          <ul>
+            <li>専門的だが親しみやすい口調</li>
+            <li>「〜です」「〜ます」調よりカジュアルめ</li>
+            <li>感情・驚きを誘う表現を随所に</li>
+            <li>絵文字は適度に（主に末尾・強調箇所）</li>
+          </ul>
+        </div>
+        <div class="analysis-item">
+          <h4>投稿の長さ・構成</h4>
+          <ul>
+            <li>短文〜中文（100〜300文字程度）が中心</li>
+            <li>リスト形式で情報を整理</li>
+            <li>長文の場合は見出し・改行でスキャナビリティ確保</li>
+            <li>画像・動画との組み合わせが多い</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- テーマ傾向 -->
+      <h3 style="font-size:16px; margin:24px 0 12px;">テーマ・ネタの傾向</h3>
+      <div class="tag-list">
+        <span class="tag">腸活・腸内環境</span>
+        <span class="tag">花粉症・アレルギー</span>
+        <span class="tag">市販薬の正しい使い方</span>
+        <span class="tag">サプリメント選び</span>
+        <span class="tag">栄養不足の年代別傾向</span>
+        <span class="tag orange">血管・代謝・ダイエット</span>
+        <span class="tag green">薬局の裏側・仕事紹介</span>
+        <span class="tag green">公式LINE誘導</span>
+      </div>
+      <p style="font-size:13px; color:var(--muted); margin-top:10px;">季節性のネタ（花粉・夏の熱中症・冬の感染症）を積極的に活用。時事性が高くシェアされやすい。</p>
+
+      <!-- フック -->
+      <h3 style="font-size:16px; margin:24px 0 12px;">フック（冒頭）の作り方</h3>
+      <div class="post-sample">「市販の花粉症薬、選び方を間違えると逆効果になります」
+
+→ 専門家の「警告型フック」。読者の不安をつくことで続きを読ませる構造。</div>
+      <div class="post-sample">「腸の健康、今日からできる3つのこと」
+
+→ 数字で具体性を示す「リスト予告型」。スクロールを止める。</div>
+      <div class="post-sample">「粉薬ができるまで」をTikTokで投稿→1,170万再生
+
+→ 仕事の裏側・舞台裏を見せる「ドキュメント型」。独占情報感が高い。</div>
+
+      <!-- エンゲージメント -->
+      <h3 style="font-size:16px; margin:24px 0 12px;">エンゲージメントが高い投稿の特徴</h3>
+      <div class="highlight-box">
+        <h4>ナカショウが高エンゲージメントを得る3要素</h4>
+        <ul>
+          <li><strong>専門知識×日常の接点</strong>：「薬局でよくある質問」など生活密着型のネタ</li>
+          <li><strong>意外性・反転</strong>：「これ使ってはダメ」「実はコレが正解」型の逆説フレーム</li>
+          <li><strong>マルチメディア連動</strong>：TikTok・Instagram・YouTubeの動画をThreadsでテキスト要約して再投稿し、リーチを最大化</li>
+        </ul>
+      </div>
+
+      <!-- 品質へのこだわり -->
+      <h3 style="font-size:16px; margin:24px 0 12px;">コンテンツ品質へのこだわり</h3>
+      <div class="analysis-item" style="background:#fff3cd; border:1px solid #ffc107;">
+        <h4 style="color:#856404;">制作姿勢（重要）</h4>
+        <p>投稿1件につき10時間以上の時間をかけていることを本人が明言。「情報の正確性確認」と「見やすさの工夫」を徹底している。量より質を重視した制作姿勢が、医療系コンテンツとしての信頼性を支えている。</p>
+      </div>
+
+      <!-- スコア評価 -->
+      <h3 style="font-size:16px; margin:24px 0 12px;">参考アカウントとしての評価</h3>
+      <div class="score-row"><span class="score-label">専門性の見せ方</span><div class="score-bar-wrap"><div class="score-bar" style="width:90%"></div></div><span class="score-val">90%</span></div>
+      <div class="score-row"><span class="score-label">エンタメ性・親しみやすさ</span><div class="score-bar-wrap"><div class="score-bar" style="width:85%"></div></div><span class="score-val">85%</span></div>
+      <div class="score-row"><span class="score-label">フックの強さ</span><div class="score-bar-wrap"><div class="score-bar" style="width:88%"></div></div><span class="score-val">88%</span></div>
+      <div class="score-row"><span class="score-label">マルチプラットフォーム展開</span><div class="score-bar-wrap"><div class="score-bar" style="width:95%"></div></div><span class="score-val">95%</span></div>
+      <div class="score-row"><span class="score-label">マネタイズとの統合度</span><div class="score-bar-wrap"><div class="score-bar" style="width:92%"></div></div><span class="score-val">92%</span></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- アカウント2: 103yakulog -->
+  <!-- ============================================================ -->
+  <section id="account2">
+    <h2>② @103yakulog｜ひゃくさん｜病院薬剤師</h2>
+
+    <div class="card">
+      <div class="account-header">
+        <div class="avatar green">ひ</div>
+        <div class="account-meta">
+          <h3>ひゃくさん｜病院薬剤師</h3>
+          <div class="handle">@103yakulog / 薬剤師国家試験・薬の知識発信</div>
+          <span class="follower-badge">Threadsフォロワー 2.5万人 / Instagram 14万人</span>
+        </div>
+      </div>
+
+      <!-- プロフィール設計 -->
+      <h3 style="font-size:16px; margin-bottom:12px;">プロフィール設計</h3>
+      <div class="analysis-grid">
+        <div class="analysis-item">
+          <h4>ポジショニング</h4>
+          <p>「病院薬剤師」という現場密着の肩書きで専門性を強調。一般向けではなく「医療職・薬学生向け」の情報に絞り込んだニッチ戦略。ターゲットを絞ることで熱量の高いフォロワーを獲得。</p>
+        </div>
+        <div class="analysis-item">
+          <h4>プロフィール文のポイント</h4>
+          <ul>
+            <li>「103yakulogで薬の情報発信中📣」と冒頭で発信内容を即告知</li>
+            <li>「どーも、病院薬剤師のひゃくさん」の親しみやすい挨拶</li>
+            <li>ブログ・教材・アプリへの誘導を一元管理</li>
+            <li>1,700人が購入した教材という実績提示</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 投稿パターン -->
+      <h3 style="font-size:16px; margin:24px 0 12px;">投稿パターン・文体</h3>
+      <div class="analysis-grid">
+        <div class="analysis-item">
+          <h4>文体・トーン</h4>
+          <ul>
+            <li>「どーも」「ひゃくさんです」のキャラ固定挨拶</li>
+            <li>絵文字を多用（📣✌🙆‍♂👍✨🙌）</li>
+            <li>フレンドリーで学校の先生的な雰囲気</li>
+            <li>専門用語を使いつつ平易な言葉で補足</li>
+          </ul>
+        </div>
+        <div class="analysis-item">
+          <h4>投稿の長さ・構成</h4>
+          <ul>
+            <li>中文〜長文（200〜500文字）が中心</li>
+            <li>「よく知られていること → なぜ？ → 深掘り」の3段構造</li>
+            <li>知識の「理由」まで掘り下げる教育型</li>
+            <li>最後にフォロワーへの問いかけ・CTA</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- テーマ傾向 -->
+      <h3 style="font-size:16px; margin:24px 0 12px;">テーマ・ネタの傾向</h3>
+      <div class="tag-list">
+        <span class="tag green">薬の一包化・飲み合わせ</span>
+        <span class="tag green">薬剤師国家試験対策</span>
+        <span class="tag green">薬の使い分け（臨床現場）</span>
+        <span class="tag green">病院薬剤師の日常</span>
+        <span class="tag">「この薬、説明できる？」シリーズ</span>
+        <span class="tag orange">新薬・薬学トレンド</span>
+        <span class="tag">後輩・薬学生へのアドバイス</span>
+      </div>
+      <p style="font-size:13px; color:var(--muted); margin-top:10px;">ターゲットは一般消費者よりも医療職・薬学生。専門的な内容でも「なぜ？」を解説することで理解の深い支持者を獲得。</p>
+
+      <!-- フック -->
+      <h3 style="font-size:16px; margin:24px 0 12px;">フック（冒頭）の作り方</h3>
+      <div class="post-sample green-border">「103yakulogで薬の情報発信中📣
+どーも、病院薬剤師のひゃくさんです✌
+
+ベルソムラを一包化したらどうなる？」
+
+→ キャラクター固定挨拶 + 問いかけ型フック。読者に「答えを知りたい」と思わせる。</div>
+      <div class="post-sample green-border">「この薬、説明できる？（Loxonin × PPI）」
+
+→ シリーズ化した問いかけ型タイトル。「できる？できない？」という自己診断欲求を刺激。</div>
+      <div class="post-sample green-border">「ベルソムラ＝一包化できない、は知ってる。
+でも"なぜ"まで言える人は少ない。」
+
+→ 反転型フック。「知っている前提」から「でも本当は」で掘り下げる構造。</div>
+
+      <!-- エンゲージメント -->
+      <h3 style="font-size:16px; margin:24px 0 12px;">エンゲージメントが高い投稿の特徴</h3>
+      <div class="highlight-box green">
+        <h4>ひゃくさんが高エンゲージメントを得る3要素</h4>
+        <ul>
+          <li><strong>「なぜ」まで教える深掘り型</strong>：表面的な知識ではなく理由を解説することで「保存・共有したくなる」投稿に</li>
+          <li><strong>自己診断型の問いかけ</strong>：「説明できる？」「知ってた？」で読者の知識レベルを試させる構造</li>
+          <li><strong>シリーズ化によるファン形成</strong>：同じフォーマット（「この薬、説明できる？」）を繰り返すことでリターナー（再訪者）を育成</li>
+        </ul>
+      </div>
+
+      <!-- マネタイズ構造 -->
+      <h3 style="font-size:16px; margin:24px 0 12px;">マネタイズ・収益化の設計</h3>
+      <div class="analysis-grid">
+        <div class="analysis-item">
+          <h4>収益化の方法</h4>
+          <ul>
+            <li>PDF教材販売（薬の使い分け解説書）</li>
+            <li>薬剤師国家試験対策Webアプリ</li>
+            <li>1,700人以上の購入実績がある</li>
+            <li>SNS → ブログ → 教材購入の動線設計</li>
+          </ul>
+        </div>
+        <div class="analysis-item">
+          <h4>コンテンツ → 信頼 → 購入の流れ</h4>
+          <ul>
+            <li>無料投稿で「深い解説をする人」として認知</li>
+            <li>ブログでさらに詳細コンテンツを提供</li>
+            <li>教材購入で実務力・試験力を高める</li>
+            <li>ターゲットが明確なので購入転換率が高い</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- スコア評価 -->
+      <h3 style="font-size:16px; margin:24px 0 12px;">参考アカウントとしての評価</h3>
+      <div class="score-row"><span class="score-label">専門性の見せ方</span><div class="score-bar-wrap"><div class="score-bar green" style="width:95%"></div></div><span class="score-val">95%</span></div>
+      <div class="score-row"><span class="score-label">ターゲット絞り込み</span><div class="score-bar-wrap"><div class="score-bar green" style="width:92%"></div></div><span class="score-val">92%</span></div>
+      <div class="score-row"><span class="score-label">シリーズ化・継続性</span><div class="score-bar-wrap"><div class="score-bar green" style="width:88%"></div></div><span class="score-val">88%</span></div>
+      <div class="score-row"><span class="score-label">キャラクターの一貫性</span><div class="score-bar-wrap"><div class="score-bar green" style="width:90%"></div></div><span class="score-val">90%</span></div>
+      <div class="score-row"><span class="score-label">マネタイズとの統合度</span><div class="score-bar-wrap"><div class="score-bar green" style="width:85%"></div></div><span class="score-val">85%</span></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 比較表 -->
+  <!-- ============================================================ -->
+  <section id="comparison">
+    <h2>2アカウント比較表</h2>
+    <div class="card" style="padding:0; overflow:hidden;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:25%;">比較軸</th>
+            <th style="width:37.5%;">@sho_molth（ナカショウ）</th>
+            <th style="width:37.5%;">@103yakulog（ひゃくさん）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>ターゲット</strong></td>
+            <td>一般生活者・健康関心層（全年齢）</td>
+            <td>医療職・薬学生（専門職向けニッチ）</td>
+          </tr>
+          <tr>
+            <td><strong>主テーマ</strong></td>
+            <td>腸活・市販薬・花粉症・栄養・血管</td>
+            <td>薬の深掘り・国試対策・病院薬剤師の日常</td>
+          </tr>
+          <tr>
+            <td><strong>投稿スタイル</strong></td>
+            <td>短文〜中文・動画連動・季節ネタ活用</td>
+            <td>中文〜長文・問いかけ型・シリーズ化</td>
+          </tr>
+          <tr>
+            <td><strong>フックの型</strong></td>
+            <td>警告型「〇〇は逆効果」・数字型「3つのこと」</td>
+            <td>問いかけ型「説明できる？」・反転型「でも理由は？」</td>
+          </tr>
+          <tr>
+            <td><strong>キャラクター</strong></td>
+            <td>起業家薬剤師・エンタメ系・アクティブ</td>
+            <td>現場密着・先生的・マジメ×フレンドリー</td>
+          </tr>
+          <tr>
+            <td><strong>絵文字の使い方</strong></td>
+            <td>適度（末尾・強調箇所）</td>
+            <td>多用（キャラクター固定）</td>
+          </tr>
+          <tr>
+            <td><strong>マネタイズ</strong></td>
+            <td>サプリ販売・公式LINE・PR案件</td>
+            <td>教材PDF・Webアプリ・ブログ収益</td>
+          </tr>
+          <tr>
+            <td><strong>マルチ展開</strong></td>
+            <td>YouTube・TikTok・Instagram・X・LINE</td>
+            <td>Instagram・ブログ・アプリ・X</td>
+          </tr>
+          <tr>
+            <td><strong>コンテンツ制作量</strong></td>
+            <td>投稿1件に10時間以上</td>
+            <td>ブログ・SNS並行で高頻度</td>
+          </tr>
+          <tr>
+            <td><strong>フォロワー（Threads）</strong></td>
+            <td>5.2万人</td>
+            <td>2.5万人</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 共通の成功パターン -->
+  <!-- ============================================================ -->
+  <section id="patterns">
+    <h2>共通の成功パターンまとめ</h2>
+
+    <div class="pattern-grid">
+      <div class="pattern-card">
+        <span class="icon">🎯</span>
+        <h4>明確なポジション宣言</h4>
+        <p>プロフィール冒頭で「誰が・何を・誰のために発信するか」を即座に伝えている。読んだ瞬間にフォローする理由がわかる設計。</p>
+      </div>
+      <div class="pattern-card">
+        <span class="icon">🧠</span>
+        <h4>専門性×親しみやすさのバランス</h4>
+        <p>資格・現場経験による権威性を保ちながら、日常語・絵文字・個人エピソードで「近さ」を演出。「難しいけど読める」を実現している。</p>
+      </div>
+      <div class="pattern-card">
+        <span class="icon">🔗</span>
+        <h4>フック→本文→CTA の型遵守</h4>
+        <p>「驚き・疑問・警告」で冒頭を掴み、理由・解説を展開し、最後にフォロー・LINE・教材への誘導を置く。型を守ることで読者の行動を予測可能にしている。</p>
+      </div>
+      <div class="pattern-card">
+        <span class="icon">🔄</span>
+        <h4>シリーズ化・型の再利用</h4>
+        <p>「この薬、説明できる？」のような固定シリーズを持つことで、読者に「次も見たい」という期待感を醸成。アルゴリズムにも好まれる継続性につながる。</p>
+      </div>
+      <div class="pattern-card">
+        <span class="icon">📅</span>
+        <h4>季節・時事ネタの活用</h4>
+        <p>花粉症（春）・熱中症（夏）・インフルエンザ（冬）など季節性のある医療トピックに乗ることで自然な拡散を促進。タイムリーさがエンゲージメントを底上げする。</p>
+      </div>
+      <div class="pattern-card">
+        <span class="icon">💰</span>
+        <h4>SNSと収益化の自然な接続</h4>
+        <p>投稿本文は純粋な有益情報にして、サプリ・教材・公式LINEへの誘導をプロフィールや末尾CTAに集約。押しつけがましくなく、自然な流れで収益化している。</p>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:24px;">
+      <h4>医療系Threads成功の方程式</h4>
+      <p style="font-size:15px; margin-top:8px;">
+        <strong>「現場の専門知識（権威性）」 × 「日常生活への接点（共感性）」 × 「理由まで教える深掘り（保存欲求）」 × 「固定シリーズ（継続購読）」</strong>
+      </p>
+      <p style="font-size:13px; color:var(--muted); margin-top:8px;">この4要素が揃ったとき、医療系アカウントは情報コンテンツとして機能しながらブランディングと収益化が同時に進む。</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 改善提案 -->
+  <!-- ============================================================ -->
+  <section id="improvements">
+    <h2>私のアカウント（理学療法士×AI副業）への改善提案</h2>
+
+    <div class="highlight-box" style="margin-bottom:24px;">
+      <h4>前提条件の整理</h4>
+      <ul>
+        <li>ジャンル：医療職（理学療法士）× AI副業</li>
+        <li>現在：フォロワー少数の立ち上げ期</li>
+        <li>システム：1日最大20件投稿可能（品質スコア7.0以上のみ投稿）</li>
+        <li>差別化軸：「リハビリ専門職がAIを使って副業する」という2ジャンルのかけ算</li>
+      </ul>
+    </div>
+
+    <div class="action-list">
+
+      <!-- アクション1 -->
+      <div class="action-item">
+        <span class="priority high">最優先</span>
+        <h4>プロフィールを「かけ算型ポジション」で再設計する</h4>
+        <p>現在の医療系インフルエンサーは「薬剤師」「看護師」が多く、「理学療法士×AI」という組み合わせは希少性が高い。プロフィール冒頭でこの2軸を即座に宣言し、読んだ人が「フォローしたら何が得られるか」を3秒でわかるようにする。</p>
+        <p>ナカショウのように「職種＋何をしている人か」を明示し、ひゃくさんのように「どんな人に向けた発信か」を絞り込む。</p>
+        <div class="example">
+          改善例：「理学療法士×AIで副業月〇万円｜現役PTが試したAIツール・自動化の話を毎日発信｜副業始めたい医療職に向けて」
+        </div>
+      </div>
+
+      <!-- アクション2 -->
+      <div class="action-item">
+        <span class="priority high">最優先</span>
+        <h4>「PT×AI」のオリジナル固定シリーズを1〜2本つくる</h4>
+        <p>ひゃくさんの「この薬、説明できる？」のように、繰り返し使える投稿テンプレートシリーズを設計する。シリーズ化することでフォロワーが「次の投稿を待つ」習慣が生まれ、既存投稿の再浮上にも効果的。</p>
+        <p>Writerエージェントにこのシリーズフォーマットを学習させることで、自動生成の品質と多様性も安定する。</p>
+        <div class="example">
+          案①「理学療法士、AIに試させてみた」シリーズ：毎回1つのAIツールを実際に使ってPT視点でレビュー<br>
+          案②「PT副業の現実、正直に書く」シリーズ：収入・失敗・気づきを月次でドキュメント
+        </div>
+      </div>
+
+      <!-- アクション3 -->
+      <div class="action-item">
+        <span class="priority high">最優先</span>
+        <h4>「警告型」と「数字型」のフックを優先的に使う</h4>
+        <p>ナカショウが「〇〇は逆効果」「3つのこと」で圧倒的なスクロール停止率を実現しているように、フックは感情への「引っかかり」が命。現在のWriterエージェントのプロンプトにフックパターンを明示的に追加する。</p>
+        <p>立ち上げ期はフォロワー外へのリーチ（おすすめ欄）が最重要。フックの強さが新規流入数を直接左右する。</p>
+        <div class="example">
+          使うべき冒頭パターン：<br>
+          「理学療法士がAIを使い始めて気づいた、医療職の時間の使い方の問題」<br>
+          「副業でAI使って3ヶ月、稼げた部分と全然ダメだった部分を正直に話す」<br>
+          「ChatGPTに患者説明文を書かせたら、実は〇〇だった」
+        </div>
+      </div>
+
+      <!-- アクション4 -->
+      <div class="action-item">
+        <span class="priority mid">推奨</span>
+        <h4>投稿量より投稿の型を安定させることを優先する</h4>
+        <p>1日最大20件の投稿能力があるが、立ち上げ期のThreadsで重要なのは量より「型の一貫性」。同じテーマ・同じフォーマットを繰り返すことでアルゴリズムがアカウントを「分類」しやすくなり、関連ユーザーへのリーチが増す。</p>
+        <p>ひゃくさんがターゲットを医療職に絞り込んだことで少ないフォロワーでも深いエンゲージメントを実現しているように、「誰に読んでほしいか」を絞ることが長期的な成長につながる。まずは1日3〜5件の高品質投稿から始め、エンゲージメントデータを蓄積してから量を増やす方針が堅実。</p>
+        <div class="example">
+          Analystエージェントに「テーマ別エンゲージメント率」を毎週集計させ、反応の良いテーマカテゴリーの投稿比率をWriterへの指示書に反映させる
+        </div>
+      </div>
+
+      <!-- アクション5 -->
+      <div class="action-item">
+        <span class="priority mid">推奨</span>
+        <h4>「理学療法士の視点」という独占情報を積極的に出す</h4>
+        <p>ナカショウが「薬局の裏側・粉薬ができるまで」でTikTok1,170万再生を達成したように、一般人が見えない「専門職の日常・舞台裏」は強力なコンテンツになる。理学療法士としての現場目線は、AIコンテンツが飽和する中での本物の差別化要素。</p>
+        <p>「AIに任せたら実際の患者対応はどう変わった？」「PTがリハビリ計画をAIで作ってみたらどうなった？」など、専門職でなければ書けないリアルな体験談を核にする。</p>
+        <div class="example">
+          投稿アイデア：「理学療法士が実際にAIを使ってリハビリ指導書を作ってみた結果」「患者向け資料作成、AIに任せたら20分→3分になった話」「PT視点で見るChatGPTの限界と使いどき」
+        </div>
+      </div>
+
+    </div>
+
+    <!-- まとめ -->
+    <div class="card" style="background: linear-gradient(135deg, #e8f0fe 0%, #e6f4ea 100%); border:none; margin-top:32px;">
+      <h3 style="font-size:18px; margin-bottom:16px;">改善提案まとめ：今週から始める3つのこと</h3>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
+        <div style="background:#fff; border-radius:8px; padding:16px; text-align:center;">
+          <div style="font-size:24px; margin-bottom:8px;">1</div>
+          <strong>プロフィール文を書き直す</strong>
+          <p style="font-size:13px; color:var(--muted); margin-top:6px;">「PT×AI副業」のかけ算を冒頭3行で伝える</p>
+        </div>
+        <div style="background:#fff; border-radius:8px; padding:16px; text-align:center;">
+          <div style="font-size:24px; margin-bottom:8px;">2</div>
+          <strong>固定シリーズを1本決める</strong>
+          <p style="font-size:13px; color:var(--muted); margin-top:6px;">Writerエージェントにシリーズフォーマットを覚えさせる</p>
+        </div>
+        <div style="background:#fff; border-radius:8px; padding:16px; text-align:center;">
+          <div style="font-size:24px; margin-bottom:8px;">3</div>
+          <strong>現場体験談を週3本入れる</strong>
+          <p style="font-size:13px; color:var(--muted); margin-top:6px;">AIが書けない「PT目線のリアル」を核に置く</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>競合アカウント分析レポート｜Threads自動運用システム／SNS戦略</p>
+  <p style="margin-top:4px;">調査日：2026年4月2日 ／ 調査対象：@sho_molth・@103yakulog</p>
+</footer>
+
+</body>
+</html>

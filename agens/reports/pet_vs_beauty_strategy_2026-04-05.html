@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ペット用品 vs 美容・健康 アフィリエイト戦略比較レポート</title>
+<style>
+:root {
+  --black: #111111;
+  --gray-dark: #444444;
+  --gray-mid: #888888;
+  --gray-light: #cccccc;
+  --gray-bg: #f7f7f5;
+  --white: #ffffff;
+  --accent: #2563eb;
+  --accent-light: #eff6ff;
+  --green: #16a34a;
+  --green-light: #f0fdf4;
+  --amber: #d97706;
+  --amber-light: #fffbeb;
+  --rose: #e11d48;
+  --rose-light: #fff1f2;
+  --border: #e5e5e5;
+  --radius: 12px;
+  --radius-sm: 6px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+  background: var(--white);
+  color: var(--black);
+  line-height: 1.7;
+  font-size: 15px;
+}
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; color: var(--gray-mid); text-transform: uppercase; }
+.header-meta { font-size: 12px; color: var(--gray-mid); }
+
+.hero {
+  padding: 80px 40px 60px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.hero-tag {
+  display: inline-block;
+  background: var(--black);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.hero-sub {
+  font-size: 16px;
+  color: var(--gray-dark);
+  max-width: 620px;
+  line-height: 1.75;
+}
+.hero-stats {
+  display: flex;
+  gap: 40px;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.hero-stat-item { display: flex; flex-direction: column; gap: 4px; }
+.stat-num { font-size: 28px; font-weight: 800; color: var(--black); letter-spacing: -0.02em; }
+.stat-num.green { color: var(--green); }
+.stat-num.amber { color: var(--amber); }
+.stat-label { font-size: 12px; color: var(--gray-mid); letter-spacing: 0.04em; }
+
+.section {
+  padding: 64px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.section + .section { border-top: 1px solid var(--border); }
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gray-mid);
+  margin-bottom: 10px;
+}
+.section-title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 32px;
+}
+
+/* 比較テーブル */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-bottom: 32px;
+}
+thead th {
+  background: var(--black);
+  color: var(--white);
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+thead th.pet { background: var(--green); }
+thead th.beauty { background: #7c3aed; }
+tbody tr { border-bottom: 1px solid var(--border); }
+tbody tr:last-child { border-bottom: none; }
+tbody td { padding: 13px 16px; color: var(--gray-dark); vertical-align: top; }
+tbody td:first-child { font-weight: 700; color: var(--black); }
+tbody tr:nth-child(even) td { background: var(--gray-bg); }
+.win { color: var(--green); font-weight: 700; }
+.lose { color: var(--gray-mid); }
+.draw { color: var(--amber); font-weight: 700; }
+
+/* 判定バッジ */
+.verdict {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.v-win { background: var(--green-light); color: var(--green); }
+.v-lose { background: var(--gray-bg); color: var(--gray-mid); }
+.v-draw { background: var(--amber-light); color: var(--amber); }
+
+/* 理由カード */
+.reason-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.reason-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+}
+.reason-num {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--green);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.reason-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.reason-body { font-size: 13px; color: var(--gray-dark); line-height: 1.7; }
+
+/* 弱点 */
+.weakness-box {
+  background: var(--amber-light);
+  border: 1px solid #fde68a;
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  margin-bottom: 32px;
+}
+.weakness-box h3 { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: #92400e; }
+.weakness-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.weakness-list li { font-size: 14px; color: #92400e; display: flex; gap: 8px; }
+.weakness-list li::before { content: "△"; flex-shrink: 0; }
+
+/* 回答カード */
+.answer-box {
+  background: var(--black);
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 36px 40px;
+  margin-bottom: 32px;
+}
+.answer-box h3 { font-size: 18px; font-weight: 800; margin-bottom: 16px; }
+.answer-box p { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.8; margin-bottom: 10px; }
+.answer-box .highlight { color: #86efac; font-weight: 700; }
+
+/* ロードマップ */
+.roadmap { display: flex; flex-direction: column; gap: 0; }
+.phase {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border);
+}
+.phase:last-child { border-bottom: none; }
+.phase-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.phase-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+.pt-test { background: var(--accent-light); color: var(--accent); }
+.pt-growth { background: var(--green-light); color: var(--green); }
+.pt-scale { background: #f5f3ff; color: #7c3aed; }
+.phase-period { font-size: 12px; color: var(--gray-mid); }
+.phase-content h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+.phase-items { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.phase-items li { font-size: 14px; color: var(--gray-dark); display: flex; gap: 8px; }
+.phase-items li::before { content: "→"; color: var(--gray-mid); flex-shrink: 0; }
+.kpi-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.kpi-pill {
+  background: var(--gray-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gray-dark);
+}
+
+/* 勝利の方程式 */
+.formula-box {
+  background: var(--black);
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 36px 40px;
+  margin-top: 40px;
+}
+.formula-box h3 { font-size: 18px; font-weight: 800; margin-bottom: 20px; }
+.formula {
+  background: rgba(255,255,255,0.1);
+  border-radius: var(--radius-sm);
+  padding: 18px 22px;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 24px;
+  letter-spacing: 0.02em;
+}
+.formula span { color: #93c5fd; }
+.strategy-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.strategy-list li { font-size: 14px; color: rgba(255,255,255,0.8); display: flex; gap: 10px; }
+.strategy-list li::before { content: "✓"; color: #86efac; flex-shrink: 0; font-weight: 700; }
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--gray-mid);
+}
+hr.full-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Strategy Report</div>
+  <div class="header-meta">Threads アフィリエイト戦略比較 &nbsp;|&nbsp; 2026.04.05</div>
+</header>
+
+<div class="hero">
+  <div class="hero-tag">Affiliate Strategy</div>
+  <h1>なぜペット用品なのか<br>美容・健康との徹底比較</h1>
+  <p class="hero-sub">
+    note市場調査・楽天アフィリエイトデータ・Threads競合調査をもとに、ペット用品×楽天アフィリエイトが「今この人にとって」最適解である理由を整理する。
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat-item">
+      <span class="stat-num green">5%</span>
+      <span class="stat-label">楽天ペット用品 報酬率</span>
+    </div>
+    <div class="hero-stat-item">
+      <span class="stat-num">4%</span>
+      <span class="stat-label">楽天美容・健康 報酬率</span>
+    </div>
+    <div class="hero-stat-item">
+      <span class="stat-num green">ゼロ</span>
+      <span class="stat-label">Threadsペット系競合数</span>
+    </div>
+    <div class="hero-stat-item">
+      <span class="stat-num amber">1,000円</span>
+      <span class="stat-label">高単価商品の上限報酬</span>
+    </div>
+  </div>
+</div>
+
+<hr class="full-divider">
+
+<!-- 比較テーブル -->
+<div class="section">
+  <div class="section-label">Comparison</div>
+  <div class="section-title">ペット用品 vs 美容・健康 全項目比較</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>比較項目</th>
+        <th class="pet">ペット用品</th>
+        <th class="beauty">美容・健康</th>
+        <th>判定</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>楽天アフィリエイト報酬率</td>
+        <td class="win">5%（ペット固定）</td>
+        <td>4%（コスメ・健康）<br>最大20%（キャンペーン時）</td>
+        <td><span class="verdict v-draw">引き分け</span></td>
+      </tr>
+      <tr>
+        <td>高単価商品の存在</td>
+        <td class="win">空気清浄機・自動トイレ・キャットホイール（3〜7万円）→ 報酬1,000円/件</td>
+        <td>スキンケアセット・美顔器（1〜5万円）→ 報酬200〜500円（上限1,000円同様）</td>
+        <td><span class="verdict v-draw">引き分け</span></td>
+      </tr>
+      <tr>
+        <td>リピート購入</td>
+        <td class="win">フード・猫砂・おやつ（月次消耗品）</td>
+        <td class="win">化粧水・サプリ（月次消耗品）</td>
+        <td><span class="verdict v-draw">引き分け</span></td>
+      </tr>
+      <tr>
+        <td>商品ジャンルの多さ</td>
+        <td class="lose">少ない（フード・グッズ・ケア中心）</td>
+        <td class="win">多い（化粧水・サプリ・ダイエット・美顔器…）</td>
+        <td><span class="verdict v-lose">美容の勝ち</span></td>
+      </tr>
+      <tr>
+        <td>Threads競合の数</td>
+        <td class="win">ほぼゼロ（ブルーオーシャン）</td>
+        <td class="lose">中〜多（美容系アカウント多数）</td>
+        <td><span class="verdict v-win">ペットの圧勝</span></td>
+      </tr>
+      <tr>
+        <td>体験談の独自性</td>
+        <td class="win">「猫アレルギー×サイベリアン」は唯一無二。誰も同じ話を書けない</td>
+        <td class="lose">「乾燥肌向け化粧水レビュー」は数万件が類似投稿を量産済み</td>
+        <td><span class="verdict v-win">ペットの圧勝</span></td>
+      </tr>
+      <tr>
+        <td>コメント・エンゲージメント</td>
+        <td class="win">ペット好きはコメントしやすい。「うちも同じ！」が集まる</td>
+        <td>美容系は保存が多いがコメントは少なめ</td>
+        <td><span class="verdict v-win">ペットの勝ち</span></td>
+      </tr>
+      <tr>
+        <td>コンバージョン率</td>
+        <td>中（高単価商品は購入ハードル高め）</td>
+        <td class="win">高（1,000〜3,000円帯が多く買われやすい）</td>
+        <td><span class="verdict v-lose">美容の勝ち</span></td>
+      </tr>
+      <tr>
+        <td>本人の知識・経験</td>
+        <td class="win">実際に2匹飼育中。むぎ・ゆずの実話が使える</td>
+        <td class="lose">特段の専門性・体験がない場合は説得力が出にくい</td>
+        <td><span class="verdict v-win">ペットの圧勝</span></td>
+      </tr>
+      <tr>
+        <td>凍結・BANリスク</td>
+        <td class="win">ペット系は低リスク。攻撃的なコンテンツになりにくい</td>
+        <td>健康効果の誇大表示でBAN事例あり</td>
+        <td><span class="verdict v-win">ペットの勝ち</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="answer-box">
+    <h3>正直な結論</h3>
+    <p>美容・健康は<span class="highlight">商品の多さとコンバージョン率</span>で優れている。しかし「誰でも参入できる」ということは、<span class="highlight">すでに飽和していて差別化できない</span>ことと同義。</p>
+    <p>ペット用品は商品数が少ない。だが「猫アレルギー持ちがサイベリアンを飼っている」という事実は、どの美容アカウントにも真似できない。<span class="highlight">ジャンルの広さより、自分だけの物語の方が強い。</span></p>
+  </div>
+</div>
+
+<hr class="full-divider">
+
+<!-- ペットが勝てる理由 -->
+<div class="section">
+  <div class="section-label">Why Pet</div>
+  <div class="section-title">ペット用品を選ぶべき5つの理由</div>
+
+  <div class="reason-grid">
+    <div class="reason-card">
+      <div class="reason-num">01</div>
+      <div class="reason-title">競合ゼロのブルーオーシャン</div>
+      <div class="reason-body">Threadsでペット用品アフィリエイトを専業でやっているアカウントは調査した限りほぼ存在しない。美容系は何千アカウントもある中で戦う必要がある。</div>
+    </div>
+    <div class="reason-card">
+      <div class="reason-num">02</div>
+      <div class="reason-title">アレルギー×サイベリアンという最強フック</div>
+      <div class="reason-body">「猫アレルギーなのに猫を飼いたくてサイベリアンにした」という事実は、同じ悩みを持つ数万人のアレルギー持ち猫好きに刺さる唯一無二のフック。</div>
+    </div>
+    <div class="reason-card">
+      <div class="reason-num">03</div>
+      <div class="reason-title">報酬率が美容より1%高い</div>
+      <div class="reason-body">楽天のペット用品は5%固定。美容・健康は4%（キャンペーン時は最大20%だが通常は4%）。地味だが長期で差が出る。</div>
+    </div>
+    <div class="reason-card">
+      <div class="reason-num">04</div>
+      <div class="reason-title">むぎ・ゆずのキャラが最強コンテンツ</div>
+      <div class="reason-body">ゆずが寄る→むぎが逃げる、2匹でフードの反応が真逆、ビビりのむぎが唯一食いついたグッズ…実話がそのままバズりやすい投稿になる。</div>
+    </div>
+    <div class="reason-card">
+      <div class="reason-num">05</div>
+      <div class="reason-title">高単価＋リピートの両立</div>
+      <div class="reason-body">空気清浄機・自動トイレ（報酬1,000円/件）でたまに大きく稼ぎ、フード・猫砂（リピート消耗品）で安定した収益を積み上げる構造が作れる。</div>
+    </div>
+  </div>
+
+  <div class="weakness-box">
+    <h3>正直な弱点も言う</h3>
+    <ul class="weakness-list">
+      <li>商品の種類が美容・健康より少ないため、投稿テーマのバリエーションに限界がある（月20〜30本を超えるとネタ切れしやすい）</li>
+      <li>低価格帯（フード3,000円 → 報酬150円）では1件あたりの収益が小さく、件数を稼がないと収益が積み上がらない</li>
+      <li>高単価商品（空気清浄機・自動トイレ）は購入ハードルが高く、コンバージョンまでに時間がかかる</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="full-divider">
+
+<!-- 今後の戦略ロードマップ -->
+<div class="section">
+  <div class="section-label">Roadmap</div>
+  <div class="section-title">3フェーズ戦略ロードマップ</div>
+
+  <div class="roadmap">
+    <div class="phase">
+      <div class="phase-label">
+        <span class="phase-tag pt-test">Phase 1</span>
+        <span class="phase-period">〜4週間</span>
+      </div>
+      <div class="phase-content">
+        <h3>テスト期：キャラを定着させる</h3>
+        <ul class="phase-items">
+          <li>1日1〜2件。リンクなし。むぎ・ゆずの体験談だけを投稿</li>
+          <li>「猫アレルギー×サイベリアン飼い主」というキャラを最初の10投稿で確立する</li>
+          <li>コメント誘導型投稿を週2回以上（「うちの子は〇〇だったけど、みなさんは？」）</li>
+          <li>楽天アフィリエイトに登録しリブクリア・ファーミネーターのリンクを準備する</li>
+        </ul>
+        <div class="kpi-row">
+          <span class="kpi-pill">目標：フォロワー50人</span>
+          <span class="kpi-pill">いいね平均3以上</span>
+          <span class="kpi-pill">コメント週1件</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">
+        <span class="phase-tag pt-growth">Phase 2</span>
+        <span class="phase-period">1〜3ヶ月目</span>
+      </div>
+      <div class="phase-content">
+        <h3>収益化開始：低単価リピート商品から始める</h3>
+        <ul class="phase-items">
+          <li>コメント欄にリブクリア・猫砂・ファーミネーターのリンクを追加（報酬150〜350円/件）</li>
+          <li>「アレルギー持ちに効いたグッズ」シリーズを週1本固定で投稿</li>
+          <li>週テーマを固定（月フード・水むぎゆず日常・金グッズ・日楽天攻略）</li>
+          <li>自動給餌器・自動給水器など中価格帯商品（報酬700〜900円）を体験談で紹介開始</li>
+        </ul>
+        <div class="kpi-row">
+          <span class="kpi-pill">目標：フォロワー200人</span>
+          <span class="kpi-pill">月収3,000〜10,000円</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">
+        <span class="phase-tag pt-scale">Phase 3</span>
+        <span class="phase-period">3ヶ月目〜</span>
+      </div>
+      <div class="phase-content">
+        <h3>スケール：高単価商品で一気に上積み</h3>
+        <ul class="phase-items">
+          <li>空気清浄機（報酬1,000円）を「アレルギー持ちが実際に使っている機種」として紹介</li>
+          <li>PETKIT自動トイレ・キャットホイール（報酬1,000円）を体験談で紹介</li>
+          <li>楽天マラソン・スーパーセール期に合わせた「まとめ買いおすすめ」投稿でコンバージョン狙い</li>
+          <li>ネタ切れ対策で美容・健康の一部商品（アレルギー持ち向け空気清浄機フィルター等）を補完的に追加</li>
+        </ul>
+        <div class="kpi-row">
+          <span class="kpi-pill">目標：フォロワー500〜1,000人</span>
+          <span class="kpi-pill">月収30,000円〜</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="formula-box">
+    <h3>勝利の方程式</h3>
+    <div class="formula">
+      <span>猫アレルギー体験談</span> ＋ <span>むぎ・ゆずの実話</span> ＋ <span>楽天の正直レビュー</span> ＋ <span>Threadsの競合ゼロ</span>
+    </div>
+    <ul class="strategy-list">
+      <li>美容・健康は「誰でも参入できる」から飽和している。ペットは「この人だから書ける」が存在する</li>
+      <li>商品数の少なさは弱点だが、ネタ切れしたら美容×ペット（アレルギー対策グッズ）で横展開できる</li>
+      <li>高単価（空気清浄機）でたまに1,000円、低単価（フード）で毎月安定、がこのジャンルの正しい稼ぎ方</li>
+      <li>むぎ・ゆずの日常ネタは何本でも作れる。2匹の性格が真逆なので比較コンテンツが無限に生まれる</li>
+      <li>アカウントが育ったら美容・健康ジャンルとの掛け合わせ（ペット飼い主の健康管理）で展開可能</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  <div>Threads アフィリエイト戦略比較レポート 2026.04.05</div>
+  <div>参照：楽天アフィリエイト料率ページ / note市場調査2026-03-22 / Threadsアフィリエイト調査2026-04-05</div>
+</footer>
+
+</body>
+</html>

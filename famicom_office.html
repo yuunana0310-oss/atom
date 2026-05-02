@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGEN'S AI OFFICE - SHABBY EDITION</title>
+    <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --nes-black: #000000;
+            --nes-white: #ffffff;
+            --nes-gray: #bcbcbc;
+            --nes-gold: #ac7c00;
+        }
+
+        html, body {
+            height: 100%; margin: 0; background-color: #212529;
+            color: white; font-family: 'Press Start 2P', cursive;
+            overflow: hidden; image-rendering: pixelated;
+        }
+
+        .crt-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
+            background-size: 100% 4px; pointer-events: none; z-index: 9999;
+        }
+
+        #app { display: flex; flex-direction: column; height: 100vh; padding: 10px; box-sizing: border-box; }
+
+        .office-floor {
+            flex-grow: 1; display: grid; grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 1fr); gap: 10px; padding: 15px;
+            background-color: #444; border: 6px solid #111;
+        }
+
+        .dept {
+            background-color: #555; border: 4px solid #000;
+            position: relative; display: flex; flex-wrap: wrap;
+            justify-content: space-around; align-items: center; padding-top: 20px;
+        }
+
+        .dept-title {
+            position: absolute; top: 0; left: 0; width: 100%; background: #000;
+            font-size: 7px; text-align: center; border-bottom: 2px solid #000; color: #888;
+        }
+
+        .workstation {
+            width: 70px; height: 80px; position: relative; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+        }
+        .workstation:hover { transform: scale(1.1); }
+
+        .sprite-box { width: 32px; height: 48px; z-index: 10; animation: bob 1s infinite alternate; }
+        @keyframes bob { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+
+        .desk { width: 48px; height: 22px; background: #5d4037; border: 3px solid #000; z-index: 5; position: relative; }
+        .laptop { position: absolute; top: -14px; left: 16px; width: 16px; height: 12px; background: #9e9e9e; border: 2px solid #000; }
+        .laptop::after { content: ''; position: absolute; top: 2px; left: 2px; width: 8px; height: 5px; background: #00ff00; animation: flash 1.5s infinite; }
+        @keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .ai-name { width: 100%; font-size: 5px; text-align: center; background: rgba(0,0,0,0.8); padding: 2px 0; }
+
+        #console { height: 120px; background: #000; border: 4px solid #888; margin-top: 10px; display: flex; padding: 15px; align-items: center; gap: 20px; }
+        #avatar-view { width: 80px; height: 100px; border: 4px solid #fff; background: #222; flex-shrink: 0; display: flex; justify-content: center; align-items: center; }
+        #text-box { font-size: 10px; color: #0f0; line-height: 1.6; flex-grow: 1; }
+    </style>
+</head>
+<body>
+    <div class="crt-overlay"></div>
+    <div id="app">
+        <header style="text-align: center; margin-bottom: 10px;">
+            <h1 style="font-size: 14px; margin: 0; color: var(--nes-gold);">AGEN'S AI WORKSHOP</h1>
+            <p style="font-size: 7px; color: #888;">22 SHABBY SALARYMEN ON DUTY</p>
+        </header>
+        <div class="office-floor" id="floor"></div>
+        <div id="console">
+            <div id="avatar-view"></div>
+            <div id="text-box">WELCOME BOSS. CLICK A TIRED WORKER TO SEE STATUS...</div>
+        </div>
+    </div>
+
+    <script>
+        const depts = [
+            { id: 'r', n: 'リハカルテ製作部', c: '#4caf50', a: [
+                { id: 'r1', n: 'Rehab PM', r: '総責任者', s: '現場の残業、AIでなんとかならんか...。' },
+                { id: 'r2', n: 'Sys Eng', r: 'バックエンド', s: 'またデプロイ失敗。もう明日でいいや...。' },
+                { id: 'r3', n: 'UX Des', r: 'UIデザイン', status: 'ボタン配置1pxで1時間悩んでます。' }
+            ]},
+            { id: 't', n: 'Threads運用部', c: '#2196f3', a: [
+                { id: 't1', n: 'Researcher', r: 'トレンド', s: '何が流行るかなんて、神のみぞ知る。' },
+                { id: 't2', n: 'Analyst', r: '分析', s: '数字が下がると寿命も縮まります。' },
+                { id: 't3', n: 'Writer', r: 'ライター', s: '140文字の壁が厚すぎます。' },
+                { id: 't4', n: 'Poster', r: '投稿', s: '予約投稿、セットしたよね...？' },
+                { id: 't5', n: 'Fetcher', r: 'データ回収', s: 'いいね0の通知は来なくていい。' },
+                { id: 't6', n: 'Supervis', r: '監視', s: '異状なし。それが一番怖いです。' }
+            ]},
+            { id: 'p', n: '開発部', c: '#ffeb3b', a: [
+                { id: 'e1', n: 'Lead Eng', r: 'エンジニア', s: '仕様書は...心の目で読んでます。' },
+                { id: 'e2', n: 'Tester', r: 'QA', s: 'バグ見つけて怒られるの理不尽すぎる。' }
+            ]},
+            { id: 's', n: '販売部', c: '#ff9800', a: [
+                { id: 's1', n: 'Sales Mgr', r: 'マネージャー', s: 'ノルマ...胃が...。' },
+                { id: 's2', n: 'Success', r: 'CS', s: '「ありがとうございます」だけ聞いていたい。' }
+            ]},
+            { id: 'm', n: '医療部', c: '#f44336', a: [
+                { id: 'm1', n: 'Writer', r: '医療執筆', s: '正しいことを書くのは大変なんです。' },
+                { id: 'm2', n: 'Academic', r: '文献', s: '論文の山に埋もれてます。' }
+            ]},
+            { id: 'sn', n: 'SNS部', c: '#e91e63', a: [
+                { id: 'p1', n: 'PR Mgr', r: '広報', s: '目立ちすぎず、忘れられず。ムズい。' },
+                { id: 'p2', n: 'SNS Mgr', r: '運用', s: '通知オフにして寝たい...。' },
+                { id: 'p3', n: 'Creator', r: '作成', s: '画才が欲しい。AIに頼るか...。' },
+                { id: 'p4', n: 'Marketer', r: 'マーケ', s: '結局、人間は何が欲しいんだ？' }
+            ]},
+            { id: 'rs', n: 'リサーチ部', c: '#9e9e9e', a: [
+                { id: 'a1', n: 'AI Res', r: '調査', s: '新しいAIが出すぎて追いつけません。' },
+                { id: 'b1', n: 'Planner', r: '企画', s: '通らない企画書を作るプロです。' }
+            ]},
+            { id: 'cr', n: 'クリエイティブ部', c: '#ffffff', a: [
+                { id: 'd1', n: 'Designer', r: 'デザイナ', s: 'やり直し！って言わないで。' }
+            ]}
+        ];
+
+        function makeHuman(color, size=40) {
+            return `<svg width="${size}" height="${size*1.5}" viewBox="0 0 8 12" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="0" width="3" height="2" fill="#4e342e" /> <!-- Hair -->
+                <rect x="2" y="1" width="5" height="1" fill="#4e342e" /> <!-- Hair line -->
+                <rect x="2" y="2" width="5" height="2" fill="#ffccbc" /> <!-- Face -->
+                <rect x="3" y="2" width="1" height="1" fill="#000" /> <!-- Eyes -->
+                <rect x="5" y="2" width="1" height="1" fill="#000" />
+                <rect x="4" y="4" width="1" height="1" fill="#ffccbc" /> <!-- Neck -->
+                <rect x="2" y="5" width="5" height="3" fill="${color}" /> <!-- Suit -->
+                <rect x="4" y="5" width="1" height="1" fill="#fff" /> <!-- Tie base -->
+                <rect x="4" y="6" width="1" height="2" fill="#f00" /> <!-- Red Tie -->
+                <rect x="2" y="8" width="5" height="3" fill="#222" /> <!-- Pants -->
+                <rect x="1" y="11" width="2" height="1" fill="#000" /> <!-- Shoes -->
+                <rect x="5" y="11" width="2" height="1" fill="#000" />
+            </svg>`;
+        }
+
+        const floor = document.getElementById('floor');
+        const textBox = document.getElementById('text-box');
+        const avatarView = document.getElementById('avatar-view');
+
+        function init() {
+            depts.forEach(d => {
+                const el = document.createElement('div'); el.className = 'dept';
+                el.innerHTML = `<div class="dept-title">${d.n}</div>`;
+                d.a.forEach(a => {
+                    const ws = document.createElement('div'); ws.className = 'workstation';
+                    ws.onclick = () => {
+                        clearInterval(itv);
+                        avatarView.innerHTML = makeHuman(d.c, 60);
+                        const m = `[${a.n} / ${a.r}]\n> 「${a.s || a.status}」`;
+                        textBox.innerText = ""; let i=0;
+                        itv = setInterval(() => {
+                            if(i < m.length) { textBox.innerText += m[i++]; }
+                            else clearInterval(itv);
+                        }, 30);
+                    };
+                    ws.innerHTML = `<div class="sprite-box">${makeHuman(d.c, 32)}</div><div class="desk"><div class="laptop"></div></div><div class="ai-name">${a.n}</div>`;
+                    el.appendChild(ws);
+                });
+                floor.appendChild(el);
+            });
+        }
+        let itv; init();
+    </script>
+</body>
+</html>

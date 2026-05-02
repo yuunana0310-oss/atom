@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>股関節リハビリテーション：深層統合レポート</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --accent: #3b82f6;
+            --bg: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --glass: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        header img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+            filter: blur(2px);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+            max-width: 900px;
+        }
+
+        .header-content h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.4rem 1.2rem;
+            border-radius: 99px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: -80px auto 100px;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 20;
+        }
+
+        .report-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 4rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            animation: slideInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 1rem;
+        }
+
+        .section-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-right: 1.5rem;
+            opacity: 0.4;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .content-block {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border-left: 4px solid var(--primary);
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .content-block:hover {
+            transform: translateX(10px);
+        }
+
+        .content-block h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .conclusion {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            padding: 3rem;
+            border-radius: 24px;
+            margin-top: 4rem;
+            border: 1px solid #bfdbfe;
+        }
+
+        .conclusion h2 {
+            color: #1e40af;
+            margin-bottom: 1.5rem;
+        }
+
+        .conclusion p {
+            font-weight: 500;
+            color: #1e3a8a;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(100px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .header-content h1 { font-size: 2rem; }
+            .report-card { padding: 2rem; }
+            .container { margin-top: -40px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="hip_research_header_1775972323798.png" alt="Hip Joint Research Header">
+    <div class="header-content">
+        <span class="badge">DEEP INTEGRATED REPORT</span>
+        <h1>股関節リハビリテーション：<br>深層統合レポート</h1>
+        <p style="color: rgba(255,255,255,0.8); font-size: 1.1rem;">2026.04.12 | 5つの最新論文エビデンスに基づく統合的臨床指針</p>
+    </div>
+</header>
+
+<div class="container">
+    <div class="report-card">
+        
+        <div class="section">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2>診断と鑑別：確信度を高める評価戦略</h2>
+            </div>
+            <div class="content-block">
+                <h3>診断精度のパラドックス</h3>
+                <p>従来のFADIRやFABERといった単独のテストは「感度は高いが特異度が低い」という限界がある。つまり、これらが陽性でも必ずしも股関節内の病態であるとは断定できない。</p>
+            </div>
+            <div class="content-block">
+                <h3>臨床推論のアップデート</h3>
+                <p>単一の結果に依存せず、複数のテストを組み合わせた「テスト・クラスター」を使用することで、関節由来か周囲軟部組織由来かを高い精度で選別し、介入エラーを劇的に減少させる。</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2>戦略的アプローチ：徒手療法を再定義する</h2>
+            </div>
+            <div class="content-block">
+                <h3>「橋渡し」としての手技</h3>
+                <p>徒手療法（モビライゼーション等）は初期の疼痛緩和に優れるが、長期的な治療アウトカムは運動療法の質に依存する。手技は目的ではなく、患者が「運動」へ移行するための準備ツールである。</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2>バイオメカニクスの要：股関節屈筋群</h2>
+            </div>
+            <div class="content-block">
+                <h3>推進力の源泉：パワー・バースト</h3>
+                <p>歩行の立脚後期から遊脚期への切り替えにおいて、腸腰筋は爆発的な推進力（パワー・バースト）を提供する。この出力不全が骨盤前傾や歩幅減少の代償メカニズムを誘発する。</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2>保存療法の優位性：FAIおよびOAへの福音</h2>
+            </div>
+            <div class="content-block">
+                <h3>痛みを逆手に取ったトレーニング</h3>
+                <p>大腿骨寛骨臼インピンジメント（FAI）や股関節OAに対し、理学療法士主導の「痛み調整型（pain-guided）」の漸進的抵抗トレーニングが、手術に匹敵する、あるいはそれを超えるQOL改善をもたらす。</p>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>統合的臨床指針</h2>
+            <p>股関節疾患の資産化された知見を統合すると、導き出される最適解は「テスト・クラスターによる緻密な病態鑑別」に基づき、「徒手療法を窓口として活用」しながら、「股関節屈筋のバイオメカニクス的再教育を含めた漸進的な抵抗トレーニング」を完遂することである。これこそが、他でもないあなただけの知識資産の根幹となる。</p>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    Generated by Antigravity Research Assistant | dbdae1e2-e797-4f53-ace3-74ed0b4b24ae
+</footer>
+
+</body>
+</html>

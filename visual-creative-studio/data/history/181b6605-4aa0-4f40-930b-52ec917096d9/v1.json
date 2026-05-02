@@ -1,0 +1,101 @@
+{
+  "session_id": "181b6605-4aa0-4f40-930b-52ec917096d9",
+  "created_at": 1776593274.3264349,
+  "updated_at": 1776596651.9525754,
+  "mode": "design",
+  "goal": "図解コンテンツ",
+  "platform": "instagram",
+  "size": "instagram_portrait",
+  "style": "simple",
+  "tone": "",
+  "worldview": "",
+  "genre": "",
+  "title": "デザインアプリの使い方",
+  "subtitle": "",
+  "body_text": "",
+  "cta": "",
+  "page_count": 1,
+  "color_scheme": "",
+  "primary_color": "",
+  "secondary_color": "",
+  "accent_color": "",
+  "background_color": "",
+  "slides": [
+    {
+      "index": 0,
+      "title": "図解コンテンツ",
+      "subtitle": "概要",
+      "body_text": "このテーマについて\n分かりやすく解説します",
+      "icon": "📌",
+      "layout": "center"
+    }
+  ],
+  "panels": [],
+  "creative_suite": [],
+  "character_settings": {
+    "enabled": false,
+    "name": "",
+    "appearance": "",
+    "hair": "",
+    "outfit": "",
+    "colors": [],
+    "personality": "",
+    "expression_style": "",
+    "pose_style": "",
+    "reference_notes": "",
+    "ng_items": [],
+    "worldview_notes": ""
+  },
+  "brand_settings": {
+    "brand_name": "",
+    "brand_colors": [],
+    "font_style": "",
+    "visual_rules": []
+  },
+  "fixed_constraints": [],
+  "change_requests": [],
+  "references": [],
+  "output_format": "svg",
+  "generated_content": [
+    {
+      "type": "svg",
+      "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1080 1350\" width=\"1080\" height=\"1350\">\n  <defs>\n    <linearGradient id=\"bg_simple_0\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" style=\"stop-color:#FFFFFF;stop-opacity:1\"/>\n      <stop offset=\"100%\" style=\"stop-color:#F0F0F0;stop-opacity:1\"/>\n    </linearGradient>\n  </defs>\n  <rect width=\"1080\" height=\"1350\" fill=\"url(#bg_simple_0)\" rx=\"0\"/>\n  <rect x=\"40\" y=\"40\" width=\"1000\" height=\"1270\" rx=\"20\" fill=\"white\" stroke=\"#E0E0E0\" stroke-width=\"1\"/>\n  <line x1=\"480\" y1=\"648.0\" x2=\"600\" y2=\"648.0\" stroke=\"#0984E3\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n  <text x=\"540\" y=\"243.0\" text-anchor=\"middle\" fill=\"#0984E3\" font-size=\"48\" font-family=\"'Noto Sans JP', sans-serif\" font-weight=\"400\">📌</text>\n  <text x=\"540\" y=\"432.0\" text-anchor=\"middle\" fill=\"#2D3436\" font-size=\"42\" font-weight=\"bold\" font-family=\"'Noto Sans JP', sans-serif\">図解コンテンツ</text>\n  <text x=\"540\" y=\"567.0\" text-anchor=\"middle\" fill=\"#636E72\" font-size=\"24\" font-family=\"'Noto Sans JP', sans-serif\">概要</text>\n  <text x=\"540\" y=\"783.0\" text-anchor=\"middle\" fill=\"#636E72\" font-size=\"28\" font-family='Noto Sans JP', sans-serif\">このテーマについて</text>\n<text x=\"540\" y=\"825.0\" text-anchor=\"middle\" fill=\"#636E72\" font-size=\"28\" font-family='Noto Sans JP', sans-serif\">分かりやすく解説します</text>\n\n  \n</svg>",
+      "label": "スライド 1: 図解コンテンツ",
+      "size": {
+        "width": 1080,
+        "height": 1350,
+        "label": "Instagramポートレート"
+      },
+      "index": 0
+    }
+  ],
+  "version": 1,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Instagram用に図解カルーセルを作りたい。このアプリの使い方を教えて",
+      "timestamp": 1776593274.3275788
+    },
+    {
+      "role": "assistant",
+      "content": "📐 **デザイン生成**モードですね！\n\n**現在の設定:**\n📌 モード: **デザイン生成**\n📱 プラットフォーム: **instagram**\n🎯 目的: 図解コンテンツ\n🎨 スタイル: シンプル\n\nタイトルは何にしますか？\n（例: 「AI活用の基本5ステップ」「Claude Code入門」）",
+      "timestamp": 1776593274.3276043
+    },
+    {
+      "role": "user",
+      "content": "デザインアプリの使い方",
+      "timestamp": 1776593299.2445164
+    },
+    {
+      "role": "assistant",
+      "content": "✨ 準備完了！ **デザイン生成** を生成します。\n\n**現在の設定:**\n📌 モード: **デザイン生成**\n📱 プラットフォーム: **instagram**\n🎯 目的: 図解コンテンツ\n📝 タイトル: デザインアプリの使い方\n🎨 スタイル: シンプル\n\n⏳ 生成中...",
+      "timestamp": 1776593299.245755
+    },
+    {
+      "role": "user",
+      "content": "Instagram",
+      "timestamp": 1776596651.951259
+    }
+  ],
+  "pending_questions": []
+}

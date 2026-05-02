@@ -1,0 +1,28 @@
+# '様式第21号' Field Mapping Research
+
+## Page 1 Structure
+| Section | Elements | DB Field | Layout Type |
+| :--- | :--- | :--- | :--- |
+| Header Tab 0 | 患者氏名, 性別, 年齢 | patient_name, sex, age | Grid 2x3 |
+| Header Tab 0 | 算定病名, 治療内容, 各種日付 | disease_name, treatment, onset_date, etc. | Grid 3x2 |
+| Body Functions | JCS, ROM, Respiratory, Muscle, Paralysis... | impairment_consciousness, impairment_rom, etc. | 2-col Dense List |
+| Movements | 寝返り, 座位, 起き上がり, 立位, 立ち上がり | movement_rolling, etc. | Choices (自立/介助...) |
+| ADL Matrix | 13 Motor Items (FIM/BI) | adl_evaluation_json (Motor subkeys) | 13 rows x 5 cols |
+| ADL Cognition | 5 Cognitive Items | adl_evaluation_json (Cognitive subkeys) | 5 rows x 5 cols |
+| Nutrition | Ht, Wt, BMI, Method, Status, kcal, protein | nutrition_* | Condensed Box |
+| Oral | Dentures, hygiene, chewing | oral_status | 2-col small list |
+| Goals | 1-month goal, long-term goal | goal_short, goal_long | Textbox (small) |
+
+## Page 2 Structure
+| Section | Elements | DB Field | Layout Type |
+| :--- | :--- | :--- | :--- |
+| History | Past rehab history, family wishes | rehab_history, patient_wishes | Textbox (large) |
+| Target Goals | Participation, Activities | goal_participation, goal_activity | Textbox (large) |
+| Environment | Housing, Jobs, Hobbies | env_housing, env_job, env_hobby | Checkbox/Text mix |
+| Program | PT action, OT action, ST action | plan_pt, plan_ot, plan_st | Textbox |
+
+## UI Constants
+- Base Font: Yu Gothic UI, 9pt
+- Border: 1px, #000000
+- Cell Padding: 2px
+- Canvas size: 842px (A4 Height approx)

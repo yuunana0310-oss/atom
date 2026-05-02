@@ -1,0 +1,227 @@
+{
+  "main": {
+    "id": "d6cbb7733983a531",
+    "type": "split",
+    "children": [
+      {
+        "id": "e29cfbdd2abcf941",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "18707f62f78fa3b9",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "ideas/無題のファイル.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "無題のファイル"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "393779a85aa8a835",
+    "type": "split",
+    "children": [
+      {
+        "id": "9d5c52084fda3006",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cdc6c8564c58748f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "ファイルエクスプローラ"
+            }
+          },
+          {
+            "id": "72714489592aea0b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "検索"
+            }
+          },
+          {
+            "id": "ef2057bf8402312c",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "ブックマーク"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "61f177ff25afa9c9",
+    "type": "split",
+    "children": [
+      {
+        "id": "e7f9811fa275c003",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c30dd88949d64561",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "バックリンク"
+            }
+          },
+          {
+            "id": "573e231545a78c54",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "アウトゴーイングリンク"
+            }
+          },
+          {
+            "id": "0c2d052024ef0291",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "タグ"
+            }
+          },
+          {
+            "id": "33b34364d35437be",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "すべてのプロパティ"
+            }
+          },
+          {
+            "id": "4dc5db6d0458a2b7",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "アウトライン"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:クイックスイッチャーを開く": false,
+      "graph:グラフビューを開く": false,
+      "canvas:新規キャンバスを作成": false,
+      "daily-notes:今日のデイリーノートを開く": false,
+      "templates:テンプレートを挿入": false,
+      "command-palette:コマンドパレットを開く": false,
+      "bases:新規ベースを作成": false,
+      "templater-obsidian:Templater": false
+    }
+  },
+  "active": "18707f62f78fa3b9",
+  "lastOpenFiles": [
+    "ideas/院内勉強製品０４２９.md",
+    "ideas/無題のファイル.md",
+    "ideas/院内勉強会Ver1.md",
+    "ideas/患者説明Ver1.md",
+    "ideas/SNSver1.md",
+    "ideas/Claude CodeでAI秘書にできる10のこと.md",
+    "ideas/第2話：歩ける数値、歩けない心.md",
+    "note/💡慢性腰痛は「腰だけ」の問題ではない？.md",
+    "research_synthesis/vault/2026-04-12_膝関節：最新エビデンス論文リスト（2021–2025）【Claude検証済み】.md",
+    "research_synthesis/vault/2026-04-12_膝関節：最新エビデンス論文リスト（2021–2025）.md",
+    "papers_to_vault.py",
+    "research_synthesis/vault/2026-04-12_膝関節：最新エビデンス論文リスト.md",
+    "research_synthesis/vault/2026-04-12_股関節OA：Hall論文詳細技術ノート.md",
+    "research_synthesis/vault/2026-04-12_股関節リハビリテーション：深層統合レポート.md",
+    "research_synthesis/vault/2026-04-12_[Clinical Examination Tests for Hip-Related Pain_ .md",
+    "research_synthesis/vault/2026-04-12_[The Role of Hip Flexors in Human Walking_ A Syste.md",
+    "research_synthesis/vault/2026-04-12_[Manual Therapy Plus Exercise Versus Exercise Alon.md",
+    "research_synthesis/vault/2026-04-12_[Physiotherapist-led pain-guided progressive resis.md",
+    "research_synthesis/vault/2026-04-12_synthesis_2026-04-12_0.md",
+    "research_synthesis/inbox/_archive/test_import.md",
+    "research_synthesis/inbox/_archive",
+    "research_synthesis/vault/2026-04-12_次世代の義肢装具技術.md",
+    "research_synthesis/vault/2026-04-12_AIとリハビリの未来：2026年サマリー.md",
+    "research_synthesis/__pycache__/synthesis_rag_engine.cpython-313.pyc",
+    "research_synthesis/__pycache__",
+    "research_synthesis/inbox/test_import.md",
+    "import_research.py",
+    "research_synthesis/synthesis_rag_engine.py",
+    "research_synthesis/vault",
+    "research_synthesis/inbox",
+    "research_synthesis",
+    "1c1806b2-32de-11f1-97bb-42004e494300.png",
+    "ai_tech/system_architecture_history.md",
+    "ai_tech/setup_schedule.ps1",
+    "ai_tech/news_zenn_e1efabbc67eddf.md",
+    "ai_tech/news_zenn_claudecode-no-team-manager.md",
+    "ai_tech/news_zenn_n8n-transcription.md",
+    "3d2ab914-32dc-11f1-b342-42004e494300.png",
+    "906e8536-32de-11f1-8ff2-42004e494300.png",
+    "f1026744-32db-11f1-97bb-42004e494300.png"
+  ]
+}

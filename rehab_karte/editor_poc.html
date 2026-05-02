@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>様式第21号 統合エディタ</title>
+    <style>
+        body { background: #eee; font-family: "Yu Gothic UI", sans-serif; display: flex; justify-content: center; padding: 20px; }
+        .page-spread { display: flex; gap: 40px; }
+        .page { background: white; width: 210mm; height: 297mm; padding: 10mm; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: relative; border: 1px solid #ccc; }
+        
+        .title { text-align: center; font-size: 14pt; font-weight: bold; margin-bottom: 20px; }
+        
+        /* Grid Layout matching the Paper */
+        .grid-container { display: grid; border: 1px solid black; }
+        .cell { border: 0.5px solid black; padding: 2px; font-size: 9pt; display: flex; align-items: center; }
+        .header-cell { background: #f0f0f0; font-weight: bold; width: 100px; }
+        
+        /* Input Overlays */
+        input, textarea { border: none; font-family: inherit; font-size: inherit; width: 100%; height: 100%; box-sizing: border-box; background: transparent; }
+        input:focus { background: #eef; outline: none; }
+        
+        /* Interactive Choice */
+        .choice-row { display: flex; gap: 10px; }
+        .choice { cursor: pointer; color: black; }
+        .choice.selected { color: red; font-weight: bold; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="page-spread">
+        <!-- Page 1 -->
+        <div class="page" id="p1">
+            <div class="title">（別紙様式21） リハビリテーション総合実施計画書</div>
+            
+            <!-- Table Implementation Sample -->
+            <div style="display: grid; grid-template-columns: 100px 1fr 100px 100px 100px 1fr; border: 1px solid black;">
+                <div class="cell header-cell">患者氏名</div>
+                <div class="cell"><input type="text" placeholder="奈々美"></div>
+                <div class="cell header-cell">性別</div>
+                <div class="cell">
+                    <div class="choice-row">
+                        <span class="choice">( 男</span>
+                        <span class="choice selected">女 )</span>
+                    </div>
+                </div>
+                <div class="cell header-cell">年齢</div>
+                <div class="cell"><input type="text" value="35">歳</div>
+            </div>
+            
+            <div style="margin-top: 10px;">ADL評価表 (FIM/BI) などがここに入る...</div>
+        </div>
+
+        <!-- Page 2 -->
+        <div class="page" id="p2">
+            <div class="title">実施計画・署名 等</div>
+            <div style="height: 100px; border: 1px solid black; padding: 10px;">
+                本人・家族への指導内容 等がここに入る...
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,3 @@
+[console_scripts]
+note-sales = src.cli:app
+note-sales-tui = src.tui:main
