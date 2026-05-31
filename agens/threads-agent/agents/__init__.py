@@ -1,3 +1,0 @@
-"""
-Threads Automation Agents Package
-"""
