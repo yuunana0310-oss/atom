@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>短時間デイサービス 経営分析レポート（確定版）</title>
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --secondary: #2471a3;
+      --success: #1a7a43;
+      --danger: #b03030;
+      --warning: #c87f0a;
+      --light: #f0f4f8;
+      --border: #ccd5de;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", "Meiryo", "Yu Gothic", sans-serif;
+      font-size: 13.5px;
+      color: #1e2a38;
+      background: #e5eaf0;
+      line-height: 1.75;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+
+    /* HEADER */
+    .hdr {
+      background: linear-gradient(135deg, #0c1f33 0%, #1a3a5c 55%, #2471a3 100%);
+      color: #fff;
+      padding: 38px 44px;
+      border-radius: 14px;
+      margin-bottom: 26px;
+    }
+    .hdr .tag {
+      display: inline-block;
+      background: rgba(255,255,255,.18);
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      letter-spacing: .06em;
+    }
+    .hdr h1 { font-size: 22px; margin-bottom: 8px; letter-spacing: .02em; }
+    .hdr .sub { font-size: 13px; opacity: .80; margin-bottom: 18px; }
+    .hdr .meta-grid { display: flex; gap: 28px; flex-wrap: wrap; }
+    .hdr .meta-item { font-size: 12px; opacity: .70; }
+    .hdr .meta-item span { display: block; opacity: 1; font-weight: bold; font-size: 13px; margin-top: 2px; }
+
+    /* CARD */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px 34px;
+      margin-bottom: 22px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      page-break-inside: avoid;
+    }
+    .card h2 {
+      font-size: 16px;
+      color: var(--primary);
+      border-left: 5px solid var(--secondary);
+      padding-left: 13px;
+      margin-bottom: 20px;
+    }
+    .card h3 {
+      font-size: 13px;
+      font-weight: bold;
+      color: var(--secondary);
+      margin: 20px 0 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    /* ALERT */
+    .alert {
+      border-radius: 8px;
+      padding: 13px 18px;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+    .alert strong { display: block; font-size: 13.5px; margin-bottom: 4px; }
+    .a-danger  { background: #fdf0f0; border-left: 5px solid var(--danger);   color: #7a1a1a; }
+    .a-warning { background: #fefae8; border-left: 5px solid var(--warning);  color: #6a3f00; }
+    .a-success { background: #edf7f0; border-left: 5px solid var(--success);  color: #114030; }
+    .a-info    { background: #eaf3fb; border-left: 5px solid var(--secondary);color: #0d3050; }
+    .a-gray    { background: #f4f6f8; border-left: 5px solid #8090a0;         color: #333; }
+
+    /* TABLE */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+    th {
+      background: var(--primary);
+      color: #fff;
+      padding: 9px 12px;
+      text-align: center;
+      font-weight: normal;
+      font-size: 12px;
+    }
+    td { padding: 9px 12px; border-bottom: 1px solid var(--border); text-align: center; vertical-align: middle; }
+    tr:nth-child(even) td { background: #f7f9fb; }
+    .tl { text-align: left !important; }
+    .tr { text-align: right !important; }
+    .bold { font-weight: bold; }
+
+    .row-total td  { background: var(--primary) !important; color: #fff !important; font-weight: bold; }
+    .row-sub   td  { background: #e8eef4 !important; font-weight: bold; color: var(--primary); }
+    .row-red   td  { background: #fdf0f0 !important; color: #7a1a1a; }
+    .row-green td  { background: #edf7f0 !important; color: #114030; }
+    .row-yellow td { background: #fefae8 !important; color: #6a3f00; }
+
+    /* KPI GRID */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 14px; margin: 16px 0; }
+    .kpi {
+      border-radius: 10px;
+      padding: 16px 14px;
+      text-align: center;
+    }
+    .kpi .lbl { font-size: 11px; color: #666; margin-bottom: 6px; line-height: 1.4; }
+    .kpi .val { font-size: 24px; font-weight: bold; }
+    .kpi .sub { font-size: 11px; color: #888; margin-top: 3px; }
+    .kpi-blue   { background: #eaf3fb; } .kpi-blue .val   { color: var(--secondary); }
+    .kpi-red    { background: #fdf0f0; } .kpi-red .val    { color: var(--danger); }
+    .kpi-green  { background: #edf7f0; } .kpi-green .val  { color: var(--success); }
+    .kpi-yellow { background: #fefae8; } .kpi-yellow .val { color: var(--warning); }
+    .kpi-gray   { background: #f4f6f8; } .kpi-gray .val   { color: #445; }
+
+    /* SCHEDULE GRID */
+    .sch-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; margin: 14px 0; }
+    .sch-day { border-radius: 8px; padding: 12px 8px; text-align: center; }
+    .sch-day .day-name { font-size: 13px; font-weight: bold; margin-bottom: 8px; }
+    .sch-day .slot { font-size: 12px; border-radius: 5px; padding: 5px 4px; margin: 3px 0; }
+    .sch-active  { background: #eaf3fb; border: 2px solid var(--secondary); }
+    .sch-partial { background: #fefae8; border: 2px solid var(--warning); }
+    .sch-off     { background: #f0f0f0; border: 2px solid #ccc; opacity: .5; }
+    .slot-am     { background: var(--secondary); color: #fff; }
+    .slot-pm     { background: var(--success);   color: #fff; }
+    .slot-none   { background: #ccc; color: #666; }
+    .slot-miss   { background: #e8b0b0; color: #7a0000; }
+
+    /* RISK */
+    .risk-item {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 12px 16px; border-radius: 8px; margin: 8px 0;
+    }
+    .r-high { background: #fdf0f0; border-left: 4px solid var(--danger); }
+    .r-mid  { background: #fefae8; border-left: 4px solid var(--warning); }
+    .rbadge { flex-shrink: 0; padding: 3px 9px; border-radius: 12px; font-size: 11px; font-weight: bold; white-space: nowrap; margin-top: 2px; }
+    .rb-h { background: var(--danger);  color: #fff; }
+    .rb-m { background: var(--warning); color: #fff; }
+    .rcnt strong { display: block; font-size: 13.5px; margin-bottom: 4px; }
+    .rcnt p { font-size: 12.5px; color: #444; }
+
+    /* ACTION */
+    .act-list { list-style: none; counter-reset: ac; }
+    .act-list li {
+      counter-increment: ac;
+      position: relative;
+      padding: 13px 16px 13px 54px;
+      background: var(--light);
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .act-list li::before {
+      content: counter(ac);
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--secondary); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold; font-size: 13px;
+    }
+    .atag { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 11px; font-weight: bold; margin-right: 6px; }
+    .at-now   { background: var(--danger);  color: #fff; }
+    .at-soon  { background: var(--warning); color: #fff; }
+    .at-later { background: var(--success); color: #fff; }
+
+    /* VERDICT */
+    .verdict {
+      background: linear-gradient(135deg, #0c1f33, #1a3a5c);
+      color: #fff; border-radius: 12px; padding: 24px 30px;
+    }
+    .verdict h3 { font-size: 15px; margin-bottom: 14px; opacity: .9; }
+    .verdict ul { list-style: none; padding: 0; }
+    .verdict li { padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.15); font-size: 13px; }
+    .verdict li:last-child { border-bottom: none; }
+    .vmark { font-weight: bold; margin-right: 8px; }
+
+    /* DIVIDER */
+    .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+    /* BADGE */
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; }
+    .bd-r { background: #fdf0f0; color: var(--danger); }
+    .bd-y { background: #fefae8; color: var(--warning); }
+    .bd-g { background: #edf7f0; color: var(--success); }
+    .bd-b { background: #eaf3fb; color: var(--secondary); }
+
+    /* FOOTER */
+    .foot { text-align: center; font-size: 11.5px; color: #888; padding: 24px 0 8px; }
+    .note { font-size: 11.5px; color: #888; margin-top: 10px; line-height: 1.7; }
+
+    @media print {
+      body { background: #fff; }
+      .wrap { padding: 0; }
+      .card { box-shadow: none; border: 1px solid #ddd; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="tag">経営分析レポート｜確定版</div>
+    <h1>短時間デイサービス 経営採算・戦略分析</h1>
+    <div class="sub">送迎採算 / ドライバーリスク / PT体制 / 加算機会損失 / 戦略提言</div>
+    <div class="meta-grid">
+      <div class="meta-item">作成日<span>2026年5月7日</span></div>
+      <div class="meta-item">対象施設<span>短時間型通所介護（デイサービス）</span></div>
+      <div class="meta-item">登録利用者<span>19名</span></div>
+      <div class="meta-item">体制<span>PT2名（入院リハ兼務）</span></div>
+    </div>
+  </div>
+
+  <!-- ===== 施設概要 ===== -->
+  <div class="card">
+    <h2>第1章　施設概要・稼働状況</h2>
+
+    <h3>利用者内訳</h3>
+    <table>
+      <tr><th>区分</th><th>人数</th><th>送迎</th><th>介護報酬単価</th><th>報酬の計算方式</th></tr>
+      <tr><td class="tl">要支援1</td><td>3名</td><td>あり</td><td>2,268単位</td><td>月額固定（総合事業）</td></tr>
+      <tr><td class="tl">要支援2</td><td>4名</td><td>あり</td><td>4,538単位</td><td>月額固定（総合事業）</td></tr>
+      <tr><td class="tl">要介護1</td><td>8名</td><td>あり</td><td>368単位/回</td><td>利用回数×単価</td></tr>
+      <tr><td class="tl">要介護2</td><td>4名</td><td>あり</td><td>421単位/回</td><td>利用回数×単価</td></tr>
+      <tr><td class="tl">送迎なし（自己送迎）</td><td>1名</td><td>なし</td><td colspan="2">—</td></tr>
+      <tr class="row-total"><td class="tl">合計</td><td>19名</td><td>18名</td><td colspan="2">—</td></tr>
+    </table>
+
+    <h3>週間稼働スケジュール</h3>
+    <div class="sch-grid">
+      <div class="sch-day sch-active">
+        <div class="day-name">月</div>
+        <div class="slot slot-am">午前 4名</div>
+        <div class="slot slot-pm">午後 3名</div>
+      </div>
+      <div class="sch-day sch-active">
+        <div class="day-name">火</div>
+        <div class="slot slot-am">午前 4名</div>
+        <div class="slot slot-pm">午後 3名</div>
+      </div>
+      <div class="sch-day sch-off">
+        <div class="day-name">水</div>
+        <div class="slot slot-none">休業</div>
+      </div>
+      <div class="sch-day sch-active">
+        <div class="day-name">木</div>
+        <div class="slot slot-am">午前 4名</div>
+        <div class="slot slot-pm">午後 3名</div>
+      </div>
+      <div class="sch-day sch-partial">
+        <div class="day-name">金</div>
+        <div class="slot slot-miss">午前 空白<br><small>※ドライバー不在</small></div>
+        <div class="slot slot-pm">午後 3名</div>
+      </div>
+      <div class="sch-day sch-off">
+        <div class="day-name">土</div>
+        <div class="slot slot-none">休業</div>
+      </div>
+      <div class="sch-day sch-off">
+        <div class="day-name">日</div>
+        <div class="slot slot-none">休業</div>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi kpi-blue">
+        <div class="lbl">実稼働日数</div>
+        <div class="val">3.5<small style="font-size:14px">日/週</small></div>
+      </div>
+      <div class="kpi kpi-blue">
+        <div class="lbl">週間最大<br>延べ患者数</div>
+        <div class="val">24<small style="font-size:14px">名分</small></div>
+        <div class="sub">午前12＋午後12</div>
+      </div>
+      <div class="kpi kpi-yellow">
+        <div class="lbl">金曜午前の<br>機会損失（月）</div>
+        <div class="val">約6万円</div>
+        <div class="sub">年間約72万円</div>
+      </div>
+      <div class="kpi kpi-gray">
+        <div class="lbl">送迎ドライバー</div>
+        <div class="val" style="font-size:14px">グループ<br>他施設協力</div>
+        <div class="sub">専任なし</div>
+      </div>
+    </div>
+
+    <div class="alert a-info">
+      <strong>📌 PT2名の体制について</strong>
+      PT2名は短時間デイ終了後、同施設または関連施設の入院患者リハビリも担当。
+      PT人件費はデイと入院リハで按分されるため、<strong>デイ単体にPT全額を帰属させない</strong>。これが収益分析の前提です。
+    </div>
+  </div>
+
+  <!-- ===== 収益分析 ===== -->
+  <div class="card">
+    <h2>第2章　月次収支分析（実態ベース）</h2>
+
+    <h3>収入試算（現状・加算なし）</h3>
+    <table>
+      <tr><th>区分</th><th>人数</th><th>単価</th><th>利用頻度</th><th>月額収入</th></tr>
+      <tr>
+        <td class="tl">要支援1</td><td>3名</td><td>2,268単位/月</td><td>月額固定</td>
+        <td class="tr bold">68,040円</td>
+      </tr>
+      <tr>
+        <td class="tl">要支援2</td><td>4名</td><td>4,538単位/月</td><td>月額固定</td>
+        <td class="tr bold">181,520円</td>
+      </tr>
+      <tr>
+        <td class="tl">要介護1</td><td>8名</td><td>368単位/回×10円</td><td>月5回</td>
+        <td class="tr bold">147,200円</td>
+      </tr>
+      <tr>
+        <td class="tl">要介護2</td><td>4名</td><td>421単位/回×10円</td><td>月5回</td>
+        <td class="tr bold">84,200円</td>
+      </tr>
+      <tr class="row-total">
+        <td class="tl" colspan="4">月収入合計（基本報酬のみ）</td>
+        <td class="tr">約 480,960円</td>
+      </tr>
+    </table>
+
+    <h3>支出試算（PT人件費を除く変動コスト）</h3>
+    <table>
+      <tr><th>項目</th><th>月額</th><th>備考</th></tr>
+      <tr>
+        <td class="tl">看護師（パート）</td>
+        <td class="tr">160,000円</td>
+        <td class="tl">2,000円×4h×20日</td>
+      </tr>
+      <tr>
+        <td class="tl">施設費・光熱費・管理費</td>
+        <td class="tr">200,000円</td>
+        <td class="tl">家賃含む概算</td>
+      </tr>
+      <tr>
+        <td class="tl">車両費（保険・燃料・維持費）</td>
+        <td class="tr">80,000円</td>
+        <td class="tl">送迎用車両</td>
+      </tr>
+      <tr>
+        <td class="tl">消耗品・その他</td>
+        <td class="tr">50,000円</td>
+        <td class="tl">衛生用品・通信費等</td>
+      </tr>
+      <tr class="row-total">
+        <td class="tl" colspan="2">月支出合計（PT人件費除く）</td>
+        <td class="tr">約 490,000円</td>
+      </tr>
+    </table>
+
+    <div class="kpi-grid" style="margin-top:20px;">
+      <div class="kpi kpi-blue">
+        <div class="lbl">月収入</div>
+        <div class="val">48万円</div>
+      </div>
+      <div class="kpi kpi-red">
+        <div class="lbl">月支出<br>（PT除く）</div>
+        <div class="val">49万円</div>
+      </div>
+      <div class="kpi kpi-yellow">
+        <div class="lbl">月間収支</div>
+        <div class="val">▲1万円</div>
+        <div class="sub">ほぼ収支トントン</div>
+      </div>
+      <div class="kpi kpi-green">
+        <div class="lbl">加算フル取得後</div>
+        <div class="val">+16万円</div>
+        <div class="sub">黒字化ライン</div>
+      </div>
+    </div>
+
+    <div class="alert a-warning">
+      <strong>⚠️ 現状はPT人件費が入院リハで別途カバーされることで辛うじて成立している</strong>
+      デイ単体では月▲1万円前後のほぼ損益ゼロ。PT人件費をデイに全額帰属させると月▲30万円超の赤字となる。
+      現在の体制は「入院リハとデイの組み合わせで施設全体を成立させる構造」であり、これ自体は合理的な経営形態。
+    </div>
+
+    <h3>加算取得による収益改善ポテンシャル</h3>
+    <table>
+      <tr><th>加算名</th><th>単位数</th><th>月額試算（19名）</th><th>取得難易度</th></tr>
+      <tr class="row-green">
+        <td class="tl">個別機能訓練加算Ⅰイ</td>
+        <td>56単位/回</td>
+        <td class="tr bold">56×5回×12名×10＝33,600円</td>
+        <td><span class="badge bd-g">低（PT2名で即対応可）</span></td>
+      </tr>
+      <tr class="row-green">
+        <td class="tl">科学的介護推進体制加算Ⅰ</td>
+        <td>40単位/月/人</td>
+        <td class="tr bold">40×19名×10＝7,600円</td>
+        <td><span class="badge bd-g">低（LIFE登録のみ）</span></td>
+      </tr>
+      <tr>
+        <td class="tl">ADL維持等加算Ⅰ</td>
+        <td>30単位/月/人</td>
+        <td class="tr">5,700円</td>
+        <td><span class="badge bd-y">中</span></td>
+      </tr>
+      <tr>
+        <td class="tl">科学的介護推進体制加算Ⅱ</td>
+        <td>60単位/月/人</td>
+        <td class="tr">11,400円</td>
+        <td><span class="badge bd-y">中</span></td>
+      </tr>
+      <tr>
+        <td class="tl">口腔・栄養スクリーニング加算</td>
+        <td>20単位/回</td>
+        <td class="tr">約630円</td>
+        <td><span class="badge bd-g">低</span></td>
+      </tr>
+      <tr class="row-sub">
+        <td class="tl">保守的取得（個別機能訓練Ⅰイ＋LIFE Ⅰ）</td>
+        <td colspan="2">月＋41,200円 / 年＋494,400円</td>
+        <td><span class="badge bd-g">今すぐ対応可</span></td>
+      </tr>
+      <tr class="row-sub">
+        <td class="tl">積極的取得（上記フル）</td>
+        <td colspan="2">月＋58,930円 / 年＋707,160円</td>
+        <td>—</td>
+      </tr>
+    </table>
+    <p class="note">※ 要支援者は総合事業のため個別加算の適用範囲が異なる場合があります。市区町村の取り扱いを確認してください。</p>
+  </div>
+
+  <!-- ===== 送迎採算 ===== -->
+  <div class="card">
+    <h2>第3章　送迎採算分析</h2>
+
+    <h3>送迎コスト構造（1台・1km走行）</h3>
+    <table>
+      <tr><th>コスト要素</th><th>単価</th><th>根拠</th></tr>
+      <tr><td class="tl">ガソリン代</td><td>約11円/km</td><td>175円/L ÷ 16km/L</td></tr>
+      <tr><td class="tl">ドライバー人件費</td><td>約52円/km</td><td>時給1,300円 ÷ 時速25km</td></tr>
+      <tr><td class="tl">車両維持費（保険・税・車検）</td><td>約15円/km</td><td>年間費用を走行距離で按分</td></tr>
+      <tr class="row-sub"><td class="tl">合計（1台）</td><td><strong>約78円/km</strong></td><td>—</td></tr>
+    </table>
+
+    <h3>片道距離別 損益（街中・実態ベース）</h3>
+
+    <div class="alert a-gray" style="margin-bottom:12px;">
+      <strong>📐 計算条件（街中の実態）</strong>
+      信号多・街中の平均時速 <strong>10km/h</strong> ／ 乗降待ち3名分で往復計20分（433円の人件費ロス）
+      ／ ガソリン+維持費28円/km ／ 3名同乗 ／ ドライバー時給1,300円
+      <br>→ 理論値（郊外・18km）に対し、街中の実態損益分岐点は <strong>片道約7〜8km</strong>
+    </div>
+
+    <table>
+      <tr>
+        <th>片道距離</th>
+        <th>所要時間の目安<br>（信号込み）</th>
+        <th>1名あたりコスト<br>（3名乗車）</th>
+        <th>送迎益<br>（1名）</th>
+        <th>差引損益</th>
+        <th>判定</th>
+      </tr>
+      <tr class="row-green">
+        <td><strong>3 km</strong></td>
+        <td>約18分（片道）</td>
+        <td>460円</td>
+        <td>940円</td>
+        <td class="bold">+480円</td>
+        <td><span class="badge bd-g">✅ 黒字</span></td>
+      </tr>
+      <tr class="row-green">
+        <td><strong>5 km</strong></td>
+        <td>約30分（片道）</td>
+        <td>671円</td>
+        <td>940円</td>
+        <td class="bold">+269円</td>
+        <td><span class="badge bd-g">✅ 黒字</span></td>
+      </tr>
+      <tr class="row-yellow">
+        <td><strong>7 km</strong></td>
+        <td>約42分（片道）</td>
+        <td>882円</td>
+        <td>940円</td>
+        <td class="bold">+58円</td>
+        <td><span class="badge bd-y">⚠️ ギリギリ</span></td>
+      </tr>
+      <tr style="background:#fff3cd; font-weight:bold;">
+        <td><strong>7.5 km ← 損益分岐点</strong></td>
+        <td>約45分（片道）</td>
+        <td>940円</td>
+        <td>940円</td>
+        <td class="bold">≒ 0円</td>
+        <td><span class="badge bd-y">🔶 分岐点</span></td>
+      </tr>
+      <tr class="row-red">
+        <td><strong>8 km</strong></td>
+        <td>約48分（片道）</td>
+        <td>987円</td>
+        <td>940円</td>
+        <td class="bold">▲47円</td>
+        <td><span class="badge bd-r">❌ 赤字</span></td>
+      </tr>
+      <tr class="row-red">
+        <td><strong>10 km</strong></td>
+        <td>約60分（片道）</td>
+        <td>1,198円</td>
+        <td>940円</td>
+        <td class="bold">▲258円</td>
+        <td><span class="badge bd-r">❌ 赤字</span></td>
+      </tr>
+      <tr class="row-red">
+        <td><strong>12 km 以上</strong></td>
+        <td>約72分〜</td>
+        <td>1,409円〜</td>
+        <td>940円</td>
+        <td class="bold">▲469円〜</td>
+        <td><span class="badge bd-r">❌ 深刻な赤字</span></td>
+      </tr>
+    </table>
+
+    <div class="alert a-danger">
+      <strong>🚨 街中では片道7〜8kmが実質的な限界ライン</strong>
+      信号が多い市街地では、距離に対して時間（＝人件費）が大幅にかさむ。
+      片道8kmを超えると1名ごとに毎回赤字が積み上がる。
+      3km先でも片道18分かかる街中では、<strong>距離ではなく「所要時間30分」を目安</strong>にルートを組むことを推奨。
+    </div>
+
+    <div class="alert a-warning">
+      <strong>📌 1名単独送迎は片道3kmでも即赤字ライン。原則禁止</strong>
+      3名同乗前提の計算のため、1名単独になるとコストが3倍になる。
+      同方向の利用者を必ず組み合わせてルートを設計すること。
+    </div>
+
+    <h3>要支援者の送迎採算：構造的な問題</h3>
+
+    <div class="alert a-danger">
+      <strong>🚨 要支援は「来れば来るほど送迎コストだけが積み上がる」構造</strong>
+      要介護は来所回数×単価で収益が増えるが、要支援は月額固定のため来所回数が増えても収益は変わらず、送迎コストのみが増加する。
+    </div>
+
+    <table>
+      <tr><th colspan="6" style="text-align:left; background:#7f1d1d; font-size:12px;">要支援1（月額22,680円）／片道5km・3名乗車（送迎671円/回）</th></tr>
+      <tr><th>来所回数/月</th><th>月収入</th><th>月の送迎コスト</th><th>送迎後の手残り</th><th>1回あたり手残り</th><th>判定</th></tr>
+      <tr class="row-green"><td>4回（週1回）</td><td>22,680円</td><td>2,684円</td><td class="bold">19,996円</td><td>4,999円</td><td><span class="badge bd-g">✅ 黒字</span></td></tr>
+      <tr class="row-yellow"><td>6回</td><td>22,680円</td><td>4,026円</td><td class="bold">18,654円</td><td>3,109円</td><td><span class="badge bd-y">⚠️ 薄利</span></td></tr>
+      <tr class="row-red"><td>8回（週2回）</td><td>22,680円</td><td>5,368円</td><td class="bold">17,312円</td><td>2,164円</td><td><span class="badge bd-r">❌ 要注意</span></td></tr>
+      <tr class="row-red"><td>10回</td><td>22,680円</td><td>6,710円</td><td class="bold">15,970円</td><td>1,597円</td><td><span class="badge bd-r">❌ 赤字水準</span></td></tr>
+    </table>
+
+    <table style="margin-top:14px;">
+      <tr><th colspan="5" style="text-align:left; background:#1a3a5c; font-size:12px;">要介護1（368単位/回）／同条件で比較</th></tr>
+      <tr><th>来所回数/月</th><th>月収入</th><th>月の送迎コスト</th><th>送迎後の手残り</th><th>判定</th></tr>
+      <tr class="row-green"><td>4回</td><td>14,720円</td><td>2,684円</td><td class="bold">12,036円</td><td><span class="badge bd-g">来るほど増える</span></td></tr>
+      <tr class="row-green"><td>8回</td><td>29,440円</td><td>5,368円</td><td class="bold">24,072円</td><td><span class="badge bd-g">来るほど増える</span></td></tr>
+      <tr class="row-green"><td>10回</td><td>36,800円</td><td>6,710円</td><td class="bold">30,090円</td><td><span class="badge bd-g">来るほど増える</span></td></tr>
+    </table>
+
+    <div class="alert a-warning" style="margin-top:14px;">
+      <strong>⚠️ 要支援の新規受入ルール（推奨）</strong>
+      ① 近距離（片道5km以内）の方を優先受入<br>
+      ② 来所頻度は原則「週1回（月4回）」を上限の目安にする<br>
+      ③ 遠距離（7km超）の要支援者は要介護者と比べて赤字リスクが高く、原則お断りを検討<br>
+      ④ 要支援者が増えるほど担当者会議コストも比例して増加するため、比率を管理する
+    </div>
+
+    <h3>金曜午前の空白が生む機会損失</h3>
+    <table>
+      <tr><th>項目</th><th>金額</th><th>前提</th></tr>
+      <tr><td class="tl">金曜午前の追加収入（要介護者4名）</td><td class="tr">約 59,000円/月</td><td>要介護1×3名・要介護2×1名・月4回</td></tr>
+      <tr><td class="tl">ドライバーパート採用コスト（金曜のみ）</td><td class="tr">約 19,200円/月</td><td>1,200円×4h×4回</td></tr>
+      <tr class="row-sub"><td class="tl">純増益（月間）</td><td class="tr bold">約 39,800円/月</td><td rowspan="2"></td></tr>
+      <tr class="row-sub"><td class="tl">純増益（年間）</td><td class="tr bold">約 478,000円/年</td></tr>
+    </table>
+
+    <div class="alert a-success">
+      <strong>✅ 金曜午前の解決は年間約48万円の価値がある</strong>
+      ただし「適切な人材を焦らず確保すること」が前提。能力不明のドライバーによる重大事故1件の損失（訴訟・行政処分・評判）はこの金額を大幅に超える。
+    </div>
+  </div>
+
+  <!-- ===== ドライバーリスク ===== -->
+  <div class="card">
+    <h2>第4章　介護未経験ドライバーのリスクと対策</h2>
+
+    <div class="alert a-danger">
+      <strong>🚨 送迎は「運転業務」ではなく「介護付き移送業務」</strong>
+      事故・急変・転倒が起きた際、事業者は使用者責任を負う。ドライバーの選び方と記録が施設を守る唯一の手段。
+    </div>
+
+    <h3>主要リスク</h3>
+
+    <div class="risk-item r-high">
+      <span class="rbadge rb-h">最重大</span>
+      <div class="rcnt">
+        <strong>車内急変・死亡事故</strong>
+        <p>心停止・誤嚥・てんかん発作への初期対応ができず発見が遅れると致死リスク。介護未経験者はBLS（一次救命処置）を知らない。事業者は安全配慮義務違反で訴訟リスクを負う。</p>
+      </div>
+    </div>
+    <div class="risk-item r-high">
+      <span class="rbadge rb-h">最重大</span>
+      <div class="rcnt">
+        <strong>乗降時の転倒・骨折事故</strong>
+        <p>移乗介助の技術がない場合、乗降時の骨折・頭部外傷が起きる。介護事故報告義務があり、市区町村への届出が必要。最悪の場合は事業停止処分。</p>
+      </div>
+    </div>
+    <div class="risk-item r-high">
+      <span class="rbadge rb-h">重大</span>
+      <div class="rcnt">
+        <strong>車内放置・熱中症死亡</strong>
+        <p>到着後の車内確認が習慣化していない未経験者によって、利用者が車内に取り残されるリスク。夏季は10分以内に致命的な熱中症になる。全国で死亡事例あり。</p>
+      </div>
+    </div>
+    <div class="risk-item r-high">
+      <span class="rbadge rb-h">重大</span>
+      <div class="rcnt">
+        <strong>認知症利用者の車内問題行動</strong>
+        <p>走行中に立ち上がる・ドアを開けようとするなどの行動を対処できず、交通事故に至るケースが報告されている。認知症への対応方法を知らない人に単独で任せることは禁忌。</p>
+      </div>
+    </div>
+    <div class="risk-item r-mid">
+      <span class="rbadge rb-m">中程度</span>
+      <div class="rcnt">
+        <strong>保険・法的責任の問題</strong>
+        <p>業務使用特約・他人運転特約が車両保険に付いていない場合、事故時に保険が下りない可能性がある。ドライバーの選定・監督に過失があれば行政指導の対象となる。</p>
+      </div>
+    </div>
+
+    <h3>金曜ドライバーの確保：優先順位</h3>
+    <table>
+      <tr><th>優先度</th><th>方法</th><th>リスク</th><th>コスト</th></tr>
+      <tr class="row-green">
+        <td><span class="badge bd-g">最優先</span></td>
+        <td class="tl">グループ内の他施設スタッフに金曜午前だけ割り当て依頼</td>
+        <td>最小（既知・経験あり）</td>
+        <td>0〜内部調整費用</td>
+      </tr>
+      <tr class="row-green">
+        <td><span class="badge bd-g">次善</span></td>
+        <td class="tl">グループOB・定年退職者に声がけ（介護経験あり）</td>
+        <td>低（経験者）</td>
+        <td>月19,200円〜</td>
+      </tr>
+      <tr class="row-yellow">
+        <td><span class="badge bd-y">条件付き</span></td>
+        <td class="tl">介護職員初任者研修修了者を金曜専任パートで採用</td>
+        <td>中（同乗研修で管理可）</td>
+        <td>月19,200〜25,000円</td>
+      </tr>
+      <tr class="row-red">
+        <td><span class="badge bd-r">非推奨</span></td>
+        <td class="tl">介護未経験者・全く素性不明な人物の採用</td>
+        <td>高（事故時の施設リスク大）</td>
+        <td>コスト以上の損失リスク</td>
+      </tr>
+    </table>
+
+    <h3>外部採用時の最低条件と記録義務</h3>
+    <table>
+      <tr><th>採用時の確認事項</th><th>目的</th></tr>
+      <tr><td class="tl">介護職員初任者研修修了証（必須）</td><td class="tl">移乗・急変・認知症対応の基礎確認</td></tr>
+      <tr><td class="tl">運転経歴証明書・無事故証明（必須）</td><td class="tl">過去3年の事故歴確認</td></tr>
+      <tr><td class="tl">BLS研修受講歴または受講誓約（推奨）</td><td class="tl">車内急変時の対応能力確保</td></tr>
+      <tr><td class="tl">同乗研修期間の設定（最低1ヶ月）</td><td class="tl">能力確認＋事故時の「適切な監督」証拠になる</td></tr>
+      <tr><td class="tl">採用基準の文書化・保存</td><td class="tl">行政指導・訴訟時の事業者保護</td></tr>
+      <tr><td class="tl">車両保険の業務使用特約確認</td><td class="tl">事故時の保険適用確認</td></tr>
+    </table>
+
+    <div class="alert a-gray">
+      <strong>💡 「急いで誰でもいい」は最悪のリスク管理</strong>
+      金曜午前は現在も空白のため、2〜3ヶ月かけて正しい手順で採用する余裕がある。
+      事故1件の損失（訴訟・行政処分・評判失墜）は年間48万円の機会損失を大幅に上回る。
+    </div>
+  </div>
+
+  <!-- ===== 担当者会議コスト ===== -->
+  <div class="card">
+    <h2>第5章　担当者会議の時間コスト</h2>
+
+    <table>
+      <tr><th>会議の種類</th><th>年間発生回数（19名）</th><th>1回あたり時間</th><th>年間コスト換算</th></tr>
+      <tr><td class="tl">定期見直し（6ヶ月ごと）</td><td>38回</td><td>1〜2時間</td><td>約14〜28万円</td></tr>
+      <tr><td class="tl">状態変化・入退院時（随時）</td><td>年約20〜30回</td><td>1〜1.5時間</td><td>約9〜18万円</td></tr>
+      <tr><td class="tl">会議前の準備・書類作成</td><td>全会議分</td><td>0.5〜1時間/回</td><td>約11〜24万円</td></tr>
+      <tr class="row-sub"><td class="tl">合計（PT時間×3,950円/h換算）</td><td>年58〜76回</td><td colspan="2">年間 <strong>約34〜70万円の機会コスト</strong></td></tr>
+    </table>
+
+    <div class="alert a-warning">
+      <strong>⚠️ 月収48万円の施設で年間最大70万円の行政コストは比率が高すぎる</strong>
+      対策：状態が安定している利用者のサービス担当者会議は「書面照会」に切り替える。
+      ケアマネへの打診で年間15〜25回分を削減できる可能性がある。
+    </div>
+  </div>
+
+  <!-- ===== 戦略提言 ===== -->
+  <div class="card">
+    <h2>第6章　経営アドバイザーとしての戦略提言</h2>
+
+    <div class="verdict">
+      <h3>📌 総合判断サマリー</h3>
+      <ul>
+        <li><span class="vmark">①</span>現在の体制（デイ＋入院リハのPT兼務）は合理的。デイ廃止より改善が先</li>
+        <li><span class="vmark">②</span>月収支はほぼトントン。加算取得で月＋4万円以上の黒字化は現実的</li>
+        <li><span class="vmark">③</span>金曜午前の空白は年間48万円の損失だが、焦らず適切な人材を確保する</li>
+        <li><span class="vmark">④</span>介護未経験ドライバーは施設存続リスクになる。経験者限定が絶対条件</li>
+        <li><span class="vmark">⑤</span>担当者会議の書面照会化で行政コストを削ることが即効性の高い改善策</li>
+        <li><span class="vmark">⑥</span>利用者を無理に増やすより、現在の19名から最大の収益を引き出す方向で動く</li>
+      </ul>
+    </div>
+
+    <h3>優先順位付きアクションプラン</h3>
+    <ul class="act-list">
+      <li>
+        <span class="atag at-now">今すぐ</span>
+        <strong>個別機能訓練加算Ⅰイの申請</strong><br>
+        PT2名体制があれば即対応可能。月＋33,600円。計画書のフォーマットを整備して翌月から請求開始。年間40万円以上の増収になる。
+      </li>
+      <li>
+        <span class="atag at-now">今すぐ</span>
+        <strong>LIFE登録・科学的介護推進体制加算Ⅰの申請</strong><br>
+        月＋7,600円。登録作業は数時間で完了。すぐ動ける加算の中で最も手間が少ない。
+      </li>
+      <li>
+        <span class="atag at-now">今月中</span>
+        <strong>担当者会議の書面照会化をケアマネに打診</strong><br>
+        状態安定利用者を対象に書面照会への切り替えを依頼。年間20〜30時間の節約になり、PTが本来業務に集中できる。
+      </li>
+      <li>
+        <span class="atag at-soon">1〜3ヶ月以内</span>
+        <strong>金曜午前ドライバーをグループ内で調整</strong><br>
+        まずグループ内（OB含む）で金曜午前だけ担当できる人材を探す。コスト0で最も安全な解決策。グループ調整が不可能と確認できてから外部採用の検討へ。
+      </li>
+      <li>
+        <span class="atag at-soon">3〜6ヶ月以内</span>
+        <strong>外部採用が必要な場合：介護経験者限定・同乗研修1ヶ月で採用</strong><br>
+        「介護職員初任者研修修了者以上」「運転歴3年以上・無事故」を採用条件に。採用後1ヶ月は必ず同乗研修を実施し記録を残す。
+      </li>
+      <li>
+        <span class="atag at-later">中長期</span>
+        <strong>要支援者の受入比率を見直す</strong><br>
+        要支援者は月額固定のため、来所頻度が増えても収入は変わらず送迎コストだけが増える構造。新規受入は要介護者を優先し、要支援者は徐々に近距離の方に限定することを検討。
+      </li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <div class="alert a-info">
+      <strong>💡 この施設の本来の強みを活かす方向で</strong>
+      PT2名が入院リハとデイを兼務するモデルは、患者の退院後も継続的にフォローできる点で地域包括ケアとして非常に価値がある。
+      「デイの採算だけ」で判断するのではなく、入院からデイへの流れを仕組み化することで、デイの利用者を安定的に確保できる可能性がある。退院患者のデイ優先案内というルート作りも検討に値する。
+    </div>
+  </div>
+
+  <!-- 免責 -->
+  <div class="card" style="padding:20px 34px;">
+    <h2>前提条件・免責事項</h2>
+    <table style="margin-top:8px;">
+      <tr><th>項目</th><th>設定値</th><th>根拠</th></tr>
+      <tr><td class="tl">1単位単価</td><td>10円</td><td>標準地域（地域加算なし）</td></tr>
+      <tr><td class="tl">ガソリン単価</td><td>175円/L</td><td>2026年5月時点の目安</td></tr>
+      <tr><td class="tl">燃費</td><td>16km/L</td><td>福祉車両・軽バン平均</td></tr>
+      <tr><td class="tl">ドライバー時給</td><td>1,300円/h</td><td>介護ドライバー平均目安</td></tr>
+      <tr><td class="tl">送迎減算</td><td>片道47単位</td><td>2024年度介護報酬改定</td></tr>
+      <tr><td class="tl">要介護者月利用回数</td><td>5回/月</td><td>週1.2回×4週の実態推定値</td></tr>
+    </table>
+    <p class="note" style="margin-top:12px;">
+      本レポートは概算計算に基づく経営判断の参考資料です。実際の介護報酬は地域区分・施設体制・加算申請状況により異なります。
+      経営判断の実施にあたっては、介護保険担当窓口・社会保険労務士・ケアマネジャーにご確認ください。
+      要支援者の総合事業単価は各市区町村の告示に基づきます。
+    </p>
+  </div>
+
+  <div class="foot">
+    短時間デイサービス 経営分析レポート（確定版）｜2026年5月7日作成
+  </div>
+
+</div>
+</body>
+</html>

@@ -7,10 +7,13 @@ import os
 os.environ.pop("SSLKEYLOGFILE", None)
 import json
 import os
+import re
 import subprocess
 import sys
 import threading
 import time
+import uuid
+from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
@@ -39,7 +42,7 @@ _daily_writer_done_date = None
 def load_json(path, default):
     p = Path(path)
     if p.exists():
-        with open(p, "r", encoding="utf-8") as f:
+        with open(p, "r", encoding="utf-8-sig") as f:
             return json.load(f)
     return default
 
@@ -391,6 +394,45 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 .draft-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
+.media-box {
+  background: #0a0a0a; border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px; margin: 10px 0 12px;
+}
+.media-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.media-input {
+  flex: 1; min-width: 260px; background: var(--surface);
+  border: 1px solid var(--border2); color: var(--text);
+  border-radius: 6px; padding: 8px 10px; font-size: 13px;
+}
+.media-input:focus { outline: none; border-color: var(--accent); }
+.media-note { font-size: 11px; color: var(--muted2); margin-top: 8px; line-height: 1.5; }
+.media-list { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.media-chip {
+  display: flex; align-items: center; gap: 6px;
+  max-width: 320px; padding: 5px 8px; border: 1px solid var(--border);
+  border-radius: 6px; background: var(--surface2); font-size: 11px; color: #bbb;
+}
+.media-chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.media-chip button {
+  background: transparent; border: none; color: var(--red);
+  cursor: pointer; font-size: 14px; line-height: 1;
+}
+.thread-tools { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 4px; }
+.analytics-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px; margin-bottom: 12px;
+}
+.chart-row {
+  display: grid; grid-template-columns: minmax(80px, 160px) 1fr 70px;
+  align-items: center; gap: 10px; margin: 9px 0; font-size: 12px;
+}
+.chart-label { color: #ccc; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bar-track { height: 10px; background: #0a0a0a; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+.bar-fill { height: 100%; background: var(--accent2); border-radius: 999px; }
+.chart-value { color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+.sparkline { display: flex; align-items: flex-end; gap: 5px; height: 110px; padding-top: 8px; }
+.sparkbar { flex: 1; min-width: 10px; background: var(--green); border-radius: 4px 4px 0 0; opacity: 0.8; }
+
 /* ===== POST1/POST2 ペア表示 ===== */
 .post-pair-label {
   font-size: 10px; font-weight: 700; letter-spacing: 1px;
@@ -570,6 +612,7 @@ tr:hover td { background: var(--surface2); }
   </button>
   <button class="nav-btn" data-page="queue" onclick="goto('queue',this)">📋 キュー</button>
   <button class="nav-btn" data-page="history" onclick="goto('history',this)">📈 履歴</button>
+  <button class="nav-btn" data-page="analytics" onclick="goto('analytics',this)">📊 分析</button>
   <button class="nav-btn" data-page="agents" onclick="goto('agents',this)">⚡ エージェント</button>
   <button class="nav-btn" data-page="logs" onclick="goto('logs',this)">📄 ログ</button>
 </nav>
@@ -659,6 +702,36 @@ tr:hover td { background: var(--surface2); }
       <h2>投稿履歴</h2>
       <button class="btn btn-ghost btn-sm" onclick="loadHistory()">更新</button>
     </div>
+    <div class="card" style="margin-bottom:12px;">
+      <div class="card-title">手動投稿を記録</div>
+      <textarea class="draft-textarea" id="manual-paste" style="display:block;min-height:130px;" placeholder="ここに投稿本文やThreadsの数値をまとめて貼り付け。例: 投稿本文、表示 1200、いいね 34、返信 5 など"></textarea>
+      <div class="schedule-row" style="margin:8px 0 14px;">
+        <button class="btn btn-green btn-sm" onclick="addManualPostFromClipboard()">クリップボードから自動登録</button>
+        <button class="btn btn-primary btn-sm" onclick="addManualPostFromPaste()">貼り付け内容から自動登録</button>
+        <span style="font-size:12px;color:var(--muted);">本文・URL・投稿ID・閲覧/いいね/返信などを推定します</span>
+      </div>
+      <div style="height:1px;background:var(--border);margin:10px 0 14px;"></div>
+      <div class="schedule-row" style="margin-bottom:8px;">
+        <input type="datetime-local" class="dt-input" id="manual-posted-at">
+        <input class="media-input" id="manual-pattern" placeholder="型: 逆張り / 体験談 / ノウハウ">
+        <input class="media-input" id="manual-theme" placeholder="テーマ">
+      </div>
+      <textarea class="draft-textarea" id="manual-content" style="display:block;min-height:110px;" placeholder="投稿本文。スレッドは空行や --- で区切って記録できます。"></textarea>
+      <div class="schedule-row" style="margin:8px 0;">
+        <input class="media-input" id="manual-image-url" placeholder="画像URL 任意">
+        <input class="media-input" id="manual-thread-id" placeholder="Threads投稿ID 任意">
+      </div>
+      <div class="schedule-row" style="margin:8px 0;">
+        <input class="dt-input" id="manual-views" type="number" min="0" placeholder="views">
+        <input class="dt-input" id="manual-likes" type="number" min="0" placeholder="likes">
+        <input class="dt-input" id="manual-replies" type="number" min="0" placeholder="replies">
+        <input class="dt-input" id="manual-reposts" type="number" min="0" placeholder="reposts">
+        <input class="dt-input" id="manual-quotes" type="number" min="0" placeholder="quotes">
+        <input class="dt-input" id="manual-shares" type="number" min="0" placeholder="shares">
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="addManualPost()">履歴に追加</button>
+      <span id="manual-save-msg" style="font-size:12px;color:var(--muted);margin-left:8px;"></span>
+    </div>
     <div class="table-wrap">
       <table>
         <thead>
@@ -669,6 +742,38 @@ tr:hover td { background: var(--surface2); }
         </thead>
         <tbody id="history-body"></tbody>
       </table>
+    </div>
+  </div>
+
+  <!-- ===== 分析 ===== -->
+  <div class="page" id="page-analytics">
+    <div class="page-header">
+      <h2>分析ダッシュボード</h2>
+      <button class="btn btn-ghost btn-sm" onclick="loadAnalytics()">更新</button>
+    </div>
+    <div class="analytics-grid" id="analytics-summary"></div>
+    <div class="card" style="margin-bottom:12px;">
+      <div class="card-title">型別パフォーマンス</div>
+      <div id="pattern-chart"></div>
+    </div>
+    <div class="card" style="margin-bottom:12px;">
+      <div class="card-title">テーマ別パフォーマンス</div>
+      <div id="theme-chart"></div>
+    </div>
+    <div class="card" style="margin-bottom:12px;">
+      <div class="card-title">投稿日の閲覧推移</div>
+      <div class="sparkline" id="views-sparkline"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">上位投稿</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>日時</th><th>型</th><th>テーマ</th><th>閲覧</th><th>反応率</th><th>内容</th></tr>
+          </thead>
+          <tbody id="analytics-top-body"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -727,6 +832,18 @@ tr:hover td { background: var(--surface2); }
     </div>
 
     <div class="card" style="margin-top:12px;">
+      <div class="card-title">✏️ 投稿採点</div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">自分で書いた投稿文を貼り付けてWriterと同じ13項目で採点します。</p>
+      <textarea id="score-input" class="draft-textarea" style="min-height:130px;display:block;width:100%;box-sizing:border-box;" placeholder="投稿文をここに貼り付け..."></textarea>
+      <div style="margin-top:8px;display:flex;gap:8px;align-items:center;">
+        <button class="btn btn-primary" onclick="runScore()">採点する</button>
+        <button class="btn btn-ghost btn-sm" onclick="document.getElementById('score-input').value='';document.getElementById('score-result').innerHTML='';">クリア</button>
+        <span id="score-spinner" style="display:none;color:var(--muted);font-size:13px;">採点中...</span>
+      </div>
+      <div id="score-result" style="margin-top:12px;"></div>
+    </div>
+
+    <div class="card" style="margin-top:12px;">
       <div class="card-title">実行ログ</div>
       <div class="logbox" id="log-agents">待機中...</div>
     </div>
@@ -742,6 +859,7 @@ tr:hover td { background: var(--surface2); }
       <div class="logbox tall" id="log-full">読み込み中...</div>
     </div>
   </div>
+
 
 </div><!-- /main -->
 
@@ -777,6 +895,7 @@ function switchAccount(account) {
   else if (pageId === 'review') loadReview();
   else if (pageId === 'queue') loadQueue();
   else if (pageId === 'history') loadHistory();
+  else if (pageId === 'analytics') loadAnalytics();
   else if (pageId === 'logs') loadLogs();
 }
 
@@ -827,6 +946,7 @@ function goto(page, btn) {
   if (page === 'review')    loadReview();
   if (page === 'queue')     loadQueue();
   if (page === 'history')   loadHistory();
+  if (page === 'analytics') loadAnalytics();
   if (page === 'logs')      loadLogs();
 }
 
@@ -1018,6 +1138,19 @@ function renderDraftCard(d, today) {
 
   // POST3以降（thread_replies）
   const replies = d.thread_replies || [];
+  const mediaUrls = d.media_urls || [];
+  const mediaHtml = `
+  <div class="media-box">
+    <div class="schedule-label">画像添付（実投稿には公開画像URLが必要）</div>
+    <div class="media-row">
+      <input class="media-input" id="media-url-${d.id}" placeholder="https://example.com/image.jpg">
+      <button class="btn btn-ghost btn-sm" onclick="addMediaUrl('${d.id}')">画像URLを追加</button>
+    </div>
+    <div class="media-note">最初の画像URLをPOST 1に添付します。PC上のローカル画像はThreads APIから直接読めないため、公開URL化してから入れてください。</div>
+    <div class="media-list" id="media-list-${d.id}">
+      ${mediaUrls.map((u, i) => `<div class="media-chip"><span title="${esc(u)}">${esc(u)}</span><button onclick="removeMediaUrl('${d.id}', ${i})">×</button></div>`).join('')}
+    </div>
+  </div>`;
   const repliesHtml = replies.map((r, i) => {
     const rid = d.id + '-r' + i;
     const rEsc = esc(r);
@@ -1072,6 +1205,7 @@ function renderDraftCard(d, today) {
     ${isToday?'<span class="tag tag-today">今日</span>':''}
     ${hasPair?`<span class="tag" style="background:#1a1a3a;color:#7c6fff;border-color:#3d3d8a">${replies.length>0?replies.length+2:2}投稿セット</span>`:''}
 
+    ${mediaUrls.length?`<span class="tag" style="background:#052e16;color:#22c55e;border-color:#166534">画像 ${mediaUrls.length}</span>`:''}
     <span class="tag">${esc(d.pattern||'-')}</span>
     <span class="tag">${esc(d.theme||'-')}</span>
     ${timeStr?`<span style="font-size:11px;color:var(--muted2)">${timeStr}生成</span>`:''}
@@ -1079,6 +1213,12 @@ function renderDraftCard(d, today) {
 
   ${pairHtml}
   ${repliesHtml}
+  ${mediaHtml}
+
+  <div class="thread-tools">
+    <button class="btn btn-ghost btn-sm" onclick="addThreadReply('${d.id}')">POSTを追加</button>
+    ${replies.length ? `<button class="btn btn-red btn-sm" onclick="removeLastThreadReply('${d.id}')">最後のPOSTを削除</button>` : ''}
+  </div>
 
   <div class="schedule-box" style="margin-top:12px">
     <div class="schedule-label">📅 投稿日時を指定（未指定でスロット自動投稿）</div>
@@ -1176,6 +1316,67 @@ async function saveReplyEdit(draftId, replyIndex) {
     const el = document.getElementById('reply-'+rid);
     el.innerHTML = '<span class="edit-hint">クリックで編集</span>' + esc(newText);
     cancelReplyEdit(rid);
+  }
+}
+
+async function saveDraftExtras(draftId, patch) {
+  const body = Object.assign({ id: draftId, account: currentAccount }, patch);
+  const r = await fetch('/api/draft/edit_full', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  return (await r.json()).ok;
+}
+
+async function addThreadReply(draftId) {
+  const draft = allDrafts.find(d => d.id === draftId);
+  if (!draft) return;
+  const text = prompt('追加するPOST本文を入力してください');
+  if (text === null) return;
+  const replies = [...(draft.thread_replies || []), text];
+  if (await saveDraftExtras(draftId, { thread_replies: replies })) {
+    draft.thread_replies = replies;
+    loadReview();
+  }
+}
+
+async function removeLastThreadReply(draftId) {
+  const draft = allDrafts.find(d => d.id === draftId);
+  if (!draft) return;
+  const replies = [...(draft.thread_replies || [])];
+  if (!replies.length) return;
+  if (!confirm('最後のPOSTを削除しますか？')) return;
+  replies.pop();
+  if (await saveDraftExtras(draftId, { thread_replies: replies })) {
+    draft.thread_replies = replies;
+    loadReview();
+  }
+}
+
+async function addMediaUrl(draftId) {
+  const input = document.getElementById('media-url-' + draftId);
+  const url = (input ? input.value : '').trim();
+  if (!/^https:\/\//i.test(url)) {
+    alert('https:// で始まる公開画像URLを入力してください');
+    return;
+  }
+  const draft = allDrafts.find(d => d.id === draftId);
+  if (!draft) return;
+  const mediaUrls = [...(draft.media_urls || []), url];
+  if (await saveDraftExtras(draftId, { media_urls: mediaUrls })) {
+    draft.media_urls = mediaUrls;
+    loadReview();
+  }
+}
+
+async function removeMediaUrl(draftId, index) {
+  const draft = allDrafts.find(d => d.id === draftId);
+  if (!draft) return;
+  const mediaUrls = [...(draft.media_urls || [])];
+  mediaUrls.splice(index, 1);
+  if (await saveDraftExtras(draftId, { media_urls: mediaUrls })) {
+    draft.media_urls = mediaUrls;
+    loadReview();
   }
 }
 
@@ -1350,6 +1551,7 @@ async function clearQueue() {
 
 // ===== 履歴 =====
 async function loadHistory() {
+  setupManualPasteAutoDetect();
   const posts = await (await fetch('/api/history?account=' + currentAccount)).json();
   const rows = posts.slice().reverse().map(p => {
     const dt = (p.posted_at||p.created_at||'').slice(0,16).replace('T',' ');
@@ -1369,12 +1571,254 @@ async function loadHistory() {
     '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:30px">履歴がありません</td></tr>';
 }
 
+async function addManualPost() {
+  const num = id => {
+    const v = document.getElementById(id).value;
+    return v === '' ? 0 : Math.max(0, Number(v) || 0);
+  };
+  const content = document.getElementById('manual-content').value.trim();
+  if (!content) {
+    alert('投稿本文を入力してください');
+    return;
+  }
+  const body = {
+    account: currentAccount,
+    posted_at: document.getElementById('manual-posted-at').value || null,
+    content,
+    pattern: document.getElementById('manual-pattern').value.trim() || 'manual',
+    theme: document.getElementById('manual-theme').value.trim() || 'manual',
+    threads_post_id: document.getElementById('manual-thread-id').value.trim() || null,
+    media_urls: document.getElementById('manual-image-url').value.trim() ? [document.getElementById('manual-image-url').value.trim()] : [],
+    metrics_24h: {
+      views: num('manual-views'),
+      likes: num('manual-likes'),
+      replies: num('manual-replies'),
+      reposts: num('manual-reposts'),
+      quotes: num('manual-quotes'),
+      shares: num('manual-shares'),
+    }
+  };
+  const r = await fetch('/api/history/manual', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  const msg = document.getElementById('manual-save-msg');
+  if ((await r.json()).ok) {
+    ['manual-content','manual-pattern','manual-theme','manual-image-url','manual-thread-id','manual-views','manual-likes','manual-replies','manual-reposts','manual-quotes','manual-shares'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    msg.textContent = '保存しました';
+    loadHistory();
+    setTimeout(() => { msg.textContent = ''; }, 2500);
+  } else {
+    msg.textContent = '保存に失敗しました';
+  }
+}
+
+async function addManualPostFromPaste() {
+  const raw = document.getElementById('manual-paste').value.trim();
+  if (!raw) {
+    alert('貼り付け内容を入力してください');
+    return;
+  }
+  const r = await fetch('/api/history/manual_paste', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ account: currentAccount, raw })
+  });
+  const res = await r.json();
+  const msg = document.getElementById('manual-save-msg');
+  if (res.ok) {
+    document.getElementById('manual-paste').value = '';
+    msg.textContent = `保存しました: ${res.pattern || '-'} / ${res.theme || '-'} / ${res.views || 0} views`;
+    loadHistory();
+    setTimeout(() => { msg.textContent = ''; }, 3500);
+  } else {
+    msg.textContent = res.error || '保存に失敗しました';
+  }
+}
+
+async function registerManualPasteRaw(raw) {
+  const r = await fetch('/api/history/manual_paste', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ account: currentAccount, raw })
+  });
+  const res = await r.json();
+  const msg = document.getElementById('manual-save-msg');
+  if (res.ok) {
+    const pasteEl = document.getElementById('manual-paste');
+    if (pasteEl) pasteEl.value = '';
+    msg.textContent = `保存しました: ${res.pattern || '-'} / ${res.theme || '-'} / ${res.views || 0} views`;
+    loadHistory();
+    setTimeout(() => { msg.textContent = ''; }, 3500);
+  } else {
+    msg.textContent = res.error || '保存に失敗しました';
+  }
+  return res;
+}
+
+async function addManualPostFromClipboard() {
+  const msg = document.getElementById('manual-save-msg');
+  if (!navigator.clipboard || !navigator.clipboard.readText) {
+    msg.textContent = 'このブラウザではクリップボード読み取りが使えません。貼り付け欄にペーストしてください。';
+    return;
+  }
+  try {
+    const raw = (await navigator.clipboard.readText()).trim();
+    if (!raw) {
+      msg.textContent = 'クリップボードが空です';
+      return;
+    }
+    const pasteEl = document.getElementById('manual-paste');
+    if (pasteEl) pasteEl.value = raw;
+    await registerManualPasteRaw(raw);
+  } catch (e) {
+    msg.textContent = 'クリップボード読み取りが許可されませんでした。貼り付け欄にCtrl+Vしてください。';
+  }
+}
+
+function setupManualPasteAutoDetect() {
+  const el = document.getElementById('manual-paste');
+  if (!el || el.dataset.autoDetectReady) return;
+  el.dataset.autoDetectReady = '1';
+  el.addEventListener('paste', () => {
+    setTimeout(async () => {
+      const raw = el.value.trim();
+      if (raw.length < 10) return;
+      const ok = confirm('貼り付け内容を自動認識して履歴に登録しますか？');
+      if (ok) await registerManualPasteRaw(raw);
+    }, 80);
+  });
+}
+
+function renderBarChart(elId, rows, valueKey) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  if (!rows || rows.length === 0) {
+    el.innerHTML = '<div class="empty" style="padding:20px">データがありません</div>';
+    return;
+  }
+  const max = Math.max(...rows.map(r => r[valueKey] || 0), 1);
+  el.innerHTML = rows.map(r => {
+    const w = Math.max(2, Math.round((r[valueKey] || 0) / max * 100));
+    return `<div class="chart-row">
+      <div class="chart-label" title="${esc(r.name)}">${esc(r.name)}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${w}%"></div></div>
+      <div class="chart-value">${Number(r[valueKey] || 0).toFixed(2)}</div>
+    </div>`;
+  }).join('');
+}
+
+async function loadAnalytics() {
+  const data = await (await fetch('/api/analytics?account=' + currentAccount)).json();
+  const s = data.summary || {};
+  const summary = [
+    { label: '分析投稿', value: s.posts || 0, sub: '件' },
+    { label: '総閲覧', value: s.views || 0, sub: 'views' },
+    { label: '平均反応率', value: ((s.engagement_rate || 0) * 100).toFixed(2) + '%', sub: 'engagement' },
+    { label: '画像付き', value: s.image_posts || 0, sub: '件' },
+  ];
+  document.getElementById('analytics-summary').innerHTML = summary.map(x =>
+    `<div class="stat-card"><div class="stat-label">${x.label}</div><div class="stat-value">${x.value}</div><div class="stat-sub">${x.sub}</div></div>`
+  ).join('');
+
+  renderBarChart('pattern-chart', data.patterns || [], 'avg_buzz_score');
+  renderBarChart('theme-chart', data.themes || [], 'avg_buzz_score');
+
+  const timeline = data.timeline || [];
+  const maxViews = Math.max(...timeline.map(x => x.views || 0), 1);
+  document.getElementById('views-sparkline').innerHTML = timeline.map(x => {
+    const h = Math.max(4, Math.round((x.views || 0) / maxViews * 100));
+    return `<div class="sparkbar" title="${esc(x.date)} ${x.views} views" style="height:${h}%"></div>`;
+  }).join('') || '<div class="empty" style="padding:20px">データがありません</div>';
+
+  document.getElementById('analytics-top-body').innerHTML = (data.top_posts || []).map(p => `
+    <tr>
+      <td>${esc((p.posted_at || '').slice(0,16).replace('T',' '))}</td>
+      <td>${esc(p.pattern || '-')}</td>
+      <td>${esc(p.theme || '-')}</td>
+      <td>${p.views || 0}</td>
+      <td>${((p.engagement_rate || 0) * 100).toFixed(2)}%</td>
+      <td>${esc(p.preview || '')}</td>
+    </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px">データがありません</td></tr>';
+}
+
 // ===== ログ =====
 async function loadLogs() {
   const data = await (await fetch('/api/runlog?account=' + currentAccount)).json();
   const el = document.getElementById('log-full');
   el.innerHTML = (data.lines||[]).map(colorLine).join('<br>') || '（ログなし）';
   el.scrollTop = el.scrollHeight;
+}
+
+// ===== 採点 =====
+async function runScore() {
+  const text = document.getElementById('score-input').value.trim();
+  if (!text) { alert('投稿文を入力してください。'); return; }
+  document.getElementById('score-spinner').style.display = 'inline';
+  document.getElementById('score-result').innerHTML = '';
+  try {
+    const res = await fetch('/api/score', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, account: currentAccount })
+    });
+    const d = await res.json();
+    if (d.error) { document.getElementById('score-result').innerHTML = '<div class="card" style="color:var(--red)">エラー: ' + d.error + '</div>'; return; }
+    const scores = d.scores || {};
+    const avg = d.avg_score || 0;
+    const passed = d.passed;
+    const LABELS = {
+      hook_strength:'フック強度', usefulness:'有益性', specificity:'具体性（数字・固有名詞）',
+      tempo:'テンポ・読みやすさ', persona_match:'ペルソナ一致度', originality:'独自性',
+      readability:'視認性（改行・短さ）', emotional_resonance:'感情共鳴',
+      call_to_action:'行動誘発', platform_fit:'Threads適合度',
+      conversation_potential:'返信・コメント誘発力', original_viewpoint:'PT22年管理職の独自視点',
+      single_message:'1投稿1メッセージ度'
+    };
+    const THRESHOLDS = { conversation_potential:8, original_viewpoint:8, single_message:7, specificity:7 };
+    let rows = '';
+    for (const [k, label] of Object.entries(LABELS)) {
+      const s = scores[k] || 0;
+      const pct = s * 10;
+      const warn = THRESHOLDS[k] && s < THRESHOLDS[k];
+      const barColor = warn ? 'var(--yellow)' : (s >= 8 ? 'var(--green)' : 'var(--accent)');
+      rows += `<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;font-size:13px;">
+        <span style="width:180px;flex-shrink:0;color:var(--muted)${warn ? ';font-weight:600;color:var(--yellow)' : ''}">${label}${warn ? ' !!' : ''}</span>
+        <div style="flex:1;background:var(--border);border-radius:4px;height:8px;overflow:hidden;">
+          <div style="width:${pct}%;background:${barColor};height:100%;border-radius:4px;"></div>
+        </div>
+        <span style="width:28px;text-align:right;font-weight:600;color:${barColor}">${s.toFixed(1)}</span>
+      </div>`;
+    }
+    const verdict = passed
+      ? '<span style="color:var(--green);font-weight:700;">✅ 合格</span>'
+      : '<span style="color:var(--red);font-weight:700;">❌ 不合格（7.0未満）</span>';
+    const strengths = (d.strengths || []).map(s => `<li style="color:var(--green)">+ ${s}</li>`).join('');
+    const improvements = (d.improvements || []).map(s => `<li style="color:var(--yellow)">> ${s}</li>`).join('');
+    const suggestion = d.rewrite_suggestion
+      ? `<div class="card" style="margin-top:12px;border-left:3px solid var(--accent);padding:12px 16px;">
+           <div style="font-size:12px;color:var(--muted);margin-bottom:4px;">hook 改善案</div>
+           <div style="font-size:14px;">${d.rewrite_suggestion}</div>
+         </div>` : '';
+    document.getElementById('score-result').innerHTML = `
+      <div class="card" style="margin-bottom:12px;">
+        <div style="margin-bottom:14px;">${rows}</div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;display:flex;align-items:center;gap:12px;">
+          <span style="font-size:22px;font-weight:700;">${avg.toFixed(2)}</span>
+          <span style="color:var(--muted);font-size:13px;">/ 10.0</span>
+          ${verdict}
+        </div>
+      </div>
+      ${strengths ? '<div class="card" style="margin-bottom:8px;"><div style="font-size:12px;color:var(--muted);margin-bottom:6px;">良い点</div><ul style="margin:0;padding-left:16px;font-size:13px;line-height:1.8;">' + strengths + '</ul></div>' : ''}
+      ${improvements ? '<div class="card" style="margin-bottom:8px;"><div style="font-size:12px;color:var(--muted);margin-bottom:6px;">改善点</div><ul style="margin:0;padding-left:16px;font-size:13px;line-height:1.8;">' + improvements + '</ul></div>' : ''}
+      ${suggestion}
+    `;
+  } catch(e) {
+    document.getElementById('score-result').innerHTML = '<div class="card" style="color:var(--red)">通信エラー: ' + e + '</div>';
+  } finally {
+    document.getElementById('score-spinner').style.display = 'none';
+  }
 }
 
 // ===== KILL SWITCH =====
@@ -1629,6 +2073,10 @@ def api_edit_full():
             replies = data["thread_replies"]
             if isinstance(replies, list):
                 d["thread_replies"] = [str(r) for r in replies]
+        if "media_urls" in data:
+            urls = data["media_urls"]
+            if isinstance(urls, list):
+                d["media_urls"] = [str(u).strip() for u in urls if str(u).strip()]
         # 旧形式（content のみ）
         if "content" in data and "hook" not in data and "body" not in data:
             d["content"] = data["content"]
@@ -1664,6 +2112,295 @@ def api_history():
     return jsonify(load_json(get_data_dir(account) / "post_history.json", []))
 
 
+@app.route("/api/history/manual", methods=["POST"])
+def api_history_manual():
+    data = request.json or {}
+    account = data.get("account", "account1")
+    data_dir = get_data_dir(account)
+    history_path = data_dir / "post_history.json"
+    history = load_json(history_path, [])
+
+    content = str(data.get("content") or "").strip()
+    if not content:
+        return jsonify({"ok": False, "error": "content_required"}), 400
+
+    posted_at = data.get("posted_at") or datetime.now().isoformat(timespec="minutes")
+    if "T" not in posted_at:
+        posted_at = posted_at.replace(" ", "T")
+
+    metrics = data.get("metrics_24h") if isinstance(data.get("metrics_24h"), dict) else {}
+    metrics_24h = {
+        "views": int(metrics.get("views") or 0),
+        "likes": int(metrics.get("likes") or 0),
+        "replies": int(metrics.get("replies") or 0),
+        "reposts": int(metrics.get("reposts") or 0),
+        "quotes": int(metrics.get("quotes") or 0),
+        "shares": int(metrics.get("shares") or 0),
+    }
+    media_urls = data.get("media_urls") if isinstance(data.get("media_urls"), list) else []
+    history.append({
+        "id": data.get("id") or f"manual-{uuid.uuid4()}",
+        "content": content,
+        "hook": "",
+        "body": content,
+        "thread_replies": [],
+        "pattern": data.get("pattern") or "manual",
+        "theme": data.get("theme") or "manual",
+        "score": data.get("score"),
+        "post_type": "manual",
+        "source": "manual",
+        "media_urls": [str(u).strip() for u in media_urls if str(u).strip()],
+        "threads_post_id": data.get("threads_post_id"),
+        "thread_reply_ids": [],
+        "posted_at": posted_at,
+        "status": "posted",
+        "metrics": None,
+        "metrics_24h": metrics_24h,
+        "metrics_24h_fetched_at": datetime.now().isoformat(timespec="minutes"),
+        "created_at": datetime.now().isoformat(timespec="minutes"),
+    })
+    save_json(history_path, history)
+    return jsonify({"ok": True})
+
+
+def _parse_metric_number(text):
+    s = str(text).strip().replace(",", "")
+    m = re.search(r"(\d+(?:\.\d+)?)\s*([KkＭM万]?)", s)
+    if not m:
+        return 0
+    value = float(m.group(1))
+    suffix = m.group(2)
+    if suffix in ("K", "k"):
+        value *= 1000
+    elif suffix in ("M", "Ｍ"):
+        value *= 1000000
+    elif suffix == "万":
+        value *= 10000
+    return int(value)
+
+
+def _infer_metric_from_line(line):
+    lower = line.lower()
+    labels = {
+        "views": ["views", "view", "表示", "閲覧", "インプレッション", "インプ", "再生"],
+        "likes": ["likes", "like", "いいね", "スキ"],
+        "replies": ["replies", "reply", "返信", "コメント", "リプ"],
+        "reposts": ["reposts", "repost", "リポスト", "再投稿"],
+        "quotes": ["quotes", "quote", "引用"],
+        "shares": ["shares", "share", "シェア", "共有"],
+    }
+    for key, names in labels.items():
+        if any(name in lower or name in line for name in names):
+            return key, _parse_metric_number(line)
+    compact_pairs = [
+        ("views", r"(?:views?|表示|閲覧|インプ(?:レッション)?)[^\d]*(\d[\d,.]*\s*[KkＭM万]?)"),
+        ("likes", r"(?:likes?|いいね)[^\d]*(\d[\d,.]*\s*[KkＭM万]?)"),
+        ("replies", r"(?:replies?|返信|コメント|リプ)[^\d]*(\d[\d,.]*\s*[KkＭM万]?)"),
+        ("reposts", r"(?:reposts?|リポスト|再投稿)[^\d]*(\d[\d,.]*\s*[KkＭM万]?)"),
+        ("quotes", r"(?:quotes?|引用)[^\d]*(\d[\d,.]*\s*[KkＭM万]?)"),
+        ("shares", r"(?:shares?|シェア|共有)[^\d]*(\d[\d,.]*\s*[KkＭM万]?)"),
+    ]
+    for key, pattern in compact_pairs:
+        m = re.search(pattern, line, flags=re.I)
+        if m:
+            return key, _parse_metric_number(m.group(1))
+    return None, None
+
+
+def _infer_pattern(content):
+    first = content.strip().splitlines()[0] if content.strip() else ""
+    joined = content.replace("\n", " ")
+    if "？" in first or "?" in first:
+        return "question"
+    if re.search(r"(\d+つ|3つ|5つ|理由|方法|ポイント|手順)", joined):
+        return "number_or_howto"
+    if re.search(r"(実は|逆に|やめた|間違い|勘違い|危険|注意)", joined):
+        return "contrarian_warning"
+    if re.search(r"(昔|以前|経験|現場|気づいた|思った|やってみた)", joined):
+        return "story_experience"
+    if re.search(r"(比較|違い|より|vs|VS)", joined):
+        return "comparison"
+    if len(first) <= 22:
+        return "short_hook"
+    return "statement"
+
+
+def _infer_theme(content):
+    text = content.lower()
+    candidates = [
+        ("AI活用", ["ai", "claude", "chatgpt", "gpt", "codex"]),
+        ("Threads運用", ["threads", "投稿", "インプ", "バズ", "sns"]),
+        ("リハビリ/医療", ["リハビリ", "理学療法", "pt", "患者", "医療", "介護"]),
+        ("仕事術", ["仕事", "資料", "営業", "企画", "時間", "効率"]),
+        ("学習/気づき", ["学び", "気づき", "勉強", "考え方"]),
+    ]
+    for theme, words in candidates:
+        if any(w in text for w in words):
+            return theme
+    return "manual_auto"
+
+
+def _parse_manual_paste(raw):
+    metrics = {"views": 0, "likes": 0, "replies": 0, "reposts": 0, "quotes": 0, "shares": 0}
+    media_urls = re.findall(r"https?://\S+\.(?:png|jpe?g|webp|gif)(?:\?\S*)?", raw, flags=re.I)
+    threads_ids = re.findall(r"\b(?:17|18)\d{12,}\b", raw)
+    posted_at = None
+    content_lines = []
+    skip_markers = ("プロフィール", "フォロー", "返信する", "いいねする", "リポストする", "シェアする")
+
+    for line in raw.replace("\r\n", "\n").split("\n"):
+        clean = line.strip()
+        if not clean:
+            if content_lines and content_lines[-1] != "":
+                content_lines.append("")
+            continue
+        metric_key, metric_value = _infer_metric_from_line(clean)
+        if metric_key:
+            metrics[metric_key] = metric_value
+            continue
+        if any(marker in clean for marker in skip_markers):
+            continue
+        if re.fullmatch(r"https?://\S+", clean):
+            continue
+        if re.fullmatch(r"[@#]?\w{1,30}", clean) and len(clean) < 18:
+            continue
+        date_match = re.search(r"(\d{4}[-/]\d{1,2}[-/]\d{1,2})[ T　]*(\d{1,2}:\d{2})?", clean)
+        if date_match and not posted_at:
+            day = date_match.group(1).replace("/", "-")
+            posted_at = f"{day}T{date_match.group(2) or '00:00'}"
+            continue
+        content_lines.append(clean)
+
+    content = "\n".join(content_lines).strip()
+    content = re.sub(r"\n{3,}", "\n\n", content)
+    return {
+        "content": content,
+        "pattern": _infer_pattern(content),
+        "theme": _infer_theme(content),
+        "metrics_24h": metrics,
+        "media_urls": list(dict.fromkeys(media_urls)),
+        "threads_post_id": threads_ids[0] if threads_ids else None,
+        "posted_at": posted_at,
+    }
+
+
+@app.route("/api/history/manual_paste", methods=["POST"])
+def api_history_manual_paste():
+    data = request.json or {}
+    raw = str(data.get("raw") or "").strip()
+    if not raw:
+        return jsonify({"ok": False, "error": "paste_required"}), 400
+    parsed = _parse_manual_paste(raw)
+    if not parsed["content"]:
+        return jsonify({"ok": False, "error": "本文を判定できませんでした"}), 400
+    parsed["account"] = data.get("account", "account1")
+    with app.test_request_context(json=parsed):
+        response = api_history_manual()
+    if isinstance(response, tuple):
+        return response
+    payload = response.get_json() or {}
+    payload.update({
+        "pattern": parsed["pattern"],
+        "theme": parsed["theme"],
+        "views": parsed["metrics_24h"].get("views", 0),
+    })
+    return jsonify(payload)
+
+
+def _best_metrics(post):
+    for key in ("metrics_24h", "metrics_6h", "metrics_1h", "metrics"):
+        metrics = post.get(key)
+        if isinstance(metrics, dict):
+            return metrics
+    return {}
+
+
+def _post_preview(post):
+    text = post.get("content") or "\n\n".join(
+        [post.get("hook", ""), post.get("body", ""), *post.get("thread_replies", [])]
+    )
+    return " ".join(str(text).split())[:90]
+
+
+@app.route("/api/analytics")
+def api_analytics():
+    account = request.args.get("account", "account1")
+    history = load_json(get_data_dir(account) / "post_history.json", [])
+    posts = [p for p in history if p.get("status") == "posted"]
+
+    enriched = []
+    total_views = total_engagements = image_posts = 0
+    pattern_groups = defaultdict(list)
+    theme_groups = defaultdict(list)
+    timeline = defaultdict(int)
+
+    for p in posts:
+        m = _best_metrics(p)
+        views = int(m.get("views") or 0)
+        likes = int(m.get("likes") or 0)
+        replies = int(m.get("replies") or 0)
+        reposts = int(m.get("reposts") or 0)
+        quotes = int(m.get("quotes") or 0)
+        shares = int(m.get("shares") or 0)
+        engagements = likes + replies + reposts + quotes + shares
+        er = engagements / views if views else 0
+        spread_rate = (reposts + quotes + shares) / views if views else 0
+        buzz_score = views * 0.01 + er * 100 + spread_rate * 160
+
+        row = {
+            "id": p.get("id"),
+            "posted_at": p.get("posted_at"),
+            "pattern": p.get("pattern") or "unknown",
+            "theme": p.get("theme") or "unknown",
+            "views": views,
+            "engagement_rate": er,
+            "spread_rate": spread_rate,
+            "buzz_score": round(buzz_score, 4),
+            "preview": _post_preview(p),
+        }
+        enriched.append(row)
+        total_views += views
+        total_engagements += engagements
+        image_posts += 1 if p.get("media_urls") else 0
+        pattern_groups[row["pattern"]].append(row)
+        theme_groups[row["theme"]].append(row)
+        if p.get("posted_at"):
+            timeline[p["posted_at"][:10]] += views
+
+    def group_rows(groups):
+        rows = []
+        for name, items in groups.items():
+            count = len(items)
+            views = sum(i["views"] for i in items)
+            avg_buzz = sum(i["buzz_score"] for i in items) / count if count else 0
+            avg_er = sum(i["engagement_rate"] for i in items) / count if count else 0
+            rows.append({
+                "name": name,
+                "count": count,
+                "views": views,
+                "avg_buzz_score": round(avg_buzz, 2),
+                "avg_engagement_rate": round(avg_er, 4),
+            })
+        return sorted(rows, key=lambda x: x["avg_buzz_score"], reverse=True)[:12]
+
+    enriched.sort(key=lambda x: x["buzz_score"], reverse=True)
+    return jsonify({
+        "summary": {
+            "posts": len(posts),
+            "views": total_views,
+            "engagement_rate": total_engagements / total_views if total_views else 0,
+            "image_posts": image_posts,
+        },
+        "patterns": group_rows(pattern_groups),
+        "themes": group_rows(theme_groups),
+        "timeline": [
+            {"date": day, "views": views}
+            for day, views in sorted(timeline.items())[-30:]
+        ],
+        "top_posts": enriched[:20],
+    })
+
+
 @app.route("/api/asp")
 def api_asp():
     account = request.args.get("account", "account1")
@@ -1691,6 +2428,28 @@ def api_queue_clear():
     queue = [p for p in queue if p.get("status") != "queued"]
     save_json(path, queue)
     return jsonify({"ok": True})
+
+
+@app.route("/api/score", methods=["POST"])
+def api_score():
+    import sys
+    sys.path.insert(0, str(BASE_DIR))
+    from agents.scorer import ScorerAgent
+    import config as cfg
+
+    data = request.json or {}
+    text = (data.get("text") or "").strip()
+    account = data.get("account", "account1")
+    if not text:
+        return jsonify({"error": "テキストが空です"}), 400
+
+    cfg.switch_account(account)
+    scorer = ScorerAgent(cfg, cfg.KNOWLEDGE_DIR, cfg.DATA_DIR)
+    try:
+        result = scorer.run(post_text=text, print_output=False)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route("/api/kill", methods=["POST"])

@@ -1,0 +1,9 @@
+openai>=1.55.0
+streamlit>=1.36.0
+python-dotenv>=1.0.1
+pydantic>=2.6.0
+pandas>=2.2.0
+Pillow>=10.3.0
+markdown>=3.6
+python-slugify>=8.0.4
+requests>=2.31.0

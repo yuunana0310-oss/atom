@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GptVersionHistory",
+  "type": "object",
+  "required": ["version", "date", "target_gpt", "updated_section", "reason", "public_safe"],
+  "properties": {
+    "version": { "type": "string" },
+    "date": { "type": "string", "format": "date" },
+    "target_gpt": { "type": "string" },
+    "updated_section": { "type": "string" },
+    "reason": { "type": "string" },
+    "before": { "type": "string" },
+    "after": { "type": "string" },
+    "expected_effect": { "type": "string" },
+    "risk": { "type": "string" },
+    "public_safe": { "type": "string", "enum": ["true", "false", "review_needed"] },
+    "notes": { "type": "string" }
+  },
+  "additionalProperties": false
+}
+

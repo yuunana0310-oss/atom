@@ -134,3 +134,10 @@ added: 2026-04-07
 > ⚠️ 本レポートは教育・情報共有目的で作成しています。
 > 臨床判断には必ず最新のガイドラインと個別評価を優先してください。
 > 本資料のエビデンスレベル分類は作成者による独自分類です。
+
+---
+
+## 関連ノート
+- ハブ: [[index|リハビリINDEX]] / [[MOC_股関節OA研究]]
+- 関連: [[hip_oa]] / [[hip_oa_pt_treatment_approach]] / [[prohip_trial_nejm_2024]]
+- リサーチ: [[2026-04-12_synthesis_2026-04-12_0]] / [[2026-04-12_[Physiotherapist-led pain-guided progressive resis]]

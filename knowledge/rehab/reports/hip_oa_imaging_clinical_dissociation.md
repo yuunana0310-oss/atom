@@ -204,3 +204,8 @@ Woolf AD, Pfleger B. Burden of major musculoskeletal conditions. Bull WHO. 2003
 ※ Framingham研究の数値はPubMed収載論文より確認済。OAI・CHECK研究の詳細数値については、原著論文の確認を推奨します。本資料の内容が最新エビデンスと異なる場合があります。
 
 股関節OA 画像所見と臨床症状の解離 エビデンスまとめ｜PT・OT向け教育資料 作成：あとむ｜PT22年目×AI副業　／　教育・情報共有目的のみ。個別の臨床判断には使用しないでください。 Framingham研究データ：Kim et al., Arthritis Rheumatol 2014（PMID: 25103598）より確認
+---
+
+## 関連ノート
+- ハブ: [[index|リハビリINDEX]] / [[MOC_股関節OA研究]]
+- 関連: [[hip_oa]] / [[hip_oa_pt_treatment_approach]]

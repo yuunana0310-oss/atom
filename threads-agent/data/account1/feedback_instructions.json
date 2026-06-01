@@ -1,15 +1,15 @@
 {
   "high_performing_patterns": [
-    "experience_share",
     "series_claude_diary",
+    "short_hook",
     "checklist"
   ],
   "avoid_patterns": [
     "comparison"
   ],
   "high_performing_themes": [
-    "F枠_悩み募集型（需要確認・週1-2本）",
     "E枠_noteガイドのティーザー投稿（週2〜3本・note購買につなげる）",
+    "manual_auto",
     "D枠_AIライティング・プロンプト実例（保存率が高い）"
   ],
   "avoid_themes": [
@@ -17,37 +17,28 @@
   ],
   "recommended_first_line_styles": [
     "number_lead",
-    "statement",
-    "short_punchy"
+    "short_punchy",
+    "statement"
   ],
   "pattern_avg_scores": {
-    "experience_share": 30.5958,
     "series_claude_diary": 20.4115,
-    "series_pt22": 4.1041,
+    "short_hook": 11.25,
+    "series_pt22": 4.8343,
     "checklist": 8.0,
     "short_complete": 4.3478,
+    "experience_share": 2.1008,
     "series_qa": 0.7901,
     "story_arc": 0.5109,
-    "myth_bust": 0.4802,
     "comparison": 0.0
   },
   "theme_avg_scores": {
-    "F枠_悩み募集型（需要確認・週1-2本）": 59.0909,
     "E枠_noteガイドのティーザー投稿（週2〜3本・note購買につなげる）": 23.4849,
     "D枠_AIライティング・プロンプト実例（保存率が高い）": 5.2355,
+    "manual_auto": 11.25,
     "D枠_スマホでもできるAI（ターゲット読者への刺さりが強い）": 4.6348,
-    "B枠_指導が伝わらない問題（専門性・週4本）": 1.1834,
-    "C枠_ベテランセラピスト燃え尽き問題（共感・週3本）": 0.4802,
     "B枠_専門職×AI×副業（専門職全般に刺さる）": 0.0
   },
   "top_performers": [
-    {
-      "id": "24cf8a4b-e0cf-46fb-be28-62ad8d470429",
-      "content_preview": "患者さんが『続けます』って言うのに1週間で止まる。\nなぜか知ってる、\n\n22年やってて気づいたんだけど、『伝わった』と『納得した』って全然別の話なんだよ。\n\n『わかりました』って返事してる患者さんの頭",
-      "pattern": "experience_share",
-      "theme": "F枠_悩み募集型（需要確認・週1-2本）",
-      "engagement_score": 59.0909
-    },
     {
       "id": "c52c3bfd-d781-4628-8ec0-b72dc1ac6eaa",
       "content_preview": "22年現場にいて気づいた。\nAIは仕事を奪わない。時間をくれるんだ。\n\nカルテ作成に週5時間。申し送り書に2時間。研修資料に3時間。\nこれらがAIの下書きで8割減ったら？\n\n患者さんと話す時間が戻って",
@@ -61,22 +52,29 @@
       "pattern": "series_claude_diary",
       "theme": "D枠_AIライティング・プロンプト実例（保存率が高い）",
       "engagement_score": 16.129
+    },
+    {
+      "id": "manual-8991d3d4-e2f8-46f9-bb0f-431fef7ad48b",
+      "content_preview": "最初から完璧を狙わないこと。",
+      "pattern": "short_hook",
+      "theme": "manual_auto",
+      "engagement_score": 11.25
     }
   ],
   "bottom_performers": [
+    {
+      "id": "6768569c-a7d0-4491-a907-4184dc0eff0a",
+      "content_preview": "Claudeに何度聞いても『何か違う』んだよな。\n\n医療の現場で22年やってきたことが、そのまま指示にならない。\n\n当たり前だと思ってたことが言語化できてない。暗黙知って奴か。\n\nそこに気づいたら、自",
+      "pattern": "series_claude_diary",
+      "theme": "D枠_スマホでもできるAI（ターゲット読者への刺さりが強い）",
+      "engagement_score": 0.6611
+    },
     {
       "id": "b7e4a40b-785c-4895-ac12-9123bdaa357e",
       "content_preview": "Claude Codeで資料作ったんだけど\nこれPTの仕事マジでなくなるんちゃうかって思った\n\n疾患ごとのエビデンスまで入ったリハプログラム、30分で終わった。\n\n普通なら3日ぶっ続けやん。\n\nAIが",
       "pattern": "story_arc",
       "theme": "D枠_AIライティング・プロンプト実例（保存率が高い）",
       "engagement_score": 0.5109
-    },
-    {
-      "id": "020a339e-6d86-442c-9495-e8da1edebf83",
-      "content_preview": "医療現場で『効率化は悪』って言われるけど、それって逆なんですよ。\nPT22年目だから、ぶっちゃけます、\n\nAI導入の話したら『患者さんが置き去りになる』って反発された。でも違う。\n\n手書き記録に30分",
-      "pattern": "myth_bust",
-      "theme": "C枠_ベテランセラピスト燃え尽き問題（共感・週3本）",
-      "engagement_score": 0.4802
     },
     {
       "id": "519b5a10-1a31-404a-ae85-953da3dbf481",
@@ -86,8 +84,8 @@
       "engagement_score": 0.0
     }
   ],
-  "total_posts_analyzed": 16,
-  "analysis_date": "2026-04-19T09:19:03.345389",
+  "total_posts_analyzed": 14,
+  "analysis_date": "2026-05-11T23:34:04.893337",
   "structure_guidelines": {
     "recommended_character_count": "150-250字（短めが勝ち。全体平均241字より32%短い投稿がいいね獲得率2倍以上）",
     "recommended_line_breaks": "8-10回（1改行あたり15-20字。スマートフォン視認性最優先）",

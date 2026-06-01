@@ -427,3 +427,8 @@ Fernandes L, et al. EULAR recommendations for the non-pharmacological core manag
 前資料（hip_oa_radiographic_dissociation.html）：Framingham研究（Kim et al., Arthritis Rheumatol 2014, PMID: 25103598）
 
 ※ 本資料は自己学習目的。臨床での実際の治療判断は個々の患者評価・担当医の方針・最新ガイドラインに従ってください。
+---
+
+## 関連ノート
+- ハブ: [[index|リハビリINDEX]] / [[MOC_股関節OA研究]]
+- 関連: [[hip_oa]] / [[hip_oa_resistance_training]] / [[hip_oa_imaging_clinical_dissociation]] / [[prohip_trial_nejm_2024]]

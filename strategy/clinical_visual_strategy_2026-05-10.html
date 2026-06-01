@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinical Visual System | 英語圏展開戦略レポート 2026-05-10</title>
+<style>
+  :root {
+    --bg: #fafaf7;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --accent: #1e4d40;
+    --accent-light: #e8f0ed;
+    --warning: #c25e1a;
+    --warning-light: #fdf3eb;
+    --danger: #a02c2c;
+    --danger-light: #fbeaea;
+    --success: #2d6a4f;
+    --success-light: #e6f2ec;
+    --rule: #d8d4cc;
+    --code-bg: #f0ede5;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic UI", "Meiryo", "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.75;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+  }
+  .wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 60px 32px 120px;
+  }
+  header.hero {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 32px;
+    margin-bottom: 48px;
+  }
+  header.hero .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  header.hero h1 {
+    font-size: 40px;
+    line-height: 1.2;
+    margin: 12px 0 8px;
+    letter-spacing: -0.02em;
+  }
+  header.hero .sub {
+    font-size: 18px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  header.hero .meta {
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  header.hero .meta strong { color: var(--ink); }
+
+  h2 {
+    font-size: 26px;
+    line-height: 1.3;
+    margin: 64px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+    letter-spacing: -0.01em;
+  }
+  h2 .num {
+    color: var(--accent);
+    margin-right: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+  h3 {
+    font-size: 19px;
+    margin: 36px 0 12px;
+    color: var(--accent);
+  }
+  h4 {
+    font-size: 16px;
+    margin: 24px 0 8px;
+    color: var(--ink);
+  }
+  p { margin: 0 0 14px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-light);
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout.warning { border-color: var(--warning); background: var(--warning-light); }
+  .callout.danger { border-color: var(--danger); background: var(--danger-light); }
+  .callout.success { border-color: var(--success); background: var(--success-light); }
+  .callout .label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .callout.warning .label { color: var(--warning); }
+  .callout.danger .label { color: var(--danger); }
+  .callout.success .label { color: var(--success); }
+  .callout p:last-child { margin-bottom: 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  th {
+    background: var(--code-bg);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+  td.price { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .star { color: var(--warning); }
+
+  code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    font-family: "SF Mono", Consolas, monospace;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 16px 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 16px 0;
+  }
+  pre code { background: transparent; padding: 0; }
+
+  .toc {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 20px 28px;
+    margin-bottom: 48px;
+  }
+  .toc .label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .toc ol { margin: 0; padding-left: 24px; }
+  .toc li { margin-bottom: 4px; }
+  .toc a { color: var(--ink); text-decoration: none; }
+  .toc a:hover { color: var(--accent); text-decoration: underline; }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  @media (max-width: 720px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    header.hero h1 { font-size: 28px; }
+  }
+  .card {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .card h4 { margin-top: 0; color: var(--accent); }
+
+  .verdict {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .verdict.strong { background: var(--success-light); color: var(--success); }
+  .verdict.medium { background: var(--warning-light); color: var(--warning); }
+  .verdict.weak { background: var(--danger-light); color: var(--danger); }
+
+  .checklist {
+    list-style: none;
+    padding-left: 0;
+  }
+  .checklist li {
+    padding-left: 28px;
+    position: relative;
+    margin-bottom: 10px;
+  }
+  .checklist li::before {
+    content: "☐";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 18px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px dashed var(--rule);
+    margin: 48px 0;
+  }
+
+  .quote {
+    font-style: italic;
+    color: var(--muted);
+    border-left: 3px solid var(--rule);
+    padding-left: 20px;
+    margin: 20px 0;
+  }
+
+  footer {
+    margin-top: 96px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Strategic Research Report</div>
+  <h1>Clinical Visual System<br>英語圏展開戦略レポート</h1>
+  <div class="sub">Substackと連動したGumroad販売・差別化分析・3ヶ月ロードマップ</div>
+  <div class="meta">
+    <span><strong>作成日:</strong> 2026-05-10</span>
+    <span><strong>対象:</strong> あとむ｜PT歴22年</span>
+    <span><strong>Substack:</strong> clinicalvisualsystem.substack.com</span>
+  </div>
+</header>
+
+<div class="toc">
+  <div class="label">Contents</div>
+  <ol>
+    <li><a href="#summary">エグゼクティブサマリー（先に結論）</a></li>
+    <li><a href="#status">現状把握（Substack ローンチ初日）</a></li>
+    <li><a href="#competitors">競合マップ：直接競合と隣接市場</a></li>
+    <li><a href="#differentiation">差別化評価：あなたは戦えるのか</a></li>
+    <li><a href="#pricing">価格戦略の再評価（$79は安すぎる）</a></li>
+    <li><a href="#legal">法的・倫理的リスク（最重要・必読）</a></li>
+    <li><a href="#growth">Substack成長戦略：0→500→5,000</a></li>
+    <li><a href="#roadmap">3ヶ月ロードマップ</a></li>
+    <li><a href="#obstacles">想定される最大の障害 TOP3</a></li>
+    <li><a href="#actions">直近1週間でやるべき7アクション</a></li>
+    <li><a href="#sources">調査ソース</a></li>
+  </ol>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="summary"><span class="num">01</span>エグゼクティブサマリー</h2>
+
+<div class="callout success">
+<div class="label">結論</div>
+<p><strong>差別化は成立しています。</strong> 英語圏の「PT向けカスタムGPT × ビジュアル特化 × 医療安全ガイドライン」という3点を同時に満たすクリエイターはほぼ存在しません。空白地帯です。</p>
+<p>ただし、<strong>$79〜$99の価格設定はむしろ安すぎ</strong>、<strong>HIPAA関連の法的免責が未整備</strong>、<strong>Substackは開設9時間で実質ゼロベース</strong>という3つの宿題があります。</p>
+</div>
+
+<h3>戦略の核（要約）</h3>
+<ol>
+  <li><strong>競合不在ニッチが確認された</strong>：直接競合5社のうち、PT特化 × カスタムGPT × ビジュアル特化を全て満たすのは0社。あなたの位置づけは唯一無二。</li>
+  <li><strong>OpenAIが「ChatGPT for Clinicians」を医師・NP・PA・薬剤師に無料提供開始（2025末）。PTは明示的に除外</strong>。これがマーケティングコピー最強の引きフック。</li>
+  <li><strong>価格は $129〜$179 が妥当</strong>。日本の競合（かおりさん ¥14,280）が340部売れている事実、そして英語圏の専門職向けキット型相場がそれ以上であることを踏まえると、$79は逆効果（安かろう悪かろう判定リスク）。</li>
+  <li><strong>Substack単体では売れない。</strong>無料Substack＋LinkedIn＋Recommend Network → Gumroad誘導 が王道ルート。</li>
+  <li><strong>ローンチは8〜12週後（Week 12前後）</strong>が現実線。GPT構築1週間 + 信頼蓄積11週。それまでは「Build in Public」スタイルで発信。</li>
+</ol>
+
+<!-- ============================================================ -->
+<h2 id="status"><span class="num">02</span>現状把握（Substack ローンチ初日）</h2>
+
+<table>
+  <tr><th width="30%">項目</th><th>現状</th></tr>
+  <tr><td>Publication名</td><td>Clinical Visual System</td></tr>
+  <tr><td>Tagline</td><td>"AI-powered clinical visual communication for healthcare professionals."</td></tr>
+  <tr><td>開設からの経過</td><td>9時間前（実質ゼロ購読者）</td></tr>
+  <tr><td>投稿済み記事</td><td>1本（タイトル未確認）</td></tr>
+  <tr><td>About Page</td><td>未整備</td></tr>
+  <tr><td>有料化</td><td>未設定</td></tr>
+  <tr><td>LinkedIn英語化</td><td>未確認</td></tr>
+  <tr><td>Gumroadアカウント</td><td>未作成</td></tr>
+  <tr><td>商品（GPT英語版）</td><td>未着手（1週間で構築可能と回答）</td></tr>
+</table>
+
+<div class="callout">
+<div class="label">Note</div>
+<p>Tagline は良いですが、<strong>"healthcare professionals"が広すぎ</strong>ます。後述しますが、<strong>"physical therapists, OTs, and rehab clinicians"</strong> まで絞ったほうが響きます。Aboutページは1週間以内に整備必須です。</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="competitors"><span class="num">03</span>競合マップ：直接競合と隣接市場</h2>
+
+<h3>3-1. 直接競合（PT・医療職向けAI/GPTパック）</h3>
+
+<table>
+  <tr>
+    <th>商品 / クリエイター</th>
+    <th>プラットフォーム</th>
+    <th class="price">価格</th>
+    <th>含有物</th>
+    <th>ターゲット</th>
+    <th>PT特化度</th>
+  </tr>
+  <tr>
+    <td><strong>AI for Work</strong><br>(aiforwork.co)</td>
+    <td>自社サイト</td>
+    <td class="price">非公開</td>
+    <td>2,000+プロンプト・部署別ディレクトリ</td>
+    <td>全職種横断</td>
+    <td><span class="verdict weak">低</span></td>
+  </tr>
+  <tr>
+    <td><strong>Ismail Saleem</strong><br>「Prompts for Doctors」</td>
+    <td>Gumroad</td>
+    <td class="price">~$10-30</td>
+    <td>2,000+プロンプト集 + Notion</td>
+    <td>医師主軸（PT含む）</td>
+    <td><span class="verdict weak">低</span></td>
+  </tr>
+  <tr>
+    <td><strong>Ismail Saleem</strong><br>「Prompts for Psychologists」</td>
+    <td>Gumroad</td>
+    <td class="price">~$10-30</td>
+    <td>2,000+プロンプト + Notion</td>
+    <td>臨床心理士</td>
+    <td><span class="verdict weak">低</span></td>
+  </tr>
+  <tr>
+    <td><strong>Julian Hasse</strong><br>「100 Essential Prompts」</td>
+    <td>Substack有料記事</td>
+    <td class="price">~$5-15</td>
+    <td>100プロンプト・10カテゴリ</td>
+    <td>医師・看護師・PT・薬剤師</td>
+    <td><span class="verdict weak">低</span></td>
+  </tr>
+  <tr>
+    <td><strong>300 ChatGPT Prompts for Nurses</strong></td>
+    <td>Etsy</td>
+    <td class="price">~$5-15</td>
+    <td>300プロンプト</td>
+    <td>看護師</td>
+    <td><span class="verdict weak">無</span></td>
+  </tr>
+  <tr>
+    <td><strong>Prompt Engineering Ebook for Therapists</strong></td>
+    <td>Etsy</td>
+    <td class="price">~$10-25</td>
+    <td>SOAP・ハンドアウト・メールのプロンプト指南</td>
+    <td>メンタルヘルス系セラピスト</td>
+    <td><span class="verdict weak">無</span></td>
+  </tr>
+  <tr>
+    <td><strong>かおり「ChatGPT本気出した」</strong>（参考: 日本市場）</td>
+    <td>note.com</td>
+    <td class="price">¥14,280</td>
+    <td>カスタムGPT複数（汎用画像生成）</td>
+    <td>副業・一般</td>
+    <td><span class="verdict weak">無</span></td>
+  </tr>
+</table>
+
+<div class="callout success">
+<div class="label">重要な発見</div>
+<p><strong>「PT特化 × カスタムGPT × ビジュアル特化 × 医療安全ガイドライン」を全て満たす商品は英語圏に存在しません。</strong>競合は全員「プロンプト集止まり」または「汎用」です。</p>
+</div>
+
+<h3>3-2. 隣接市場（混ざる可能性のあるプレイヤー）</h3>
+
+<table>
+  <tr>
+    <th>カテゴリ</th>
+    <th>主要プレイヤー</th>
+    <th class="price">価格帯</th>
+    <th>あなたへの示唆</th>
+  </tr>
+  <tr>
+    <td>PT臨床AI</td>
+    <td>Physiotutors ChatCPG / Physiopedia PAI</td>
+    <td class="price">€14-15/月</td>
+    <td>"臨床判断"側で攻めている。あなたは"コミュニケーション"に逃げ場あり</td>
+  </tr>
+  <tr>
+    <td>AIスクライブ（ノート自動化）</td>
+    <td>ScribePT / Heidi Health / Twofold</td>
+    <td class="price">$49-150/月</td>
+    <td>"記録"特化。これも別軸</td>
+  </tr>
+  <tr>
+    <td>AI患者教育プラットフォーム</td>
+    <td>Hinge Health / Sword Health / MoveMend</td>
+    <td class="price">B2B契約</td>
+    <td>病院単位で売る巨大企業。個人クリエイターとは戦場が違う</td>
+  </tr>
+  <tr>
+    <td>医療系Substack</td>
+    <td>Larry Benz / Heidi Jannenga / Aditi Singh</td>
+    <td class="price">$5-10/月</td>
+    <td>業界論評・ニュース系。あなたは"実装"側で差別化</td>
+  </tr>
+</table>
+
+<h3>3-3. 業界最大の地殻変動：ChatGPT for Clinicians</h3>
+
+<div class="callout warning">
+<div class="label">破壊的アップデート</div>
+<p><strong>OpenAIが2025年末、米国の認証済み医師・NP・PA・薬剤師にChatGPT for Cliniciansを無料提供開始。</strong></p>
+<p>しかし<strong>PTは明示的に除外</strong>されました。これは脅威ではなく、<strong>あなたの最強のマーケティングフック</strong>です。</p>
+<p>初期Substack記事案: <em>"Why ChatGPT for Clinicians excludes PTs — and what we can build instead"</em></p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="differentiation"><span class="num">04</span>差別化評価：あなたは戦えるのか</h2>
+
+<p>あなたの5本柱を競合と並べて評価しました。結論から言うと<strong>5本すべてで差別化が成立</strong>しています。</p>
+
+<table>
+  <tr>
+    <th>差別化軸</th>
+    <th>競合の状況</th>
+    <th>USP成立度</th>
+    <th>英語圏での訴求コピー</th>
+  </tr>
+  <tr>
+    <td><strong>22年のPT臨床経験</strong></td>
+    <td>Ismail Saleem・Julian Hasseは資格未明示</td>
+    <td><span class="verdict strong">強く成立</span></td>
+    <td>"Built by a PT with 22 years of bedside experience — not a tech bro"</td>
+  </tr>
+  <tr>
+    <td><strong>田舎の日本クリニック視点</strong></td>
+    <td>英語圏に存在しない</td>
+    <td><span class="verdict strong">独自</span></td>
+    <td>"From a small rural clinic in Japan — to clinics worldwide"</td>
+  </tr>
+  <tr>
+    <td><strong>医療特化（汎用×）</strong></td>
+    <td>Saleemは2,000プロンプト羅列で「PT用」の深さなし</td>
+    <td><span class="verdict strong">強く成立</span></td>
+    <td>"Not a 2,000-prompt mega-pack. Three deeply tuned GPTs for the work PTs actually do"</td>
+  </tr>
+  <tr>
+    <td><strong>3つの具体ユースケース</strong>（SNS / 患者説明 / 院内勉強会）</td>
+    <td>競合はプロンプト羅列のみ</td>
+    <td><span class="verdict strong">強く成立</span></td>
+    <td>"Patient handouts. Family briefings. Staff in-services. One toolkit, three workflows"</td>
+  </tr>
+  <tr>
+    <td><strong>ビジュアル特化</strong>（"Clinical Visual Communication"）</td>
+    <td>テキストプロンプト集が99%</td>
+    <td><span class="verdict strong">最強</span></td>
+    <td>ブランド名そのものが訴求</td>
+  </tr>
+</table>
+
+<h3>同じ方向性のプレイヤーと"混ざらない"ための戦略</h3>
+
+<div class="grid-2">
+  <div class="card">
+    <h4>vs. Ismail Saleem</h4>
+    <p>「2,000のプロンプトより、現場で本当に使う3つのGPT」<br><strong>軸：量より質・ノイズ削減</strong></p>
+  </div>
+  <div class="card">
+    <h4>vs. Julian Hasse</h4>
+    <p>「100プロンプトの読み物」 vs 「実装可能なGPTツール」<br><strong>軸：読む vs 使う</strong></p>
+  </div>
+  <div class="card">
+    <h4>vs. Physiotutors / Physiopedia</h4>
+    <p>「臨床判断アシスタント」 vs 「コミュニケーション特化」<br><strong>軸：法的にも安全な棲み分け</strong></p>
+  </div>
+  <div class="card">
+    <h4>vs. AIスクライブ系</h4>
+    <p>「ノート自動化」 vs 「コミュニケーション設計」<br><strong>軸：記録ではなく伝達</strong></p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="pricing"><span class="num">05</span>価格戦略の再評価（$79は安すぎる）</h2>
+
+<p>前回提案した $79〜$99 を撤回します。リサーチで以下のことが判明しました。</p>
+
+<h3>5-1. 英語圏の専門職向けAIパック相場（2026）</h3>
+
+<table>
+  <tr>
+    <th>カテゴリ</th>
+    <th class="price">価格帯</th>
+    <th>備考</th>
+  </tr>
+  <tr><td>汎用ChatGPTプロンプト集</td><td class="price">$0-30</td><td>Pay-What-You-Want多発・実質無料化</td></tr>
+  <tr><td>専門職向けプロンプト集（医師・看護師・心理士）</td><td class="price">$10-50</td><td>単発買い切り</td></tr>
+  <tr><td><strong>キット型（プロンプト+Notion+テンプレ+ガイド）</strong></td><td class="price"><strong>$30-100</strong></td><td>やや専門ニッチ</td></tr>
+  <tr><td>専門職向け会員制（教材+AI+コミュニティ）</td><td class="price">$15/月-$150/年</td><td>Physiotutors水準</td></tr>
+  <tr><td><strong>カスタムGPT × 3 + ガイド + ロードマップ</strong></td><td class="price"><strong>★$129-199</strong></td><td>ここがあなたのレンジ</td></tr>
+  <tr><td>コース型（Teachable/Kajabi）</td><td class="price">$97-497</td><td>CEU認定があれば+50%</td></tr>
+</table>
+
+<h3>5-2. 推奨価格戦略（2tier + 限定オファー）</h3>
+
+<table>
+  <tr>
+    <th>プラン</th>
+    <th class="price">価格</th>
+    <th>含有物</th>
+    <th>役割</th>
+  </tr>
+  <tr>
+    <td><strong>Starter</strong></td>
+    <td class="price">$97</td>
+    <td>カスタムGPT × 1（最強のSNS投稿GPT）+ デザインルール + 30日ロードマップ</td>
+    <td>導入価格・お試し層を取る</td>
+  </tr>
+  <tr>
+    <td><strong>Professional</strong></td>
+    <td class="price">$179</td>
+    <td>カスタムGPT × 3全部 + デザインルール + 医療安全 + 画像プロンプト + 30日ロードマップ</td>
+    <td>本命・主力</td>
+  </tr>
+  <tr>
+    <td><strong>Founders Edition</strong><br>（最初の50人限定）</td>
+    <td class="price">$129</td>
+    <td>Professional版 + Substack 3ヶ月分の有料アクセス</td>
+    <td>ローンチ加速・希少性</td>
+  </tr>
+  <tr>
+    <td>(Optional) Substack Paid</td>
+    <td class="price">$9/月 or $79/年</td>
+    <td>月次新プロンプト・ケース共有</td>
+    <td>継続収益の土台</td>
+  </tr>
+</table>
+
+<div class="callout">
+<div class="label">価格の論拠</div>
+<p>① あなたの商品はカスタムGPT × 3を含む。プロンプト集とは別カテゴリ。<br>
+② 医療安全ガイドラインとデザインルールは単独でEtsy $30-50相当。<br>
+③ 30日ロードマップは実装ガイドとして単独 $30-50相当。<br>
+④ 単純合算で $90-130 + プロフェッショナル特化プレミアム + ビジュアル特化プレミアム = <strong>$179が妥当</strong>。<br>
+⑤ Physiotutors会員年額 $159（一般PT教育）と比較しても、買い切り $179 は十分通る。</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="legal"><span class="num">06</span>法的・倫理的リスク（最重要・必読）</h2>
+
+<div class="callout danger">
+<div class="label">最重要</div>
+<p>このセクションを実装しないまま英語圏で販売を始めるのは<strong>絶対に避けてください</strong>。HIPAA違反トラブル・誤情報訴訟は、英語圏では1件で事業が終わるレベルのリスクです。</p>
+</div>
+
+<h3>6-1. HIPAAとの関係（米国）</h3>
+<ul>
+  <li><strong>商品自体はHIPAA違反ではない</strong>（PHI = Protected Health Informationを扱わないから）</li>
+  <li>ただし<strong>購入者が誤った使い方をしたときのリスク</strong>を文章で遮断する必要がある</li>
+  <li>パブリックChatGPT/ClaudeはHIPAA非準拠。これを明記</li>
+</ul>
+
+<h3>6-2. FDA（医療機器）規制の境界線</h3>
+<ul>
+  <li>「Patient education material」はSaMD（Software as a Medical Device）に該当しない</li>
+  <li>ただし「AIが診断・治療判断を直接出す」と解釈されると境界に近づく</li>
+  <li><strong>"Communication, not clinical decision-making"</strong>を明確に切り出す</li>
+</ul>
+
+<h3>6-3. 必須免責テンプレート（販売ページ・PDF・各GPT指示文に三重実装）</h3>
+
+<pre><code>MEDICAL DISCLAIMER
+
+This product is for educational and professional productivity purposes only.
+It does not constitute medical advice, diagnosis, or treatment recommendations.
+
+All output generated using these GPTs and prompts must be reviewed and
+approved by a licensed healthcare professional before being shared with
+patients or used in clinical settings.
+
+This product is not a medical device under FDA regulation and is not
+intended to diagnose, treat, cure, or prevent any disease.
+
+Users are solely responsible for verifying medical accuracy, ensuring
+HIPAA compliance, and adhering to their jurisdiction's laws and licensing
+board guidelines.
+
+Public ChatGPT and Claude are NOT HIPAA compliant. Do not paste patient
+identifiers, names, DOBs, or any PHI into these tools.
+
+No clinician-patient relationship is established by use of this product.</code></pre>
+
+<h3>6-4. AI生成画像の著作権</h3>
+<ul>
+  <li>米国著作権局: <strong>「AIプロンプトのみで生成された画像は著作権保護対象外」</strong></li>
+  <li>商用販売時は「ヒトによる十分な編集が加わったこと」を文書化</li>
+  <li>AMI（Association of Medical Illustrators）の倫理コードに準拠</li>
+</ul>
+
+<h3>6-5. 推奨される実装プロセス</h3>
+
+<ol>
+  <li>販売ページ・商品PDF冒頭・各GPT指示文に免責文を<strong>三重実装</strong></li>
+  <li>購入時に「私はライセンス保持者であり、教育目的の使用に同意します」のチェックボックスを必須化</li>
+  <li>ローンチ前に米国の医療弁護士（healthcare attorney）に1時間レビュー（$300-500）</li>
+  <li>米LLC設立は急がなくていい（売上が年$10k超えてから検討）</li>
+  <li>個人事業者向け賠償保険（Hiscox等）の加入は売上 $30k 超えあたりで検討</li>
+</ol>
+
+<!-- ============================================================ -->
+<h2 id="growth"><span class="num">07</span>Substack成長戦略：0→500→5,000</h2>
+
+<h3>7-1. Substack 2026公式データ（成長指標）</h3>
+
+<ul>
+  <li><strong>新規無料購読の50%、有料購読の30%がSubstackアプリ・Network経由</strong>（Substackから出ない流入）</li>
+  <li><strong>新規購読の40%が Recommendations 経由</strong>（2026年初公表）</li>
+  <li>有料転換率の業界目安: <strong>5-10%</strong>（10%超で良い水準）</li>
+  <li>健康・ウェルネスは Top Categoryで常時 leaderboard あり</li>
+</ul>
+
+<h3>7-2. フェーズ1: 0→500購読者（ローンチ初週〜1ヶ月）</h3>
+
+<div class="grid-2">
+  <div class="card">
+    <h4>① ニッチを極端に狭くする</h4>
+    <p>Tagline改訂案：<br>
+    <em>"Visual patient education for rehab clinics — built by a PT, powered by AI."</em><br>
+    "Healthcare professionals" は広すぎ。PT/OT/SLPに絞る。</p>
+  </div>
+  <div class="card">
+    <h4>② LinkedInプロフィール最適化</h4>
+    <p>バナー・Featured・AboutにすべてSubstack誘導。LinkedIn記事はティーザー → Substack誘導の形。</p>
+  </div>
+  <div class="card">
+    <h4>③ Notes を 1日1-3本</h4>
+    <p>「教育的Notes」より「ストーリー型Notes」が購読転換に効く。"that is me"感覚を作る。</p>
+  </div>
+  <div class="card">
+    <h4>④ 既存資産を英訳cross-post</h4>
+    <p>日本のnote記事（22年のPT経験ストーリー）は英語圏で希少。再利用価値が高い。</p>
+  </div>
+</div>
+
+<h3>7-3. フェーズ2: 500→5,000購読者（1〜6ヶ月）</h3>
+
+<table>
+  <tr>
+    <th>施策</th>
+    <th>具体内容</th>
+    <th>期待効果</th>
+  </tr>
+  <tr>
+    <td><strong>Recommend Network構築</strong></td>
+    <td>4-5人の隣接ニッチ筆者と月次MTG・相互推薦</td>
+    <td>1スワップ50-100購読者</td>
+  </tr>
+  <tr>
+    <td><strong>Guest Post Swap</strong></td>
+    <td>自分のSubstackに招待 → 相手のSubstackに寄稿</td>
+    <td>Notesより遥かに強い転換</td>
+  </tr>
+  <tr>
+    <td><strong>Reddit Soft Engagement</strong></td>
+    <td>r/physicaltherapy / r/ptbusiness で フリーリソース共有</td>
+    <td>認知獲得（直販NG）</td>
+  </tr>
+  <tr>
+    <td><strong>Custom LP付きPodcast出演</strong></td>
+    <td>カスタムランディングページ付き招待出演</td>
+    <td>従来比3倍コンバージョン</td>
+  </tr>
+</table>
+
+<h3>7-4. アウトリーチすべき具体的な相手</h3>
+
+<table>
+  <tr>
+    <th>相手</th>
+    <th>ニッチ</th>
+    <th>アプローチ理由</th>
+  </tr>
+  <tr><td><strong>Heidi Jannenga</strong></td><td>The Healthcare Athlete (PT/Wellness)</td><td>業界権威、PTのSubstack最強格</td></tr>
+  <tr><td><strong>Larry Benz</strong></td><td>All Things #PhysicalTherapy</td><td>業界論評・予測の中心</td></tr>
+  <tr><td><strong>Aditi Singh</strong></td><td>Physiotherapy Post</td><td>AI×PTの隣接ニッチ</td></tr>
+  <tr><td><strong>Nick Ilic</strong></td><td>Clinician's Compass</td><td>ケース共有・コミュニティ機能</td></tr>
+  <tr><td><strong>The Non-Clinical PT</strong></td><td>PT副業・キャリア転換</td><td>あなたの読者と重なる</td></tr>
+  <tr><td><strong>OT Potential</strong></td><td>OT × エビデンス</td><td>OT/PT併用視聴者</td></tr>
+</table>
+
+<div class="callout">
+<div class="label">アウトリーチのコツ</div>
+<p>謙虚に・自分の記事3本を引用付きで紹介・「あなたの読者にも価値があると思って書きました」のスタンス。<strong>「相互フォロー希望です」は絶対NG。</strong>価値提供から入る。</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="roadmap"><span class="num">08</span>3ヶ月ロードマップ</h2>
+
+<h3>Month 1（5月）: 土台構築</h3>
+<ul>
+  <li>Substack About Pageを書き上げ、Tagline調整</li>
+  <li>LinkedIn英語化、Substack誘導動線完成</li>
+  <li>週1の長文記事 × 4本（"Build in public"スタイル）</li>
+  <li>Notes 1日1-3本（ストーリー型）</li>
+  <li><strong>並行して英語版GPT × 3を構築</strong>（指示文・医療安全実装込み）</li>
+  <li>Recommend Network候補へのアウトリーチ開始（5名）</li>
+</ul>
+
+<h3>Month 2（6月）: 信頼蓄積 + Gumroad準備</h3>
+<ul>
+  <li>週1〜2の記事継続</li>
+  <li>米国/英国のPTを<strong>1人以上ベータ協力者として獲得</strong>（無料アクセス → 推薦コメント）</li>
+  <li>Gumroad販売ページ準備（販売ページコピー、サンプル出力3点、デモ動画）</li>
+  <li>免責文の三重実装、医療弁護士レビュー</li>
+  <li>Recommendsスワップ実施（2-3件）</li>
+</ul>
+
+<h3>Month 3（7月）: ソフトローンチ</h3>
+<ul>
+  <li><strong>Founders Edition $129</strong> を50本限定で発売</li>
+  <li>Substack購読者・LinkedInフォロワーへ告知（外部広告なし）</li>
+  <li>1週間限定オファー、その後 $179 通常価格に</li>
+  <li>購入者向けプライベートDiscord/Slackは作らない（Substack chatで代替）</li>
+</ul>
+
+<h3>Month 4以降（8月〜）: 拡張</h3>
+<ul>
+  <li>Substack Paid化（$9/月）</li>
+  <li>2tier化（$97 Starter / $179 Pro）</li>
+  <li>カンファレンス出展・APTA関連の話題への寄稿</li>
+  <li>$199 Premium（30分コンサル付き）開発</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2 id="obstacles"><span class="num">09</span>想定される最大の障害 TOP3</h2>
+
+<h3>障害① 英語圏PTの「外国人クリエイターへの懐疑」</h3>
+<div class="callout warning">
+<div class="label">実態</div>
+<p>米国PTコミュニティはAPTA中心の閉鎖性が強く、「米国外PTがPT向け商品を売る」ことに対する潜在的バイアスがある。</p>
+</div>
+
+<p><strong>対策:</strong></p>
+<ul>
+  <li>「鹿児島の田舎クリニックで22年」というストーリーを<strong>日本ブランドの信頼として活用</strong>（医療×日本＝精密・誠実というステレオタイプを逆手に取る）</li>
+  <li>米国/英国のPTを早期に<strong>1人「Featured Customer」</strong>として取り込む</li>
+  <li>ブランド名 "Clinical Visual System" は国・職種より<strong>問題提起ベース</strong>。これは正解</li>
+</ul>
+
+<h3>障害② OpenAI公式無料サービス・大手SaaSとの価格圧力</h3>
+<div class="callout warning">
+<div class="label">実態</div>
+<p>ChatGPT for Clinicians 無料、AIスクライブ系$49-150/月、汎用プロンプト集はPWYWで実質無料。あなたの $179 は説得力が必要。</p>
+</div>
+
+<p><strong>対策:</strong></p>
+<ul>
+  <li><strong>「ノート自動化（スクライブ）ではなく、コミュニケーション自動化」</strong>と切り口を分ける</li>
+  <li>価格根拠を<strong>時間節約ではなくコミュニケーション品質向上</strong>に置く</li>
+  <li>「PTがChatGPT for Cliniciansから除外された問題」を起点に、<strong>PTの専属パッケージ</strong>として位置付け</li>
+</ul>
+
+<h3>障害③ 法的リスク（HIPAA違反トラブル・誤情報訴訟）</h3>
+<div class="callout danger">
+<div class="label">実態</div>
+<p>購入者がパブリックChatGPTにPHIを貼って情報漏洩 → 「ツールが原因」と主張されるリスク。AI生成医学情報が誤っていた場合の二次被害リスク。</p>
+</div>
+
+<p><strong>対策:</strong></p>
+<ul>
+  <li>免責文を販売ページ・商品PDF・各GPT指示文に<strong>三重実装</strong></li>
+  <li>購入時にチェックボックス必須化</li>
+  <li>ローンチ前に医療弁護士1時間レビュー（$300-500）</li>
+  <li>これを実装するまで販売開始しない</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2 id="actions"><span class="num">10</span>直近1週間でやるべき7アクション</h2>
+
+<ul class="checklist">
+  <li><strong>Day 1-2:</strong> Substack Tagline を絞り込み（"healthcare professionals" → "physical therapists, OTs, and rehab clinicians"）</li>
+  <li><strong>Day 1-2:</strong> Substack About Page を書く（自己紹介・なぜ日本のPTがこれをやるのか・誰に向けて書くか・何を提供するか）</li>
+  <li><strong>Day 2-3:</strong> 2本目の記事を公開：<em>"Why ChatGPT for Clinicians excludes PTs — and what we can build instead"</em></li>
+  <li><strong>Day 3-4:</strong> LinkedInプロフィールを英語化、Substack URL を Featured セクションに固定</li>
+  <li><strong>Day 3-7:</strong> 英語版GPT × 3 の Instruction を構築（HIPAA・FDA文脈の免責込み・"Communication, not clinical decision-making"の枠で）</li>
+  <li><strong>Day 5-6:</strong> Recommend Network候補5名へのアウトリーチDM（謙虚に・記事3本引用付きで）</li>
+  <li><strong>Day 7:</strong> Notes を毎日1-3本（ストーリー型）開始、Substack数値（購読者・記事閲覧）を記録</li>
+</ul>
+
+<div class="callout success">
+<div class="label">最初の判断基準</div>
+<p>1ヶ月後（6月10日）に <strong>Substack購読者100名</strong> に到達していれば順調。届かない場合はTaglineと記事の引きフックを見直す。</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="sources"><span class="num">11</span>調査ソース（一次情報）</h2>
+
+<h4>OpenAI / ChatGPT for Clinicians</h4>
+<ul>
+  <li><a href="https://chatgpt.com/plans/clinicians/">ChatGPT for Clinicians公式</a></li>
+  <li><a href="https://help.openai.com/en/articles/20001202-chatgpt-for-clinicians">Help Center</a></li>
+  <li><a href="https://www.fiercehealthcare.com/ai-and-machine-learning/openai-launches-chatgpt-clinicians-free-ai-tool-physicians-nps-and">FierceHealthcare解説</a></li>
+</ul>
+
+<h4>競合製品</h4>
+<ul>
+  <li><a href="https://ismailsaleem.gumroad.com/l/ChatGPT-Prompts-for-Doctors">Ismail Saleem「Prompts for Doctors」</a></li>
+  <li><a href="https://ismailsaleem.gumroad.com/l/ChatGPT-Prompts-for-Psychologist">「Prompts for Psychologists」</a></li>
+  <li><a href="https://www.aiforwork.co/role/physical-therapist">AI for Work PT Prompts</a></li>
+  <li><a href="https://julianhasse.substack.com/p/100-essential-prompts-for-doctors">Julian Hasse 100 Prompts</a></li>
+  <li><a href="https://www.physiotutors.com/membership/">Physiotutors / ChatCPG</a></li>
+</ul>
+
+<h4>医療系Substack</h4>
+<ul>
+  <li><a href="https://physicaltherapy.substack.com/">All Things #PhysicalTherapy (Larry Benz)</a></li>
+  <li><a href="https://physiotherapypost.substack.com/">Physiotherapy Post (Aditi Singh)</a></li>
+</ul>
+
+<h4>規制 / 法務</h4>
+<ul>
+  <li><a href="https://www.hipaajournal.com/when-ai-technology-and-hipaa-collide/">HIPAA & AI Compliance</a></li>
+  <li><a href="https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-software-medical-device">FDA AI in SaMD</a></li>
+  <li><a href="https://www.copyright.gov/ai/">US Copyright Office AI Policy</a></li>
+  <li><a href="https://ami.org/resources/business-practices/copyright-metadata-and-licensing/">AMI Copyright</a></li>
+</ul>
+
+<h4>Substack成長戦略</h4>
+<ul>
+  <li><a href="https://on.substack.com/p/how-publishers-are-using-notes-to-grow">How publishers use Notes to grow</a></li>
+  <li><a href="https://reletter.com/blog/substack-recommendations">Recommendations Cross-Promotion</a></li>
+  <li><a href="https://writebuildscale.substack.com/p/how-we-hit-1000-paid-subscribers">Hitting 1,000 Paid Subscribers</a></li>
+  <li><a href="https://www.onlinewritingclub.com/p/the-linkedinsubstack-strategy-no">LinkedIn-Substack Strategy</a></li>
+</ul>
+
+<footer>
+<p>このレポートは Claude (Opus 4.7) によるリサーチと統合分析で作成されました。
+データは2026年5月10日時点のもので、競合価格・販売数は変動する可能性があります。<br>
+<strong>次のアクション:</strong> Day 1-2の Tagline 改訂と About Page 作成から始めてください。</p>
+</footer>
+
+</div>
+</body>
+</html>

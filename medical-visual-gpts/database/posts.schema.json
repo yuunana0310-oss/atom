@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ThreadsPost",
+  "type": "object",
+  "required": ["id", "status", "post_type", "first_line_hook"],
+  "properties": {
+    "id": { "type": "string" },
+    "date": { "type": "string", "format": "date" },
+    "status": { "type": "string", "enum": ["idea", "draft", "scheduled", "posted", "archived"] },
+    "post_type": { "type": "string" },
+    "first_line_hook": { "type": "string" },
+    "body_text": { "type": "string" },
+    "image_required": { "type": "boolean" },
+    "image_url": { "type": "string" },
+    "related_example": { "type": "string" },
+    "cta_type": { "type": "string", "enum": ["fixed_post", "note_soft", "note_direct", "none"] },
+    "note_link_used": { "type": "boolean" },
+    "fixed_post_guide": { "type": "string" },
+    "sales_intent_level": { "type": "string", "enum": ["low", "medium", "high"] },
+    "posted_url": { "type": "string" },
+    "result_memo": { "type": "string" }
+  },
+  "additionalProperties": false
+}

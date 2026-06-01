@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "e29cfbdd2abcf941",
+        "id": "c678e849698a601f",
         "type": "tabs",
         "children": [
           {
-            "id": "18707f62f78fa3b9",
+            "id": "a059ac635a87887a",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "ideas/無題のファイル.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "無題のファイル"
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "グラフビュー"
             }
           }
         ]
@@ -53,7 +49,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "DoThreads",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -74,7 +70,8 @@
               "title": "ブックマーク"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -94,6 +91,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "投稿内容/心不全　５・２４.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +101,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "バックリンク"
+              "title": "心不全　５・２４へのバックリンク"
             }
           },
           {
@@ -181,47 +179,53 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "18707f62f78fa3b9",
+  "active": "a059ac635a87887a",
   "lastOpenFiles": [
-    "ideas/院内勉強製品０４２９.md",
-    "ideas/無題のファイル.md",
+    "無題のファイル.canvas",
+    "index.md.md.tmp.6152.311801b7c356",
+    "dothreads-ai-report-2026-05-24.md.tmp.6152.3d5cb5a1527e",
+    "投稿内容/心不全　５・２４.md.tmp.6152.f21f438fb450",
+    "ideas/当院向け 2026年度リハ診療報酬改定 役割別対策.md.tmp.6152.48024be002fb",
+    "ideas/SNS向けの対話型AIビジュアルディレクター 0513.md.tmp.6152.a7d86f1381ab",
+    "index.md.md.tmp.6152.76edc0a2abaa",
+    "index.md.md.tmp.6152.969074a53caa",
+    "rehab/index.md.tmp.6152.529a1add3f67",
+    "ideas/MOC_アイデア.md.tmp.6152.0cc895793a6e",
+    "ideas/MOC_医療ビジュアルディレクター.md.tmp.6152.b0cfa2a5536f",
+    "dothreads-ai-report-2026-05-24.md",
+    "ideas/院内勉強０５０５.md",
     "ideas/院内勉強会Ver1.md",
-    "ideas/患者説明Ver1.md",
-    "ideas/SNSver1.md",
-    "ideas/Claude CodeでAI秘書にできる10のこと.md",
-    "ideas/第2話：歩ける数値、歩けない心.md",
-    "note/💡慢性腰痛は「腰だけ」の問題ではない？.md",
-    "research_synthesis/vault/2026-04-12_膝関節：最新エビデンス論文リスト（2021–2025）【Claude検証済み】.md",
-    "research_synthesis/vault/2026-04-12_膝関節：最新エビデンス論文リスト（2021–2025）.md",
-    "papers_to_vault.py",
-    "research_synthesis/vault/2026-04-12_膝関節：最新エビデンス論文リスト.md",
-    "research_synthesis/vault/2026-04-12_股関節OA：Hall論文詳細技術ノート.md",
-    "research_synthesis/vault/2026-04-12_股関節リハビリテーション：深層統合レポート.md",
-    "research_synthesis/vault/2026-04-12_[Clinical Examination Tests for Hip-Related Pain_ .md",
-    "research_synthesis/vault/2026-04-12_[The Role of Hip Flexors in Human Walking_ A Syste.md",
-    "research_synthesis/vault/2026-04-12_[Manual Therapy Plus Exercise Versus Exercise Alon.md",
-    "research_synthesis/vault/2026-04-12_[Physiotherapist-led pain-guided progressive resis.md",
-    "research_synthesis/vault/2026-04-12_synthesis_2026-04-12_0.md",
-    "research_synthesis/inbox/_archive/test_import.md",
-    "research_synthesis/inbox/_archive",
-    "research_synthesis/vault/2026-04-12_次世代の義肢装具技術.md",
-    "research_synthesis/vault/2026-04-12_AIとリハビリの未来：2026年サマリー.md",
-    "research_synthesis/__pycache__/synthesis_rag_engine.cpython-313.pyc",
-    "research_synthesis/__pycache__",
-    "research_synthesis/inbox/test_import.md",
-    "import_research.py",
-    "research_synthesis/synthesis_rag_engine.py",
-    "research_synthesis/vault",
-    "research_synthesis/inbox",
-    "research_synthesis",
-    "1c1806b2-32de-11f1-97bb-42004e494300.png",
-    "ai_tech/system_architecture_history.md",
-    "ai_tech/setup_schedule.ps1",
-    "ai_tech/news_zenn_e1efabbc67eddf.md",
-    "ai_tech/news_zenn_claudecode-no-team-manager.md",
-    "ai_tech/news_zenn_n8n-transcription.md",
-    "3d2ab914-32dc-11f1-b342-42004e494300.png",
+    "ideas/自己分析プロンプト.md",
+    "ideas/私の目標プロンプト.md",
+    "ideas/勉強会　０５０８.md",
+    "2026-05-24.md",
+    "ChatGPT Image 2026年5月24日 13_49_34 (2).png",
+    "ChatGPT Image 2026年5月24日 13_49_37 (9).png",
+    "Pasted image 20260513183939.png",
+    "index.md.md",
     "906e8536-32de-11f1-8ff2-42004e494300.png",
-    "f1026744-32db-11f1-97bb-42004e494300.png"
+    "templates/idea_template.md",
+    "templates/rehab_template.md",
+    "ideas/無題のファイル 1.md",
+    "ideas/医療職の知識を、売れる発信に変える診断GPTを作りました.md",
+    "ideas/あなたは「医療ビジュアル添削・改善GPT」です。0511.md",
+    "ideas/SNSver1.md",
+    "ai_tech/news_zenn_4a3c4f3e140fca.md",
+    "ai_tech/news_zenn_claudecode-no-team-manager.md",
+    "ai_tech/news_zenn_geo_01_what_is_geo.md",
+    "ideas/【会話引き継ぎカード】５・２２.md",
+    "ideas/無題のファイル.md",
+    "1c1806b2-32de-11f1-97bb-42004e494300.png",
+    "rehab/reports/hip_oa_imaging_clinical_dissociation.md",
+    "rehab/papers/prohip_trial_nejm_2024.md",
+    "ai_tech/system_architecture_history.md",
+    "claude_talks/20260406_システム戦略.md",
+    "ai_tech/news_zenn_n8n-transcription.md",
+    "投稿内容/心不全　５・２４.md",
+    "ChatGPT Image 2026年5月24日 13_49_34 (1) 1.png",
+    "ChatGPT Image 2026年5月24日 13_49_35 (4).png",
+    "ChatGPT Image 2026年5月24日 13_49_34 (3).png",
+    "ChatGPT Image 2026年5月24日 13_49_36 (6).png",
+    "ChatGPT Image 2026年5月24日 13_49_35 (5).png"
   ]
 }

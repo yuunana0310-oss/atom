@@ -49,3 +49,11 @@ added: 2026-04-06
 - Framingham研究（PMID: 25103598）
 - OAI（Osteoarthritis Initiative）
 - CHECK研究
+
+---
+
+## 関連ノート
+- ハブ: [[index|リハビリINDEX]] / [[MOC_股関節OA研究]]
+- 関連条件: [[hip_oa_resistance_training]]
+- 関連レポート: [[hip_oa_imaging_clinical_dissociation]] / [[hip_oa_pt_treatment_approach]]
+- 関連論文: [[prohip_trial_nejm_2024]]

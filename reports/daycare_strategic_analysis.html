@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>短時間デイサービス 経営戦略分析レポート</title>
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --secondary: #2471a3;
+      --accent: #e67e22;
+      --success: #1a7a43;
+      --danger: #b03030;
+      --warning: #c87f0a;
+      --light: #f0f4f8;
+      --border: #ccd5de;
+      --red-bg: #fdf0f0;
+      --yellow-bg: #fefae8;
+      --green-bg: #edf7f0;
+      --blue-bg: #eaf3fb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+      font-size: 14px;
+      color: #222;
+      background: #e8edf2;
+      line-height: 1.75;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 24px 16px; }
+
+    /* HEADER */
+    .hdr {
+      background: linear-gradient(135deg, #0d2137 0%, #1a5276 50%, #2471a3 100%);
+      color: #fff;
+      padding: 36px 40px;
+      border-radius: 14px;
+      margin-bottom: 28px;
+    }
+    .hdr h1 { font-size: 21px; margin-bottom: 8px; letter-spacing: .02em; }
+    .hdr .sub { font-size: 13px; opacity: .80; }
+    .hdr .meta { margin-top: 14px; font-size: 11px; opacity: .65; }
+
+    /* CARD */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 22px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.07);
+    }
+    .card h2 {
+      font-size: 17px;
+      color: var(--primary);
+      border-left: 5px solid var(--secondary);
+      padding-left: 12px;
+      margin-bottom: 18px;
+    }
+    .card h3 {
+      font-size: 13.5px;
+      font-weight: bold;
+      color: var(--secondary);
+      margin: 20px 0 10px;
+      border-bottom: 1px dashed var(--border);
+      padding-bottom: 5px;
+    }
+
+    /* ALERT */
+    .alert {
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+    .alert strong { display: block; margin-bottom: 4px; font-size: 14px; }
+    .a-danger  { background: var(--red-bg);    border-left: 5px solid var(--danger);   color: #8b1a1a; }
+    .a-warning { background: var(--yellow-bg); border-left: 5px solid var(--warning);  color: #7a4d00; }
+    .a-success { background: var(--green-bg);  border-left: 5px solid var(--success);  color: #124f2a; }
+    .a-info    { background: var(--blue-bg);   border-left: 5px solid var(--secondary);color: #0d3a5c; }
+
+    /* TABLE */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+    th { background: var(--primary); color: #fff; padding: 9px 12px; text-align: center; font-weight: normal; font-size: 12px; }
+    td { padding: 9px 12px; border-bottom: 1px solid var(--border); text-align: center; vertical-align: top; }
+    tr:nth-child(even) td { background: #f7f9fb; }
+    .tl { text-align: left; }
+    .tr { text-align: right; }
+
+    /* COLOR ROWS */
+    .row-red    td { background: #fdf0f0 !important; color: #8b1a1a; }
+    .row-orange td { background: #fef5ec !important; color: #7a3800; }
+    .row-green  td { background: #edf7f0 !important; color: #124f2a; }
+    .row-total  td { background: var(--primary) !important; color: #fff !important; font-weight: bold; }
+    .row-profit td { background: var(--green-bg) !important; font-weight: bold; color: var(--success); }
+    .row-loss   td { background: var(--red-bg)   !important; font-weight: bold; color: var(--danger); }
+
+    /* BIG NUMBER */
+    .big-num-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin: 14px 0; }
+    .big-num {
+      border-radius: 10px;
+      padding: 18px 14px;
+      text-align: center;
+    }
+    .big-num .lbl { font-size: 11px; color: #666; margin-bottom: 6px; }
+    .big-num .val { font-size: 26px; font-weight: bold; margin-bottom: 3px; }
+    .big-num .sub { font-size: 11px; color: #888; }
+    .bn-red    { background: var(--red-bg); }
+    .bn-red .val { color: var(--danger); }
+    .bn-green  { background: var(--green-bg); }
+    .bn-green .val { color: var(--success); }
+    .bn-orange { background: #fef5ec; }
+    .bn-orange .val { color: var(--accent); }
+    .bn-blue   { background: var(--blue-bg); }
+    .bn-blue .val { color: var(--secondary); }
+
+    /* RISK MATRIX */
+    .risk-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin: 8px 0;
+    }
+    .risk-high   { background: var(--red-bg);    border-left: 4px solid var(--danger); }
+    .risk-med    { background: var(--yellow-bg);  border-left: 4px solid var(--warning); }
+    .risk-badge {
+      flex-shrink: 0;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: bold;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+    .rb-high { background: var(--danger);  color: #fff; }
+    .rb-med  { background: var(--warning); color: #fff; }
+    .risk-content strong { font-size: 13.5px; display: block; margin-bottom: 4px; }
+    .risk-content p { font-size: 12.5px; color: #444; }
+
+    /* COMPARE TABLE */
+    .compare-header { background: #0d2137; }
+    .col-daycare   { background: #fff3e6; }
+    .col-visit     { background: #e6f3ff; }
+
+    /* ACTION LIST */
+    .action-list { list-style: none; counter-reset: ac; }
+    .action-list li {
+      counter-increment: ac;
+      position: relative;
+      padding: 14px 16px 14px 56px;
+      background: var(--light);
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .action-list li::before {
+      content: counter(ac);
+      position: absolute;
+      left: 14px; top: 50%; transform: translateY(-50%);
+      width: 28px; height: 28px;
+      background: var(--secondary);
+      color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold; font-size: 13px;
+    }
+    .action-list .atag {
+      display: inline-block;
+      padding: 2px 8px; border-radius: 10px;
+      font-size: 11px; font-weight: bold; margin-right: 6px;
+    }
+    .a-immediate { background: var(--danger);  color: #fff; }
+    .a-short     { background: var(--warning); color: #fff; }
+    .a-mid       { background: var(--success); color: #fff; }
+
+    /* VERDICT BOX */
+    .verdict {
+      background: linear-gradient(135deg, #0d2137, #1a5276);
+      color: #fff;
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin: 20px 0;
+    }
+    .verdict h3 { font-size: 16px; margin-bottom: 12px; opacity: .9; }
+    .verdict ul { list-style: none; padding: 0; }
+    .verdict ul li {
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,.15);
+      font-size: 13px;
+    }
+    .verdict ul li:last-child { border-bottom: none; }
+    .verdict .mark { font-weight: bold; margin-right: 8px; }
+
+    /* FOOTER */
+    .foot { text-align: center; font-size: 11px; color: #888; padding: 20px; }
+    .note { font-size: 11.5px; color: #777; margin-top: 10px; line-height: 1.7; }
+
+    .badge {
+      display: inline-block; padding: 2px 8px;
+      border-radius: 10px; font-size: 11px; font-weight: bold;
+    }
+    .bd-r { background: var(--red-bg);    color: var(--danger); }
+    .bd-y { background: var(--yellow-bg); color: var(--warning); }
+    .bd-g { background: var(--green-bg);  color: var(--success); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <h1>📊 短時間デイサービス 経営戦略レポート Vol.2</h1>
+    <div class="sub">ドライバー雇用の是非 / PT2名体制の採算 / 入院訪問への転換比較 / 経営判断ガイド</div>
+    <div class="meta">作成日：2026年5月7日　対象：短時間型通所介護 19名体制</div>
+  </div>
+
+  <!-- ===== CHAPTER 1: 財務の現実 ===== -->
+  <div class="card">
+    <h2>🚨 第1章：現状の財務構造（最初に直視すべき数字）</h2>
+
+    <div class="alert a-danger">
+      <strong>結論から言います：19名・PT2名体制のデイサービスは、現状ほぼ確実に赤字です</strong>
+      まずこの現実を直視することが、すべての判断の出発点になります。
+    </div>
+
+    <h3>月次 収支シミュレーション（概算）</h3>
+
+    <table>
+      <tr><th colspan="3">【収入】月間介護報酬収入（基本報酬のみ・加算なし）</th></tr>
+      <tr>
+        <td class="tl">要介護1（8名）368単位×12回×8名</td>
+        <td></td>
+        <td class="tr"><strong>353,280円</strong></td>
+      </tr>
+      <tr>
+        <td class="tl">要介護2（4名）421単位×12回×4名</td>
+        <td></td>
+        <td class="tr"><strong>202,080円</strong></td>
+      </tr>
+      <tr>
+        <td class="tl">要支援1（3名）2,268単位/月×3名</td>
+        <td></td>
+        <td class="tr"><strong>68,040円</strong></td>
+      </tr>
+      <tr>
+        <td class="tl">要支援2（4名）4,538単位/月×4名</td>
+        <td></td>
+        <td class="tr"><strong>181,520円</strong></td>
+      </tr>
+      <tr class="row-total">
+        <td class="tl">収入合計</td><td></td><td class="tr">約 804,920円／月</td>
+      </tr>
+    </table>
+
+    <table style="margin-top:16px;">
+      <tr><th colspan="3">【支出】月間運営コスト（標準的な最低限体制）</th></tr>
+      <tr class="row-red">
+        <td class="tl">PT2名（月給27万×社保17%）</td>
+        <td><span class="badge bd-r">最大コスト</span></td>
+        <td class="tr"><strong>632,000円</strong></td>
+      </tr>
+      <tr>
+        <td class="tl">看護師パート（4h/日×20日×2,000円）</td>
+        <td></td>
+        <td class="tr">160,000円</td>
+      </tr>
+      <tr>
+        <td class="tl">施設賃料・管理費</td>
+        <td></td>
+        <td class="tr">150,000円</td>
+      </tr>
+      <tr>
+        <td class="tl">送迎車両費（ガソリン・保険・税・減価償却）</td>
+        <td></td>
+        <td class="tr">80,000円</td>
+      </tr>
+      <tr>
+        <td class="tl">光熱費・消耗品・通信費</td>
+        <td></td>
+        <td class="tr">50,000円</td>
+      </tr>
+      <tr>
+        <td class="tl">その他（保険・備品等）</td>
+        <td></td>
+        <td class="tr">30,000円</td>
+      </tr>
+      <tr class="row-total">
+        <td class="tl">支出合計</td><td></td><td class="tr">約 1,102,000円／月</td>
+      </tr>
+    </table>
+
+    <div class="big-num-grid" style="margin-top:20px;">
+      <div class="big-num bn-blue">
+        <div class="lbl">月収入（基本報酬）</div>
+        <div class="val">80.5万円</div>
+      </div>
+      <div class="big-num bn-red">
+        <div class="lbl">月支出（最低限体制）</div>
+        <div class="val">110.2万円</div>
+      </div>
+      <div class="big-num bn-red">
+        <div class="lbl">月間赤字（概算）</div>
+        <div class="val">▲30万円</div>
+        <div class="sub">年間▲360万円</div>
+      </div>
+      <div class="big-num bn-orange">
+        <div class="lbl">損益分岐点（必要利用者数）</div>
+        <div class="val">約28〜30名</div>
+        <div class="sub">現在比+9〜11名</div>
+      </div>
+    </div>
+
+    <div class="alert a-warning">
+      <strong>📌 損益分岐点は現在の1.5倍（約28〜30名）</strong>
+      PT2名体制でデイサービスを黒字化するには、最低でも28〜30名の安定利用が必要です。
+      現在の19名から約10名増やさないと、どんなに加算を取っても赤字が続きます。
+      「利用者を増やしたくない」のであれば、事業モデル自体の見直しが必要です。
+    </div>
+
+    <p class="note">
+      ※ 月12回利用（週3回×4週）と仮定。利用頻度が低ければさらに収入が減ります。<br>
+      ※ 管理者が兼任の場合はコスト若干低減。生活相談員が別途いる場合は+20〜25万円の追加コスト。<br>
+      ※ 送迎スタッフが別途いる場合はさらに+15〜20万円/月のコスト増。
+    </p>
+  </div>
+
+  <!-- ===== CHAPTER 2: アルバイトドライバー ===== -->
+  <div class="card">
+    <h2>🚗 第2章：アルバイトドライバー雇用の是非</h2>
+
+    <h3>費用対効果の試算</h3>
+
+    <table>
+      <tr><th>項目</th><th>金額</th><th>備考</th></tr>
+      <tr>
+        <td class="tl">ドライバーアルバイト費用</td>
+        <td>96,000〜120,000円/月</td>
+        <td>1,200円×4h×20日〜1,500円×4h×20日</td>
+      </tr>
+      <tr>
+        <td class="tl">雇用保険・社会保険（週20h超の場合）</td>
+        <td>+10,000〜15,000円/月</td>
+        <td>週20時間以上で加入義務</td>
+      </tr>
+      <tr class="row-red">
+        <td class="tl">実質コスト</td>
+        <td><strong>106,000〜135,000円/月</strong></td>
+        <td>年間127〜162万円</td>
+      </tr>
+      <tr>
+        <td class="tl">送迎減算回避（18名）による収益</td>
+        <td>約338,000円/月</td>
+        <td>940円×18名×20日（既存の効果）</td>
+      </tr>
+      <tr class="row-orange">
+        <td class="tl">ドライバー雇用で「解放される」PT時間</td>
+        <td colspan="2">→ PT業務（個別機能訓練等）に充てれば収益増の可能性あり</td>
+      </tr>
+    </table>
+
+    <div class="alert a-danger">
+      <strong>⚠️ 前提を確認：現在誰が送迎をしていますか？</strong>
+      もしPTが送迎を兼務しているなら、アルバイトを雇ってPTを現場に戻す「価値」はあります。
+      しかし、そもそもデイ事業が赤字なら、ドライバー人件費を追加することは赤字をさらに深掘りします。
+    </div>
+
+    <h3>判断マトリクス</h3>
+
+    <table>
+      <tr><th>状況</th><th>アルバイト雇用</th><th>理由</th></tr>
+      <tr class="row-red">
+        <td class="tl">PTが送迎兼務しており、施設内業務が逼迫している</td>
+        <td><strong>条件付き可</strong></td>
+        <td class="tl">PT業務に集中させる価値がある。ただし全体赤字は改善しない。</td>
+      </tr>
+      <tr class="row-red">
+        <td class="tl">送迎スタッフが完全にいない（送迎できない状態）</td>
+        <td><strong>要検討</strong></td>
+        <td class="tl">送迎なしだと利用者が来れず収入ゼロのリスク。ただし採算を慎重に計算すること。</td>
+      </tr>
+      <tr class="row-orange">
+        <td class="tl">利用者30名以上に増やす計画がある</td>
+        <td><strong>可</strong></td>
+        <td class="tl">規模拡大前提なら先行投資として意味あり。</td>
+      </tr>
+      <tr class="row-green">
+        <td class="tl">利用者を増やさず現状維持または縮小の方針</td>
+        <td><strong>雇用しない</strong></td>
+        <td class="tl">コストを増やしても収入が増えない。現状の損失を拡大するだけ。</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ===== CHAPTER 3: 介護未経験ドライバーのリスク ===== -->
+  <div class="card">
+    <h2>⚡ 第3章：介護未経験者による送迎の危険性</h2>
+
+    <div class="alert a-danger">
+      <strong>🚨 介護未経験ドライバーは「単なるドライバー」ではない</strong>
+      通所介護の送迎は、医療的判断・移乗介助・緊急対応が求められる専門業務です。
+      「運転できる人」を雇えばいいわけではなく、最悪の場合は死亡事故・訴訟につながります。
+    </div>
+
+    <h3>リスク一覧（重大度順）</h3>
+
+    <div class="risk-item risk-high">
+      <span class="risk-badge rb-high">最重大</span>
+      <div class="risk-content">
+        <strong>🔴 車内急変への対応不能</strong>
+        <p>要介護者は送迎中に心停止・誤嚥・てんかん発作を起こすことがあります。介護未経験者は一次救命処置（BLS）や誤嚥時の対応を知らず、発見が遅れると死亡事故に直結します。事業所は安全配慮義務違反として訴訟リスクを負います。</p>
+      </div>
+    </div>
+
+    <div class="risk-item risk-high">
+      <span class="risk-badge rb-high">最重大</span>
+      <div class="risk-content">
+        <strong>🔴 乗降時の転倒・転落事故</strong>
+        <p>要介護者の乗降は最も事故が多い場面です。移乗介助の技術なしに行うと、骨折・頭部外傷・脊髄損傷を引き起こします。特に要介護1・2でも認知機能低下がある場合は予測不能な動きをします。介護事故報告義務があり、市区町村への届出が必要です。</p>
+      </div>
+    </div>
+
+    <div class="risk-item risk-high">
+      <span class="risk-badge rb-high">重大</span>
+      <div class="risk-content">
+        <strong>🔴 認知症利用者の車内問題行動</strong>
+        <p>認知症の方が車内で立ち上がろうとする・ドアを開けようとする・暴言・パニックを起こすことがあります。走行中に対応できずに交通事故が発生した事例が全国で報告されています。対応方法を知らないドライバーは適切な制止ができません。</p>
+      </div>
+    </div>
+
+    <div class="risk-item risk-high">
+      <span class="risk-badge rb-high">重大</span>
+      <div class="risk-content">
+        <strong>🔴 乗車確認ミスによる車内放置</strong>
+        <p>施設到着後に利用者が降車できていない・車内に閉じ込められる事故は全国で死亡事例があります。未経験者は「最後に車内確認をする」習慣が徹底されていません。夏季は10分以内に熱中症が致命的レベルに達します。</p>
+      </div>
+    </div>
+
+    <div class="risk-item risk-med">
+      <span class="risk-badge rb-med">中程度</span>
+      <div class="risk-content">
+        <strong>🟡 医療的配慮が必要な利用者への誤対応</strong>
+        <p>酸素療法利用者のチューブ確認、インスリン使用者の体調変化サイン、ペースメーカー保有者への対応など、要介護者には医療的背景があります。「顔色が悪い」「いつもと違う」と気づけるのは、ある程度の介護知識があってこそです。</p>
+      </div>
+    </div>
+
+    <div class="risk-item risk-med">
+      <span class="risk-badge rb-med">中程度</span>
+      <div class="risk-content">
+        <strong>🟡 個人情報・プライバシー管理の問題</strong>
+        <p>送迎中は利用者の自宅・家族構成・健康状態を知り得る立場になります。未経験アルバイトへの守秘義務教育が不十分だと、SNSへの投稿・近隣への漏洩などのリスクが生じます。これは介護保険法・個人情報保護法の違反になり得ます。</p>
+      </div>
+    </div>
+
+    <div class="risk-item risk-med">
+      <span class="risk-badge rb-med">中程度</span>
+      <div class="risk-content">
+        <strong>🟡 交通事故時の保険・法的責任</strong>
+        <p>事故時は事業者としての賠償責任が問われます。ドライバーが無資格（二種免許不要ではあるが）や研修未受講だった場合、保険会社から支払い拒否される可能性や、行政指導・事業停止処分につながるケースもあります。</p>
+      </div>
+    </div>
+
+    <h3>未経験者を雇う場合の最低限の対策（それでも推奨はしない）</h3>
+
+    <table>
+      <tr><th>対策</th><th>内容</th><th>コスト</th></tr>
+      <tr><td class="tl">BLS（一次救命処置）研修</td><td class="tl">AED使用・CPR・誤嚥対応</td><td>5,000〜15,000円/回</td></tr>
+      <tr><td class="tl">移乗介助の基礎研修</td><td class="tl">乗降時の体位保持・支持方法</td><td>施設内研修（1〜2時間）</td></tr>
+      <tr><td class="tl">送迎同行研修</td><td class="tl">既存スタッフとの同乗期間（最低1週間）</td><td>人件費二重発生</td></tr>
+      <tr><td class="tl">マニュアル整備</td><td class="tl">利用者別対応シート・緊急連絡先・乗降手順書</td><td>作成コスト（PT監修必要）</td></tr>
+      <tr><td class="tl">自動車保険の確認</td><td class="tl">業務使用特約・対人賠償の上限確認</td><td>保険料増加の可能性</td></tr>
+    </table>
+
+    <div class="alert a-warning">
+      <strong>💡 もし雇用するなら「介護職員初任者研修修了者以上」を条件にすること</strong>
+      130時間の研修修了者でも、移乗・緊急対応の基礎は身についています。
+      全くの未経験者より事故リスクが大幅に低下します。多少時給が上がっても安全コストとして払う価値があります。
+    </div>
+  </div>
+
+  <!-- ===== CHAPTER 4: PT2名体制の採算 ===== -->
+  <div class="card">
+    <h2>🏥 第4章：PT2名体制は本当に利益になっているか？</h2>
+
+    <h3>PT2名が「稼げる」時間の分析</h3>
+
+    <table>
+      <tr><th>業務</th><th>1日の時間</th><th>収益性</th><th>備考</th></tr>
+      <tr class="row-green">
+        <td class="tl">個別機能訓練（直接介入）</td>
+        <td>3〜4時間</td>
+        <td>高い</td>
+        <td class="tl">個別機能訓練加算Ⅱ 56単位/回 ← 取れているか？</td>
+      </tr>
+      <tr>
+        <td class="tl">グループ体操・集団訓練</td>
+        <td>1〜2時間</td>
+        <td>中程度</td>
+        <td class="tl">1人対多数なのでPT時間効率は良い</td>
+      </tr>
+      <tr class="row-red">
+        <td class="tl">送迎（運転）</td>
+        <td>1〜2時間/往復</td>
+        <td>ゼロ</td>
+        <td class="tl">PTが運転している間は介護報酬が発生しない</td>
+      </tr>
+      <tr class="row-red">
+        <td class="tl">記録・計画書作成</td>
+        <td>0.5〜1時間</td>
+        <td>ゼロ</td>
+        <td class="tl">必要だが収益を生まない</td>
+      </tr>
+      <tr class="row-red">
+        <td class="tl">担当者会議（出席・準備）</td>
+        <td>月平均2〜4時間</td>
+        <td>ゼロ〜マイナス</td>
+        <td class="tl">詳細は第5章参照</td>
+      </tr>
+      <tr class="row-red">
+        <td class="tl">利用者の迎え入れ・送り出し</td>
+        <td>1〜1.5時間</td>
+        <td>低い</td>
+        <td class="tl">介護職員に任せられる時間帯</td>
+      </tr>
+    </table>
+
+    <div class="alert a-danger">
+      <strong>⚠️ 1日のうち「PTでなくてもできる仕事」に何時間使っていますか？</strong>
+      PTが送迎・迎え入れ・記録のみに2〜3時間取られているなら、その時間は「PT単価（専門職の時間価値）」を無駄にしています。
+      PT1名 = 月63.2万円（人件費）÷ 20日 ÷ 8h ＝ 約 3,950円/時間 のコストがかかっています。
+    </div>
+
+    <h3>個別機能訓練加算の取得確認（未取得なら今すぐ申請）</h3>
+
+    <table>
+      <tr><th>加算名</th><th>単位</th><th>条件</th><th>月額試算（19名）</th></tr>
+      <tr>
+        <td class="tl">個別機能訓練加算Ⅰイ</td>
+        <td>56単位/日</td>
+        <td class="tl">機能訓練指導員（PT等）が個別に計画・実施</td>
+        <td>56×12回×19名×10円 = <strong>127,680円</strong></td>
+      </tr>
+      <tr>
+        <td class="tl">個別機能訓練加算Ⅰロ</td>
+        <td>85単位/日</td>
+        <td class="tl">Ⅰイ＋利用者の居宅訪問を実施</td>
+        <td>85×12回×19名×10円 = <strong>193,800円</strong></td>
+      </tr>
+      <tr>
+        <td class="tl">個別機能訓練加算Ⅱ</td>
+        <td>20単位/月</td>
+        <td class="tl">LIFE入力との連携</td>
+        <td>20×19名×10円 = <strong>3,800円</strong></td>
+      </tr>
+    </table>
+
+    <div class="alert a-success">
+      <strong>✅ PTが2名いるからこそ取れる加算がある</strong>
+      個別機能訓練加算Ⅰイを全員に適用できれば、月+12.8万円の収入増。
+      PTが2名いることの最大の活用法は、この加算をしっかり取ることです。
+      もし取れていないなら、PT2名体制の意味が薄れます。
+    </div>
+
+    <h3>PT2名体制の継続・縮小の判断基準</h3>
+
+    <table>
+      <tr><th>条件</th><th>判断</th></tr>
+      <tr class="row-red">
+        <td class="tl">利用者19名のまま拡大予定なし + 個別訓練加算未取得</td>
+        <td><strong>PT1名 + 機能訓練指導員（柔整師等）に縮小を検討</strong></td>
+      </tr>
+      <tr class="row-orange">
+        <td class="tl">利用者19名のまま + 個別訓練加算を全員取得</td>
+        <td><strong>PT2名の費用は一部正当化。ただし黒字化には不十分</strong></td>
+      </tr>
+      <tr class="row-green">
+        <td class="tl">利用者30名以上に拡大できる見通しあり</td>
+        <td><strong>PT2名体制を維持。拡大に向けて注力する</strong></td>
+      </tr>
+      <tr class="row-green">
+        <td class="tl">入院訪問・訪問リハへの転換も視野に入れる</td>
+        <td><strong>PT2名を訪問系に転換する方が収益性が大幅に改善する</strong></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ===== CHAPTER 5: 担当者会議のコスト ===== -->
+  <div class="card">
+    <h2>📋 第5章：担当者会議の時間コスト（見えない損失）</h2>
+
+    <h3>担当者会議の発生頻度</h3>
+
+    <table>
+      <tr><th>ケース</th><th>発生頻度</th><th>1回の所要時間</th></tr>
+      <tr><td class="tl">定期見直し（6ヶ月ごと）</td><td>2回/年/人</td><td>1〜2時間（移動込み）</td></tr>
+      <tr><td class="tl">状態変化・入退院時</td><td>随時（年1〜3回/人）</td><td>1〜1.5時間</td></tr>
+      <tr><td class="tl">新規利用開始時</td><td>1回/人（入所時）</td><td>2〜3時間</td></tr>
+      <tr><td class="tl">サービス担当者会議（書面照会を除く）</td><td>実態として年2〜4回/人</td><td>1〜3時間</td></tr>
+    </table>
+
+    <h3>19名での年間コスト試算</h3>
+
+    <table>
+      <tr><th>項目</th><th>年間回数</th><th>時間コスト</th><th>金額換算（PT時給3,950円）</th></tr>
+      <tr>
+        <td class="tl">定期担当者会議</td>
+        <td>19名×2回＝38回</td>
+        <td>76時間</td>
+        <td>300,200円</td>
+      </tr>
+      <tr>
+        <td class="tl">変化時の随時会議</td>
+        <td>年約20〜30回</td>
+        <td>30〜45時間</td>
+        <td>118,500〜177,750円</td>
+      </tr>
+      <tr>
+        <td class="tl">会議前準備・書類作成</td>
+        <td>全会議の準備</td>
+        <td>30〜50時間</td>
+        <td>118,500〜197,500円</td>
+      </tr>
+      <tr class="row-loss">
+        <td class="tl"><strong>合計（年間機会コスト）</strong></td>
+        <td>年58〜78回</td>
+        <td>136〜171時間</td>
+        <td><strong>約54〜68万円／年</strong></td>
+      </tr>
+    </table>
+
+    <div class="alert a-warning">
+      <strong>⚠️ 年間50〜70万円分の「収益を生まない業務」が発生している</strong>
+      訪問リハビリテーションでも担当者会議への参加義務はありますが、1利用者あたりの件数・移動時間が相対的に少なく管理しやすい場合があります。
+      デイサービスは「多数の利用者を短時間で回す」モデルのため、会議コストが積み上がりやすい構造です。
+    </div>
+  </div>
+
+  <!-- ===== CHAPTER 6: 入院・訪問との比較 ===== -->
+  <div class="card">
+    <h2>🔄 第6章：デイサービス継続 vs 入院・訪問リハへの転換</h2>
+
+    <div class="alert a-info">
+      <strong>💡 「入院回った方がいい」という直感は正しい可能性があります</strong>
+      数字で比較します。
+    </div>
+
+    <h3>収益モデル比較（PT2名・フル稼働ベース）</h3>
+
+    <table>
+      <tr>
+        <th class="compare-header">比較項目</th>
+        <th class="col-daycare">現状：短時間デイサービス</th>
+        <th class="col-visit">代替案：訪問リハビリテーション</th>
+      </tr>
+      <tr>
+        <td class="tl">基本報酬（PT1名・1日）</td>
+        <td class="col-daycare">368〜421単位×6〜8名 = 約 25,000円</td>
+        <td class="col-visit">307単位×8件 = 約 24,560円</td>
+      </tr>
+      <tr>
+        <td class="tl">PT2名・月収入（20日）</td>
+        <td class="col-daycare">約 <strong>80.5万円</strong>（基本報酬のみ）</td>
+        <td class="col-visit">約 <strong>98.2万円</strong></td>
+      </tr>
+      <tr>
+        <td class="tl">施設費</td>
+        <td class="col-daycare">月 10〜20万円（必須）</td>
+        <td class="col-visit">月 2〜5万円（事務所のみ）</td>
+      </tr>
+      <tr>
+        <td class="tl">送迎コスト</td>
+        <td class="col-daycare">月 6〜10万円</td>
+        <td class="col-visit">移動費（経費計上可）</td>
+      </tr>
+      <tr>
+        <td class="tl">看護師配置</td>
+        <td class="col-daycare">必須（月 16万円〜）</td>
+        <td class="col-visit">訪問看護ステーション併設の場合は共有可</td>
+      </tr>
+      <tr>
+        <td class="tl">担当者会議コスト</td>
+        <td class="col-daycare">年間 54〜68万円（機会コスト）</td>
+        <td class="col-visit">年間 25〜40万円（件数は多いが移動効率化可）</td>
+      </tr>
+      <tr>
+        <td class="tl">設備投資・維持</td>
+        <td class="col-daycare">高（器具・備品・車両）</td>
+        <td class="col-visit">低（PT1名あたり軽自動車1台）</td>
+      </tr>
+      <tr>
+        <td class="tl">利用者増加の柔軟性</td>
+        <td class="col-daycare">施設容量に制限あり</td>
+        <td class="col-visit">PTを増員するだけでスケール可</td>
+      </tr>
+      <tr class="row-profit">
+        <td class="tl"><strong>概算 月間利益（PT人件費除く）</strong></td>
+        <td><strong>▲ 30万円（赤字）</strong></td>
+        <td><strong>+ 10〜20万円（黒字）</strong></td>
+      </tr>
+    </table>
+
+    <div class="alert a-warning">
+      <strong>⚠️ 訪問リハ転換の注意点</strong>
+      ① 訪問リハは医師の指示書が必須（病院・クリニックとの連携体制が必要）<br>
+      ② 訪問リハビリテーション事業所の指定申請が必要（デイと別許可）<br>
+      ③ 移動時間が多くなり、1日の件数に限界がある（8件程度）<br>
+      ④ 医療保険の訪問リハ（退院後1〜3ヶ月）と介護保険の訪問リハを使い分ける必要あり
+    </div>
+
+    <h3>現実的な移行シナリオ</h3>
+
+    <table>
+      <tr><th>シナリオ</th><th>内容</th><th>メリット</th><th>デメリット</th></tr>
+      <tr>
+        <td class="tl"><strong>A: 完全転換</strong></td>
+        <td class="tl">デイを閉鎖し訪問リハ事業所へ転換</td>
+        <td class="tl">固定費削減・収益改善</td>
+        <td class="tl">既存利用者への影響・許可申請の時間</td>
+      </tr>
+      <tr>
+        <td class="tl"><strong>B: 縮小＋訪問併設</strong></td>
+        <td class="tl">デイ定員を10名に絞り、PT1名を訪問に専念</td>
+        <td class="tl">リスク分散・収益改善</td>
+        <td class="tl">管理が複雑、当面の赤字継続</td>
+      </tr>
+      <tr>
+        <td class="tl"><strong>C: デイ拡大</strong></td>
+        <td class="tl">利用者を30名以上に増やして黒字化</td>
+        <td class="tl">現体制を活かせる</td>
+        <td class="tl">集客が必要・PT不足・送迎コスト増</td>
+      </tr>
+      <tr class="row-orange">
+        <td class="tl"><strong>D: 現状維持</strong></td>
+        <td class="tl">19名のまま何もしない</td>
+        <td class="tl">なし</td>
+        <td class="tl">年間▲360万円の赤字継続</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ===== 総合判断 ===== -->
+  <div class="card">
+    <h2>🎯 第7章：経営アドバイザーとしての総合判断</h2>
+
+    <div class="verdict">
+      <h3>📌 結論サマリー</h3>
+      <ul>
+        <li><span class="mark">①</span>アルバイトドライバーの雇用：<strong>利用者拡大しないなら「雇わない」が正解。赤字を深掘りするだけ。</strong></li>
+        <li><span class="mark">②</span>介護未経験者の送迎：<strong>最低限「初任者研修修了者」を条件に。全くの未経験はリスクが高すぎる。</strong></li>
+        <li><span class="mark">③</span>PT2名体制：<strong>19名規模では割高。個別機能訓練加算を全員取得しないなら1名に縮小を検討。</strong></li>
+        <li><span class="mark">④</span>担当者会議の時間コスト：<strong>年間50〜70万円の機会損失。「書面照会」活用で削減可能。</strong></li>
+        <li><span class="mark">⑤</span>入院・訪問リハへの転換：<strong>財務的には最も合理的。PT1名を訪問専任にするハイブリッドが現実的な第一歩。</strong></li>
+      </ul>
+    </div>
+
+    <h3>優先順位付きアクションプラン</h3>
+
+    <ul class="action-list">
+      <li>
+        <span class="atag a-immediate">今すぐ</span>
+        <strong>個別機能訓練加算Ⅰイの申請・全員適用</strong><br>
+        PT2名がいれば即日取れる可能性がある加算。月+12.8万円の収入増。計画書フォーマットを整備して来月から申請する。
+      </li>
+      <li>
+        <span class="atag a-immediate">今すぐ</span>
+        <strong>LIFE登録と科学的介護推進体制加算の申請</strong><br>
+        月+7,600円（保守的）〜11,400円。今月中に登録開始。
+      </li>
+      <li>
+        <span class="atag a-short">1ヶ月以内</span>
+        <strong>担当者会議の「書面照会」切り替え可能なケースを整理</strong><br>
+        状態安定利用者は書面照会に切り替えることで年間20〜30時間を節約可能。ケアマネに相談。
+      </li>
+      <li>
+        <span class="atag a-short">3ヶ月以内</span>
+        <strong>訪問リハビリテーション事業所指定の可能性調査</strong><br>
+        所轄の市区町村介護保険担当窓口に事業所指定の要件を確認。連携できる医師・病院のリストアップ。
+      </li>
+      <li>
+        <span class="atag a-mid">6ヶ月以内</span>
+        <strong>PT1名を訪問リハ専任とするハイブリッド体制への移行検討</strong><br>
+        デイを10〜12名に縮小 + PT1名が訪問リハへ。月間収支を改善しながらリスク分散。
+      </li>
+      <li>
+        <span class="atag a-mid">状況次第</span>
+        <strong>デイサービス利用者30名以上への拡大 or 廃止の2択を決断</strong><br>
+        中途半端な19名規模を続けることが最もリスクが高い。「増やして黒字化」か「転換して再構築」か、どちらかに舵を切る。
+      </li>
+    </ul>
+
+    <div class="alert a-info" style="margin-top:20px;">
+      <strong>💡 専門家への相談を推奨</strong>
+      介護事業の経営判断は、地域性・競合状況・利用者層によって大きく異なります。
+      介護事業専門の社会保険労務士・中小企業診断士・地域包括支援センターへの相談も並行して進めることをお勧めします。
+      国民健康保険団体連合会（国保連）のデータ提出や加算申請については、事業所の担当窓口に確認してください。
+    </div>
+  </div>
+
+  <div class="foot">
+    <p>📊 短時間デイサービス 経営戦略レポート Vol.2 | 作成：経営アドバイザー | 2026年5月7日</p>
+    <p style="margin-top:6px;">本レポートは概算計算に基づく参考資料です。実際の経営判断には専門家の確認を推奨します。</p>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>短時間デイサービス 送迎採算分析レポート</title>
+  <style>
+    :root {
+      --primary: #1a5276;
+      --secondary: #2e86c1;
+      --accent: #e67e22;
+      --success: #1e8449;
+      --danger: #c0392b;
+      --warning: #f39c12;
+      --light-bg: #f4f6f9;
+      --border: #d5d8dc;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+      font-size: 14px;
+      color: #2c3e50;
+      background: #ecf0f1;
+      line-height: 1.7;
+    }
+
+    .wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    /* ============ HEADER ============ */
+    .report-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: #fff;
+      padding: 36px 40px;
+      border-radius: 12px;
+      margin-bottom: 28px;
+    }
+    .report-header h1 { font-size: 22px; margin-bottom: 8px; }
+    .report-header .subtitle { font-size: 13px; opacity: 0.85; }
+    .report-header .meta { margin-top: 16px; font-size: 12px; opacity: 0.75; }
+
+    /* ============ CARDS ============ */
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.07);
+    }
+    .card h2 {
+      font-size: 17px;
+      color: var(--primary);
+      border-left: 4px solid var(--secondary);
+      padding-left: 12px;
+      margin-bottom: 18px;
+    }
+    .card h3 {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--secondary);
+      margin: 18px 0 10px;
+    }
+
+    /* ============ SUMMARY BOX ============ */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .summary-item {
+      background: var(--light-bg);
+      border-radius: 8px;
+      padding: 16px 18px;
+      text-align: center;
+    }
+    .summary-item .label { font-size: 11px; color: #7f8c8d; margin-bottom: 6px; }
+    .summary-item .value { font-size: 22px; font-weight: bold; color: var(--primary); }
+    .summary-item .unit { font-size: 11px; color: #7f8c8d; }
+
+    /* ============ ALERT ============ */
+    .alert {
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+    .alert-danger { background: #fdecea; border-left: 4px solid var(--danger); color: #922b21; }
+    .alert-warning { background: #fef9e7; border-left: 4px solid var(--warning); color: #784212; }
+    .alert-success { background: #eafaf1; border-left: 4px solid var(--success); color: #1e8449; }
+    .alert-info { background: #eaf4fb; border-left: 4px solid var(--secondary); color: #1a5276; }
+    .alert strong { display: block; margin-bottom: 4px; }
+
+    /* ============ TABLE ============ */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: 14px 0;
+    }
+    th {
+      background: var(--primary);
+      color: #fff;
+      padding: 10px 12px;
+      text-align: center;
+      font-weight: normal;
+    }
+    td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    tr:nth-child(even) td { background: #f8f9fa; }
+    .td-left { text-align: left; }
+
+    .profit-high { background: #d5f5e3 !important; color: #1e8449; font-weight: bold; }
+    .profit-mid  { background: #fdfefe !important; color: #239b56; }
+    .profit-low  { background: #fef9e7 !important; color: #b7770d; }
+    .breakeven   { background: #fff3cd !important; color: #7d6608; font-weight: bold; border: 2px solid var(--warning); }
+    .loss-low    { background: #fdecea !important; color: var(--danger); }
+    .loss-high   { background: #f9ebea !important; color: #922b21; font-weight: bold; }
+
+    /* ============ COST BAR CHART ============ */
+    .bar-row { display: flex; align-items: center; margin: 6px 0; gap: 10px; }
+    .bar-label { width: 110px; font-size: 12px; text-align: right; flex-shrink: 0; }
+    .bar-outer { flex: 1; background: #eee; border-radius: 4px; height: 22px; }
+    .bar-inner { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; color: #fff; font-weight: bold; }
+    .bar-value { width: 70px; font-size: 12px; font-weight: bold; }
+
+    /* ============ BREAKEVEN VISUAL ============ */
+    .breakeven-visual {
+      position: relative;
+      background: linear-gradient(90deg, #d5f5e3 0%, #d5f5e3 55%, #fff3cd 55%, #fff3cd 60%, #fdecea 60%, #fdecea 100%);
+      border-radius: 8px;
+      height: 52px;
+      margin: 18px 0;
+      display: flex;
+      align-items: center;
+    }
+    .bv-label {
+      position: absolute;
+      font-size: 11px;
+      font-weight: bold;
+    }
+    .bv-green { left: 5%; color: var(--success); }
+    .bv-yellow { left: 52%; color: #7d6608; }
+    .bv-red { right: 5%; color: var(--danger); }
+    .bv-line {
+      position: absolute;
+      left: 55%;
+      height: 100%;
+      width: 3px;
+      background: var(--warning);
+    }
+    .bv-arrow {
+      position: absolute;
+      left: calc(55% + 6px);
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--warning);
+      color: #fff;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 3px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    /* ============ RECOMMENDATION ============ */
+    .rec-list { list-style: none; counter-reset: rec-counter; }
+    .rec-list li {
+      counter-increment: rec-counter;
+      padding: 12px 16px;
+      background: var(--light-bg);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      padding-left: 52px;
+      position: relative;
+    }
+    .rec-list li::before {
+      content: counter(rec-counter);
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 26px;
+      height: 26px;
+      background: var(--secondary);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .rec-list li strong { color: var(--primary); }
+
+    /* ============ BADGE ============ */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+    .badge-danger { background: #fdecea; color: var(--danger); }
+    .badge-warning { background: #fef9e7; color: #7d6608; }
+    .badge-success { background: #eafaf1; color: var(--success); }
+
+    /* ============ FOOTER ============ */
+    .report-footer {
+      text-align: center;
+      font-size: 11px;
+      color: #7f8c8d;
+      padding: 20px;
+    }
+    .note-text { font-size: 11px; color: #7f8c8d; margin-top: 12px; line-height: 1.6; }
+
+    .highlight-box {
+      background: linear-gradient(135deg, #1a5276, #2e86c1);
+      color: #fff;
+      border-radius: 10px;
+      padding: 20px 24px;
+      text-align: center;
+      margin: 18px 0;
+    }
+    .highlight-box .big { font-size: 34px; font-weight: bold; margin: 8px 0; }
+    .highlight-box .caption { font-size: 12px; opacity: 0.85; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- ===== HEADER ===== -->
+  <div class="report-header">
+    <h1>📊 短時間デイサービス 送迎採算分析レポート</h1>
+    <div class="subtitle">経営アドバイザー視点｜送迎距離と収益性の関係・LIFE加算機会損失分析</div>
+    <div class="meta">作成日：2026年5月7日　対象：短時間型通所介護（デイサービス）</div>
+  </div>
+
+  <!-- ===== EXECUTIVE SUMMARY ===== -->
+  <div class="card">
+    <h2>🔑 エグゼクティブサマリー</h2>
+
+    <div class="summary-grid">
+      <div class="summary-item">
+        <div class="label">総利用者数</div>
+        <div class="value">19<span class="unit">名</span></div>
+      </div>
+      <div class="summary-item">
+        <div class="label">送迎あり</div>
+        <div class="value">18<span class="unit">名</span></div>
+      </div>
+      <div class="summary-item">
+        <div class="label">送迎なし</div>
+        <div class="value">1<span class="unit">名</span></div>
+      </div>
+      <div class="summary-item">
+        <div class="label">送迎採算ライン（目安）</div>
+        <div class="value" style="color:var(--warning)">〜15<span class="unit">km</span></div>
+        <div class="unit">片道・推奨上限</div>
+      </div>
+      <div class="summary-item">
+        <div class="label">LIFE加算未取得の年間機会損失</div>
+        <div class="value" style="color:var(--danger)">〜42<span class="unit">万円</span></div>
+        <div class="unit">推定値</div>
+      </div>
+    </div>
+
+    <div class="alert alert-danger">
+      <strong>⚠️ 最重要：LIFE等加算をほぼ取っていないことが最大のリスク</strong>
+      本施設は送迎問題より先に、取れていない加算の取得が優先度最高です。年間約30〜42万円の機会損失が発生しています。加算を取得すれば送迎コストの許容ラインも広がります。
+    </div>
+
+    <div class="alert alert-warning">
+      <strong>📍 送迎距離の目安</strong>
+      現状の加算体制（LIFEなし）では、送迎単体での採算ラインは片道 <strong>約15〜18km</strong> が上限目安です。
+      それを超える場合は、ルート設計の見直し・加算取得・送迎費の実費徴収などの対策が必要です。
+    </div>
+  </div>
+
+  <!-- ===== 施設概要 ===== -->
+  <div class="card">
+    <h2>🏥 施設概要と利用者内訳</h2>
+
+    <table>
+      <colgroup><col style="width:30%"><col style="width:20%"><col style="width:25%"><col style="width:25%"></colgroup>
+      <tr>
+        <th>区分</th><th>人数</th><th>介護報酬（基本・1回）</th><th>月額概算（月12回）</th>
+      </tr>
+      <tr>
+        <td class="td-left">要支援１（総合事業）</td><td>3名</td><td>月額 2,268単位</td><td>約22,680円/名</td>
+      </tr>
+      <tr>
+        <td class="td-left">要支援２（総合事業）</td><td>4名</td><td>月額 4,538単位</td><td>約45,380円/名</td>
+      </tr>
+      <tr>
+        <td class="td-left">要介護１</td><td>8名</td><td>368単位/回</td><td>約44,160円/名</td>
+      </tr>
+      <tr>
+        <td class="td-left">要介護２</td><td>4名</td><td>421単位/回</td><td>約50,520円/名</td>
+      </tr>
+      <tr style="background:#eaf4fb; font-weight:bold;">
+        <td class="td-left">合計</td><td>19名</td><td>—</td><td>月約 <strong>677,340円</strong></td>
+      </tr>
+    </table>
+
+    <p class="note-text">
+      ※ 1単位＝10円で計算（地域加算なし・標準地域）。要支援は総合事業のため自治体により異なります。<br>
+      ※ 短時間型（1時間以上2時間未満）の基本報酬を使用。デイケア（通所リハ）の場合は要介護1：329単位など若干異なります。<br>
+      ※ 月12回利用と仮定（週3回×4週）。実際の利用頻度に応じて調整してください。
+    </p>
+  </div>
+
+  <!-- ===== 送迎コスト構造 ===== -->
+  <div class="card">
+    <h2>🚐 送迎コストの構造</h2>
+
+    <h3>コスト構成（1台・1km走行あたり）</h3>
+
+    <div class="bar-row">
+      <div class="bar-label">人件費（最大）</div>
+      <div class="bar-outer"><div class="bar-inner" style="width:67%; background:#c0392b;">52円/km</div></div>
+      <div class="bar-value" style="color:#c0392b;">52円</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">ガソリン代</div>
+      <div class="bar-outer"><div class="bar-inner" style="width:14%; background:#e67e22;">11円/km</div></div>
+      <div class="bar-value" style="color:#e67e22;">11円</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">車両維持費</div>
+      <div class="bar-outer"><div class="bar-inner" style="width:19%; background:#7f8c8d;">15円/km</div></div>
+      <div class="bar-value" style="color:#7f8c8d;">15円</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label" style="font-weight:bold;">合計（1台）</div>
+      <div class="bar-outer"><div class="bar-inner" style="width:100%; background:#1a5276;">78円/km</div></div>
+      <div class="bar-value" style="color:#1a5276; font-weight:bold;">78円</div>
+    </div>
+
+    <p class="note-text" style="margin-top:12px;">
+      ※ 人件費：時給1,300円、平均時速25km（住宅街）で計算<br>
+      ※ ガソリン：175円/L、燃費16km/L<br>
+      ※ 車両維持費：保険・自動車税・車検・タイヤ等を年間走行距離で按分した概算値<br>
+      ※ <strong>人件費が総コストの約67%を占める</strong>。ドライバーが施設スタッフ兼務の場合は機会コストとして考える必要あり。
+    </p>
+
+    <h3>1名あたりの送迎コスト（3名乗車のケース）</h3>
+
+    <table>
+      <tr><th>乗車人数</th><th>1km あたりコスト（1名）</th><th>往復 10km のコスト（1名）</th><th>往復 20km のコスト（1名）</th></tr>
+      <tr><td>1名（貸切）</td><td>78円</td><td>1,560円</td><td>3,120円</td></tr>
+      <tr class="profit-mid"><td>2名</td><td>39円</td><td>780円</td><td>1,560円</td></tr>
+      <tr class="profit-high"><td>3名（標準）</td><td>26円</td><td>520円</td><td>1,040円</td></tr>
+      <tr class="profit-high"><td>4名</td><td>19.5円</td><td>390円</td><td>780円</td></tr>
+    </table>
+
+    <div class="alert alert-info">
+      <strong>💡 ポイント：乗車人数が採算性を大きく左右</strong>
+      1名単独送迎は3名同乗と比べてコストが3倍になります。遠距離の利用者は必ず途中で他の利用者と同乗ルートを組むことが鉄則です。
+    </div>
+
+    <h3>送迎の収益上の位置づけ</h3>
+    <p>通所介護では送迎は「基本報酬に含まれる」形になっており、<strong>送迎を実施しない場合に片道47単位の減算</strong>が発生します（2024年度改定）。</p>
+
+    <table>
+      <tr><th>ケース</th><th>1名・1日あたり収益への影響</th></tr>
+      <tr><td class="td-left">送迎あり（現状：18名）</td><td>減算なし（基本報酬をフルに受け取れる）</td></tr>
+      <tr><td class="td-left">送迎なし（現状：1名）</td><td>▲47単位×2（往復）＝<strong>▲940円/日</strong> の減算</td></tr>
+    </table>
+
+    <p style="margin-top:10px; font-size:13px;">
+      → <strong>送迎を行う経済的意義 = 1名1日あたり940円の減算を回避すること</strong>が直接的な効果です。
+    </p>
+  </div>
+
+  <!-- ===== 距離別損益シミュレーション ===== -->
+  <div class="card">
+    <h2>📐 距離別 損益シミュレーション（1名あたり・3名同乗前提）</h2>
+
+    <p style="margin-bottom:14px; font-size:13px;">「送迎減算を回避する収益（940円）」と「送迎に要する実コスト」を比較した損益表です。</p>
+
+    <table>
+      <tr>
+        <th>片道距離</th>
+        <th>往復コスト（1名分）</th>
+        <th>送迎減算回避益</th>
+        <th>損益（1名1回）</th>
+        <th>判定</th>
+      </tr>
+      <tr class="profit-high">
+        <td><strong>5 km</strong></td>
+        <td>260円</td>
+        <td>940円</td>
+        <td><strong>+680円</strong></td>
+        <td><span class="badge badge-success">✅ 黒字</span></td>
+      </tr>
+      <tr class="profit-high">
+        <td><strong>8 km</strong></td>
+        <td>416円</td>
+        <td>940円</td>
+        <td><strong>+524円</strong></td>
+        <td><span class="badge badge-success">✅ 黒字</span></td>
+      </tr>
+      <tr class="profit-mid">
+        <td><strong>10 km</strong></td>
+        <td>520円</td>
+        <td>940円</td>
+        <td><strong>+420円</strong></td>
+        <td><span class="badge badge-success">✅ 黒字</span></td>
+      </tr>
+      <tr class="profit-low">
+        <td><strong>13 km</strong></td>
+        <td>676円</td>
+        <td>940円</td>
+        <td><strong>+264円</strong></td>
+        <td><span class="badge badge-success">✅ 黒字</span></td>
+      </tr>
+      <tr class="profit-low">
+        <td><strong>15 km</strong></td>
+        <td>780円</td>
+        <td>940円</td>
+        <td><strong>+160円</strong></td>
+        <td><span class="badge badge-warning">⚠️ 要注意</span></td>
+      </tr>
+      <tr class="breakeven">
+        <td><strong>18 km ←損益分岐点</strong></td>
+        <td>936円</td>
+        <td>940円</td>
+        <td><strong>≒ 0円</strong></td>
+        <td><span class="badge badge-warning">🔶 損益分岐</span></td>
+      </tr>
+      <tr class="loss-low">
+        <td><strong>20 km</strong></td>
+        <td>1,040円</td>
+        <td>940円</td>
+        <td><strong>▲100円</strong></td>
+        <td><span class="badge badge-danger">❌ 赤字</span></td>
+      </tr>
+      <tr class="loss-low">
+        <td><strong>25 km</strong></td>
+        <td>1,300円</td>
+        <td>940円</td>
+        <td><strong>▲360円</strong></td>
+        <td><span class="badge badge-danger">❌ 赤字</span></td>
+      </tr>
+      <tr class="loss-high">
+        <td><strong>30 km</strong></td>
+        <td>1,560円</td>
+        <td>940円</td>
+        <td><strong>▲620円</strong></td>
+        <td><span class="badge badge-danger">❌ 赤字（深刻）</span></td>
+      </tr>
+      <tr class="loss-high">
+        <td><strong>40 km 以上</strong></td>
+        <td>2,080円〜</td>
+        <td>940円</td>
+        <td><strong>▲1,140円〜</strong></td>
+        <td><span class="badge badge-danger">🚨 撤退検討</span></td>
+      </tr>
+    </table>
+
+    <div class="highlight-box">
+      <div class="caption">送迎単体での採算が取れる目安（3名同乗・標準コスト）</div>
+      <div class="big">片道 15〜18 km が上限</div>
+      <div class="caption">これを超えると1名ごとに毎回赤字が積み上がります</div>
+    </div>
+
+    <!-- 距離バーチャート -->
+    <div class="breakeven-visual">
+      <div class="bv-label bv-green">✅ 黒字ゾーン（〜15km）</div>
+      <div class="bv-line"></div>
+      <div class="bv-arrow">🔶 18km 損益分岐</div>
+      <div class="bv-label bv-red" style="right:3%">❌ 赤字（20km超〜）</div>
+    </div>
+
+    <h3>乗車人数別 損益分岐距離</h3>
+    <table>
+      <tr><th>乗車人数</th><th>1km コスト（1名）</th><th>損益分岐距離（片道）</th><th>備考</th></tr>
+      <tr class="loss-high"><td>1名単独</td><td>78円/km</td><td>約 <strong>6 km</strong></td><td>最も非効率。原則禁止推奨</td></tr>
+      <tr class="profit-low"><td>2名</td><td>39円/km</td><td>約 <strong>12 km</strong></td><td>同方向がいない場合に発生</td></tr>
+      <tr class="profit-mid"><td>3名（標準）</td><td>26円/km</td><td>約 <strong>18 km</strong></td><td>標準的な運用</td></tr>
+      <tr class="profit-high"><td>4名（福祉車両）</td><td>19.5円/km</td><td>約 <strong>24 km</strong></td><td>遠距離をカバーしやすい</td></tr>
+    </table>
+
+    <div class="alert alert-warning">
+      <strong>⚠️ 1名単独送迎が発生している場合は今すぐルート見直しを</strong>
+      1名貸切送迎は片道6km超で赤字になります。現在の18名のルートを地図上に可視化し、同方向の利用者をまとめる「ルート最適化」を実施してください。
+    </div>
+  </div>
+
+  <!-- ===== LIFE加算 機会損失 ===== -->
+  <div class="card">
+    <h2>💰 LIFE等加算 未取得による機会損失</h2>
+
+    <div class="alert alert-danger">
+      <strong>🚨 送迎よりも先に解決すべき問題</strong>
+      LIFEをはじめとする加算をほぼ取得していない現状は、毎月数十万円規模の収益を捨てています。送迎距離を短くする努力より、加算を取得する方が経営改善効果は大きいです。
+    </div>
+
+    <h3>取得可能な主要加算一覧（通所介護）</h3>
+
+    <table>
+      <tr><th>加算名</th><th>単位数</th><th>要件（概要）</th><th>月額試算（19名）</th><th>難易度</th></tr>
+      <tr>
+        <td class="td-left">科学的介護推進体制加算Ⅰ</td>
+        <td>40単位/月/人</td>
+        <td>LIFE入力・定期的フィードバック活用</td>
+        <td>約 7,600円</td>
+        <td><span class="badge badge-success">低</span></td>
+      </tr>
+      <tr>
+        <td class="td-left">科学的介護推進体制加算Ⅱ</td>
+        <td>60単位/月/人</td>
+        <td>Ⅰの条件＋月次フィードバック分析</td>
+        <td>約 11,400円</td>
+        <td><span class="badge badge-warning">中</span></td>
+      </tr>
+      <tr>
+        <td class="td-left">ADL維持等加算Ⅰ</td>
+        <td>30単位/月/人</td>
+        <td>機能訓練・評価記録の整備</td>
+        <td>約 5,700円</td>
+        <td><span class="badge badge-success">低</span></td>
+      </tr>
+      <tr>
+        <td class="td-left">ADL維持等加算Ⅱ</td>
+        <td>60単位/月/人</td>
+        <td>ADL改善実績の証明</td>
+        <td>約 11,400円</td>
+        <td><span class="badge badge-warning">中</span></td>
+      </tr>
+      <tr>
+        <td class="td-left">口腔・栄養スクリーニング加算</td>
+        <td>20単位/回（6ヶ月毎）</td>
+        <td>口腔スクリーニングの実施・記録</td>
+        <td>約 630円</td>
+        <td><span class="badge badge-success">低</span></td>
+      </tr>
+      <tr>
+        <td class="td-left">栄養アセスメント加算</td>
+        <td>50単位/月/人</td>
+        <td>管理栄養士との連携・栄養評価</td>
+        <td>約 9,500円</td>
+        <td><span class="badge badge-warning">中</span></td>
+      </tr>
+      <tr>
+        <td class="td-left">認知症加算</td>
+        <td>60単位/日</td>
+        <td>認知症患者への専門プログラム提供</td>
+        <td>対象者による</td>
+        <td><span class="badge badge-warning">中</span></td>
+      </tr>
+      <tr style="background:#fdecea; font-weight:bold;">
+        <td class="td-left">合計（Ⅱ加算フル取得の場合）</td>
+        <td>〜170単位/月/人</td>
+        <td>—</td>
+        <td><strong>約 35,000円/月</strong></td>
+        <td>—</td>
+      </tr>
+    </table>
+
+    <h3>年間機会損失の試算</h3>
+
+    <div class="summary-grid">
+      <div class="summary-item">
+        <div class="label">保守的（Ⅰ加算のみ）</div>
+        <div class="value" style="color:var(--warning)">約16万円</div>
+        <div class="unit">年間 / 19名</div>
+      </div>
+      <div class="summary-item">
+        <div class="label">積極的（Ⅱ加算フル取得）</div>
+        <div class="value" style="color:var(--danger)">約42万円</div>
+        <div class="unit">年間 / 19名</div>
+      </div>
+      <div class="summary-item">
+        <div class="label">送迎採算ラインへの効果</div>
+        <div class="value" style="color:var(--success)">+3〜5km</div>
+        <div class="unit">許容距離の拡大</div>
+      </div>
+    </div>
+
+    <div class="alert alert-success">
+      <strong>✅ 加算取得で送迎コストを吸収できる</strong>
+      LIFE加算（Ⅱ）を取得すると、1名あたり月1,700円の追加収入が生まれます。これにより1回あたりの許容送迎コストが増え、採算ラインを実質的に拡大できます。
+      加算収入を加味した場合、送迎の実質採算ラインは片道 <strong>20〜23km</strong> に延長可能です。
+    </div>
+  </div>
+
+  <!-- ===== 特殊ケース：要支援者の送迎 ===== -->
+  <div class="card">
+    <h2>⚠️ 要注意：要支援者（7名）の送迎採算</h2>
+
+    <p style="margin-bottom:12px; font-size:13px;">
+      要支援1・2は<strong>介護予防・日常生活支援総合事業（総合事業）</strong>のため、介護保険の通所介護より単価が低く設定されている自治体が多いです。
+    </p>
+
+    <table>
+      <tr><th>区分</th><th>月額報酬の目安</th><th>1回あたり換算（月12回）</th><th>送迎コスト（15km・3名）</th><th>収益性</th></tr>
+      <tr class="loss-low">
+        <td class="td-left">要支援1（3名）</td>
+        <td>約2,268円/月</td>
+        <td>約 189円/回</td>
+        <td>約 780円/回</td>
+        <td><span class="badge badge-danger">❌ 単体赤字</span></td>
+      </tr>
+      <tr class="loss-low">
+        <td class="td-left">要支援2（4名）</td>
+        <td>約4,538円/月</td>
+        <td>約 378円/回</td>
+        <td>約 780円/回</td>
+        <td><span class="badge badge-danger">❌ 単体赤字</span></td>
+      </tr>
+    </table>
+
+    <div class="alert alert-danger">
+      <strong>🚨 要支援者は送迎単体では採算が取れない構造</strong>
+      要支援者の場合、基本報酬が月額一括のため1回あたり換算すると非常に低額です。<strong>要支援者の遠距離送迎は特に危険</strong>で、施設全体の利益から補填することになります。
+      要支援者の利用頻度を増やす（週1→週2）か、できる限り近距離の方のみ受け入れるかを検討してください。
+    </div>
+  </div>
+
+  <!-- ===== 経営改善提言 ===== -->
+  <div class="card">
+    <h2>🎯 経営改善アクションプラン（優先順位順）</h2>
+
+    <ul class="rec-list">
+      <li>
+        <strong>【最優先】LIFE登録と加算申請（〜3ヶ月以内）</strong><br>
+        科学的介護推進体制加算（Ⅰ）から着手。タブレットかPCでLIFEにアクセスし利用者情報を入力するだけで年間約16万円の収入増。Ⅱへのステップアップで最大42万円の追加収益。送迎コスト問題の根本的な緩和策になります。
+      </li>
+      <li>
+        <strong>【緊急】送迎ルートの地図可視化と再編</strong><br>
+        全18名の住所をGoogleマップに入力し、距離・方向別にクラスタリング。1名単独送迎が発生しているルートを特定し、訪問順序を変えて必ず複数名が同乗するよう再設計。これだけで月3〜5万円のコスト削減が見込めます。
+      </li>
+      <li>
+        <strong>【要検討】片道20km超の利用者の選別</strong><br>
+        現在の体制（LIFEなし）では片道18km超の利用者は1名ごとに赤字です。対象者を特定し、①利用頻度の変更交渉（週3→週2）、②送迎実費の一部負担のお願い、③近隣の別施設への案内、の3択で対応を検討してください。
+      </li>
+      <li>
+        <strong>【中期】ADL維持等加算の申請（〜6ヶ月以内）</strong><br>
+        機能訓練の記録をLIFEに連携すれば取得可能。月額5,700〜11,400円（19名）の追加収入。記録フォーマットの標準化から始め、半年を目標に申請準備を進めてください。
+      </li>
+      <li>
+        <strong>【長期】4名乗車化による遠距離カバー</strong><br>
+        福祉車両（4〜5名乗車）を導入することで、1名あたりの送迎コストが下がり、採算ラインが片道24km程度まで拡大。現在の利用者層と地域特性を踏まえて投資判断を行ってください。
+      </li>
+      <li>
+        <strong>【通年】月次コスト管理の実施</strong><br>
+        毎月：送迎実走距離×コスト単価で「送迎費用」を集計し、送迎加算収益（減算回避額）と比較するレポートを作成。赤字ルートをリアルタイムで把握できる体制を整えてください。
+      </li>
+    </ul>
+  </div>
+
+  <!-- ===== 計算の前提条件と免責 ===== -->
+  <div class="card">
+    <h2>📋 計算の前提条件と注意事項</h2>
+
+    <table>
+      <tr><th>項目</th><th>設定値</th><th>根拠</th></tr>
+      <tr><td class="td-left">1単位の単価</td><td>10円</td><td>標準地域加算（地域により10.14〜11.40円）</td></tr>
+      <tr><td class="td-left">ガソリン単価</td><td>175円/L</td><td>2026年5月時点の全国平均目安</td></tr>
+      <tr><td class="td-left">燃費</td><td>16 km/L</td><td>福祉車両・軽バンの平均値</td></tr>
+      <tr><td class="td-left">ドライバー人件費</td><td>1,300円/時</td><td>介護ドライバーの平均時給目安</td></tr>
+      <tr><td class="td-left">平均走行速度</td><td>25 km/h</td><td>住宅街・信号込みの実効速度</td></tr>
+      <tr><td class="td-left">車両維持費</td><td>15円/km</td><td>保険・税・車検・タイヤの年間費用を按分</td></tr>
+      <tr><td class="td-left">送迎減算（送迎なし）</td><td>片道47単位（往復94単位）</td><td>2024年度介護報酬改定</td></tr>
+      <tr><td class="td-left">月間利用日数</td><td>12回（週3回×4週）</td><td>短時間デイの標準的な頻度</td></tr>
+    </table>
+
+    <div class="alert alert-info" style="margin-top:16px;">
+      <strong>⚠️ 免責事項</strong>
+      本レポートは概算計算に基づく経営判断の参考資料です。介護報酬は都道府県・地域区分・施設体制により異なります。
+      実際の経営判断にあたっては、地域の介護保険担当者・社会保険労務士・ケアマネジャーにご確認ください。
+      要支援者の総合事業単価については、各市区町村の告示を必ず確認してください。
+    </div>
+  </div>
+
+  <div class="report-footer">
+    <p>📊 短時間デイサービス 送迎採算分析レポート | 作成：経営アドバイザー | 2026年5月7日</p>
+    <p style="margin-top:6px;">本資料の数値はすべて概算です。実際の経営判断には専門家の確認を推奨します。</p>
+  </div>
+
+</div>
+</body>
+</html>

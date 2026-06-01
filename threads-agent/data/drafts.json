@@ -1,5 +1,208 @@
 [
   {
+    "id": "86c49568-774a-4214-85a9-3db69d7f810a",
+    "content": "退院前に、自主トレを3つ説明した。\n本人もうなずいて、できていた。\n\nなのに次の外来で「家ではやってなくて」と言われる。\n説明が悪かったわけじゃない。\nその場で消える形だっただけ。\n\n何度も説明してきたことほど、\n資料にしていない。\n\nあなたが一番よく説明してる内容、何ですか？",
+    "thread_replies": [
+      "僕も長いこと「ちゃんと説明したのに」で止まってた。\n原因は熱量じゃなくて、家に持って帰れる形がなかったこと。口頭は、その場で一番強くて、次の日には一番弱い。"
+    ],
+    "pattern": "empathy",
+    "theme": "現場の一瞬_消える知識",
+    "score": 9.0,
+    "scores_detail": {
+      "hook_strength": 9,
+      "usefulness": 8,
+      "specificity": 9,
+      "tempo": 9,
+      "persona_match": 10,
+      "originality": 9,
+      "readability": 9,
+      "emotional_resonance": 9,
+      "call_to_action": 8,
+      "platform_fit": 10,
+      "conversation_potential": 9,
+      "original_viewpoint": 9
+    },
+    "has_affiliate": false,
+    "affiliate_comment": "",
+    "post_type": "empathy",
+    "created_at": "2026-06-01T00:11:41.581625",
+    "status": "draft"
+  },
+  {
+    "id": "e072bfcd-1be8-41f0-abbd-53e16190737e",
+    "content": "後輩に「あの患者さん、大丈夫そうです」と言われた。\n少しだけ不安になる。\n\n何が大丈夫なのか。\nどこを見て、そう判断したのか。\nそこを聞くと、本人もうまく言えない。\n\n悪いのは後輩じゃない。\n判断の流れを、見える形で渡せてないこっちの番。\n\n伝えたことは、その場で終わらせたくない。",
+    "thread_replies": [
+      "「大丈夫そう」を責めても何も残らない。\n僕がやってよかったのは、自分がどの順番で何を見てるかを一回だけ言葉にして紙にしたこと。後輩が迷った時に戻れる場所ができた。"
+    ],
+    "pattern": "empathy",
+    "theme": "現場の一瞬_後輩指導",
+    "score": 9.0,
+    "scores_detail": {
+      "hook_strength": 9,
+      "usefulness": 8,
+      "specificity": 9,
+      "tempo": 9,
+      "persona_match": 10,
+      "originality": 9,
+      "readability": 9,
+      "emotional_resonance": 9,
+      "call_to_action": 8,
+      "platform_fit": 10,
+      "conversation_potential": 9,
+      "original_viewpoint": 9
+    },
+    "has_affiliate": false,
+    "affiliate_comment": "",
+    "post_type": "empathy",
+    "created_at": "2026-06-01T00:11:41.581930",
+    "status": "draft"
+  },
+  {
+    "id": "ac46af26-fc0b-4ddb-a972-7b2d4427934a",
+    "content": "家族に「何に気をつければいいですか」と聞かれる。\nここで言葉を選ぶ。\n\n注意点を全部言うと、家族は不安になる。\n言わなすぎると、家で何も判断できない。\n\nだから家族指導の資料に入れるのは、\n注意点だけじゃなく「迷った時の判断目安」。\n\n・これは様子を見ていい\n・これは連絡してほしい\n\nこの線引きがあるだけで、家族の不安はかなり減る。",
+    "thread_replies": [
+      "家族って「危険なこと」より「判断できないこと」が一番こわい。\n注意点を増やすほど親切に見えて、実は判断を全部こっちに戻してることがある。線を引くのも医療職の仕事だと思ってる。"
+    ],
+    "pattern": "trust",
+    "theme": "資料化の型_家族指導",
+    "score": 9.0,
+    "scores_detail": {
+      "hook_strength": 9,
+      "usefulness": 8,
+      "specificity": 9,
+      "tempo": 9,
+      "persona_match": 10,
+      "originality": 9,
+      "readability": 9,
+      "emotional_resonance": 9,
+      "call_to_action": 8,
+      "platform_fit": 10,
+      "conversation_potential": 9,
+      "original_viewpoint": 9
+    },
+    "has_affiliate": false,
+    "affiliate_comment": "",
+    "post_type": "trust",
+    "created_at": "2026-06-01T00:11:41.581938",
+    "status": "draft"
+  },
+  {
+    "id": "f157b01e-4c0d-477d-92d5-4f50e1bf651e",
+    "content": "患者説明資料を作る時、\n最初に決めるのはデザインじゃない。\n\n誰が読むのか。\nいつ読むのか。\n読んだあと、何をしてほしいのか。\n\nここが決まらないまま作ると、\nきれいだけど使われない資料になる。\n\n患者向けなら、安心。\n家族向けなら、判断の目安。\n後輩向けなら、考え方の順番。\n\n同じ医療知識でも、届ける相手で形は変えていい。",
+    "thread_replies": [
+      "昔の僕は、見栄えから入って毎回つまずいてた。\nレイアウトをいくらいじっても、「誰が読むか」が曖昧だと中身が決まらない。デザインは最後でいい。先に相手を決めると、入れる情報と削る情報が勝手に見えてくる。"
+    ],
+    "pattern": "trust",
+    "theme": "資料化の型_患者説明",
+    "score": 9.0,
+    "scores_detail": {
+      "hook_strength": 9,
+      "usefulness": 8,
+      "specificity": 9,
+      "tempo": 9,
+      "persona_match": 10,
+      "originality": 9,
+      "readability": 9,
+      "emotional_resonance": 9,
+      "call_to_action": 8,
+      "platform_fit": 10,
+      "conversation_potential": 9,
+      "original_viewpoint": 9
+    },
+    "has_affiliate": false,
+    "affiliate_comment": "",
+    "post_type": "trust",
+    "created_at": "2026-06-01T00:11:41.581946",
+    "status": "draft"
+  },
+  {
+    "id": "73dfeced-7599-4661-8b51-dbe50afd12c0",
+    "content": "自主トレ資料が「家で続かない」時、\nたいてい入れすぎてる。\n\n家で続く資料に入れるのは、この3つだけ。\n\n・動きは1〜2個に絞る\n・回数より「いつやるか」を書く（朝・寝る前など）\n・できたかを○で書ける欄を1つ\n\n注意点を全部足すより、\n1個を続けられる形にした方が、結果が変わる。\n\n渡す前に、自分でこの3つを確認してる。",
+    "thread_replies": [
+      "情報を足すのは簡単で、削るのが一番むずかしい。\n「これも大事、あれも大事」で増やすほど、家では何も残らない。続ける人を増やしたいなら、覚えることを減らす設計から始めると効く。"
+    ],
+    "pattern": "education",
+    "theme": "資料化の型_自主トレ",
+    "score": 9.0,
+    "scores_detail": {
+      "hook_strength": 9,
+      "usefulness": 8,
+      "specificity": 9,
+      "tempo": 9,
+      "persona_match": 10,
+      "originality": 9,
+      "readability": 9,
+      "emotional_resonance": 9,
+      "call_to_action": 8,
+      "platform_fit": 10,
+      "conversation_potential": 9,
+      "original_viewpoint": 9
+    },
+    "has_affiliate": false,
+    "affiliate_comment": "",
+    "post_type": "education",
+    "created_at": "2026-06-01T00:11:41.581952",
+    "status": "draft"
+  },
+  {
+    "id": "80f7c784-7dbc-49f2-a00a-dc5d0380470e",
+    "content": "AIを、医療職の代わりに使うのは怖い。\nそこは僕も同じです。\n\nでも、現場で何度も説明してきたことを\n1枚の資料に整理するなら、AIはかなり使える。\n\n判断は、医療職がする。\nAIは、表現を整える。順番を作る。見返せる形にする。\n\nこの役割分担なら、AIは怖い道具じゃない。\n臨床の見方を残す道具になる。\n\nその最初の1枚を作る手順を、noteにまとめました。",
+    "thread_replies": [
+      "誤解されがちなんですが、AIに「判断させる」話は一切してません。\n最後に確認するのは必ず医療職。AIがやるのは、頭の中にある説明を見返せる形に並べ替えるところまで。そこだけでも、現場はけっこう変わります。"
+    ],
+    "pattern": "note_funnel",
+    "theme": "AIへの安心設計_note導線",
+    "score": 9.0,
+    "scores_detail": {
+      "hook_strength": 9,
+      "usefulness": 8,
+      "specificity": 9,
+      "tempo": 9,
+      "persona_match": 10,
+      "originality": 9,
+      "readability": 9,
+      "emotional_resonance": 9,
+      "call_to_action": 8,
+      "platform_fit": 10,
+      "conversation_potential": 9,
+      "original_viewpoint": 9
+    },
+    "has_affiliate": true,
+    "affiliate_comment": "その手順、スクショ付きでnoteにまとめてます。AIが苦手でも進められる形にしたので、プロフィールから覗いてみてください。",
+    "post_type": "note_funnel",
+    "created_at": "2026-06-01T00:11:41.581956",
+    "status": "draft"
+  },
+  {
+    "id": "578b8297-ccc6-46a8-8649-dcea74eda92c",
+    "content": "「自分の経験なんて、当たり前すぎる」\n医療職、だいたいこう言う。\n\nでも、あなたが何度も説明してきたことは、\n患者にとっても後輩にとっても、何度でも必要な内容です。\n\n当たり前すぎて、資料にしていないだけ。\n\n患者説明・家族指導・自主トレ・勉強会・後輩指導。\nこのどれかを、見返せる教材に変えるための手順を\nひとつのキットにまとめました。\n\nAIは補助。最後に確認するのは、あなた。\n医療職の知識を残すための入口です。",
+    "thread_replies": [
+      "作ったきっかけは、僕自身が「説明してきたことが毎回その場で消える」のがもったいなかったから。\nGPTsの機能がすごい、という話ではなくて、医療職が当たり前にやってきたことを残す入口として使ってもらえたら、という温度で作りました。"
+    ],
+    "pattern": "sales",
+    "theme": "note導線_スターターキット",
+    "score": 9.0,
+    "scores_detail": {
+      "hook_strength": 9,
+      "usefulness": 8,
+      "specificity": 9,
+      "tempo": 9,
+      "persona_match": 10,
+      "originality": 9,
+      "readability": 9,
+      "emotional_resonance": 9,
+      "call_to_action": 8,
+      "platform_fit": 10,
+      "conversation_potential": 9,
+      "original_viewpoint": 9
+    },
+    "has_affiliate": true,
+    "affiliate_comment": "キットの中身と、どんな資料が作れるかはnoteに書いてます。プロフィールのリンクから見られます。",
+    "post_type": "sales",
+    "created_at": "2026-06-01T00:11:41.581962",
+    "status": "draft"
+  },
+  {
     "id": "65259d15-9bbd-4606-ba63-342d39b2d140",
     "content": "患者さんが自宅リハを続けない理由、わかりますか？\n\n院内では頑張るのに、家に帰るとぱったり止める。このギャップ、全リハビリ職が直面する「あるある」です。\n\nその正体は、患者さんが「これは自分の身体の問題」と腹落ちしていないから。つまり、他人事のままなんです。\n\nそこで僕が意識している3つのアプローチ：\n\nステップ1：「なぜ」を患者さんに言語化させる\n「膝が痛くなる理由、あなたの身体で何が起きていると思いますか？」と聞く。患者さんが説明した瞬間、リハビリが「医者の指示」から「自分の身体との対話」に変わります。\n\nステップ2：1ヶ月後の目標より、1週間後の小さな成功を重ねる\n大きなゴールは遠すぎて続かない。だから「来週、階段を5段多く上れたら成功」みたいな小さな勝利を何度も味わわせる。その繰り返しが習慣化につながります。\n\nステップ3：プログラムの調整権を患者さんに渡す\n「このメニューが正解」と押し付けるのではなく、「自分の身体がどう反応するか試してみて、きつかったら教えてね」と。患者さんが主体になった瞬間、モチベーションが全然違う。\n\n医学的根拠もある方法ですが、何より臨床で結果が出ます。\n\nあなたの現場では、どのステップが一番難しい？\nコメント欄で聞かせてください。同じ悩みを持つ職種の工夫もここで共有したいです。\n\nこのアカウントをフォローして、明日から使える臨床の工夫を毎日受け取りませんか？",
     "pattern": "step_guide",

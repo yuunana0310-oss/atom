@@ -5,7 +5,7 @@ Fetcher Agent
     1h  : 0.5 - 2h   (初速チェック - バズの兆候)
     6h  : 5  - 8h    (中間計測)
     24h : 20 - 28h   (最終計測)
-- Calls Threads API to get metrics (views, likes, replies, reposts, quotes)
+- Calls Threads API to get metrics (views, likes, replies, reposts, quotes, shares)
 - Updates post_history.json with metrics_1h, metrics_6h, metrics_24h
 """
 import json
@@ -83,11 +83,11 @@ class FetcherAgent:
     def _fetch_metrics_api(self, post_id):
         """
         Fetch metrics for a post from Threads API.
-        Returns dict with views, likes, replies, reposts, quotes or None on error.
+        Returns dict with views, likes, replies, reposts, quotes, shares or None on error.
         """
         url = f"{self.base_url}/{post_id}/insights"
         params = {
-            "metric": "views,likes,replies,reposts,quotes",
+            "metric": "views,likes,replies,reposts,quotes,shares",
             "access_token": self.access_token,
         }
 
@@ -127,6 +127,7 @@ class FetcherAgent:
             "replies": int(views * reply_rate),
             "reposts": int(views * repost_rate),
             "quotes": int(views * quote_rate),
+            "shares": random.randint(0, max(1, int(views * 0.01))),
         }
         logger.info(f"FetcherAgent [MOCK]: Generated mock metrics for {post_id}: {metrics}")
         return metrics

@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>令和8年度診療報酬改定 部署別統合戦略レポート v4</title>
+  <style>
+    :root {
+      --black: #111111;
+      --gray-dark: #444444;
+      --gray-mid: #888888;
+      --gray-light: #cccccc;
+      --gray-bg: #f7f7f5;
+      --white: #ffffff;
+      --border: #e5e5e5;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 40px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--gray-mid);
+    }
+    .page-header .logo { font-weight: 800; font-size: 1rem; color: var(--black); }
+
+    .hero {
+      background: var(--black);
+      color: var(--white);
+      padding: 56px 40px 48px;
+      text-align: center;
+    }
+    .hero .pill {
+      display: inline-block;
+      background: var(--white);
+      color: var(--black);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 4px 16px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    }
+    .hero h1 { font-size: 2.2rem; font-weight: 800; line-height: 1.3; margin-bottom: 10px; }
+    .hero .sub { font-size: 0.95rem; opacity: 0.75; margin-bottom: 32px; }
+    .hero-kpi { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+    .hero-kpi-item {
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 8px;
+      padding: 14px 24px;
+      min-width: 160px;
+    }
+    .hero-kpi-item .kpi-label { font-size: 0.72rem; opacity: 0.7; margin-bottom: 4px; }
+    .hero-kpi-item .kpi-value { font-size: 1.9rem; font-weight: 800; line-height: 1; }
+    .hero-kpi-item .kpi-sub { font-size: 0.78rem; opacity: 0.75; margin-top: 4px; }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 64px 40px; }
+
+    .section { margin-bottom: 72px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--black);
+    }
+    .section-icon {
+      width: 44px; height: 44px;
+      background: var(--black);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .section-header h2 { font-size: 1.35rem; font-weight: 800; }
+    .section-tag {
+      font-size: 0.72rem; font-weight: 700;
+      background: var(--black); color: var(--white);
+      padding: 3px 12px; border-radius: 20px; white-space: nowrap;
+    }
+
+    .dept-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+    .dept-rehab   { background: #dcfce7; color: #166534; }
+    .dept-jimu    { background: #dbeafe; color: #1e40af; }
+    .dept-kango   { background: #fce7f3; color: #9d174d; }
+    .dept-msw     { background: #fef3c7; color: #92400e; }
+
+    .card {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 20px;
+    }
+    .card h3 {
+      font-size: 1.05rem; font-weight: 700;
+      margin-bottom: 16px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .card-dark {
+      background: var(--black); color: var(--white);
+      border-radius: var(--radius);
+      padding: 28px 32px; margin-bottom: 20px;
+    }
+    .card-dark h3 {
+      font-size: 1.05rem; font-weight: 700;
+      margin-bottom: 16px; padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .table-wrap { overflow-x: auto; margin: 14px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; border: 1.5px solid var(--border); }
+    th { background: var(--black); color: var(--white); padding: 10px 14px; text-align: left; font-weight: 600; border: 1px solid #333; }
+    td { padding: 10px 14px; border: 1px solid var(--border); vertical-align: top; }
+    tr:nth-child(even) td { background: var(--gray-bg); }
+
+    .alert {
+      display: flex; gap: 12px; padding: 14px 18px;
+      margin-bottom: 16px; border-radius: 8px;
+    }
+    .alert-danger  { background: #fef2f2; border: 1px solid #fecaca; }
+    .alert-warning { background: #fffbeb; border: 1px solid #fde68a; }
+    .alert-info    { background: #eff6ff; border: 1px solid #bfdbfe; }
+    .alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; }
+    .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+    .alert-title { font-weight: 700; margin-bottom: 4px; font-size: 0.95rem; }
+
+    .tag {
+      display: inline-block; font-size: 0.73rem; font-weight: 700;
+      padding: 2px 9px; border-radius: 4px; border: 1.5px solid var(--border);
+    }
+    .tag-red    { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+    .tag-green  { background: #dcfce7; color: #166534; border-color: #86efac; }
+    .tag-blue   { background: #dbeafe; color: #1e40af; border-color: #93c5fd; }
+    .tag-amber  { background: #fef3c7; color: #92400e; border-color: #fde68a; }
+    .tag-gray   { background: var(--gray-bg); color: var(--gray-dark); border-color: var(--border); }
+
+    .hl-box {
+      border: 2px solid var(--black); border-radius: var(--radius);
+      padding: 20px 24px; margin-bottom: 16px;
+    }
+    .hl-box-title {
+      font-weight: 700; font-size: 1rem;
+      margin-bottom: 10px; padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    @media (max-width: 700px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    .flow-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 16px 0; }
+    @media (max-width: 700px) { .flow-container { grid-template-columns: 1fr; } }
+    .flow-card { border-radius: var(--radius); padding: 24px; }
+    .flow-active  { background: #f0fdf4; border: 2px solid #86efac; }
+    .flow-passive { background: #fef2f2; border: 2px solid #fca5a5; }
+    .flow-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 12px; }
+    .flow-card ul { padding-left: 18px; }
+    .flow-card ul li { font-size: 0.88rem; margin-bottom: 5px; }
+
+    .decision-box {
+      background: var(--gray-bg); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 24px; margin: 16px 0; font-size: 0.9rem;
+    }
+    .decision-box .d-node {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 10px 0; border-bottom: 1px dashed var(--border);
+    }
+    .decision-box .d-node:last-child { border-bottom: none; }
+    .d-label {
+      background: var(--black); color: var(--white);
+      font-size: 0.72rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px; flex-shrink: 0;
+    }
+    .d-label.green { background: #166534; }
+    .d-label.red   { background: #991b1b; }
+    .d-label.amber { background: #92400e; }
+
+    .checklist { list-style: none; }
+    .checklist li {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.92rem;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .check-box {
+      width: 20px; height: 20px; border: 2px solid var(--gray-light);
+      border-radius: 4px; flex-shrink: 0; margin-top: 2px;
+    }
+
+    .step-row { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
+    .step-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 30px; height: 30px; background: var(--black); color: var(--white);
+      font-size: 0.85rem; font-weight: 700; border-radius: 50%; flex-shrink: 0;
+    }
+    .step-content { flex: 1; }
+    .step-content strong { display: block; font-size: 0.97rem; margin-bottom: 2px; }
+    .step-content span { font-size: 0.87rem; color: var(--gray-dark); }
+
+    footer {
+      background: var(--black); color: rgba(255,255,255,0.7);
+      text-align: center; padding: 32px 20px; font-size: 0.8rem;
+    }
+    footer strong { color: var(--white); }
+
+    @media print {
+      body { font-size: 12px; }
+      .hero { padding: 20px 16px; }
+      .card, .card-dark { break-inside: avoid; page-break-inside: avoid; }
+      .section { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="logo">令和8年度診療報酬改定 部署別統合戦略レポート</div>
+  <div>2026年6月施行 ｜ 2026年5月作成 ｜ v4（部署別考察＋離床基準拡張版）</div>
+</div>
+
+<div class="hero">
+  <div class="pill">部署横断 統合戦略レポート【v4】</div>
+  <h1>令和8年度診療報酬改定<br>リハビリ完全対応戦略</h1>
+  <p class="sub">一般病床36床・療養病床60床 ｜ 運動器リハ1・脳血管リハⅡ・呼吸器リハ1 ｜ 短時間デイケア・訪問リハ対応</p>
+  <div class="hero-kpi">
+    <div class="hero-kpi-item">
+      <div class="kpi-label">最大リスク</div>
+      <div class="kpi-value">▼10%</div>
+      <div class="kpi-sub">離床なし減算（全疾患別リハ）</div>
+    </div>
+    <div class="hero-kpi-item">
+      <div class="kpi-label">新設プラス加算</div>
+      <div class="kpi-value">+25点</div>
+      <div class="kpi-sub">休日リハ加算（1単位あたり）</div>
+    </div>
+    <div class="hero-kpi-item">
+      <div class="kpi-label">施行日</div>
+      <div class="kpi-value">6/1</div>
+      <div class="kpi-sub">2026年6月1日</div>
+    </div>
+    <div class="hero-kpi-item">
+      <div class="kpi-value" style="font-size:1.2rem;">成果評価</div>
+      <div class="kpi-sub">プロセス→アウトカムへ</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ══ SECTION 0: 全体概要 ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">📋</div>
+    <h2>改定概要：エグゼクティブサマリー</h2>
+    <span class="section-tag">全部署共通</span>
+  </div>
+
+  <div class="card-dark">
+    <h3>今改定の本質：「プロセス評価」から「成果（アウトカム）評価」へ</h3>
+    <p style="margin-bottom:16px;">単位数を多く提供することへの評価から、<strong>実際の機能改善・在宅復帰という結果</strong>を評価する構造へ転換。量より質・離床促進・在宅復帰強化が3大テーマ。</p>
+    <div class="grid-3">
+      <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:14px;">
+        <div style="font-size:0.72rem;opacity:0.7;margin-bottom:6px;">RISK ①</div>
+        <div style="font-weight:700;">離床なし1割減算</div>
+        <div style="font-size:0.84rem;opacity:0.8;margin-top:4px;">全疾患別リハに適用。療養病床に直撃</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:14px;">
+        <div style="font-size:0.72rem;opacity:0.7;margin-bottom:6px;">RISK ②</div>
+        <div style="font-weight:700;">療養病床算定制限</div>
+        <div style="font-size:0.84rem;opacity:0.8;margin-top:4px;">医療区分1・ADL区分1 → 2単位超は包括化</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:14px;">
+        <div style="font-size:0.72rem;opacity:0.7;margin-bottom:6px;">OPPORTUNITY</div>
+        <div style="font-weight:700;">休日リハ加算新設</div>
+        <div style="font-size:0.84rem;opacity:0.8;margin-top:4px;">25点/単位。年間最大約96万円の増収機会</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>変更項目</th><th>変更内容</th><th>影響対象</th><th>評価</th></tr>
+      <tr>
+        <td><strong>離床なし減算（新設）</strong></td>
+        <td>所定点数の90%に減算＋1日2単位上限</td>
+        <td>運動器・脳血管・呼吸器リハ全て</td>
+        <td><span class="tag tag-red">▼最重要リスク</span></td>
+      </tr>
+      <tr>
+        <td>休日リハ加算（新設）</td>
+        <td>25点/単位（土日祝）</td>
+        <td>全リハビリ・全病床</td>
+        <td><span class="tag tag-green">▲増収機会</span></td>
+      </tr>
+      <tr>
+        <td>早期リハ加算段階制変更</td>
+        <td>1〜3日目：45→60点 ／ 4〜14日目：45→25点</td>
+        <td>一般病床（急性期）</td>
+        <td><span class="tag tag-amber">△要対応</span></td>
+      </tr>
+      <tr>
+        <td>計画書様式変更</td>
+        <td>患者署名廃止→多職種説明記録へ</td>
+        <td>全リハビリ</td>
+        <td><span class="tag tag-blue">→書式更新</span></td>
+      </tr>
+      <tr>
+        <td>介護保険移行連携要件化</td>
+        <td>ケアマネとの連携記録整備が必要</td>
+        <td>脳血管リハⅡ</td>
+        <td><span class="tag tag-amber">△体制整備</span></td>
+      </tr>
+      <tr>
+        <td>術前呼吸器リハ対象明確化</td>
+        <td>大腸癌・卵巣癌・膵癌を明記</td>
+        <td>呼吸器リハ1</td>
+        <td><span class="tag tag-green">▲算定拡大</span></td>
+      </tr>
+      <tr>
+        <td>目標設定支援・管理料連動減算廃止</td>
+        <td>減算規定が削除され事務簡素化</td>
+        <td>脳血管リハⅡ</td>
+        <td><span class="tag tag-green">▲事務改善</span></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══ SECTION 1: 離床基準（能動的/他動的）══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">⚖️</div>
+    <h2>離床を伴わないリハビリの新基準：能動的 vs 他動的</h2>
+    <span class="section-tag">v4 新規追加</span>
+  </div>
+
+  <div class="alert alert-warning">
+    <div class="alert-icon">⚠️</div>
+    <div>
+      <div class="alert-title">なぜこの分類が重要か</div>
+      「離床なしリハビリへの1割減算」が導入されたが、<strong>すべてのベッド上訓練が等しく減算対象になるわけではない</strong>。
+      「能動的訓練」か「他動的訓練」かを分類・記録することが、適切な算定と患者ケアの質の両立に直結する。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>能動的訓練 vs 他動的訓練の定義</h3>
+    <div class="flow-container">
+      <div class="flow-card flow-active">
+        <h4>✅ 能動的リハビリ（Active）</h4>
+        <p style="font-size:0.85rem;margin-bottom:10px;"><strong>患者自身が主体的に筋収縮・動作を行う訓練</strong></p>
+        <ul>
+          <li>ベッド上能動的関節可動域訓練（自力で動かす）</li>
+          <li>等尺性筋力強化（ベッド上抵抗運動）</li>
+          <li>腹式呼吸・口すぼめ呼吸の自己訓練</li>
+          <li>能動的排痰練習（ハフィング・自己咳嗽）</li>
+          <li>起き上がり・端座位準備の能動的練習</li>
+          <li>嚥下訓練（意識的に取り組むもの）</li>
+        </ul>
+        <div style="margin-top:14px;padding:10px;background:white;border-radius:6px;font-size:0.83rem;">
+          <strong>算定上の考え方：</strong>医学的な離床困難理由＋能動的訓練の記録があれば、
+          <strong>減算対象からの除外を主張できる根拠になり得る</strong>。
+          カルテへの詳細記録が算定の正当性を守る。
+        </div>
+      </div>
+      <div class="flow-card flow-passive">
+        <h4>⚠️ 他動的リハビリ（Passive）</h4>
+        <p style="font-size:0.85rem;margin-bottom:10px;"><strong>セラピストが患者の代わりに動かす・補助する訓練</strong></p>
+        <ul>
+          <li>他動的関節可動域訓練（拘縮予防）</li>
+          <li>他動的ストレッチ（筋短縮予防）</li>
+          <li>他動的体位変換・ポジショニング調整</li>
+          <li>他動的呼吸介助（胸郭を外から動かす）</li>
+          <li>他動的排痰補助（スクイージング等）</li>
+          <li>意識障害・重篤な患者への維持的介入</li>
+        </ul>
+        <div style="margin-top:14px;padding:10px;background:white;border-radius:6px;font-size:0.83rem;">
+          <strong>算定上の考え方：</strong>今改定で想定されている<strong>減算の主たる対象</strong>。
+          医学的必要性（拘縮重度・意識障害等）の記録があれば2単位内の算定継続は正当化できるが、
+          能動的訓練への移行を常に検討すること。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>臨床判断フロー：患者ごとの分類基準</h3>
+    <div class="decision-box">
+      <div class="d-node">
+        <div>
+          <strong>STEP 1：離床可否の医学的評価（医師・PT・Nsで多職種評価）</strong><br>
+          <span style="font-size:0.87rem;">「なぜ離床できないか」の医学的根拠を必ずカルテに記載する</span>
+        </div>
+      </div>
+      <div class="d-node">
+        <span class="d-label green">可</span>
+        <div>
+          <strong>離床可能 → 積極的な離床プログラムへ移行</strong><br>
+          <span style="font-size:0.87rem;">段階的離床計画を立案し通常算定（減算なし）。早期に離床アセスメントを記録</span>
+        </div>
+      </div>
+      <div class="d-node">
+        <span class="d-label amber">準備中</span>
+        <div>
+          <strong>段階的離床中 → 端座位・車椅子移乗を目標に設定し記録</strong><br>
+          <span style="font-size:0.87rem;">目標・進捗をカルテに記録。能動的な起き上がり練習・端座位練習を含む場合は減算根拠に抗弁可</span>
+        </div>
+      </div>
+      <div class="d-node">
+        <span class="d-label red">不可</span>
+        <div>
+          <strong>離床不可 → 「能動的 or 他動的」の分類記録が必須</strong><br>
+          <span style="font-size:0.87rem;">骨折固定期・術直後・重篤な心不全等の理由を明記。以下に分岐</span>
+        </div>
+      </div>
+      <div class="d-node">
+        <div style="padding-left:20px;display:flex;gap:16px;flex-wrap:wrap;width:100%;">
+          <div style="flex:1;min-width:200px;background:#f0fdf4;border-radius:8px;padding:12px;font-size:0.87rem;">
+            <strong>能動的訓練主体</strong><br>
+            医学的根拠＋能動性の記録により算定継続可。
+            2単位上限は守りつつ「患者の主体的参加」をカルテに残す
+          </div>
+          <div style="flex:1;min-width:200px;background:#fef2f2;border-radius:8px;padding:12px;font-size:0.87rem;">
+            <strong>他動的訓練のみ</strong><br>
+            10%減算・1日2単位上限を適用。
+            療養病床の医療区分1・ADL区分1患者は2単位超の包括化にも注意
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>カルテ記録の要点（算定根拠の明確化）</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>分類</th><th>カルテに残すべき記録</th><th>算定上の扱い</th></tr>
+        <tr>
+          <td><strong>離床あり（通常）</strong></td>
+          <td>離床方法（端座位・車椅子・歩行等）・時間・距離・目標</td>
+          <td>所定点数100%</td>
+        </tr>
+        <tr>
+          <td><strong>離床なし：能動的訓練</strong></td>
+          <td>離床不可の医学的理由＋能動的訓練の内容・患者の努力度・反応</td>
+          <td>减算対象だが根拠記録で抗弁可。2単位上限</td>
+        </tr>
+        <tr>
+          <td><strong>離床なし：他動的訓練</strong></td>
+          <td>離床不可の医学的理由＋他動的介入の必要性（拘縮重度・意識障害等）</td>
+          <td>所定点数の90%（確実に減算）。2単位上限</td>
+        </tr>
+        <tr>
+          <td><strong>段階的離床準備中</strong></td>
+          <td>現在の到達目標（端座位X分等）・進捗・次のステップ</td>
+          <td>減算対象。離床計画の明示で将来的な通常算定への移行根拠となる</td>
+        </tr>
+      </table>
+    </div>
+    <div class="alert alert-info" style="margin-top:4px;">
+      <div class="alert-icon">💡</div>
+      <div>
+        <div class="alert-title">実務ポイント：「なぜベッド上か」の記録が収益を守る</div>
+        厚労省の査定では<strong>「医学的な離床困難理由の記載がない場合」に減算・返還リスクが高まる</strong>。
+        能動的訓練を実施していても、まず「なぜ離床できないか」を明記し、
+        その上で「患者が主体的に訓練に取り組んでいる」事実を記録することが算定の正当性を最大化する。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 2: リハビリ部門（PT・OT・ST）══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">🦵</div>
+    <h2>リハビリ部門（PT・OT・ST）からの考察</h2>
+    <span class="section-tag">臨床・現場対応</span>
+  </div>
+
+  <div class="dept-badge dept-rehab">リハビリテーション部門（PT・OT・ST）</div>
+
+  <div class="card">
+    <h3>臨床的観点からの改定評価</h3>
+    <div class="alert alert-success">
+      <div class="alert-icon">✅</div>
+      <div>
+        <div class="alert-title">今改定の方向性はエビデンスと一致している</div>
+        離床促進・早期介入・アウトカム評価への転換は、国際的なリハビリエビデンスの潮流と一致する。
+        「処罰的な改定」として受け取るのではなく、<strong>「より良いリハビリへの誘導」</strong>として現場に伝えることが定着の鍵。
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>改定項目</th><th>臨床的根拠</th><th>現場へのメッセージ</th></tr>
+        <tr>
+          <td><strong>離床促進・減算</strong></td>
+          <td>早期離床（24〜48h以内）は廃用予防・QOL改善・ADL自立率向上に有効（Cochrane 2023）</td>
+          <td>「離床は報酬のためではなく患者の回復を早める根拠ある介入」</td>
+        </tr>
+        <tr>
+          <td><strong>他動的訓練の減算</strong></td>
+          <td>他動的ROMは拘縮予防に有効だが長期的ADL改善への寄与は能動的訓練に劣る（JOSPT 2024）</td>
+          <td>「他動→能動へのトランジションを毎回評価する視点を持つ」</td>
+        </tr>
+        <tr>
+          <td><strong>術前呼吸器リハ</strong></td>
+          <td>大腸癌・膵癌術前4〜8週の呼吸訓練で術後合併症を30〜40%削減（Carli et al. 2023）</td>
+          <td>「術前介入を外科チームへ積極的に提案する絶好の機会」</td>
+        </tr>
+        <tr>
+          <td><strong>超早期介入（1〜3日目60点）</strong></td>
+          <td>脳卒中では発症後24〜48h以内のリハ開始がFIM改善・退院先に有意な影響（Cochrane 2022）</td>
+          <td>「早期加算の引き上げはエビデンスに基づく評価。当日・翌日介入を標準にする」</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>離床促進型リハビリへの転換：具体的取り組み</h3>
+    <div class="step-row">
+      <div class="step-badge">1</div>
+      <div class="step-content">
+        <strong>全患者の離床アセスメントを実施（3分類）</strong>
+        <span>「離床可能・段階的離床中・離床不可」の3分類と理由を記録。能動/他動の分類も合わせて記録開始</span>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-badge">2</div>
+      <div class="step-content">
+        <strong>他動的訓練から能動的訓練への移行を毎回再評価</strong>
+        <span>「今日はこの動作を自分でやってもらえますか」の声かけを標準化。微細な能動性でも記録に残す</span>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-badge">3</div>
+      <div class="step-content">
+        <strong>入院翌日（できれば当日）からの介入を標準化</strong>
+        <span>主治医・病棟Nsからのリハオーダー経路を短縮し、早期加算1〜3日目（60点）を確実に取得</span>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-badge">4</div>
+      <div class="step-content">
+        <strong>離床日誌（ベッドサイド掲示）の導入</strong>
+        <span>PT介入時間以外の離床時間も看護師と協働で記録。患者・家族への「離床の意味」の説明も強化</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>院内研修（PT・OT・ST向け）推奨プログラム</h3>
+    <div class="grid-2">
+      <div class="hl-box">
+        <div class="hl-box-title">研修内容（計100分）</div>
+        <ul style="padding-left:18px;font-size:0.9rem;">
+          <li style="margin-bottom:6px;"><strong>改定の背景と臨床意義（30分）</strong>：なぜ離床なしに減算がつくか、エビデンスから説明</li>
+          <li style="margin-bottom:6px;"><strong>能動的・他動的の分類演習（20分）</strong>：症例ごとにケーススタディ形式で判断練習</li>
+          <li style="margin-bottom:6px;"><strong>新計画書・記録テンプレート演習（30分）</strong>：電子カルテの新テンプレートを実際に操作</li>
+          <li><strong>介護移行連携ロールプレイ（20分）</strong>：脳血管リハ担当PT・OT向けにケアマネ連携記録を練習</li>
+        </ul>
+      </div>
+      <div class="hl-box">
+        <div class="hl-box-title">計画書変更の要点（6月前に周知）</div>
+        <ul style="padding-left:18px;font-size:0.9rem;">
+          <li style="margin-bottom:6px;">患者・家族の<strong>直筆署名が不要</strong>になる</li>
+          <li style="margin-bottom:6px;">代わりに「誰が・何を・いつ説明したか」をカルテへ記録</li>
+          <li style="margin-bottom:6px;">看護師・PT・OT・STが計画書を説明できるようになる</li>
+          <li>患者向け説明書も署名を求めない新書式に更新が必要</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 3: 看護部 ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">🩺</div>
+    <h2>看護部からの考察</h2>
+    <span class="section-tag">病棟連携・離床推進</span>
+  </div>
+
+  <div class="dept-badge dept-kango">看護部</div>
+
+  <div class="card">
+    <h3>看護部が担う「病棟全体での離床文化の構築」</h3>
+    <div class="alert alert-warning">
+      <div class="alert-icon">⚠️</div>
+      <div>
+        <div class="alert-title">PT介入時間だけでは離床率は上がらない</div>
+        1日のPT介入時間は20〜40分程度。残り20時間以上の病棟生活で<strong>看護師がどう関わるかが離床の質を決める</strong>。
+        「リハビリはリハ室でやるもの」という意識からの脱却が急務。
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="hl-box">
+        <div class="hl-box-title">離床推進で看護部が取り組むこと</div>
+        <ul style="padding-left:18px;font-size:0.9rem;">
+          <li style="margin-bottom:6px;">食事・洗面・更衣の際に端座位・車椅子を積極的に促す</li>
+          <li style="margin-bottom:6px;">ベッドサイドの離床日誌へ看護師も記録を追記する</li>
+          <li style="margin-bottom:6px;">患者が「起き上がりたくない」と言う場合の促し方のマニュアル化</li>
+          <li>夜勤帯・休日でも離床の声かけができる体制を整える</li>
+        </ul>
+      </div>
+      <div class="hl-box">
+        <div class="hl-box-title">看護師がPTと共有すべき情報</div>
+        <ul style="padding-left:18px;font-size:0.9rem;">
+          <li style="margin-bottom:6px;">バイタル異常・転倒リスクの変化（離床可否の判断材料）</li>
+          <li style="margin-bottom:6px;">患者の「PT以外の時間の自主練習」の様子</li>
+          <li style="margin-bottom:6px;">患者・家族が「なぜ起き上がりたくないか」の理由（疼痛・意欲低下等）</li>
+          <li>夜間の体位変換の状況（拘縮リスク評価への活用）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>療養病床60床における看護部の重点対応</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>対応項目</th><th>具体的なアクション</th><th>連携先</th></tr>
+        <tr>
+          <td><strong>医療区分評価への参加</strong></td>
+          <td>医療区分1患者のスクリーニングに参加し、医療区分2・3への見直しが可能か多職種で評価</td>
+          <td>主治医・リハ科</td>
+        </tr>
+        <tr>
+          <td><strong>他動的訓練が必要な患者の把握</strong></td>
+          <td>拘縮・意識障害・術後安静中の患者リストを更新し、PTに情報提供</td>
+          <td>リハ科</td>
+        </tr>
+        <tr>
+          <td><strong>休日の離床支援</strong></td>
+          <td>休日リハ加算対象患者のリハ前後の準備・移送を支援し、リハ実施をバックアップ</td>
+          <td>リハ科（土日出勤者）</td>
+        </tr>
+        <tr>
+          <td><strong>計画書説明の担い手として参加</strong></td>
+          <td>6月以降は看護師も計画書説明者として記録に加わる。説明内容・日時をカルテへ記録</td>
+          <td>リハ科・医事課</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 4: 医事課 ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">💴</div>
+    <h2>医事課からの考察</h2>
+    <span class="section-tag">算定・収益管理</span>
+  </div>
+
+  <div class="dept-badge dept-jimu">医事課</div>
+
+  <div class="card">
+    <h3>算定ルール変更の対応チェックリスト</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>対応項目</th><th>変更内容</th><th>対応方法</th><th>期限</th></tr>
+        <tr>
+          <td><strong>離床なし減算ロジック</strong></td>
+          <td>ベッド上のみ・他動的訓練で所定点数の90%に減算</td>
+          <td>レセコンに減算フラグの設定。カルテの離床記録との連動確認</td>
+          <td>5月末</td>
+        </tr>
+        <tr>
+          <td><strong>離床なし1日2単位上限</strong></td>
+          <td>離床なし患者は1日2単位を超えて算定不可</td>
+          <td>超過入力時に警告が出るよう設定。手動チェックの手順も整備</td>
+          <td>5月末</td>
+        </tr>
+        <tr>
+          <td><strong>休日リハ加算（新設）</strong></td>
+          <td>土日祝日に25点/単位を自動付加</td>
+          <td>祝日マスタと連動した加算自動付与ロジックの設定</td>
+          <td>5月末</td>
+        </tr>
+        <tr>
+          <td><strong>早期加算段階制変更</strong></td>
+          <td>1〜3日目：60点 ／ 4〜14日目：25点</td>
+          <td>入院日からの経過日数で点数が自動切り替わるよう設定変更</td>
+          <td>5月末</td>
+        </tr>
+        <tr>
+          <td><strong>計画書様式更新</strong></td>
+          <td>患者署名欄の廃止・多職種説明記録欄の追加</td>
+          <td>新様式への書式更新。電子カルテの記録テンプレートを6月前に作成</td>
+          <td>5月末</td>
+        </tr>
+        <tr>
+          <td><strong>療養病床包括化対応</strong></td>
+          <td>医療区分1・ADL区分1患者の2単位超は包括化</td>
+          <td>患者の医療区分情報と連動した算定ルールの設定</td>
+          <td>6月1日</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>収益影響シミュレーション</h3>
+    <div class="alert alert-info">
+      <div class="alert-icon">ℹ️</div>
+      <div>この試算は概算です。実際の影響は自院データで必ず検証してください。</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>要因</th><th>想定条件</th><th>月次影響（概算）</th></tr>
+        <tr>
+          <td colspan="3" style="background:var(--gray-bg);font-weight:700;">▼ 減収リスク</td>
+        </tr>
+        <tr>
+          <td>離床なし減算（他動的訓練）</td>
+          <td>月150単位が対象と想定</td>
+          <td><span class="tag tag-red">▼約30,000〜50,000円</span></td>
+        </tr>
+        <tr>
+          <td>療養病床算定制限（医療区分1超過）</td>
+          <td>対象患者数・超過単位数による</td>
+          <td><span class="tag tag-red">要自院データ試算</span></td>
+        </tr>
+        <tr>
+          <td>早期加算4〜14日目引き下げ</td>
+          <td>月100単位×▼20点</td>
+          <td><span class="tag tag-amber">▼約20,000円</span></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="background:var(--gray-bg);font-weight:700;">▲ 増収機会</td>
+        </tr>
+        <tr>
+          <td>休日リハ加算（新設）</td>
+          <td>休日月8日×20単位×25点</td>
+          <td><span class="tag tag-green">▲約40,000〜80,000円</span></td>
+        </tr>
+        <tr>
+          <td>早期加算1〜3日目引き上げ</td>
+          <td>月30単位×+15点</td>
+          <td><span class="tag tag-green">▲約4,500円</span></td>
+        </tr>
+        <tr>
+          <td>術前呼吸器リハ（大腸癌・膵癌等）</td>
+          <td>月5〜10件の術前介入</td>
+          <td><span class="tag tag-green">▲約15,000〜30,000円</span></td>
+        </tr>
+        <tr>
+          <td>退院前訪問指導料（算定漏れ解消）</td>
+          <td>月3〜5件の算定増</td>
+          <td><span class="tag tag-green">▲約17,000〜29,000円</span></td>
+        </tr>
+      </table>
+    </div>
+    <div class="hl-box" style="margin-top:16px;">
+      <div class="hl-box-title">収益影響の総括</div>
+      <p>減収リスクの主因は<strong>「離床なし減算」と「療養病床の算定制限」</strong>の2点。
+      一方、<strong>休日リハ加算と算定漏れ解消を実行すれば減収をほぼ相殺できる</strong>見込み。
+      最優先は「離床なし対象患者の把握」と「休日体制の整備」「退院時加算チェックリストの整備」の3点。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>退院時算定漏れゼロへの対応（最も即効性が高い収益改善）</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>加算名</th><th>点数</th><th>算定要件</th><th>漏れやすい理由</th></tr>
+        <tr>
+          <td><strong>退院前訪問指導料</strong></td>
+          <td>580点</td>
+          <td>入院1か月超が見込まれる患者の自宅をPT等が訪問し指導</td>
+          <td>「訪問した」事実があっても算定入力されていないケースが多い</td>
+        </tr>
+        <tr>
+          <td><strong>退院時リハビリテーション指導料</strong></td>
+          <td>300点</td>
+          <td>退院当日に患者・家族へ自主訓練・生活指導を実施（疾患別リハ算定患者のみ）</td>
+          <td>当日の業務多忙で記録漏れが起きやすい</td>
+        </tr>
+        <tr>
+          <td><strong>介護支援等連携指導料</strong></td>
+          <td>240点×2回</td>
+          <td>法人外のケアマネと連携して退院後の介護サービスを計画・指導</td>
+          <td>「同一法人内NG」の制限を知らずに算定していない、または同一法人で算定不可なのに誤算定</td>
+        </tr>
+      </table>
+    </div>
+    <div class="alert alert-warning">
+      <div class="alert-icon">📌</div>
+      <div>
+        <div class="alert-title">退院時算定チェックリストをリハ科・MSWと共同作成する</div>
+        入院1か月超が確定した時点でMSWが「退院前訪問対象者」としてフラグを立てる仕組みを作り、
+        退院入力時に医事課が加算算定の確認を行うフローを整備する。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 5: MSW・地域連携室 ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">🏠</div>
+    <h2>MSW・地域連携室からの考察</h2>
+    <span class="section-tag">退院支援・介護移行連携</span>
+  </div>
+
+  <div class="dept-badge dept-msw">MSW・地域連携室</div>
+
+  <div class="card">
+    <h3>脳血管リハⅡ：介護保険移行連携の要件化への対応</h3>
+    <div class="alert alert-warning">
+      <div class="alert-icon">📌</div>
+      <div>
+        <div class="alert-title">ケアマネとの連携記録の整備が算定要件に</div>
+        脳血管リハビリを算定している患者については、ケアマネジャーとの連携記録の整備が必要。
+        MSW・地域連携室を窓口として<strong>退院先に関する検討プロセスをカルテに残せる体制</strong>を整える。
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>連携の視点</th><th>具体的な対応</th></tr>
+        <tr>
+          <td><strong>ケアマネ窓口の整備</strong></td>
+          <td>脳血管リハ患者の担当ケアマネを入院早期に把握。未担当の場合は地域包括支援センターへ紹介できる体制を準備</td>
+        </tr>
+        <tr>
+          <td><strong>連携記録のカルテ管理</strong></td>
+          <td>ケアマネとの連絡日・内容・担当者を記録できるテンプレートを電子カルテに作成。MSWが入力する標準フローを確立</td>
+        </tr>
+        <tr>
+          <td><strong>自院デイケアへの橋渡し</strong></td>
+          <td>入院中に脳血管リハⅡで介護移行連携を実施→退院後は自院短時間デイケアを利用先として提案。連携記録と介護支援等連携指導料の算定を連動</td>
+        </tr>
+        <tr>
+          <td><strong>担当者会議への参加記録</strong></td>
+          <td>退院前のサービス担当者会議への参加をカルテに記録。参加日・出席者・内容の3点を残す</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>入院〜在宅の連続ケアパス（地域連携の軸）</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>フェーズ</th><th>場所・サービス</th><th>主な目標</th><th>MSWの役割</th></tr>
+        <tr>
+          <td><strong>急性期</strong></td>
+          <td>一般病床（36床）</td>
+          <td>超早期リハ介入・廃用防止</td>
+          <td>退院先の早期検討・家族へのオリエンテーション</td>
+        </tr>
+        <tr>
+          <td><strong>亜急性期〜慢性期</strong></td>
+          <td>療養病床（60床）</td>
+          <td>機能維持・在宅復帰準備</td>
+          <td>ケアマネとの連携開始・介護サービスの調整</td>
+        </tr>
+        <tr>
+          <td><strong>在宅移行期</strong></td>
+          <td>退院前訪問・家屋調査</td>
+          <td>環境調整・家族指導</td>
+          <td>退院前訪問指導料の算定フラグ立て・調整</td>
+        </tr>
+        <tr>
+          <td><strong>在宅維持期</strong></td>
+          <td>訪問リハ・短時間デイケア</td>
+          <td>機能維持・社会参加・再入院予防</td>
+          <td>自院サービスへの引き継ぎ記録・ケアマネへの情報共有</td>
+        </tr>
+      </table>
+    </div>
+    <div class="alert alert-info">
+      <div class="alert-icon">💡</div>
+      <div>
+        <div class="alert-title">ケアパスを「一枚のフロー図」として地域へ発信</div>
+        上記の一貫したケアパスを文書化し、地域のかかりつけ医・ケアマネ・地域包括支援センターへ配布する。
+        「急性期から在宅まで自院でカバーできる体制」は地域内での差別化要因になる。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>訪問リハ・短時間デイケアの体制整備</h3>
+    <div class="grid-2">
+      <div class="hl-box">
+        <div class="hl-box-title">訪問リハの記録整備（今改定の方向性への対応）</div>
+        <ul style="padding-left:18px;font-size:0.9rem;">
+          <li style="margin-bottom:6px;">主治医の指示書更新フローを整備し、更新漏れをゼロにする</li>
+          <li style="margin-bottom:6px;">FIM等を用いた生活機能評価の記録を標準化する</li>
+          <li style="margin-bottom:6px;">担当者会議への参加記録をカルテに残すフローを整備</li>
+          <li>訪問リハ vs デイケアの移行判断基準を多職種で共有し根拠を記録</li>
+        </ul>
+      </div>
+      <div class="hl-box">
+        <div class="hl-box-title">退院前訪問指導料（580点）の活用</div>
+        <ul style="padding-left:18px;font-size:0.9rem;">
+          <li style="margin-bottom:6px;">入院1か月超が確定した時点でMSWが対象者としてフラグを立てる</li>
+          <li style="margin-bottom:6px;">PTが「退院後の在宅環境を確認」しに訪問することで算定</li>
+          <li style="margin-bottom:6px;">この訪問を退院後の訪問リハへのスムーズな引き継ぎの機会として活用</li>
+          <li>算定と在宅移行支援を同時に実現できる最も即効性の高い項目</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 6: 統合アクションプラン ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">📅</div>
+    <h2>部署横断 統合アクションプラン</h2>
+    <span class="section-tag">6月施行対応ロードマップ</span>
+  </div>
+
+  <div class="card">
+    <h3>【最優先】今週中〜5月上旬：現状把握と危機認識の共有</h3>
+    <ul class="checklist">
+      <li><span class="check-box"></span><span>直近3か月の「離床なしリハビリ」単位数・患者数を集計し、減算影響額を試算する <span class="tag tag-amber">医事課・リハ科</span></span></li>
+      <li><span class="check-box"></span><span>離床なし患者を「能動的訓練」「他動的訓練」に分類し、それぞれの単位数を把握する <span class="tag tag-amber">リハ科</span></span></li>
+      <li><span class="check-box"></span><span>療養病床の医療区分1・ADL区分1患者リストを作成する <span class="tag tag-amber">医事課・看護部</span></span></li>
+      <li><span class="check-box"></span><span>脳血管リハⅡのPT/OT/ST専従2名体制が維持されているか確認する <span class="tag tag-amber">リハ科長</span></span></li>
+      <li><span class="check-box"></span><span>リハ科長・医事課長・看護部長・MSWを集めた「改定対応会議」を開催する <span class="tag tag-red">全部署</span></span></li>
+    </ul>
+
+    <h3 style="margin-top:28px;">【重要】5月中旬まで：対策立案と体制設計</h3>
+    <ul class="checklist">
+      <li><span class="check-box"></span><span>全入院患者の離床アセスメントを実施（離床可能・段階的・不可の3分類＋理由記録） <span class="tag tag-red">リハ科・看護部</span></span></li>
+      <li><span class="check-box"></span><span>他動的訓練主体の患者について能動的訓練への移行可能性を多職種で再評価する <span class="tag tag-red">リハ科・主治医</span></span></li>
+      <li><span class="check-box"></span><span>休日リハビリ（土日・祝日）提供体制を設計し、スタッフシフトを調整する <span class="tag tag-red">リハ科長・看護部長</span></span></li>
+      <li><span class="check-box"></span><span>療養病床患者の医療区分見直しスクリーニングを多職種で実施する <span class="tag tag-amber">主治医・リハ科・看護部</span></span></li>
+      <li><span class="check-box"></span><span>術前呼吸器リハ対象患者（大腸癌・卵巣癌・膵癌）の拾い上げ体制を外科チームと設計する <span class="tag tag-amber">リハ科・外科</span></span></li>
+      <li><span class="check-box"></span><span>一般病床の早期介入（入院翌日・当日）体制の整備と初回介入日管理ルールを作成する <span class="tag tag-amber">リハ科</span></span></li>
+      <li><span class="check-box"></span><span>脳血管リハ患者のケアマネ連携記録の整備と窓口体制を確認・強化する <span class="tag tag-amber">MSW・地域連携室</span></span></li>
+      <li><span class="check-box"></span><span>退院時算定チェックリストを医事課・リハ科・MSWで共同作成する <span class="tag tag-amber">医事課・リハ科・MSW</span></span></li>
+    </ul>
+
+    <h3 style="margin-top:28px;">【完了必須】5月末まで：書式・システム・研修の完了</h3>
+    <ul class="checklist">
+      <li><span class="check-box"></span><span>リハビリテーション総合実施計画書を新様式（署名欄削除・多職種説明記録欄追加）へ更新する <span class="tag tag-red">リハ科・医事課</span></span></li>
+      <li><span class="check-box"></span><span>電子カルテに「多職種による計画書説明」の記録テンプレートを作成する <span class="tag tag-red">医事課・リハ科</span></span></li>
+      <li><span class="check-box"></span><span>離床アセスメント・能動/他動分類の記録テンプレートを電子カルテに追加する <span class="tag tag-red">リハ科・医事課</span></span></li>
+      <li><span class="check-box"></span><span>PT・OT・STへの院内研修を実施する（改定内容・能動/他動分類・新記録ルール） <span class="tag tag-red">リハ科長</span></span></li>
+      <li><span class="check-box"></span><span>医事課にて算定ルール変更（休日加算・減算・早期加算段階制）をレセコンに設定する <span class="tag tag-red">医事課</span></span></li>
+      <li><span class="check-box"></span><span>訪問リハの主治医指示書・ケアマネ連携記録フローを整備する <span class="tag tag-amber">MSW・訪問リハ担当PT</span></span></li>
+      <li><span class="check-box"></span><span>「入院→療養→訪問リハ・デイケア」の連続ケアパスを文書化する <span class="tag tag-amber">MSW・地域連携室</span></span></li>
+    </ul>
+
+    <h3 style="margin-top:28px;">6月1日：施行当日の最終確認</h3>
+    <ul class="checklist">
+      <li><span class="check-box"></span><span>新書式での計画書運用を開始（署名なし・多職種説明記録で対応）</span></li>
+      <li><span class="check-box"></span><span>休日リハ加算（25点）の算定を最初の休日から開始</span></li>
+      <li><span class="check-box"></span><span>離床なしリハビリへの減算・2単位上限ルールを医事課・リハ科全員で最終確認</span></li>
+      <li><span class="check-box"></span><span>能動的/他動的の分類記録フォーマットを全担当PTが使用開始</span></li>
+      <li><span class="check-box"></span><span>初月（6月末）の算定データを集計し、シミュレーションとの差異を検証する</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══ SECTION 7: まとめ ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">📌</div>
+    <h2>まとめ：改定を飛躍の機会に変える</h2>
+  </div>
+
+  <div class="card-dark">
+    <h3>今改定から読み取る本質的メッセージ</h3>
+    <div class="grid-3" style="margin-bottom:20px;">
+      <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:14px;">
+        <div style="font-size:0.72rem;opacity:0.7;margin-bottom:6px;">CLINICAL</div>
+        <div style="font-weight:700;">「動かすこと」が報酬</div>
+        <div style="font-size:0.84rem;opacity:0.8;margin-top:4px;">離床促進・能動的訓練・早期介入が正しく評価される体制へ</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:14px;">
+        <div style="font-size:0.72rem;opacity:0.7;margin-bottom:6px;">OPERATIONAL</div>
+        <div style="font-weight:700;">「記録」が資産</div>
+        <div style="font-size:0.84rem;opacity:0.8;margin-top:4px;">能動/他動の分類・離床理由・多職種説明記録が算定の根拠を守る</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:14px;">
+        <div style="font-size:0.72rem;opacity:0.7;margin-bottom:6px;">STRATEGIC</div>
+        <div style="font-weight:700;">「連続性」が競争優位</div>
+        <div style="font-size:0.84rem;opacity:0.8;margin-top:4px;">入院→在宅のシームレスなケアパスが地域での差別化になる</div>
+      </div>
+    </div>
+
+    <div style="border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:20px;">
+      <div style="font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.2);">6〜12か月後に達成すべき目標</div>
+      <div class="step-row">
+        <div class="step-badge">1</div>
+        <div class="step-content">
+          <strong style="color:white;">全患者の離床アセスメント完了・他動的訓練比率を50%以下に</strong>
+          <span style="color:rgba(255,255,255,0.7);">能動的訓練への転換で減算リスクを最小化。記録もテンプレートで標準化</span>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-badge">2</div>
+        <div class="step-content">
+          <strong style="color:white;">休日リハ体制を整備し、年間50〜96万円の増収を実現</strong>
+          <span style="color:rgba(255,255,255,0.7);">少数精鋭ローテーション＋振替休日設計で持続可能な体制を構築</span>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-badge">3</div>
+        <div class="step-content">
+          <strong style="color:white;">退院時関連加算の算定率100%を達成し、算定漏れをゼロにする</strong>
+          <span style="color:rgba(255,255,255,0.7);">退院前訪問指導料・退院時リハ指導料を組織的に拾い切る体制を構築</span>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-badge">4</div>
+        <div class="step-content">
+          <strong style="color:white;">入院〜訪問リハ・デイケアの連続ケアパスを地域に発信し紹介を増やす</strong>
+          <span style="color:rgba(255,255,255,0.7);">「急性期から在宅まで自院で完結できる」を地域のポジションとして確立</span>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-badge">5</div>
+        <div class="step-content">
+          <strong style="color:white;">療養病床を医療依存度の高い患者の受け皿として再定義</strong>
+          <span style="color:rgba(255,255,255,0.7);">医療区分2・3の患者受け入れ強化で算定最大化と存在価値を高める</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<footer>
+  <strong>令和8年度診療報酬改定 部署別統合戦略レポート【v4】</strong><br>
+  2026年5月作成 ｜ 対象：一般病床36床・療養病床60床（一般病院）｜ 運動器リハ1・脳血管リハⅡ・呼吸器リハ1・短時間デイケア・訪問リハ<br>
+  収録部署：リハビリ部門（PT・OT・ST）／看護部／医事課／MSW・地域連携室<br>
+  v4追加：離床を伴わないリハビリの「能動的 vs 他動的」分類基準・算定根拠の明確化・部署横断アクションプラン<br>
+  ※ FIM実績指数（27→30）等の回復期リハ病棟要件は対象外。算定要件の最終確認は厚生労働省の告示・通知でご確認ください。
+</footer>
+
+</body>
+</html>

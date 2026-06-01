@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>医療ビジュアルGPTパック 3案統合戦略レポート（2026-05-31）</title>
+<style>
+  :root{
+    --ink:#1f2933; --sub:#52616b; --line:#e1e5ea; --bg:#f7f9fb;
+    --accent:#2b6cb0; --accent2:#2f855a; --warn:#b7791f; --card:#fff;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+    color:var(--ink); background:var(--bg); margin:0; line-height:1.75; font-size:15px;}
+  .wrap{max-width:960px; margin:0 auto; padding:40px 24px 80px;}
+  header{border-bottom:3px solid var(--accent); padding-bottom:20px; margin-bottom:32px;}
+  h1{font-size:26px; margin:0 0 8px; letter-spacing:.02em;}
+  .meta{color:var(--sub); font-size:13px;}
+  .lead{background:var(--card); border:1px solid var(--line); border-left:5px solid var(--accent);
+    padding:16px 20px; border-radius:8px; margin:24px 0;}
+  h2{font-size:20px; margin:48px 0 14px; padding-bottom:6px; border-bottom:1px solid var(--line);}
+  h3{font-size:16px; margin:24px 0 8px; color:var(--accent);}
+  table{width:100%; border-collapse:collapse; margin:14px 0; background:var(--card); font-size:14px;}
+  th,td{border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top;}
+  th{background:#eef3f8; font-weight:600;}
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin:16px 0;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px;}
+  .card.honmei{border:2px solid var(--accent2);}
+  .tag{display:inline-block; font-size:11px; padding:2px 9px; border-radius:999px; color:#fff; margin-bottom:8px;}
+  .t-honmei{background:var(--accent2);} .t-now{background:var(--accent);} .t-later{background:var(--sub);}
+  .num{font-weight:700; color:var(--accent2);}
+  .flow{background:var(--card); border:1px solid var(--line); border-radius:8px; padding:16px 20px; margin:14px 0; font-family:"Consolas","SF Mono",monospace; font-size:13px; white-space:pre-wrap; color:var(--sub);}
+  .note{font-size:13px; color:var(--sub);}
+  .warn{background:#fffaf0; border-left:5px solid var(--warn); padding:12px 16px; border-radius:8px; margin:14px 0; font-size:14px;}
+  ol li,ul li{margin:4px 0;}
+  .step{counter-reset:none;}
+  .pill{font-size:12px; background:#eef3f8; border:1px solid var(--line); border-radius:6px; padding:1px 7px;}
+  footer{margin-top:56px; padding-top:16px; border-top:1px solid var(--line); color:var(--sub); font-size:12px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>医療ビジュアルGPTパック 3案統合戦略レポート</h1>
+  <div class="meta">作成日 2026-05-31 ／ 対象：あとむ（現役PT × Clinical Visual Communication）／ 用途：着手前の全体像確定</div>
+</header>
+
+<div class="lead">
+  <strong>結論（先に動く順）：</strong>
+  ②患者説明イラストGPT（本命）を主商品として完成・販売 →
+  ①SNS・サービス訴求ビジュアルGPTを発信導線兼ライト版として接続 →
+  ③院内勉強会GPTを高単価・後発として展開。<br>
+  3つを別商品として散らさず、<strong>「医療情報を伝わる形へ設計し直す」1つの世界観</strong>で束ねる。
+</div>
+
+<h2>1. 商品3案の全体像</h2>
+<p class="note">3案はいずれも「設計済みのAI活用フレーム」。共通エンジン（ヒアリング→用途・対象判定→情報密度調整→失敗しにくい出力）を持ち、出力先と対象が違うだけ。だから1本ずつ作るのではなく、本命を軸に派生させる。</p>
+
+<div class="cards">
+  <div class="card honmei">
+    <span class="tag t-honmei">本命 / 最優先</span>
+    <h3 style="margin-top:0;">② 患者説明イラストGPT</h3>
+    <p>患者・家族向けの説明図／自主トレ図／退院指導図を、その患者専用に量産。安心感重視・不安を煽らない設計。</p>
+    <p class="note"><strong>対象：</strong>患者・家族に説明する医療職（PT中心）<br>
+    <strong>差別化軸：</strong>forPT等の素材サイト＝「探して選ぶ」に対し、本商品＝「その患者向けに作る」</p>
+  </div>
+  <div class="card">
+    <span class="tag t-now">導線 / 早期接続</span>
+    <h3 style="margin-top:0;">① SNS・サービス訴求ビジュアルGPT</h3>
+    <p>Threads/IG/note/LP用の、目に止まる構図のビジュアル設計。AI臭排除・主役1点設計。</p>
+    <p class="note"><strong>対象：</strong>発信・集客したい医療職／自院PR<br>
+    <strong>役割：</strong>あとむ自身の発信エンジンでもあり、商品でもある（二役）</p>
+  </div>
+  <div class="card">
+    <span class="tag t-later">高単価 / 後発</span>
+    <h3 style="margin-top:0;">③ 院内勉強会・医療者向け学習資料GPT</h3>
+    <p>評価/介入/リスクを整理した高密度インフォグラフィック・スライド構成・台本生成。</p>
+    <p class="note"><strong>対象：</strong>院内教育担当・指導的立場の医療職<br>
+    <strong>役割：</strong>実績が貯まってから出す上位商品（単価を取りに行く層）</p>
+  </div>
+</div>
+
+<h2>2. 価格設計</h2>
+<table>
+  <tr><th>商品</th><th>初期価格</th><th>値上げ方針</th><th>正規到達価格</th><th>根拠</th></tr>
+  <tr>
+    <td><strong>② 患者説明イラストGPT（本命）</strong></td>
+    <td class="num">2,980円</td>
+    <td>5部ごとに+500円</td>
+    <td>4,980円</td>
+    <td>実用GPT＋プロンプト全文。相場（2,980〜）の中核帯</td>
+  </tr>
+  <tr>
+    <td>① SNS・サービス訴求GPT</td>
+    <td class="num">無料〜1,980円</td>
+    <td>無料版で認知→有料版へ</td>
+    <td>2,980円</td>
+    <td>導線役。無料ライト版で信頼構築、本命へ送客</td>
+  </tr>
+  <tr>
+    <td>③ 院内勉強会GPT</td>
+    <td class="num">4,980円</td>
+    <td>実績後に+1,000円帯</td>
+    <td>7,980円〜</td>
+    <td>高密度・高単価。法人/指導層向けで価格耐性あり</td>
+  </tr>
+  <tr>
+    <td>★ 3点セット（バンドル）</td>
+    <td class="num">後日設定</td>
+    <td>本命の実績が出てから</td>
+    <td>9,800円前後</td>
+    <td>3案が揃った段階で「設計フレーム全部入り」として提示</td>
+  </tr>
+</table>
+<p class="note">原則：体験談・日記は無料、再現性ある実用情報（プロンプト全文・ヒアリング設計・失敗の立て直し）が有料コアの価値。煽り・誇大価格にしない。</p>
+
+<h2>3. 導線（コンバージョン）設計</h2>
+<div class="flow">[Threads / Instagram 発信（発信軸6本）]
+        │  ① のビジュアルで「作例・Before/After」を見せる
+        ▼
+[note プロフィール固定 / 無料記事・無料ライト版GPT(①)]
+        │  「探すより作るほうが速い」を体験させる
+        ▼
+[本命② 販売LP（無料プレビューで購入判断）]
+        │  forPT差別化 → 設計プロンプト予告 → 価格・早期特典
+        ▼
+[購入 → 導入ガイド + 30日実装ロードマップ]
+        │  使えた実感 → 感想シェアを促す
+        ▼
+[購入者の発信 → 新規認知] ＋ [③・バンドルへアップセル]</div>
+<p class="note"><strong>最重要：</strong>LPの無料プレビューでほぼ購入が決まる。有料部分を読ませる前に「これは自分のためのものだ」と感じさせる。①は売上より<u>送客と信頼構築</u>を主目的にする。</p>
+
+<h2>4. 着手順（フェーズ分解）</h2>
+
+<h3>フェーズ1：本命②の土台を完成させる（今ここ）</h3>
+<table>
+  <tr><th>#</th><th>タスク</th><th>状態</th></tr>
+  <tr><td>1</td><td>販売LP記事の作成（forPT差別化を前面に）</td><td><span class="pill">✅ 作成済</span></td></tr>
+  <tr><td>2</td><td>GPT本体の設計プロンプト・用途別プロンプトの整備とテスト</td><td><span class="pill">次の一手</span></td></tr>
+  <tr><td>3</td><td>作例・失敗例・改善例の追加（信頼の核）</td><td>未</td></tr>
+  <tr><td>4</td><td>購入者向け導入ガイド ＋ 30日実装ロードマップ</td><td>未</td></tr>
+  <tr><td>5</td><td>note下書き投稿 → 目視確認 → 公開（有料記事ルール遵守）</td><td>未</td></tr>
+</table>
+
+<h3>フェーズ2：発信軸を安定させ、①を導線として接続</h3>
+<ul>
+  <li>Threads発信軸6本を回す（特に「Before/Afterの視覚的証明」「現場課題」）</li>
+  <li>①の無料ライト版 or 作例を発信に組み込み、本命②へ送客</li>
+  <li>購入者の感想（社会的証明）を発信に反映</li>
+</ul>
+
+<h3>フェーズ3：③高単価とバンドルで単価を上げる</h3>
+<ul>
+  <li>②の実績・型が固まってから③を制作（高密度インフォグラフィック設計）</li>
+  <li>3案揃った段階でバンドル化、上位顧客への提案</li>
+  <li>その後に海外版（Clinical Visual System／Substack）再構成へ</li>
+</ul>
+
+<div class="warn">
+<strong>優先順位の歯止め：</strong>新しい案（③・バンドル・海外版）に着手する前に、必ず「本命②の薄い箇所が埋まっているか」を確認する。方向性を増やしすぎる傾向・完璧主義による公開遅延が最大のボトルネック。<u>本命を売れる状態にすることが、全導線の土台</u>。
+</div>
+
+<h2>5. 3案を貫く1つのメッセージ</h2>
+<div class="lead">
+「医療情報を、ただ正しく並べるのではなく、患者・家族・医療者に届く形へ設計し直す。」<br>
+<span class="note">②=患者・家族へ、①=世の中へ、③=医療者へ。届ける相手が違うだけで、設計思想は1つ。これが他のAI教材・素材サイトとの本質的な差別化点。</span>
+</div>
+
+<footer>
+医療ビジュアルGPTパック 3案統合戦略レポート ／ strategy/医療ビジュアルGPT_3案統合戦略_2026-05-31.html<br>
+関連：strategy/医療職AIキット_販売戦略ナレッジ.md（②の詳細）、strategy/clinical_visual_strategy_2026-05-10.html（海外版）
+</footer>
+
+</div>
+</body>
+</html>

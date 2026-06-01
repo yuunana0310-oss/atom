@@ -118,17 +118,19 @@ class PosterAgent:
         delta = datetime.now() - last_time
         return delta.total_seconds() / 60
 
-    def _create_threads_media(self, text, reply_to_id=None):
+    def _create_threads_media(self, text, reply_to_id=None, media_url=None):
         """
         Create a Threads media container.
         Returns the creation_id or None on failure.
         """
         url = f"{self.base_url}/{self.user_id}/threads"
         params = {
-            "media_type": "TEXT",
+            "media_type": "IMAGE" if media_url else "TEXT",
             "text": text,
             "access_token": self.access_token,
         }
+        if media_url:
+            params["image_url"] = media_url
         if reply_to_id:
             params["reply_to_id"] = reply_to_id
 
@@ -165,12 +167,12 @@ class PosterAgent:
                 logger.error(f"Response: {e.response.text}")
             return None
 
-    def _post_text(self, text, reply_to_id=None):
+    def _post_text(self, text, reply_to_id=None, media_url=None):
         """
         Post text to Threads (create + publish).
         Returns the published post ID or None.
         """
-        creation_id = self._create_threads_media(text, reply_to_id=reply_to_id)
+        creation_id = self._create_threads_media(text, reply_to_id=reply_to_id, media_url=media_url)
         if not creation_id:
             return None
 
@@ -180,11 +182,14 @@ class PosterAgent:
         post_id = self._publish_threads_media(creation_id)
         return post_id
 
-    def _mock_post(self, text, reply_to_id=None):
+    def _mock_post(self, text, reply_to_id=None, media_url=None):
         """Simulate posting when no API credentials are available."""
         import uuid
         mock_id = f"mock_{uuid.uuid4().hex[:8]}"
-        logger.info(f"PosterAgent [MOCK]: Would post text ({len(text)} chars). Mock ID: {mock_id}")
+        logger.info(
+            f"PosterAgent [MOCK]: Would post text ({len(text)} chars)"
+            f"{' with image' if media_url else ''}. Mock ID: {mock_id}"
+        )
         logger.debug(f"PosterAgent [MOCK] content:\n{text[:200]}...")
         return mock_id
 
@@ -416,11 +421,14 @@ class PosterAgent:
                 f"pattern={post.get('pattern')}, theme={post.get('theme')}"
             )
 
+            media_urls = post.get("media_urls") or []
+            main_media_url = media_urls[0] if media_urls else None
+
             # Post main content
             if has_credentials:
-                main_post_id = self._post_text(content)
+                main_post_id = self._post_text(content, media_url=main_media_url)
             else:
-                main_post_id = self._mock_post(content)
+                main_post_id = self._mock_post(content, media_url=main_media_url)
 
             if not main_post_id:
                 logger.error(f"PosterAgent: Failed to post [{post['id'][:8]}]. Skipping.")

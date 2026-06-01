@@ -1,7 +1,17 @@
 .chroma_db/
 .venv/
 __pycache__/
+.pytest_cache/
 *.sqlite3
 *.bin
+*.log
+~$*
 node_modules/
 .env
+.env.*
+!.env.example
+!.env.*.example
+.claude/settings.local.json
+codex.exe
+codex-windows-sandbox-setup.exe
+codex-command-runner.exe

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "medical_visual_gpts_pack",
+    "name": "ChatGPT用 医療ビジュアルGPTs完成パック",
+    "description": "医療SNS、患者説明、家族指導、自主トレ、院内勉強会資料を作るためのGPTs指示セット。",
+    "target": "医療職、介護職、AIで資料作成したい人",
+    "value": [
+      "プロンプトが苦手でも型で作れる",
+      "医療資料を視覚的に整理できる",
+      "患者説明・SNS・院内資料に展開できる"
+    ],
+    "cta": "詳しい内容はnoteにまとめています。"
+  },
+  {
+    "id": "clinical_visual_system",
+    "name": "Clinical Visual Communication System",
+    "description": "理学療法士のための、患者説明・院内勉強会・SNS発信を統合した視覚コミュニケーション体系。",
+    "target": "理学療法士・作業療法士・リハビリ職",
+    "value": [
+      "患者説明資料を10倍速で作れる",
+      "院内勉強会の資料品質が安定する",
+      "SNS発信の継続が楽になる"
+    ],
+    "cta": "システムの全体像はnoteで公開しています。"
+  }
+]

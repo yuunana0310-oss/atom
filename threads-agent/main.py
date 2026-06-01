@@ -53,6 +53,7 @@ from agents.poster import PosterAgent
 from agents.fetcher import FetcherAgent
 from agents.reviewer import ReviewerAgent
 from agents.asp_researcher import ASPResearcherAgent
+from agents.scorer import ScorerAgent
 
 
 def build_agents():
@@ -64,7 +65,8 @@ def build_agents():
     fetcher = FetcherAgent(cfg, cfg.DATA_DIR)
     reviewer = ReviewerAgent(cfg, cfg.DATA_DIR)
     asp = ASPResearcherAgent(cfg, cfg.KNOWLEDGE_DIR, cfg.DATA_DIR)
-    return supervisor, researcher, analyst, writer, poster, fetcher, reviewer, asp
+    scorer = ScorerAgent(cfg, cfg.KNOWLEDGE_DIR, cfg.DATA_DIR)
+    return supervisor, researcher, analyst, writer, poster, fetcher, reviewer, asp, scorer
 
 
 def run_all(supervisor, researcher, analyst, writer, poster, fetcher, mode="auto"):
@@ -110,6 +112,7 @@ Available agents:
   writer           Generate posts using Claude API (or mock data)
   poster           Post to Threads API (or mock)
   fetcher          Fetch metrics from Threads API (or mock)
+  score            Score a post you wrote (paste text or use --post)
   supervisor-status Show current supervisor state
   kill-switch-off  Deactivate KILL_SWITCH to resume operations
         """
@@ -121,10 +124,15 @@ Available agents:
         help="Which account to run (default: account1)",
     )
     parser.add_argument(
+        "--post",
+        default=None,
+        help="Score mode: post text to score (if omitted, reads from stdin)",
+    )
+    parser.add_argument(
         "--agent",
         default="all",
         choices=["all", "researcher", "analyst", "writer", "poster", "fetcher",
-                 "review", "asp", "supervisor-status", "kill-switch-on", "kill-switch-off"],
+                 "review", "asp", "score", "supervisor-status", "kill-switch-on", "kill-switch-off"],
         help="Which agent to run (default: all)",
     )
     parser.add_argument(
@@ -163,7 +171,7 @@ Available agents:
         print_api_status()
         return
 
-    supervisor, researcher, analyst, writer, poster, fetcher, reviewer, asp = build_agents()
+    supervisor, researcher, analyst, writer, poster, fetcher, reviewer, asp, scorer = build_agents()
 
     # --mode flag overrides env var
     if args.mode:
@@ -218,6 +226,9 @@ Available agents:
         elif args.agent == "asp":
             result = asp.run()
             logger.info(f"ASP: {len(result)}件の案件を取得しました。")
+
+        elif args.agent == "score":
+            scorer.run(post_text=args.post)
 
         elif args.agent == "supervisor-status":
             print(supervisor.get_status_summary())
